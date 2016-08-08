@@ -1,0 +1,92 @@
+package com.hongluomeng.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSONObject;
+import com.jfinal.aop.Before;
+import com.jfinal.core.ActionKey;
+import com.hongluomeng.common.Const;
+import com.hongluomeng.common.Utility;
+import com.hongluomeng.model.Role;
+import com.hongluomeng.service.RoleService;
+import com.hongluomeng.type.CodeEnum;
+import com.hongluomeng.validator.RoleValidator;
+
+public class RoleController extends BaseController {
+
+	private RoleService roleService = new RoleService();
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_LIST)
+	public void list() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Role> roleList = roleService.list(jsonObject);
+
+		Integer count = roleService.count(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, roleList));
+    }
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_FIND)
+	public void find() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Role role = roleService.find(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", role));
+    }
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_SAVE)
+	public void save() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		roleService.save(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_UPDATE)
+	public void update() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		roleService.update(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_DELETE)
+	public void delete() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		roleService.delete(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_OPERATION_LIST)
+	public void listOperatio() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> list  = roleService.listOperation(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
+	}
+
+	@Before(RoleValidator.class)
+	@ActionKey(Const.URL_ROLE_OPERATION_UPDATE)
+	public void updateOperation() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		roleService.updateOperation(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+}
