@@ -115,5 +115,6 @@ public class Const {
 	public static final String URL_UPLOAD_LIST = "/upload/list";
 	public static final String URL_UPLOAD_IMAGE = "/upload/image";
 	public static final String URL_USER_MENU_LIST = "/user/menu/list";
+	public static final String URL_SMS_SEND = "/sms/send";
 
 }

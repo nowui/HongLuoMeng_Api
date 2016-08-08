@@ -40,27 +40,12 @@ public class GlobalActionInterceptor implements Interceptor {
 	public void intercept(Invocation inv) {
 		Date start = new Date();
 
-		String memberLoginUrl = "/member/login";
-		String memberRegisterUrl = "/member/register";
-		String adminLoginUrl = "/admin/login";
-		String adminRegisterUrl = "/admin/register";
-		String smsUrl = "/sms";
-		String uploadUrl = "/upload/image";
-
 		Set<String> urlSet = new HashSet<String>();
-		urlSet.add(memberLoginUrl);
-		urlSet.add(memberRegisterUrl);
-		urlSet.add(adminLoginUrl);
-		urlSet.add(adminRegisterUrl);
-		urlSet.add(smsUrl);
-		urlSet.add("/user/menu");
-		urlSet.add("/category/tree");
-		urlSet.add("/category/find");
-		urlSet.add("/category/save");
-		urlSet.add("/category/update");
-		urlSet.add("/category/delete");
-		urlSet.add("/upload/list");
-		urlSet.add("/upload/image");
+		urlSet.add(Const.URL_MEMBER_LOGIN);
+		urlSet.add(Const.URL_MEMBER_REGISTER);
+		urlSet.add(Const.URL_ADMIN_LOGIN);
+		urlSet.add(Const.URL_SMS_SEND);
+		urlSet.add(Const.URL_USER_MENU_LIST);
 
 		Connection connection = null;
 
@@ -89,7 +74,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
 			boolean isAuthorization = true;
 
-			if (url.equals(memberLoginUrl) || url.equals(memberRegisterUrl) || url.equals(adminLoginUrl) || url.equals(adminRegisterUrl) || url.equals(smsUrl)) {
+			if (url.equals(Const.URL_MEMBER_LOGIN) || url.equals(Const.URL_MEMBER_REGISTER) || url.equals(Const.URL_ADMIN_LOGIN) || url.equals(Const.URL_SMS_SEND)) {
 
 			} else {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
@@ -110,22 +95,7 @@ public class GlobalActionInterceptor implements Interceptor {
 			}
 
 			if (isAuthorization) {
-				/*//记录请求参数
-				JSONObject jsonObject = new JSONObject();
-				Enumeration<?> paramKeys = controller.getRequest().getParameterNames();
-
-				while (paramKeys.hasMoreElements()) {
-					String paramKey = (String) paramKeys.nextElement();
-					String[] paramValues = controller.getRequest().getParameterValues(paramKey);
-					if (paramValues.length == 1) {
-						String paramValue = paramValues[0];
-						//if (paramValue.length() != 0) {
-							jsonObject.put(paramKey, paramValue);
-						//}
-					}
-				}*/
-
-				if (url.equals(uploadUrl)) {
+				if (url.equals(Const.URL_UPLOAD_IMAGE)) {
 					request = "{}";
 				} else {
 					request = HttpKit.readData(controller.getRequest());
@@ -147,7 +117,7 @@ public class GlobalActionInterceptor implements Interceptor {
 					}
 				}
 
-				/*if (isNotMatch) {
+				if (isNotMatch) {
 					isAuthorization = false;
 
 					List<Operation> operationList = operationService.listByUser_id(user_id);
@@ -159,7 +129,7 @@ public class GlobalActionInterceptor implements Interceptor {
 							break;
 						}
 					}
-				}*/
+				}
 			}
 
 			if (isAuthorization) {

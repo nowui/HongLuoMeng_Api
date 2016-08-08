@@ -117,6 +117,7 @@ public class CategoryService {
 					map.put(Const.KEY_CHILDREN, childrenList);
 				} else {
 					//map.put(Const.KEY_ICON, "none");
+					map.put(Const.KEY_CHILDREN, new ArrayList<Map<String, Object>>());
 				}
 				list.add(map);
 			}

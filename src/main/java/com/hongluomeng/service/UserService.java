@@ -146,7 +146,7 @@ public class UserService {
 	private boolean getMenuOperationChildrenList(String menu_id, List<Operation> operationList) {
 		for (Operation operation : operationList) {
 			if (operation.getMenu_id().equals(menu_id)) {
-				if (operation.getOperation_key().indexOf("_list") > -1) {
+				if (operation.getOperation_key().indexOf("_list") > -1 && !operation.getOperation_key().equals("upload_list")) {
 					return true;
 				}
 			}
