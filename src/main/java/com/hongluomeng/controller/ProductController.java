@@ -96,7 +96,7 @@ public class ProductController extends BaseController {
 	public void saveCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		productService.save(jsonObject);
+		productService.saveCategory(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
@@ -106,7 +106,7 @@ public class ProductController extends BaseController {
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		productService.update(jsonObject);
+		productService.updateCategory(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
@@ -116,7 +116,7 @@ public class ProductController extends BaseController {
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		productService.delete(jsonObject);
+		productService.deleteCategory(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}

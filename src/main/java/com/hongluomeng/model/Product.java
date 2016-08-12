@@ -23,6 +23,7 @@ public class Product extends Model<Product> {
 	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
 	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
 	public static final String KEY_PRODUCT_STATUS = "product_status";
+	public static final String KEY_PRODUCT_CONTENT = "product_content";
 	public static final String KEY_PRODUCT_CREATE_USER_ID = "product_create_user_id";
 	public static final String KEY_PRODUCT_CREATE_TIME = "product_create_time";
 	public static final String KEY_PRODUCT_UPDATE_USER_ID = "product_update_user_id";
@@ -118,6 +119,14 @@ public class Product extends Model<Product> {
 
 	public void setProduct_status(Boolean product_status) {
 		set(KEY_PRODUCT_STATUS, product_status);
+	}
+
+	public String getProduct_content() {
+		return getStr(KEY_PRODUCT_CONTENT);
+	}
+
+	public void setProduct_content(String product_content) {
+		set(KEY_PRODUCT_CONTENT, product_content);
 	}
 
 	public void setProduct_create_user_id(String product_create_user_id) {

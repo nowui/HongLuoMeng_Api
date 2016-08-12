@@ -86,6 +86,11 @@ public class ProductValidator extends Validator {
 				message += "状态为空";
 				message += Const.LINE_FEED;
 			}
+
+			if(jsonObject.getString(Product.KEY_PRODUCT_CONTENT) == null) {
+				message += "介绍为空";
+				message += Const.LINE_FEED;
+			}
 		} else if(actionKey.equals(Const.URL_PRODUCT_DELETE)) {
 			isExit = true;
 
