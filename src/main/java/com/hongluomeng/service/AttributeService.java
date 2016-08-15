@@ -11,6 +11,8 @@ import com.hongluomeng.model.Attribute;
 public class AttributeService {
 
 	private AttributeDao attributeDao = new AttributeDao();
+	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
+	private ProductAttributeService productAttributeService = new ProductAttributeService();
 
 	public Integer count(JSONObject jsonObject) {
 		//Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
@@ -22,10 +24,6 @@ public class AttributeService {
 		//Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
 
 		return attributeDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
-	}
-
-	public List<Attribute> listByCategory_id(String category_id) {
-		return attributeDao.listByCategory_id(category_id);
 	}
 
 	public Attribute find(JSONObject jsonObject) {
@@ -52,6 +50,10 @@ public class AttributeService {
 		Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
 
 		attributeDao.delete(attributeMap);
+
+		categoryAttributeService.deleteByAttribute_id(attributeMap.getAttribute_id());
+
+		productAttributeService.deleteByAttribute_id(attributeMap.getAttribute_id());
 	}
 
 }

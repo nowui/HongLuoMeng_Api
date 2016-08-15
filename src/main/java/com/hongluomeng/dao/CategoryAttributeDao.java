@@ -95,6 +95,22 @@ public class CategoryAttributeDao {
 		return categoryAttributeList;
 	}
 
+	public List<Attribute> listNotUsedAttributeByCategory_id(String category_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("SELECT " + Attribute.KEY_ATTRIBUTE + ".* FROM " + Attribute.KEY_ATTRIBUTE + " ");
+
+		sql.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ");
+		sql.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
+		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
+
+		parameterList.add(category_id);
+
+		List<Attribute> attributeList = new Attribute().find(sql.toString(), parameterList.toArray());
+
+		return attributeList;
+	}
+
 	private CategoryAttribute find(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
@@ -201,6 +217,17 @@ public class CategoryAttributeDao {
 		sql.append(CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
 
 		parameterList.add(category_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
+	}
+
+	public void deleteByAttribute_id(String attribute_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE ");
+		sql.append(CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+
+		parameterList.add(attribute_id);
 
 		Db.update(sql.toString(), parameterList.toArray());
 	}

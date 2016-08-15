@@ -14,6 +14,7 @@ public class Attribute extends Model<Attribute> {
 	public static final String KEY_ATTRIBUTE_NAME = "attribute_name";
 	public static final String KEY_ATTRIBUTE_INPUT_TYPE = "attribute_input_type";
 	public static final String KEY_ATTRIBUTE_DEFAULT_VALUE = "attribute_default_value";
+	public static final String KEY_ATTRIBUTE_TYPE = "attribute_type";
 	public static final String KEY_ATTRIBUTE_SORT = "attribute_sort";
 	public static final String KEY_ATTRIBUTE_CREATE_USER_ID = "attribute_create_user_id";
 	public static final String KEY_ATTRIBUTE_CREATE_TIME = "attribute_create_time";
@@ -53,6 +54,15 @@ public class Attribute extends Model<Attribute> {
 	public void setAttribute_default_value(String attribute_default_value) {
 		set(KEY_ATTRIBUTE_DEFAULT_VALUE, attribute_default_value);
 	}
+
+	public String getAttribute_type() {
+		return getStr(KEY_ATTRIBUTE_TYPE);
+	}
+
+	public void setAttribute_type(String attribute_type) {
+		set(KEY_ATTRIBUTE_TYPE, attribute_type);
+	}
+
 
 	public Integer getAttribute_sort() {
 		return Utility.getIntegerValue(get(KEY_ATTRIBUTE_SORT));

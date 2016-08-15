@@ -21,10 +21,10 @@ public class ProductAttributeService {
 
 	/*public void deleteByProduct_id(List<ProductAttribute> productAttributeList, String product_id) {
 		productAttributeDao.deleteByProduct_id(productAttributeList, product_id);
-	}
-
-	public void deleteByAttribute_id(Long attribute_id) {
-		productAttributeDao.deleteByAttribute_id(attribute_id);
 	}*/
+
+	public void deleteByAttribute_id(String attribute_id) {
+		productAttributeDao.deleteByAttribute_id(attribute_id);
+	}
 
 }

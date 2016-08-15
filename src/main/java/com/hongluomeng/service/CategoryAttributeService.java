@@ -15,7 +15,6 @@ import com.hongluomeng.model.ProductAttribute;
 public class CategoryAttributeService {
 
 	private CategoryAttributeDao categoryAttributeDao = new CategoryAttributeDao();
-	private AttributeService attributeService = new AttributeService();
 
 	public List<CategoryAttribute> list(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -55,7 +54,7 @@ public class CategoryAttributeService {
 			resultMap.put("attribute_id", "");
 			resultMap.put("category_attribute_sort", 0);
 
-			resultMap.put("attributeList", attributeService.listByCategory_id(categoryAttributeMap.getCategory_id()));
+			resultMap.put("attributeList", categoryAttributeDao.listNotUsedAttributeByCategory_id(categoryAttributeMap.getCategory_id()));
 		} else {
 			CategoryAttribute categoryAttribute = categoryAttributeDao.findByCategory_idAndAttribute_id(categoryAttributeMap.getCategory_id(), categoryAttributeMap.getAttribute_id());
 
@@ -97,6 +96,10 @@ public class CategoryAttributeService {
 
 	public void deleteByCategory_id(String category_id) {
 		categoryAttributeDao.deleteByCategory_id(category_id);
+	}
+
+	public void deleteByAttribute_id(String attribute_id) {
+		categoryAttributeDao.deleteByAttribute_id(attribute_id);
 	}
 
 }

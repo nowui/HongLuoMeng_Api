@@ -7,7 +7,6 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Attribute;
-import com.hongluomeng.model.CategoryAttribute;
 
 public class AttributeDao {
 
@@ -46,24 +45,6 @@ public class AttributeDao {
 		Attribute attribute = new Attribute();
 
 		return list(attribute, m, n);
-	}
-
-	public List<Attribute> listByCategory_id(String category_id) {
-		List<Object> parameterList = new ArrayList<Object>();
-
-		StringBuffer sql = new StringBuffer("SELECT " + Attribute.KEY_ATTRIBUTE + ".* FROM " + Attribute.KEY_ATTRIBUTE + " ");
-
-		if (! Utility.isNullOrEmpty(category_id)) {
-			sql.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ");
-			sql.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
-
-			parameterList.add(category_id);
-		}
-		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
-
-		List<Attribute> attributeList = new Attribute().find(sql.toString(), parameterList.toArray());
-
-		return attributeList;
 	}
 
 	private Attribute find(Attribute attribute) {

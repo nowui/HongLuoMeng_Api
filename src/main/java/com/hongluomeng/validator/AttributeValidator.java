@@ -50,6 +50,11 @@ public class AttributeValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
+			if(Utility.isNullOrEmpty(attribute.getAttribute_type())) {
+				message += "类型为空";
+				message += Const.LINE_FEED;
+			}
+
 			if(Utility.isNullOrEmpty(attribute.getAttribute_sort())) {
 				message += "排序为空";
 				message += Const.LINE_FEED;

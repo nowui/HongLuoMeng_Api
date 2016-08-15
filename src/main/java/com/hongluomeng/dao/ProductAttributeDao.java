@@ -69,4 +69,14 @@ public class ProductAttributeDao {
 		Db.update(sql.toString(), parameterList.toArray());
 	}
 
+	public void deleteByAttribute_id(String attribute_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+
+		parameterList.add(attribute_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
+	}
+
 }
