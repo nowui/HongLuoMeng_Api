@@ -77,6 +77,13 @@ public class UserDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append(" AND ");
+		} else {
+			sql.append(" WHERE ");
+		}
+		sql.append(User.KEY_USER_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -123,6 +130,13 @@ public class UserDao {
 
 			isExit = true;
 		}
+
+		if(isExit) {
+			sql.append(" AND ");
+		} else {
+			sql.append(" WHERE ");
+		}
+		sql.append(User.KEY_USER_STATUS + " = 1 ");
 
 		sql.append("ORDER BY " + User.KEY_USER_CREATE_TIME + " DESC ");
 
@@ -210,6 +224,13 @@ public class UserDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append(" AND ");
+		} else {
+			sql.append(" WHERE ");
+		}
+		sql.append(User.KEY_USER_STATUS + " = 1 ");
+
 		if(! isExit) {
 			return null;
 		}
@@ -245,7 +266,7 @@ public class UserDao {
 		return find(user);
 	}
 
-	public String save(AccountEnum accountEnum, User user, String user_id) {
+	public String save(AccountEnum accountEnum, User user, String request_user_id) {
 		user.setUser_id(Utility.getUUID());
 		user.setUser_password(HashKit.md5(Const.PRIVATE_KEY + user.getUser_password()));
 		if (! accountEnum.equals(AccountEnum.ACCOUNT)) {
@@ -265,43 +286,52 @@ public class UserDao {
 			user.setWechat_open_id("");
 			user.setWechat_access_token("");
 		}
-		user.setUser_create_user_id(user_id);
+		user.setUser_create_user_id(request_user_id);
 		user.setUser_create_time(new Date());
-		user.setUser_update_user_id(user_id);
+		user.setUser_update_user_id(request_user_id);
 		user.setUser_update_time(new Date());
+		user.setUser_status(true);
 
 		user.save();
 
 		return user.getUser_id();
 	}
 
-	public void updateUser_account(User user, String user_id) {
+	public void updateUser_account(User user, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_ACCOUNT + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
 		parameterList.add(user.getUser_account());
-		parameterList.add(user_id);
+		parameterList.add(request_user_id);
 		parameterList.add(new Date());
 		parameterList.add(user.getUser_id());
 
 		Db.update(sql.toString(), parameterList.toArray());
 	}
 
-	public void updateUser_password(User user, String user_id) {
+	public void updateUser_password(User user, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
 		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user.getUser_password()));
-		parameterList.add(user_id);
+		parameterList.add(request_user_id);
 		parameterList.add(new Date());
 		parameterList.add(user.getUser_id());
 
 		Db.update(sql.toString(), parameterList.toArray());
 	}
 
-	public void delete(User user) {
-		user.delete();
+	public void deleteByObject_id(String object_id, String request_user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_STATUS + " = 0, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_OBJECT_ID + " = ? ");
+
+		parameterList.add(request_user_id);
+		parameterList.add(new Date());
+		parameterList.add(object_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
 	}
 
 }

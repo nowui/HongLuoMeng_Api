@@ -20,6 +20,7 @@ public class Attribute extends Model<Attribute> {
 	public static final String KEY_ATTRIBUTE_CREATE_TIME = "attribute_create_time";
 	public static final String KEY_ATTRIBUTE_UPDATE_USER_ID = "attribute_update_user_id";
 	public static final String KEY_ATTRIBUTE_UPDATE_TIME = "attribute_update_time";
+	public static final String KEY_ATTRIBUTE_STATUS = "attribute_status";
 
 	private String user_account;
 
@@ -94,6 +95,14 @@ public class Attribute extends Model<Attribute> {
 
 	public void setAttribute_update_time(Date attribute_update_time) {
 		set(KEY_ATTRIBUTE_UPDATE_TIME, attribute_update_time);
+	}
+
+	public Boolean getAttribute_status() {
+		return getBoolean(KEY_ATTRIBUTE_STATUS);
+	}
+
+	public void setAttribute_status(Boolean attribute_status) {
+		set(KEY_ATTRIBUTE_STATUS, attribute_status);
 	}
 
 }

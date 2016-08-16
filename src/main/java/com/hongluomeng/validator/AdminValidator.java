@@ -60,6 +60,15 @@ public class AdminValidator extends Validator {
 				message += "密码为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_ADMIN_DELETE)) {
+			isExit = true;
+
+			Admin admin = jsonObject.toJavaObject(Admin.class);
+
+			if(Utility.isNullOrEmpty(admin.getAdmin_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
 		} else if(actionKey.equals(Const.URL_ADMIN_OPERATION_LIST)) {
 			isExit = true;
 

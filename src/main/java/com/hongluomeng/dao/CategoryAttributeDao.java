@@ -15,7 +15,11 @@ public class CategoryAttributeDao {
 	private List<CategoryAttribute> list(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".*, " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".* ");
+		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
+		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
+		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
+		sql.append("FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ");
 		sql.append("LEFT JOIN " + Attribute.KEY_ATTRIBUTE + " ON " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
 
 		Boolean isExit = false;
@@ -31,6 +35,7 @@ public class CategoryAttributeDao {
 
 			isExit = true;
 		}
+
 		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		List<Record> recordList = Db.find(sql.toString(), parameterList.toArray());
@@ -44,6 +49,8 @@ public class CategoryAttributeDao {
 			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
 			c.setAttribute_name(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_NAME));
 			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
+			c.setAttribute_type(record.getStr(Attribute.KEY_ATTRIBUTE_TYPE));
+			c.setAttribute_default_value(record.getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
 
 			categoryAttributeList.add(c);
 		}
@@ -65,7 +72,12 @@ public class CategoryAttributeDao {
 	public List<CategoryAttribute> listByProduct_idAndCategory_id(String product_id, String category_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".*, " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + ", IFNULL(" + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " FROM " + Attribute.KEY_ATTRIBUTE + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".* ");
+		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
+		sql.append(", IFNULL(" + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " ");
+		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
+		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
+		sql.append("FROM " + Attribute.KEY_ATTRIBUTE + " ");
 		sql.append("LEFT JOIN " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ON " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
 
 		sql.append("LEFT JOIN (SELECT * FROM " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_PRODUCT_ID + " = ?) AS " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " ON " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_ID + " ");
@@ -73,6 +85,8 @@ public class CategoryAttributeDao {
 
 		sql.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
 		parameterList.add(category_id);
+
+		sql.append("AND " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
 
 		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
@@ -88,6 +102,8 @@ public class CategoryAttributeDao {
 			c.setAttribute_name(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_NAME));
 			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
 			c.setAttribute_value(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_VALUE));
+			c.setAttribute_type(record.getStr(Attribute.KEY_ATTRIBUTE_TYPE));
+			c.setAttribute_default_value(record.getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
 
 			categoryAttributeList.add(c);
 		}
@@ -102,6 +118,7 @@ public class CategoryAttributeDao {
 
 		sql.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ");
 		sql.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
+		sql.append("AND " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
 		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		parameterList.add(category_id);

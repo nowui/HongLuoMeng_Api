@@ -101,9 +101,9 @@ public class UserService {
 
 		List<Category> categoryList = categoryService.listByCategory_path(category.getCategory_id());
 
-		String user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<Operation> operationList = operationService.listByUser_id(user_id);
+		List<Operation> operationList = operationService.listByUser_id(request_user_id);
 
 		List<Map<String, Object>> resultList = getMenuChildrenList(categoryList, category.getCategory_id(), operationList);
 
@@ -160,6 +160,8 @@ public class UserService {
 		userMap.setObject_id(object_id);
 		userMap.setUser_type(user_type);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		switch(accountEnum) {
@@ -182,7 +184,7 @@ public class UserService {
 		}
 
 		if (count == 0) {
-			return userDao.save(accountEnum, userMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			return userDao.save(accountEnum, userMap, request_user_id);
 		} else {
 			throw new RuntimeException("帐号已经存在");
 		}
@@ -191,10 +193,12 @@ public class UserService {
 	public void updateUser_account(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = userDao.countByUser_idAndUser_account(userMap.getUser_id(), userMap.getUser_account());
 
 		if (count == 0) {
-			userDao.updateUser_account(userMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			userDao.updateUser_account(userMap, request_user_id);
 		} else {
 			throw new RuntimeException("帐号已经存在");
 		}
@@ -203,9 +207,15 @@ public class UserService {
 	public void updateUser_password(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		if (! Utility.isNullOrEmpty(userMap.getUser_password())) {
-			userDao.updateUser_password(userMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			userDao.updateUser_password(userMap, request_user_id);
 		}
+	}
+
+	public void deleteByObject_id(String object_id, String request_user_id) {
+		userDao.deleteByObject_id(object_id, request_user_id);
 	}
 
 }

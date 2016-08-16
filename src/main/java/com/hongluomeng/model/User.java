@@ -24,6 +24,7 @@ public class User extends Model<User> {
 	public static final String KEY_USER_CREATE_TIME = "user_create_time";
 	public static final String KEY_USER_UPDATE_USER_ID = "user_update_user_id";
 	public static final String KEY_USER_UPDATE_TIME = "user_update_time";
+	public static final String KEY_USER_STATUS = "user_status";
 
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
@@ -127,6 +128,14 @@ public class User extends Model<User> {
 
 	public void setUser_update_time(Date user_update_time) {
 		set(KEY_USER_UPDATE_TIME, user_update_time);
+	}
+
+	public Boolean getUser_status() {
+		return getBoolean(KEY_USER_STATUS);
+	}
+
+	public void setUser_status(Boolean user_status) {
+		set(KEY_USER_STATUS, user_status);
 	}
 
 }

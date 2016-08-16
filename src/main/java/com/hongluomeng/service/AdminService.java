@@ -47,9 +47,10 @@ public class AdminService {
 
 	public void save(JSONObject jsonObject) {
 		Admin adminMap = jsonObject.toJavaObject(Admin.class);
-		adminMap.setUser_id("");
 
-		adminDao.save(adminMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		adminDao.save(adminMap, request_user_id);
 
 		String user_id = userService.saveByObject_idAndUser_type(AccountEnum.ACCOUNT, jsonObject, adminMap.getAdmin_id(), UserEnum.ADMIN.getKey());
 
@@ -59,11 +60,23 @@ public class AdminService {
 	public void update(JSONObject jsonObject) {
 		Admin adminMap = jsonObject.toJavaObject(Admin.class);
 
-		adminDao.update(adminMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		adminDao.update(adminMap, request_user_id);
 
 		userService.updateUser_account(jsonObject);
 
 		userService.updateUser_password(jsonObject);
+	}
+
+	public void delete(JSONObject jsonObject) {
+		Admin adminMap = jsonObject.toJavaObject(Admin.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		adminDao.delete(adminMap.getAdmin_id(), request_user_id);
+
+		userService.deleteByObject_id(adminMap.getAdmin_id(), request_user_id);
 	}
 
 	public List<Map<String, Object>> listRole(JSONObject jsonObject) {

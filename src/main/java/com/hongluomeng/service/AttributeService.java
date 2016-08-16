@@ -37,19 +37,25 @@ public class AttributeService {
 	public void save(JSONObject jsonObject) {
 		Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
 
-		attributeDao.save(attributeMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		attributeDao.save(attributeMap, request_user_id);
 	}
 
 	public void update(JSONObject jsonObject) {
 		Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
 
-		attributeDao.update(attributeMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		attributeDao.update(attributeMap, request_user_id);
 	}
 
 	public void delete(JSONObject jsonObject) {
 		Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
 
-		attributeDao.delete(attributeMap);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		attributeDao.delete(attributeMap.getAttribute_id(), request_user_id);
 
 		categoryAttributeService.deleteByAttribute_id(attributeMap.getAttribute_id());
 

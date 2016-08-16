@@ -60,6 +60,16 @@ public class AdminController extends BaseController {
 	}
 
 	@Before(AdminValidator.class)
+	@ActionKey(Const.URL_ADMIN_DELETE)
+	public void delete() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		adminService.delete(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(AdminValidator.class)
 	@ActionKey(Const.URL_ADMIN_OPERATION_LIST)
 	public void listOperation() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

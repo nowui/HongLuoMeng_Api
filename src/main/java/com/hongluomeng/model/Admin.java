@@ -16,6 +16,7 @@ public class Admin extends Model<Admin> {
 	public static final String KEY_ADMIN_CREATE_TIME = "admin_create_time";
 	public static final String KEY_ADMIN_UPDATE_USER_ID = "admin_update_user_id";
 	public static final String KEY_ADMIN_UPDATE_TIME = "admin_update_time";
+	public static final String KEY_ADMIN_STATUS = "admin_status";
 
 	private String user_account;
 
@@ -65,6 +66,14 @@ public class Admin extends Model<Admin> {
 
 	public void setAdmin_update_time(Date admin_update_time) {
 		set(KEY_ADMIN_UPDATE_TIME, admin_update_time);
+	}
+
+	public Boolean getAdmin_status() {
+		return getBoolean(KEY_ADMIN_STATUS);
+	}
+
+	public void setAdmin_status(Boolean admin_status) {
+		set(KEY_ADMIN_STATUS, admin_status);
 	}
 
 }

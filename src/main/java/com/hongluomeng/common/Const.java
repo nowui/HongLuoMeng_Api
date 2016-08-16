@@ -44,6 +44,7 @@ public class Const {
 	public static final String URL_ADMIN_FIND = "/admin/find";
 	public static final String URL_ADMIN_SAVE = "/admin/save";
 	public static final String URL_ADMIN_UPDATE = "/admin/update";
+	public static final String URL_ADMIN_DELETE = "/admin/delete";
 	public static final String URL_ADMIN_OPERATION_LIST = "/admin/operation/list";
 	public static final String URL_ADMIN_OPERATION_UPDATE = "/admin/operation/update";
 	public static final String URL_ADMIN_LOGIN = "/admin/login";
