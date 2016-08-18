@@ -44,6 +44,8 @@ public class MemberService {
 	public Map<String, Object> save(JSONObject jsonObject) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Sms sms = jsonObject.toJavaObject(Sms.class);
 
 		User userMap = jsonObject.toJavaObject(User.class);
@@ -60,7 +62,7 @@ public class MemberService {
 		memberMap.setMember_name(userMap.getUser_phone());
 		memberMap.setUser_id("");
 
-		memberDao.save(memberMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		memberDao.save(memberMap, request_user_id);
 
 		String user_id = userService.saveByObject_idAndUser_type(AccountEnum.PHONE, jsonObject, memberMap.getMember_id(), UserEnum.MEMBER.getKey());
 
@@ -82,7 +84,9 @@ public class MemberService {
 	public void delete(JSONObject jsonObject) {
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		memberDao.delete(memberMap);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		memberDao.delete(memberMap.getMember_id(), request_user_id);
 	}*/
 
 	public Map<String, Object> login(JSONObject jsonObject) {

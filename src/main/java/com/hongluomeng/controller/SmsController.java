@@ -5,15 +5,17 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.service.SmsService;
 import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.ApplicationValidator;
+import com.hongluomeng.validator.SmsValidator;
 import com.jfinal.aop.Before;
+import com.jfinal.core.ActionKey;
 import com.taobao.api.ApiException;
 
 public class SmsController extends BaseController {
 
 	private SmsService smsService = new SmsService();
 
-	@Before(ApplicationValidator.class)
+	@Before(SmsValidator.class)
+	@ActionKey(Const.URL_SMS_SEND)
 	public void sms() throws ApiException {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

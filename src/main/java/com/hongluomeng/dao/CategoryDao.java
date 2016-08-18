@@ -30,6 +30,13 @@ public class CategoryDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Category.KEY_CATEGORY_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -56,15 +63,22 @@ public class CategoryDao {
 
 		if (! Utility.isNullOrEmpty(category.getCategory_path())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Category.KEY_CATEGORY_PATH + " LIKE ? ");
 			parameterList.add("%'" + category.getCategory_path() + "'%");
 
 			isExit = true;
 		}
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Category.KEY_CATEGORY_STATUS + " = 1 ");
 
 		sql.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
 
@@ -90,6 +104,7 @@ public class CategoryDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_CATEGORY + " WHERE " + Category.KEY_PARENT_ID + " = '' ");
+		sql.append("AND " + Category.KEY_CATEGORY_STATUS + " = 1 ");
 
 		List<Category> categoryList = category.find(sql.toString(), parameterList.toArray());
 		return categoryList;
@@ -113,9 +128,9 @@ public class CategoryDao {
 
 		if (! Utility.isNullOrEmpty(category.getCategory_id())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Category.KEY_CATEGORY_ID + " = ? ");
 			parameterList.add(category.getCategory_id());
@@ -125,15 +140,22 @@ public class CategoryDao {
 
 		if (! Utility.isNullOrEmpty(category.getCategory_key())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Category.KEY_CATEGORY_KEY + " = ? ");
 			parameterList.add(category.getCategory_key());
 
 			isExit = true;
 		}
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Category.KEY_CATEGORY_STATUS + " = 1 ");
 
 		if(! isExit) {
 			return null;
@@ -161,33 +183,41 @@ public class CategoryDao {
 		return find(category);
 	}
 
-	public void save(Category category, String user_id) {
+	public void save(Category category, String request_user_id) {
 		category.setCategory_id(Utility.getUUID());
-		category.setCategory_create_user_id(user_id);
+		category.setCategory_create_user_id(request_user_id);
 		category.setCategory_create_time(new Date());
-		category.setCategory_update_user_id(user_id);
+		category.setCategory_update_user_id(request_user_id);
 		category.setCategory_update_time(new Date());
+		category.setCategory_status(true);
 
 		category.save();
 	}
 
-	public void update(Category category, String user_id) {
+	public void update(Category category, String request_user_id) {
 		category.remove(Category.KEY_PARENT_ID);
 		category.remove(Category.KEY_CATEGORY_PATH);
 		category.remove(Category.KEY_CATEGORY_CREATE_USER_ID);
 		category.remove(Category.KEY_CATEGORY_CREATE_TIME);
-		category.setCategory_update_user_id(user_id);
+		category.setCategory_update_user_id(request_user_id);
 		category.setCategory_update_time(new Date());
 
 		category.update();
 	}
 
-	public void deleteByCategory_id(String category_id) {
+	public void deleteByCategory_id(String category_id, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + Category.KEY_CATEGORY + " WHERE ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Category.KEY_CATEGORY + " ");
+		sql.append("SET " + Category.KEY_CATEGORY_STATUS + " = 0 ");
 
-		sql.append(Category.KEY_CATEGORY_ID + " = ? ");
+		sql.append(", " + Category.KEY_CATEGORY_UPDATE_USER_ID + " = ? ");
+		parameterList.add(request_user_id);
+
+		sql.append(", " + Category.KEY_CATEGORY_UPDATE_TIME + " = ? ");
+		parameterList.add(new Date());
+
+		sql.append("WHERE " + Category.KEY_CATEGORY_ID + " = ? ");
 		parameterList.add(category_id);
 
 		sql.append("OR " + Category.KEY_CATEGORY_PATH + " LIKE ? ");

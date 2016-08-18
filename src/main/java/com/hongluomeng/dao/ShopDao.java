@@ -15,6 +15,15 @@ public class ShopDao {
 
 		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Shop.KEY_SHOP + " ");
 
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Shop.KEY_SHOP_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -29,6 +38,16 @@ public class ShopDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Shop.KEY_SHOP + " ");
+
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Shop.KEY_SHOP_STATUS + " = 1 ");
+
 		sql.append("ORDER BY " + Shop.KEY_SHOP_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -66,6 +85,13 @@ public class ShopDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Shop.KEY_SHOP_STATUS + " = 1 ");
+
 		if(! isExit) {
 			return null;
 		}
@@ -85,27 +111,34 @@ public class ShopDao {
 		return find(shop);
 	}
 
-	public void save(Shop shop, String user_id) {
+	public void save(Shop shop, String request_user_id) {
 		shop.setShop_id(Utility.getUUID());
-		shop.setShop_create_user_id(user_id);
+		shop.setShop_create_user_id(request_user_id);
 		shop.setShop_create_time(new Date());
-		shop.setShop_update_user_id(user_id);
+		shop.setShop_update_user_id(request_user_id);
 		shop.setShop_update_time(new Date());
+		shop.setShop_status(true);
 
 		shop.save();
 	}
 
-	public void update(Shop shop, String user_id) {
+	public void update(Shop shop, String request_user_id) {
 		shop.remove(Shop.KEY_SHOP_CREATE_USER_ID);
 		shop.remove(Shop.KEY_SHOP_CREATE_TIME);
-		shop.setShop_update_user_id(user_id);
+		shop.setShop_update_user_id(request_user_id);
 		shop.setShop_update_time(new Date());
 
 		shop.update();
 	}
 
-	public void delete(Shop shop) {
-		shop.delete();
+	public void delete(String shop_id, String request_user_id) {
+		Shop shop = new Shop();
+		shop.setShop_id(shop_id);
+		shop.setShop_update_user_id(request_user_id);
+		shop.setShop_update_time(new Date());
+		shop.setShop_status(false);
+
+		shop.update();
 	}
 
 }

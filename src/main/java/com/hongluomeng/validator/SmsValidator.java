@@ -19,7 +19,7 @@ public class SmsValidator extends Validator {
 
 		String message = "";
 
-		if(actionKey.equals("/sms")) {
+		if(actionKey.equals(Const.URL_SMS_SEND)) {
 			isExit = true;
 
 			Sms sms = jsonObject.toJavaObject(Sms.class);

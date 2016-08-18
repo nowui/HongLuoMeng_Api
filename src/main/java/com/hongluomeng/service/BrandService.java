@@ -39,19 +39,25 @@ public class BrandService {
 	public void save(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		brandDao.save(brandMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandDao.save(brandMap, request_user_id);
 	}
 
 	public void update(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		brandDao.update(brandMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandDao.update(brandMap, request_user_id);
 	}
 
 	public void delete(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		brandDao.delete(brandMap);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandDao.delete(brandMap.getBrand_id(), request_user_id);
 	}
 
 }

@@ -15,6 +15,15 @@ public class BrandDao {
 
 		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Brand.KEY_BRAND + " ");
 
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Brand.KEY_BRAND_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -29,6 +38,16 @@ public class BrandDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Brand.KEY_BRAND + " ");
+
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Brand.KEY_BRAND_STATUS + " = 1 ");
+
 		sql.append("ORDER BY " + Brand.KEY_BRAND_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -66,6 +85,13 @@ public class BrandDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Brand.KEY_BRAND_STATUS + " = 1 ");
+
 		if(! isExit) {
 			return null;
 		}
@@ -85,27 +111,34 @@ public class BrandDao {
 		return find(brand);
 	}
 
-	public void save(Brand brand, String user_id) {
+	public void save(Brand brand, String request_user_id) {
 		brand.setBrand_id(Utility.getUUID());
-		brand.setBrand_create_user_id(user_id);
+		brand.setBrand_create_user_id(request_user_id);
 		brand.setBrand_create_time(new Date());
-		brand.setBrand_update_user_id(user_id);
+		brand.setBrand_update_user_id(request_user_id);
 		brand.setBrand_update_time(new Date());
+		brand.setBrand_status(true);
 
 		brand.save();
 	}
 
-	public void update(Brand brand, String user_id) {
+	public void update(Brand brand, String request_user_id) {
 		brand.remove(Brand.KEY_BRAND_CREATE_USER_ID);
 		brand.remove(Brand.KEY_BRAND_CREATE_TIME);
-		brand.setBrand_update_user_id(user_id);
+		brand.setBrand_update_user_id(request_user_id);
 		brand.setBrand_update_time(new Date());
 
 		brand.update();
 	}
 
-	public void delete(Brand brand) {
-		brand.delete();
+	public void delete(String brand_id, String request_user_id) {
+		Brand brand = new Brand();
+		brand.setBrand_id(brand_id);
+		brand.setBrand_update_user_id(request_user_id);
+		brand.setBrand_update_time(new Date());
+		brand.setBrand_status(false);
+
+		brand.update();
 	}
 
 }

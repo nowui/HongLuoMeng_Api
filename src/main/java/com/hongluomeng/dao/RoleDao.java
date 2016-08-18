@@ -42,6 +42,13 @@ public class RoleDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Role.KEY_ROLE_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -79,6 +86,13 @@ public class RoleDao {
 
 			isExit = true;
 		}
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Role.KEY_ROLE_STATUS + " = 1 ");
 
 		sql.append("ORDER BY " + Role.KEY_ROLE_SORT + " ASC ");
 
@@ -118,6 +132,13 @@ public class RoleDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Role.KEY_ROLE_STATUS + " = 1 ");
+
 		if(! isExit) {
 			return null;
 		}
@@ -137,28 +158,35 @@ public class RoleDao {
 		return find(role);
 	}
 
-	public void save(Role role, String user_id) {
+	public void save(Role role, String request_user_id) {
 		role.setRole_id(Utility.getUUID());
-		role.setRole_create_user_id(user_id);
+		role.setRole_create_user_id(request_user_id);
 		role.setRole_create_time(new Date());
-		role.setRole_update_user_id(user_id);
+		role.setRole_update_user_id(request_user_id);
 		role.setRole_update_time(new Date());
+		role.setRole_status(true);
 
 		role.save();
 	}
 
-	public void update(Role role, String user_id) {
+	public void update(Role role, String request_user_id) {
 		role.remove(Role.KEY_GROUP_ID);
 		role.remove(Role.KEY_ROLE_CREATE_USER_ID);
 		role.remove(Role.KEY_ROLE_CREATE_TIME);
-		role.setRole_update_user_id(user_id);
+		role.setRole_update_user_id(request_user_id);
 		role.setRole_update_time(new Date());
 
 		role.update();
 	}
 
-	public void delete(Role role) {
-		role.delete();
+	public void delete(String role_id, String request_user_id) {
+		Role role = new Role();
+		role.setRole_id(role_id);
+		role.setRole_update_user_id(request_user_id);
+		role.setRole_update_time(new Date());
+		role.setRole_status(false);
+
+		role.update();
 	}
 
 }

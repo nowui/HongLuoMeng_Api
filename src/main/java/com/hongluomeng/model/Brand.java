@@ -15,6 +15,7 @@ public class Brand extends Model<Brand> {
 	public static final String KEY_BRAND_CREATE_TIME = "brand_create_time";
 	public static final String KEY_BRAND_UPDATE_USER_ID = "brand_update_user_id";
 	public static final String KEY_BRAND_UPDATE_TIME = "brand_update_time";
+	public static final String KEY_BRAND_STATUS = "brand_status";
 
 	private String user_account;
 
@@ -56,6 +57,14 @@ public class Brand extends Model<Brand> {
 
 	public void setBrand_update_time(Date brand_update_time) {
 		set(KEY_BRAND_UPDATE_TIME, brand_update_time);
+	}
+
+	public Boolean getBrand_status() {
+		return getBoolean(KEY_BRAND_STATUS);
+	}
+
+	public void setBrand_status(Boolean brand_status) {
+		set(KEY_BRAND_STATUS, brand_status);
 	}
 
 }

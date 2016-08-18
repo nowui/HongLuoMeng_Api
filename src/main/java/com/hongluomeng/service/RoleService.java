@@ -217,6 +217,8 @@ public class RoleService {
 	public void save(JSONObject jsonObject) {
 		Role roleMap = jsonObject.toJavaObject(Role.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(roleMap.getRole_key())) {
@@ -224,7 +226,7 @@ public class RoleService {
 		}
 
 		if(count == 0) {
-			roleDao.save(roleMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			roleDao.save(roleMap, request_user_id);
 
 			/*JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
 
@@ -247,6 +249,8 @@ public class RoleService {
 	public void update(JSONObject jsonObject) {
 		Role roleMap = jsonObject.toJavaObject(Role.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(roleMap.getRole_key())) {
@@ -254,7 +258,7 @@ public class RoleService {
 		}
 
 		if(count == 0) {
-			roleDao.update(roleMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			roleDao.update(roleMap, request_user_id);
 
 			/*JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
 
@@ -305,10 +309,9 @@ public class RoleService {
 	public void delete(JSONObject jsonObject) {
 		Role roleMap = jsonObject.toJavaObject(Role.class);
 
-		Role roleParameter = new Role();
-		roleParameter.setRole_id(roleMap.getRole_id());
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		roleDao.delete(roleParameter);
+		roleDao.delete(roleMap.getRole_id(), request_user_id);
 
 		roleOperationService.deleteByRole_id(new ArrayList<RoleOperation>(), roleMap.getRole_id());
 

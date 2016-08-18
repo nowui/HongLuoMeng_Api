@@ -1,7 +1,6 @@
 package com.hongluomeng.model;
 
 import java.util.Date;
-import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
 
@@ -17,9 +16,7 @@ public class Member extends Model<Member> {
 	public static final String KEY_MEMBER_CREATE_TIME = "member_create_time";
 	public static final String KEY_MEMBER_UPDATE_USER_ID = "member_update_user_id";
 	public static final String KEY_MEMBER_UPDATE_TIME = "member_update_time";
-
-	private List<Category> categoryList;
-	private List<Brand> brandList;
+	public static final String KEY_MEMBER_STATUS = "member_status";
 
 	public String getMember_id() {
 		return getStr(KEY_MEMBER_ID);
@@ -61,20 +58,12 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_UPDATE_TIME, member_update_time);
 	}
 
-	public List<Category> getCategoryList() {
-		return categoryList;
+	public Boolean getMember_status() {
+		return getBoolean(KEY_MEMBER_STATUS);
 	}
 
-	public void setCategoryList(List<Category> categoryList) {
-		this.categoryList = categoryList;
-	}
-
-	public List<Brand> getBrandList() {
-		return brandList;
-	}
-
-	public void setBrandList(List<Brand> brandList) {
-		this.brandList = brandList;
+	public void setMember_status(Boolean member_status) {
+		set(KEY_MEMBER_STATUS, member_status);
 	}
 
 }

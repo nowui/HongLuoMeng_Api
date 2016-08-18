@@ -55,6 +55,8 @@ public class OperationService {
 	public void save(JSONObject jsonObject) {
 		Operation operationMap = jsonObject.toJavaObject(Operation.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(operationMap.getOperation_key())) {
@@ -62,7 +64,7 @@ public class OperationService {
 		}
 
 		if(count == 0) {
-			operationDao.save(operationMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			operationDao.save(operationMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");
 		}
@@ -71,6 +73,8 @@ public class OperationService {
 	public void update(JSONObject jsonObject) {
 		Operation operationMap = jsonObject.toJavaObject(Operation.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(operationMap.getOperation_key())) {
@@ -78,7 +82,7 @@ public class OperationService {
 		}
 
 		if(count == 0) {
-			operationDao.update(operationMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			operationDao.update(operationMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");
 		}
@@ -87,7 +91,9 @@ public class OperationService {
 	public void delete(JSONObject jsonObject) {
 		Operation operationMap = jsonObject.toJavaObject(Operation.class);
 
-		operationDao.delete(operationMap);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		operationDao.delete(operationMap.getOperation_id(), request_user_id);
 	}
 
 }

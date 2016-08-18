@@ -44,6 +44,13 @@ public class OperationDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Operation.KEY_OPERATION_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -82,6 +89,13 @@ public class OperationDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Operation.KEY_OPERATION_STATUS + " = 1 ");
+
 		sql.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
 
 		if (n > 0) {
@@ -101,6 +115,7 @@ public class OperationDao {
 		sql.append("LEFT JOIN " + RoleOperation.KEY_ROLE_OPERATION + " ON " + Operation.KEY_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
 		sql.append("LEFT JOIN " + UserRole.KEY_USER_ROLE + " ON " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
 		sql.append("WHERE " + UserRole.KEY_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ");
+		sql.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		parameterList.add(user_id);
 
 		Operation operation = new Operation();
@@ -129,6 +144,13 @@ public class OperationDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Operation.KEY_OPERATION_STATUS + " = 1 ");
+
 		if(! isExit) {
 			return null;
 		}
@@ -141,28 +163,35 @@ public class OperationDao {
 		}
 	}
 
-	public void save(Operation operation, String user_id) {
+	public void save(Operation operation, String request_user_id) {
 		operation.setOperation_id(Utility.getUUID());
-		operation.setOperation_create_user_id(user_id);
+		operation.setOperation_create_user_id(request_user_id);
 		operation.setOperation_create_time(new Date());
-		operation.setOperation_update_user_id(user_id);
+		operation.setOperation_update_user_id(request_user_id);
 		operation.setOperation_update_time(new Date());
+		operation.setOperation_status(true);
 
 		operation.save();
 	}
 
-	public void update(Operation operation, String user_id) {
+	public void update(Operation operation, String request_user_id) {
 		operation.remove(Operation.KEY_MENU_ID);
 		operation.remove(Operation.KEY_OPERATION_CREATE_USER_ID);
 		operation.remove(Operation.KEY_OPERATION_CREATE_TIME);
-		operation.setOperation_update_user_id(user_id);
+		operation.setOperation_update_user_id(request_user_id);
 		operation.setOperation_update_time(new Date());
 
 		operation.update();
 	}
 
-	public void delete(Operation operation) {
-		operation.delete();
+	public void delete(String operation_id, String request_user_id) {
+		Operation operation = new Operation();
+		operation.setOperation_id(operation_id);
+		operation.setOperation_update_user_id(request_user_id);
+		operation.setOperation_update_time(new Date());
+		operation.setOperation_status(false);
+
+		operation.update();
 	}
 
 }

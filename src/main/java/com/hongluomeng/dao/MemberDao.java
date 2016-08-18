@@ -15,6 +15,15 @@ public class MemberDao {
 
 		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Member.KEY_MEMBER + " ");
 
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Member.KEY_MEMBER_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -29,6 +38,16 @@ public class MemberDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_MEMBER + " ");
+
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Member.KEY_MEMBER_STATUS + " = 1 ");
+
 		sql.append("ORDER BY " + Member.KEY_MEMBER_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -66,6 +85,13 @@ public class MemberDao {
 			isExit = true;
 		}
 
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Member.KEY_MEMBER_STATUS + " = 1 ");
+
 		if(! isExit) {
 			return null;
 		}
@@ -85,20 +111,21 @@ public class MemberDao {
 		return find(member);
 	}
 
-	public void save(Member member, String user_id) {
+	public void save(Member member, String request_user_id) {
 		member.setMember_id(Utility.getUUID());
-		member.setMember_create_user_id(user_id);
+		member.setMember_create_user_id(request_user_id);
 		member.setMember_create_time(new Date());
-		member.setMember_update_user_id(user_id);
+		member.setMember_update_user_id(request_user_id);
 		member.setMember_update_time(new Date());
+		member.setMember_status(true);
 
 		member.save();
 	}
 
-	public void update(Member member, String user_id) {
+	public void update(Member member, String request_user_id) {
 		member.remove(Member.KEY_MEMBER_CREATE_USER_ID);
 		member.remove(Member.KEY_MEMBER_CREATE_TIME);
-		member.setMember_update_user_id(user_id);
+		member.setMember_update_user_id(request_user_id);
 		member.setMember_update_time(new Date());
 
 		member.update();
@@ -115,8 +142,14 @@ public class MemberDao {
 		Db.update(sql.toString(), parameterList.toArray());
 	}
 
-	public void delete(Member member) {
-		member.delete();
+	public void delete(String member_id, String request_user_id) {
+		Member member = new Member();
+		member.setMember_id(member_id);
+		member.setMember_status(false);
+		member.setMember_update_user_id(request_user_id);
+		member.setMember_update_time(new Date());
+
+		member.update();
 	}
 
 }

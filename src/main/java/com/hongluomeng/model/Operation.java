@@ -20,6 +20,7 @@ public class Operation extends Model<Operation> {
 	public static final String KEY_OPERATION_CREATE_TIME = "operation_create_time";
 	public static final String KEY_OPERATION_UPDATE_USER_ID = "operation_update_user_id";
 	public static final String KEY_OPERATION_UPDATE_TIME = "operation_update_time";
+	public static final String KEY_OPERATION_STATUS = "operation_status";
 
 	public String getOperation_id() {
 		return getStr(KEY_OPERATION_ID);
@@ -83,6 +84,14 @@ public class Operation extends Model<Operation> {
 
 	public void setOperation_update_time(Date operation_update_time) {
 		set(KEY_OPERATION_UPDATE_TIME, operation_update_time);
+	}
+
+	public Boolean getOperation_status() {
+		return getBoolean(KEY_OPERATION_STATUS);
+	}
+
+	public void setOperation_status(Boolean operation_status) {
+		set(KEY_OPERATION_STATUS, operation_status);
 	}
 
 }

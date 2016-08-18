@@ -19,6 +19,7 @@ public class Role extends Model<Role> {
 	public static final String KEY_ROLE_CREATE_TIME = "role_create_time";
 	public static final String KEY_ROLE_UPDATE_USER_ID = "role_update_user_id";
 	public static final String KEY_ROLE_UPDATE_TIME = "role_update_time";
+	public static final String KEY_ROLE_STATUS = "role_status";
 
 	public String getRole_id() {
 		return getStr(KEY_ROLE_ID);
@@ -74,6 +75,14 @@ public class Role extends Model<Role> {
 
 	public void setRole_update_time(Date role_update_time) {
 		set(KEY_ROLE_UPDATE_TIME, role_update_time);
+	}
+
+	public Boolean getRole_status() {
+		return getBoolean(KEY_ROLE_STATUS);
+	}
+
+	public void setRole_status(Boolean role_status) {
+		set(KEY_ROLE_STATUS, role_status);
 	}
 
 }

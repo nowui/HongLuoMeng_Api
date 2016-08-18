@@ -35,19 +35,25 @@ public class ShopService {
 	public void save(JSONObject jsonObject) {
 		Shop shopMap = jsonObject.toJavaObject(Shop.class);
 
-		shopDao.save(shopMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		shopDao.save(shopMap, request_user_id);
 	}
 
 	public void update(JSONObject jsonObject) {
 		Shop shopMap = jsonObject.toJavaObject(Shop.class);
 
-		shopDao.update(shopMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		shopDao.update(shopMap, request_user_id);
 	}
 
 	public void delete(JSONObject jsonObject) {
 		Shop shopMap = jsonObject.toJavaObject(Shop.class);
 
-		shopDao.delete(shopMap);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		shopDao.delete(shopMap.getShop_id(), request_user_id);
 	}
 
 }

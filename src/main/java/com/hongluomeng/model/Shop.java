@@ -15,6 +15,7 @@ public class Shop extends Model<Shop> {
 	public static final String KEY_SHOP_CREATE_TIME = "shop_create_time";
 	public static final String KEY_SHOP_UPDATE_USER_ID = "shop_update_user_id";
 	public static final String KEY_SHOP_UPDATE_TIME = "shop_update_time";
+	public static final String KEY_SHOP_STATUS = "shop_status";
 
 	private String user_account;
 
@@ -56,6 +57,14 @@ public class Shop extends Model<Shop> {
 
 	public void setShop_update_time(Date shop_update_time) {
 		set(KEY_SHOP_UPDATE_TIME, shop_update_time);
+	}
+
+	public Boolean getShop_status() {
+		return getBoolean(KEY_SHOP_STATUS);
+	}
+
+	public void setShop_status(Boolean shop_status) {
+		set(KEY_SHOP_STATUS, shop_status);
 	}
 
 }

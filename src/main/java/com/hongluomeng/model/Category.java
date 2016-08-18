@@ -22,6 +22,7 @@ public class Category extends Model<Category> {
 	public static final String KEY_CATEGORY_CREATE_TIME = "category_create_time";
 	public static final String KEY_CATEGORY_UPDATE_USER_ID = "category_update_user_id";
 	public static final String KEY_CATEGORY_UPDATE_TIME = "category_update_time";
+	public static final String KEY_CATEGORY_STATUS = "category_status";
 
 	public String getCategory_id() {
 		return getStr(KEY_CATEGORY_ID);
@@ -101,6 +102,14 @@ public class Category extends Model<Category> {
 
 	public void setCategory_update_time(Date category_update_time) {
 		set(KEY_CATEGORY_UPDATE_TIME, category_update_time);
+	}
+
+	public Boolean getCategory_status() {
+		return getBoolean(KEY_CATEGORY_STATUS);
+	}
+
+	public void setCategory_status(Boolean category_status) {
+		set(KEY_CATEGORY_STATUS, category_status);
 	}
 
 }

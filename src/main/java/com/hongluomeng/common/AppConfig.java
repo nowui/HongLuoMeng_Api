@@ -23,6 +23,7 @@ import com.hongluomeng.controller.MenuController;
 import com.hongluomeng.controller.ProductController;
 import com.hongluomeng.controller.RoleController;
 import com.hongluomeng.controller.ShopController;
+import com.hongluomeng.controller.SmsController;
 import com.hongluomeng.controller.UploadController;
 import com.hongluomeng.controller.UserController;
 import com.hongluomeng.controller.OperationController;
@@ -69,6 +70,7 @@ public class AppConfig extends JFinalConfig {
 		routes.add("/member", MemberController.class);
 		routes.add("/group", GroupController.class);
 		routes.add("/menu", MenuController.class);
+		routes.add("/sms", SmsController.class);
 	}
 
 	public void configPlugin(Plugins plugins) {

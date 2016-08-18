@@ -140,6 +140,8 @@ public class CategoryService {
 	public void save(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(categoryMap.getCategory_key())) {
@@ -159,7 +161,7 @@ public class CategoryService {
 				}
 			}
 
-			categoryDao.save(categoryMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			categoryDao.save(categoryMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");
 		}
@@ -168,6 +170,8 @@ public class CategoryService {
 	public void update(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(categoryMap.getCategory_key())) {
@@ -175,7 +179,7 @@ public class CategoryService {
 		}
 
 		if(count == 0) {
-			categoryDao.update(categoryMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+			categoryDao.update(categoryMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");
 		}
@@ -185,7 +189,9 @@ public class CategoryService {
 	public void delete(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
 
-		categoryDao.deleteByCategory_id(categoryMap.getCategory_id());
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		categoryDao.deleteByCategory_id(categoryMap.getCategory_id(), request_user_id);
 
 		categoryAttributeService.deleteByCategory_id(categoryMap.getCategory_id());
 	}
