@@ -383,15 +383,28 @@ public class UserDao {
 		Db.update(sql.toString(), parameterList.toArray());
 	}
 
-	public void updateUser_password(User user, String request_user_id) {
+	public void updateUser_passwordByUser_id(String user_id, String user_password, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
-		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user.getUser_password()));
+		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user_password));
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());
-		parameterList.add(user.getUser_id());
+		parameterList.add(user_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
+	}
+
+	public void updateUser_passwordByUser_phone(String user_phone, String user_password, String request_user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_PHONE + " = ? ");
+
+		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user_password));
+		parameterList.add(request_user_id);
+		parameterList.add(new Date());
+		parameterList.add(user_phone);
 
 		Db.update(sql.toString(), parameterList.toArray());
 	}

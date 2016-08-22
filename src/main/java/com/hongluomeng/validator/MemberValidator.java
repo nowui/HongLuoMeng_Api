@@ -45,7 +45,7 @@ public class MemberValidator extends Validator {
 				message += "密码为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_MEMBER_REGISTER)) {
+		} else if(actionKey.equals(Const.URL_MEMBER_REGISTER) || actionKey.equals(Const.URL_MEMBER_RESET_PASSWORD)) {
 			isExit = true;
 
 			User user = jsonObject.toJavaObject(User.class);

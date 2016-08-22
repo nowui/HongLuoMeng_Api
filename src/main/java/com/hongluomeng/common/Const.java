@@ -35,7 +35,7 @@ public class Const {
 
 	public static final int batchSize = 100;
 
-	public static final String LINE_FEED = "；";
+	public static final String LINE_FEED = "";
 
 	public static final String PERMISSION_DENIED = "没有权限";
 	public static final String URL_DENIED = "请求地址不对";
@@ -77,6 +77,7 @@ public class Const {
 	public static final String URL_MEMBER_LOGIN = "/member/login";
 	public static final String URL_MEMBER_OAUTH = "/member/oauth";
 	public static final String URL_MEMBER_REGISTER = "/member/register";
+	public static final String URL_MEMBER_RESET_PASSWORD = "/member/resetpassword";
 	public static final String URL_MENU_LIST = "/menu/list";
 	public static final String URL_MENU_FIND = "/menu/find";
 	public static final String URL_MENU_SAVE = "/menu/save";
@@ -117,6 +118,7 @@ public class Const {
 	public static final String URL_UPLOAD_LIST = "/upload/list";
 	public static final String URL_UPLOAD_IMAGE = "/upload/image";
 	public static final String URL_USER_MENU_LIST = "/user/menu/list";
-	public static final String URL_SMS_SEND = "/sms/send";
+	public static final String URL_SMS_REGISTER = "/sms/register";
+	public static final String URL_SMS_RESET_PASSWORD = "/sms/resetpassword";
 
 }

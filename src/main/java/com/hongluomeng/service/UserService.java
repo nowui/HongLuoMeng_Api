@@ -218,14 +218,14 @@ public class UserService {
 		}
 	}
 
-	public void updateUser_password(JSONObject jsonObject) {
-		User userMap = jsonObject.toJavaObject(User.class);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		if (! Utility.isNullOrEmpty(userMap.getUser_password())) {
-			userDao.updateUser_password(userMap, request_user_id);
+	public void updateUser_passwordByUser_id(String user_id, String user_password, String request_user_id) {
+		if (! Utility.isNullOrEmpty(user_password)) {
+			userDao.updateUser_passwordByUser_id(user_id, user_password, request_user_id);
 		}
+	}
+
+	public void updateUser_passwordByUser_phone(String user_phone, String user_password, String request_user_id) {
+		userDao.updateUser_passwordByUser_phone(user_phone, user_password, request_user_id);
 	}
 
 	public void deleteByObject_id(String object_id, String request_user_id) {

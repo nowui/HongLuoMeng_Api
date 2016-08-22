@@ -19,9 +19,9 @@ public class SmsDao {
 
 		if (! Utility.isNullOrEmpty(sms.getSms_type())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Sms.KEY_SMS_TYPE + " = ? ");
 			parameterList.add(sms.getSms_type());
@@ -31,9 +31,9 @@ public class SmsDao {
 
 		if (! Utility.isNullOrEmpty(sms.getSms_phone())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Sms.KEY_SMS_PHONE + " = ? ");
 			parameterList.add(sms.getSms_phone());
@@ -43,9 +43,9 @@ public class SmsDao {
 
 		if (! Utility.isNullOrEmpty(sms.getSms_code())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Sms.KEY_SMS_CODE + " = ? ");
 			parameterList.add(sms.getSms_code());
@@ -55,9 +55,9 @@ public class SmsDao {
 
 		if (! Utility.isNullOrEmpty(sms.getSms_status())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Sms.KEY_SMS_STATUS + " = ? ");
 			if (sms.getSms_status()) {
@@ -71,14 +71,16 @@ public class SmsDao {
 
 		if (! Utility.isNullOrEmpty(minute)) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Sms.KEY_SMS_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
 
 			isExit = true;
 		}
+
+		System.out.println(sql.toString());
 
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
@@ -133,9 +135,9 @@ public class SmsDao {
 
 		if (! Utility.isNullOrEmpty(sms.getSms_id())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Sms.KEY_SMS_ID + " = ? ");
 			parameterList.add(sms.getSms_id());

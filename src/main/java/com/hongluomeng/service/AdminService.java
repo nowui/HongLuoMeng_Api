@@ -60,13 +60,15 @@ public class AdminService {
 	public void update(JSONObject jsonObject) {
 		Admin adminMap = jsonObject.toJavaObject(Admin.class);
 
+		User userMap = jsonObject.toJavaObject(User.class);
+
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		adminDao.update(adminMap, request_user_id);
 
 		userService.updateUser_account(jsonObject);
 
-		userService.updateUser_password(jsonObject);
+		userService.updateUser_passwordByUser_id(userMap.getUser_id(), userMap.getUser_password(), request_user_id);
 	}
 
 	public void delete(JSONObject jsonObject) {

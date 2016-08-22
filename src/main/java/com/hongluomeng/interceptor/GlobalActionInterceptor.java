@@ -43,8 +43,10 @@ public class GlobalActionInterceptor implements Interceptor {
 		Set<String> urlSet = new HashSet<String>();
 		urlSet.add(Const.URL_MEMBER_LOGIN);
 		urlSet.add(Const.URL_MEMBER_REGISTER);
+		urlSet.add(Const.URL_MEMBER_RESET_PASSWORD);
 		urlSet.add(Const.URL_ADMIN_LOGIN);
-		urlSet.add(Const.URL_SMS_SEND);
+		urlSet.add(Const.URL_SMS_REGISTER);
+		urlSet.add(Const.URL_SMS_RESET_PASSWORD);
 		urlSet.add(Const.URL_USER_MENU_LIST);
 
 		Connection connection = null;
@@ -74,7 +76,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
 			boolean isAuthorization = true;
 
-			if (url.equals(Const.URL_MEMBER_LOGIN) || url.equals(Const.URL_MEMBER_REGISTER) || url.equals(Const.URL_ADMIN_LOGIN) || url.equals(Const.URL_SMS_SEND)) {
+			if (url.equals(Const.URL_MEMBER_LOGIN) || url.equals(Const.URL_MEMBER_REGISTER) || url.equals(Const.URL_MEMBER_RESET_PASSWORD) || url.equals(Const.URL_ADMIN_LOGIN) || url.equals(Const.URL_SMS_REGISTER) || url.equals(Const.URL_SMS_RESET_PASSWORD)) {
 
 			} else {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);

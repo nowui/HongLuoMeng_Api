@@ -69,4 +69,14 @@ public class MemberController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 	}
 
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_RESET_PASSWORD)
+	public void memberResetPassword() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.resetPassword(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
 }

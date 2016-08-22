@@ -56,6 +56,7 @@ public class SmsService {
 
 			JSONObject json = JSONObject.parseObject(rsp.getBody());
 			if (json.containsKey("alibaba_aliqin_fc_sms_num_send_response")) {
+				smsMap.setSms_type(sms_type);
 				smsMap.setSms_code(sms_code);
 				smsMap.setSms_ip_address(ip_address);
 

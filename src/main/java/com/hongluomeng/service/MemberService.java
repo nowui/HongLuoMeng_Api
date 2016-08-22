@@ -78,6 +78,28 @@ public class MemberService {
 		return resultMap;
 	}
 
+	public void resetPassword(JSONObject jsonObject) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		Sms sms = jsonObject.toJavaObject(Sms.class);
+
+		User userMap = jsonObject.toJavaObject(User.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		String sms_type = SmsEnum.RESET_PASSWORD.getKey();
+
+		Integer count = smsService.countBySms_phoneAndSms_codeAndMinute(sms_type, userMap.getUser_phone(), sms.getSms_code(), 30);
+
+		if (count == 0) {
+			throw new RuntimeException("验证码已经过期");
+		}
+
+		smsService.updateSms_statusBySms_phone(sms_type, userMap.getUser_phone(), sms.getSms_code());
+
+		userService.updateUser_passwordByUser_phone(userMap.getUser_phone(), userMap.getUser_password(), request_user_id);
+	}
+
 	public Map<String, Object> login(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
