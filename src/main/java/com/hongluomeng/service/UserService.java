@@ -32,6 +32,20 @@ public class UserService {
 		return userDao.countByUser_idAndUser_phone("", user_phone);
 	}
 
+	public Integer countByOauth(JSONObject jsonObject) {
+		User userMap = jsonObject.toJavaObject(User.class);
+
+		String platform = jsonObject.getString("platform");
+
+		if(platform.equals(AccountEnum.WEIBO.getKey())) {
+			return userDao.countByWeiBo(userMap.getWeibo_open_id(), userMap.getWeibo_access_token());
+		} else if(platform.equals(AccountEnum.WECHAT.getKey())) {
+			return userDao.countByWechat(userMap.getWechat_open_id(), userMap.getWechat_access_token());
+		}
+
+		return 1;
+	}
+
 	public List<User> list(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 

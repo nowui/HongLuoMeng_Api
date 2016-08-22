@@ -10,6 +10,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.User;
 import com.hongluomeng.type.AccountEnum;
+import com.hongluomeng.type.UserEnum;
 
 public class UserDao {
 
@@ -22,9 +23,9 @@ public class UserDao {
 
 		if (! Utility.isNullOrEmpty(user.getUser_account())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 
 			if (Utility.isNullOrEmpty(user.getUser_id())) {
@@ -41,9 +42,9 @@ public class UserDao {
 
 		if (! Utility.isNullOrEmpty(user.getUser_phone())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 
 			if (Utility.isNullOrEmpty(user.getUser_id())) {
@@ -60,9 +61,9 @@ public class UserDao {
 
 		if (! Utility.isNullOrEmpty(user.getUser_email())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 
 			if (Utility.isNullOrEmpty(user.getUser_id())) {
@@ -75,6 +76,61 @@ public class UserDao {
 			}
 
 			isExit = true;
+		}
+
+		if (! Utility.isNullOrEmpty(user.getUser_type())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+
+			sql.append(User.KEY_USER_TYPE + " = ? ");
+			parameterList.add(user.getUser_type());
+		}
+
+		if (! Utility.isNullOrEmpty(user.getWeibo_open_id())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+
+			sql.append(User.KEY_WEIBO_OPEN_ID + " = ? ");
+			parameterList.add(user.getWeibo_open_id());
+		}
+
+		if (! Utility.isNullOrEmpty(user.getWeibo_access_token())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+
+			sql.append(User.KEY_WEIBO_ACCESS_TOKEN + " = ? ");
+			parameterList.add(user.getWeibo_access_token());
+		}
+
+		if (! Utility.isNullOrEmpty(user.getWechat_open_id())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+
+			sql.append(User.KEY_WECHAT_OPEN_ID + " = ? ");
+			parameterList.add(user.getWechat_open_id());
+		}
+
+		if (! Utility.isNullOrEmpty(user.getWechat_access_token())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+
+			sql.append(User.KEY_WECHAT_ACCESS_TOKEN + " = ? ");
+			parameterList.add(user.getWechat_access_token());
 		}
 
 		if(isExit) {
@@ -108,6 +164,24 @@ public class UserDao {
 		User user = new User();
 		user.setUser_id(user_id);
 		user.setUser_email(user_email);
+
+		return count(user);
+	}
+
+	public Integer countByWeiBo(String weibo_open_id, String weibo_access_token) {
+		User user = new User();
+		user.setWeibo_open_id(weibo_open_id);
+		user.setWeibo_access_token(weibo_access_token);
+		user.setUser_type(UserEnum.MEMBER.getKey());
+
+		return count(user);
+	}
+
+	public Integer countByWechat(String wechat_open_id, String wechat_access_token) {
+		User user = new User();
+		user.setWechat_open_id(wechat_open_id);
+		user.setWechat_access_token(wechat_access_token);
+		user.setUser_type(UserEnum.MEMBER.getKey());
 
 		return count(user);
 	}

@@ -54,6 +54,12 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_OAUTH)
+	public void memberOauth() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+	}
+
+	@Before(MemberValidator.class)
 	@ActionKey(Const.URL_MEMBER_REGISTER)
 	public void memberRegister() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

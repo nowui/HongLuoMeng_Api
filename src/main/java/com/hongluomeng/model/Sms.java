@@ -10,6 +10,7 @@ public class Sms extends Model<Sms> {
 
 	public static final String KEY_SMS = "sms";
 	public static final String KEY_SMS_ID = "sms_id";
+	public static final String KEY_SMS_TYPE = "sms_type";
 	public static final String KEY_SMS_PHONE = "sms_phone";
 	public static final String KEY_SMS_CODE = "sms_code";
 	public static final String KEY_SMS_IP_ADDRESS = "sms_ip_address";
@@ -22,6 +23,14 @@ public class Sms extends Model<Sms> {
 
 	public void setSms_id(String sms_id) {
 		set(KEY_SMS_ID, sms_id);
+	}
+
+	public String getSms_type() {
+		return getStr(KEY_SMS_TYPE);
+	}
+
+	public void setSms_type(String sms_type) {
+		set(KEY_SMS_TYPE, sms_type);
 	}
 
 	public String getSms_phone() {

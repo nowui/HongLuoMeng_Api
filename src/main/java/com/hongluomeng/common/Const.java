@@ -75,6 +75,7 @@ public class Const {
 	public static final String URL_MEMBER_LIST = "/member/list";
 	public static final String URL_MEMBER_FIND = "/member/find";
 	public static final String URL_MEMBER_LOGIN = "/member/login";
+	public static final String URL_MEMBER_OAUTH = "/member/oauth";
 	public static final String URL_MEMBER_REGISTER = "/member/register";
 	public static final String URL_MENU_LIST = "/menu/list";
 	public static final String URL_MENU_FIND = "/menu/find";

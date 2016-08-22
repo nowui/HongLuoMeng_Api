@@ -17,6 +17,18 @@ public class SmsDao {
 
 		Boolean isExit = false;
 
+		if (! Utility.isNullOrEmpty(sms.getSms_type())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Sms.KEY_SMS_TYPE + " = ? ");
+			parameterList.add(sms.getSms_type());
+
+			isExit = true;
+		}
+
 		if (! Utility.isNullOrEmpty(sms.getSms_phone())) {
 			if(isExit) {
 				sql.append(" AND ");
@@ -72,15 +84,17 @@ public class SmsDao {
 		return count.intValue();
 	}
 
-	public Integer countBySms_phoneAndMinute(String sms_phone, Integer minute) {
+	public Integer countBySms_phoneAndMinute(String sms_type, String sms_phone, Integer minute) {
 		Sms sms = new Sms();
+		sms.setSms_type(sms_type);
 		sms.setSms_phone(sms_phone);
 
 		return count(sms, minute);
 	}
 
-	public Integer countBySms_phoneAndSms_codeAndSms_statusAndMinute(String sms_phone, String sms_code, Boolean sms_status, Integer minute) {
+	public Integer countBySms_phoneAndSms_codeAndSms_statusAndMinute(String sms_type, String sms_phone, String sms_code, Boolean sms_status, Integer minute) {
 		Sms sms = new Sms();
+		sms.setSms_type(sms_type);
 		sms.setSms_phone(sms_phone);
 		sms.setSms_code(sms_code);
 		sms.setSms_status(sms_status);
@@ -156,12 +170,13 @@ public class SmsDao {
 		sms.save();
 	}
 
-	public void updateSms_statusBySms_phone(Boolean sms_status, String sms_phone, String sms_code) {
+	public void updateSms_statusBySms_phone(Boolean sms_status, String sms_type, String sms_phone, String sms_code) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("UPDATE " + Sms.KEY_SMS + " ");
 		sql.append("SET " + Sms.KEY_SMS_STATUS + " = ? ");
-		sql.append("WHERE " + Sms.KEY_SMS_PHONE + " = ? ");
+		sql.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ");
+		sql.append("AND " + Sms.KEY_SMS_PHONE + " = ? ");
 		sql.append("AND " + Sms.KEY_SMS_CODE + " = ? ");
 
 		if (sms_status) {
@@ -169,6 +184,7 @@ public class SmsDao {
 		} else {
 			parameterList.add(0);
 		}
+		parameterList.add(sms_type);
 		parameterList.add(sms_phone);
 		parameterList.add(sms_code);
 
