@@ -131,7 +131,7 @@ public class MemberDao {
 		member.update();
 	}
 
-	public void updateUser_idByMember_id(String user_id, String member_id) {
+	/*public void updateUser_idByMember_id(String user_id, String member_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_MEMBER + " SET " + Member.KEY_USER_ID + " = ? WHERE " + Member.KEY_MEMBER_ID + " = ? ");
@@ -140,7 +140,7 @@ public class MemberDao {
 		parameterList.add(member_id);
 
 		Db.update(sql.toString(), parameterList.toArray());
-	}
+	}*/
 
 	public void delete(String member_id, String request_user_id) {
 		Member member = new Member();

@@ -132,7 +132,7 @@ public class AdminDao {
 		admin.update();
 	}
 
-	public void updateUser_idByAdmin_id(String user_id, String admin_id) {
+	/*public void updateUser_idByAdmin_id(String user_id, String admin_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("UPDATE " + Admin.KEY_ADMIN + " SET " + Admin.KEY_USER_ID + " = ? WHERE " + Admin.KEY_ADMIN_ID + " = ? ");
@@ -141,7 +141,7 @@ public class AdminDao {
 		parameterList.add(admin_id);
 
 		Db.update(sql.toString(), parameterList.toArray());
-	}
+	}*/
 
 	public void delete(String admin_id, String request_user_id) {
 		Admin admin = new Admin();

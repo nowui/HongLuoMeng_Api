@@ -12,7 +12,6 @@ import com.hongluomeng.dao.UserDao;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.Operation;
 import com.hongluomeng.model.User;
-import com.hongluomeng.type.AccountEnum;
 import com.hongluomeng.type.CatetoryEnum;
 
 public class UserService {
@@ -32,18 +31,12 @@ public class UserService {
 		return userDao.countByUser_idAndUser_phone("", user_phone);
 	}
 
-	public Integer countByOauth(JSONObject jsonObject) {
-		User userMap = jsonObject.toJavaObject(User.class);
+	public Integer countByWeiboOauth(String weibo_uid, String weibo_access_token) {
+		return userDao.countByWeibo(weibo_uid, weibo_access_token);
+	}
 
-		String platform = jsonObject.getString("platform");
-
-		if(platform.equals(AccountEnum.WEIBO.getKey())) {
-			return userDao.countByWeiBo(userMap.getWeibo_open_id(), userMap.getWeibo_access_token());
-		} else if(platform.equals(AccountEnum.WECHAT.getKey())) {
-			return userDao.countByWechat(userMap.getWechat_open_id(), userMap.getWechat_access_token());
-		}
-
-		return 1;
+	public Integer countByWechatOauth(String wechat_uid, String wechat_access_token) {
+		return userDao.countByWechat(wechat_uid, wechat_access_token);
 	}
 
 	public List<User> list(JSONObject jsonObject) {
@@ -56,23 +49,13 @@ public class UserService {
 		return userDao.findByUser_id(user_id);
 	}
 
-	/*public Map<String, Object> login(JSONObject jsonObject) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+	public User findByWeibo_uid(String weibo_uid) {
+		return userDao.findByWeibo_uid(weibo_uid);
+	}
 
-		User userMap = jsonObject.toJavaObject(User.class);
-
-		User user = userDao.findByUser_accountAndUser_password(userMap.getUser_account(), userMap.getUser_password());
-
-		if (user == null) {
-			return null;
-		} else {
-			String token = authorizationService.saveByUser_id(user.getUser_id());
-
-			resultMap.put(Const.KEY_TOKEN, token);
-
-			return resultMap;
-		}
-	}*/
+	public User findByWechat_uid(String wechat_uid) {
+		return userDao.findByWechat_uid(wechat_uid);
+	}
 
 	public Map<String, Object> loginByUser_accountAndUser_password(String user_account, String user_password) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -169,38 +152,74 @@ public class UserService {
 		return false;
 	}
 
-	public String saveByObject_idAndUser_type(AccountEnum accountEnum, JSONObject jsonObject, String object_id, String user_type) {
-		User userMap = jsonObject.toJavaObject(User.class);
-		userMap.setObject_id(object_id);
-		userMap.setUser_type(user_type);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		Integer count = 0;
-
-		switch(accountEnum) {
-			case ACCOUNT:
-				count = userDao.countByUser_idAndUser_account("", userMap.getUser_account());
-
-				break;
-			case PHONE:
-				count = userDao.countByUser_idAndUser_phone("", userMap.getUser_phone());
-
-				break;
-			case EMAIL:
-				count = userDao.countByUser_idAndUser_email("", userMap.getUser_email());
-
-				break;
-			case WEIBO:
-				break;
-			case WECHAT:
-				break;
-		}
+	public String saveByAccount(String user_account, String user_password, String user_type, String request_user_id) {
+		Integer count = userDao.countByUser_idAndUser_account("", user_account);
 
 		if (count == 0) {
-			return userDao.save(accountEnum, userMap, request_user_id);
+			return userDao.saveByAccount(user_account, user_password, user_type, request_user_id);
 		} else {
 			throw new RuntimeException("帐号已经存在");
+		}
+	}
+
+	public String saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
+		Integer count = userDao.countByUser_idAndUser_phone("", user_phone);
+
+		if (count == 0) {
+			return userDao.saveByPhone(user_phone, user_password, user_type, request_user_id);
+		} else {
+			throw new RuntimeException("帐号已经存在");
+		}
+	}
+
+	public String saveByEmail(String user_email, String user_password, String user_type, String request_user_id) {
+
+		Integer count = userDao.countByUser_idAndUser_email("", user_email);
+
+		if (count == 0) {
+			return userDao.saveByEmail(user_email, user_password, user_type, request_user_id);
+		} else {
+			throw new RuntimeException("帐号已经存在");
+		}
+	}
+
+	public String saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
+		Integer count = userDao.countByWeibo("", weibo_uid);
+
+		if(count == 0) {
+			return userDao.saveWeibo(weibo_uid, weibo_access_token, user_type, request_user_id);
+		} else {
+			return "";
+		}
+	}
+
+	public String saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
+		Integer count = userDao.countByWechat("", wechat_uid);
+
+		if(count == 0) {
+			return userDao.saveWechat(wechat_uid, wechat_access_token, user_type, request_user_id);
+		} else {
+			return "";
+		}
+	}
+
+	public void updateWeibo(String weibo_uid, String weibo_access_token, String request_user_id) {
+		Integer count = userDao.countByWeibo(request_user_id, weibo_uid);
+
+		if(count == 0) {
+			userDao.updateWeibo(weibo_uid, weibo_access_token, request_user_id);
+		} else {
+			throw new RuntimeException("该微博帐号已经绑定过");
+		}
+	}
+
+	public void updateWechat(String wechat_uid, String wechat_access_token, String request_user_id) {
+		Integer count = userDao.countByWechat(request_user_id, wechat_uid);
+
+		if(count == 0) {
+			userDao.updateWechat(wechat_uid, wechat_access_token, request_user_id);
+		} else {
+			throw new RuntimeException("该微信帐号已经绑定过");
 		}
 	}
 
@@ -226,6 +245,10 @@ public class UserService {
 
 	public void updateUser_passwordByUser_phone(String user_phone, String user_password, String request_user_id) {
 		userDao.updateUser_passwordByUser_phone(user_phone, user_password, request_user_id);
+	}
+
+	public void updateObject_idByUser_id(String object_id, String user_id) {
+		userDao.updateObject_idByUser_id(object_id, user_id);
 	}
 
 	public void deleteByObject_id(String object_id, String request_user_id) {

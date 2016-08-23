@@ -47,7 +47,8 @@ public class GlobalActionInterceptor implements Interceptor {
 		urlSet.add(Const.URL_ADMIN_LOGIN);
 		urlSet.add(Const.URL_SMS_REGISTER);
 		urlSet.add(Const.URL_SMS_RESET_PASSWORD);
-		urlSet.add(Const.URL_USER_MENU_LIST);
+		urlSet.add(Const.URL_MEMBER_WEIBO_OAUTH);
+		urlSet.add(Const.URL_MEMBER_WECHAT_OAUTH);
 
 		Connection connection = null;
 
@@ -76,9 +77,20 @@ public class GlobalActionInterceptor implements Interceptor {
 
 			boolean isAuthorization = true;
 
-			if (url.equals(Const.URL_MEMBER_LOGIN) || url.equals(Const.URL_MEMBER_REGISTER) || url.equals(Const.URL_MEMBER_RESET_PASSWORD) || url.equals(Const.URL_ADMIN_LOGIN) || url.equals(Const.URL_SMS_REGISTER) || url.equals(Const.URL_SMS_RESET_PASSWORD)) {
+			boolean isNotMatch = true;
 
-			} else {
+			for (String value : urlSet) {
+				if (value.equals(url)) {
+					isNotMatch = false;
+
+					break;
+				}
+			}
+
+			//if (url.equals(Const.URL_MEMBER_LOGIN) || url.equals(Const.URL_MEMBER_REGISTER) || url.equals(Const.URL_MEMBER_RESET_PASSWORD) || url.equals(Const.URL_ADMIN_LOGIN) || url.equals(Const.URL_SMS_REGISTER) || url.equals(Const.URL_SMS_RESET_PASSWORD)) {
+
+			//} else {
+			if (isNotMatch) {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
 
 				if(Utility.isNullOrEmpty(token)) {
@@ -109,17 +121,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
 				jsonObject.put(Const.KEY_REQUEST_USER_ID, user_id);
 
-				boolean isNotMatch = true;
-
-				for (String value : urlSet) {
-					if (value.equals(url)) {
-						isNotMatch = false;
-
-						break;
-					}
-				}
-
-				if (isNotMatch) {
+				if(isNotMatch) {
 					isAuthorization = false;
 
 					List<Operation> operationList = operationService.listByUser_id(user_id);

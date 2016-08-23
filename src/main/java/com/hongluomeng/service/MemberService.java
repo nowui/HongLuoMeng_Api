@@ -11,7 +11,6 @@ import com.hongluomeng.dao.MemberDao;
 import com.hongluomeng.model.Member;
 import com.hongluomeng.model.Sms;
 import com.hongluomeng.model.User;
-import com.hongluomeng.type.AccountEnum;
 import com.hongluomeng.type.SmsEnum;
 import com.hongluomeng.type.UserEnum;
 
@@ -37,12 +36,12 @@ public class MemberService {
 	public Member find(JSONObject jsonObject) {
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		Member member = memberDao.findByMember_id(memberMap.getMember_id());;
+		Member member = memberDao.findByMember_id(memberMap.getMember_id());
 
 		return member;
 	}
 
-	public Map<String, Object> save(JSONObject jsonObject) {
+	public Map<String, Object> register(JSONObject jsonObject) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
@@ -59,17 +58,18 @@ public class MemberService {
 			throw new RuntimeException("验证码已经过期");
 		}
 
-		smsService.updateSms_statusBySms_phone(sms_type, userMap.getUser_phone(), sms.getSms_code());
+		String user_id = userService.saveByPhone(userMap.getUser_phone(), userMap.getUser_password(), UserEnum.MEMBER.getKey(), request_user_id);
 
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 		memberMap.setMember_name(userMap.getUser_phone());
-		memberMap.setUser_id("");
+		memberMap.setMember_image("");
+		memberMap.setUser_id(user_id);
 
 		memberDao.save(memberMap, request_user_id);
 
-		String user_id = userService.saveByObject_idAndUser_type(AccountEnum.PHONE, jsonObject, memberMap.getMember_id(), UserEnum.MEMBER.getKey());
+		userService.updateObject_idByUser_id(memberMap.getMember_id(), user_id);
 
-		memberDao.updateUser_idByMember_id(user_id, memberMap.getMember_id());
+		smsService.updateSms_statusBySms_phone(sms_type, userMap.getUser_phone(), sms.getSms_code());
 
 		String token = authorizationService.saveByUser_id(user_id);
 
@@ -79,8 +79,6 @@ public class MemberService {
 	}
 
 	public void resetPassword(JSONObject jsonObject) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-
 		Sms sms = jsonObject.toJavaObject(Sms.class);
 
 		User userMap = jsonObject.toJavaObject(User.class);
@@ -106,18 +104,76 @@ public class MemberService {
 		return userService.loginByUser_phoneAndUser_password(userMap.getUser_phone(), userMap.getUser_password());
 	}
 
+	public Map<String, Object> oauthWeibo(JSONObject jsonObject) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 
-
-	public Map<String, Object> oauth(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
-		Integer count = userService.countByOauth(jsonObject);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		if(count == 0) {
+		String user_id = userService.saveWeibo(userMap.getWeibo_uid(), userMap.getWeibo_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
 
+		//注册会员信息
+		if(! Utility.isNullOrEmpty(user_id)) {
+			User user = userService.findByWeibo_uid(userMap.getWeibo_uid());
+
+			user_id = user.getUser_id();
+
+			Member memberMap = jsonObject.toJavaObject(Member.class);
+			memberMap.setUser_id(user_id);
+
+			memberDao.save(memberMap, request_user_id);
 		}
 
-		return null;
+		String token = authorizationService.saveByUser_id(user_id);
+
+		resultMap.put(Const.KEY_TOKEN, token);
+
+		return resultMap;
+	}
+
+	public Map<String, Object> oauthWechat(JSONObject jsonObject) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		User userMap = jsonObject.toJavaObject(User.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		String user_id = userService.saveWechat(userMap.getWechat_uid(), userMap.getWechat_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
+
+		//注册会员信息
+		if(! Utility.isNullOrEmpty(user_id)) {
+			User user = userService.findByWechat_uid(userMap.getWechat_uid());
+
+			user_id = user.getUser_id();
+
+			Member memberMap = jsonObject.toJavaObject(Member.class);
+			memberMap.setUser_id(user_id);
+
+			memberDao.save(memberMap, request_user_id);
+		}
+
+		String token = authorizationService.saveByUser_id(user_id);
+
+		resultMap.put(Const.KEY_TOKEN, token);
+
+		return resultMap;
+	}
+
+	public void bindWeibo(JSONObject jsonObject) {
+		User userMap = jsonObject.toJavaObject(User.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		userService.updateWeibo(userMap.getWeibo_uid(), userMap.getWeibo_access_token(), request_user_id);
+	}
+
+	public void bindWechat(JSONObject jsonObject) {
+		User userMap = jsonObject.toJavaObject(User.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		userService.updateWechat(userMap.getWechat_uid(), userMap.getWechat_access_token(), request_user_id);
 	}
 
 }

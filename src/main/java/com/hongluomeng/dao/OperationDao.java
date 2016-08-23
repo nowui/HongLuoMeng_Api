@@ -7,8 +7,9 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Operation;
+import com.hongluomeng.model.Role;
 import com.hongluomeng.model.RoleOperation;
-import com.hongluomeng.model.UserRole;
+import com.hongluomeng.model.User;
 
 public class OperationDao {
 
@@ -108,13 +109,33 @@ public class OperationDao {
 		return operationList;
 	}
 
-	public List<Operation> listByUser_id(String user_id) {
+	/*public List<Operation> listByUser_id(String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_OPERATION + ".* FROM " + Operation.KEY_OPERATION + " ");
 		sql.append("LEFT JOIN " + RoleOperation.KEY_ROLE_OPERATION + " ON " + Operation.KEY_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
 		sql.append("LEFT JOIN " + UserRole.KEY_USER_ROLE + " ON " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
 		sql.append("WHERE " + UserRole.KEY_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ");
+		sql.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
+		parameterList.add(user_id);
+
+		System.out.println(sql.toString());
+
+		Operation operation = new Operation();
+
+		List<Operation> operationList = operation.find(sql.toString(), parameterList.toArray());
+
+		return operationList;
+	}*/
+
+	public List<Operation> listByUser_id(String user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_OPERATION + ".* FROM " + Operation.KEY_OPERATION + " ");
+		sql.append("LEFT JOIN " + RoleOperation.KEY_ROLE_OPERATION + " ON " + Operation.KEY_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
+		sql.append("LEFT JOIN " + Role.KEY_ROLE + " ON " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + Role.KEY_ROLE + "." + Role.KEY_ROLE_ID + " ");
+		sql.append("LEFT JOIN " + User.KEY_USER + " ON " + Role.KEY_ROLE + "." + Role.KEY_ROLE_KEY + " = " + User.KEY_USER + "." + User.KEY_USER_TYPE + " ");
+		sql.append("WHERE " + User.KEY_USER + "." + User.KEY_USER_ID + " = ? ");
 		sql.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		parameterList.add(user_id);
 

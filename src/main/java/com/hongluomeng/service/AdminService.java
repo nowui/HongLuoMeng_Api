@@ -12,7 +12,6 @@ import com.hongluomeng.dao.AdminDao;
 import com.hongluomeng.model.Admin;
 import com.hongluomeng.model.User;
 import com.hongluomeng.model.UserRole;
-import com.hongluomeng.type.AccountEnum;
 import com.hongluomeng.type.UserEnum;
 
 public class AdminService {
@@ -48,13 +47,17 @@ public class AdminService {
 	public void save(JSONObject jsonObject) {
 		Admin adminMap = jsonObject.toJavaObject(Admin.class);
 
+		User userMap = jsonObject.toJavaObject(User.class);
+
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		String user_id = userService.saveByAccount(userMap.getUser_account(), userMap.getUser_password(), UserEnum.ADMIN.getKey(), request_user_id);
+
+		adminMap.setUser_id(user_id);
 
 		adminDao.save(adminMap, request_user_id);
 
-		String user_id = userService.saveByObject_idAndUser_type(AccountEnum.ACCOUNT, jsonObject, adminMap.getAdmin_id(), UserEnum.ADMIN.getKey());
-
-		adminDao.updateUser_idByAdmin_id(user_id, adminMap.getAdmin_id());
+		userService.updateObject_idByUser_id(adminMap.getAdmin_id(), user_id);
 	}
 
 	public void update(JSONObject jsonObject) {

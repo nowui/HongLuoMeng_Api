@@ -80,8 +80,6 @@ public class SmsDao {
 			isExit = true;
 		}
 
-		System.out.println(sql.toString());
-
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}

@@ -41,7 +41,7 @@ public class MemberController extends BaseController {
 
 	@Before(MemberValidator.class)
 	@ActionKey(Const.URL_MEMBER_LOGIN)
-	public void memberLogin() {
+	public void login() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
 		Map<String, Object> map = memberService.login(jsonObject);
@@ -54,24 +54,58 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_OAUTH)
-	public void memberOauth() {
+	@ActionKey(Const.URL_MEMBER_WEIBO_OAUTH)
+	public void oauthWeibo() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Map<String, Object> map = memberService.oauthWeibo(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+	}
+
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_WECHAT_OAUTH)
+	public void oauthWechat() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Map<String, Object> map = memberService.oauthWechat(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+	}
+
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_WEIBO_BIND)
+	public void bindWeibo() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.bindWeibo(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_WECHAT_BIND)
+	public void bindWechat() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.bindWechat(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberValidator.class)
 	@ActionKey(Const.URL_MEMBER_REGISTER)
-	public void memberRegister() {
+	public void register() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> map = memberService.save(jsonObject);
+		Map<String, Object> map = memberService.register(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 	}
 
 	@Before(MemberValidator.class)
 	@ActionKey(Const.URL_MEMBER_RESET_PASSWORD)
-	public void memberResetPassword() {
+	public void resetPassword() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
 		memberService.resetPassword(jsonObject);

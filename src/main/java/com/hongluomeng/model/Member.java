@@ -11,6 +11,7 @@ public class Member extends Model<Member> {
 	public static final String KEY_MEMBER = "member";
 	public static final String KEY_MEMBER_ID = "member_id";
 	public static final String KEY_MEMBER_NAME = "member_name";
+	public static final String KEY_MEMBER_IMAGE = "member_image";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_MEMBER_CREATE_USER_ID = "member_create_user_id";
 	public static final String KEY_MEMBER_CREATE_TIME = "member_create_time";
@@ -24,6 +25,14 @@ public class Member extends Model<Member> {
 
 	public void setMember_id(String member_id) {
 		set(KEY_MEMBER_ID, member_id);
+	}
+
+	public String getMember_image() {
+		return getStr(KEY_MEMBER_IMAGE);
+	}
+
+	public void setMember_image(String member_image) {
+		set(KEY_MEMBER_IMAGE, member_image);
 	}
 
 	public String getMember_name() {

@@ -14,9 +14,9 @@ public class User extends Model<User> {
 	public static final String KEY_USER_PHONE = "user_phone";
 	public static final String KEY_USER_EMAIL = "user_email";
 	public static final String KEY_USER_PASSWORD = "user_password";
-	public static final String KEY_WEIBO_OPEN_ID = "weibo_open_id";
+	public static final String KEY_WEIBO_UID = "weibo_uid";
 	public static final String KEY_WEIBO_ACCESS_TOKEN = "weibo_access_token";
-	public static final String KEY_WECHAT_OPEN_ID = "wechat_open_id";
+	public static final String KEY_WECHAT_UID = "wechat_uid";
 	public static final String KEY_WECHAT_ACCESS_TOKEN = "wechat_access_token";
 	public static final String KEY_OBJECT_ID = "object_id";
 	public static final String KEY_USER_TYPE = "user_type";
@@ -66,12 +66,12 @@ public class User extends Model<User> {
 		set(KEY_USER_PASSWORD, user_password);
 	}
 
-	public String getWeibo_open_id() {
-		return getStr(KEY_WEIBO_OPEN_ID);
+	public String getWeibo_uid() {
+		return getStr(KEY_WEIBO_UID);
 	}
 
-	public void setWeibo_open_id(String weibo_open_id) {
-		set(KEY_WEIBO_OPEN_ID, weibo_open_id);
+	public void setWeibo_uid(String weibo_uid) {
+		set(KEY_WEIBO_UID, weibo_uid);
 	}
 
 	public String getWeibo_access_token() {
@@ -82,12 +82,12 @@ public class User extends Model<User> {
 		set(KEY_WEIBO_ACCESS_TOKEN, weibo_access_token);
 	}
 
-	public String getWechat_open_id() {
-		return getStr(KEY_WECHAT_OPEN_ID);
+	public String getWechat_uid() {
+		return getStr(KEY_WECHAT_UID);
 	}
 
-	public void setWechat_open_id(String wechat_open_id) {
-		set(KEY_WECHAT_OPEN_ID, wechat_open_id);
+	public void setWechat_uid(String wechat_uid) {
+		set(KEY_WECHAT_UID, wechat_uid);
 	}
 
 	public String getWechat_access_token() {

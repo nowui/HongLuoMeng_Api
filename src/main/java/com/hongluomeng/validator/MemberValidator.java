@@ -5,6 +5,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.model.Member;
 import com.hongluomeng.model.Sms;
 import com.hongluomeng.model.User;
 import com.hongluomeng.type.CodeEnum;
@@ -69,6 +70,58 @@ public class MemberValidator extends Validator {
 
 			if(Utility.isNullOrEmpty(sms.getSms_code())) {
 				message += "验证码为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_MEMBER_WEIBO_OAUTH) || actionKey.equals(Const.URL_MEMBER_WEIBO_BIND)) {
+			isExit = true;
+
+			Member member = jsonObject.toJavaObject(Member.class);
+
+			User user = jsonObject.toJavaObject(User.class);
+
+			if(Utility.isNullOrEmpty(member.getMember_name())) {
+				message += "名称为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_image())) {
+				message += "头像为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(user.getWeibo_uid())) {
+				message += "微博UID为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(user.getWeibo_access_token())) {
+				message += "微博Access_Token为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_MEMBER_WECHAT_OAUTH) || actionKey.equals(Const.URL_MEMBER_WECHAT_BIND)) {
+			isExit = true;
+
+			Member member = jsonObject.toJavaObject(Member.class);
+
+			User user = jsonObject.toJavaObject(User.class);
+
+			if(Utility.isNullOrEmpty(member.getMember_name())) {
+				message += "名称为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_image())) {
+				message += "头像为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(user.getWechat_uid())) {
+				message += "微信UID为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(user.getWechat_access_token())) {
+				message += "微信Access_Token为空";
 				message += Const.LINE_FEED;
 			}
 		}
