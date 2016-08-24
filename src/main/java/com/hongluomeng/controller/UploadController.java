@@ -1,8 +1,6 @@
 package com.hongluomeng.controller;
 
-import java.awt.Image;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,18 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
-import com.jfinal.kit.FileKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.service.UploadService;
 import com.hongluomeng.type.CodeEnum;
 
 public class UploadController extends BaseController {
+
+	private UploadService uploadService = new UploadService();
 
 	@ActionKey(Const.URL_UPLOAD_LIST)
 	public void list() {
@@ -68,54 +66,20 @@ public class UploadController extends BaseController {
 	}
 
 	@ActionKey(Const.URL_UPLOAD_IMAGE)
-	public void image() {
+	public void uploadImage() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		String user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<UploadFile> uploadFileList = getFiles(user_id, 1024 * 1024);
+		List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024);
 
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 
 		for (UploadFile uploadFile : uploadFileList) {
-			Boolean isImage = true;
+			Map<String, Object> map = uploadService.uploadImage(uploadFile, request_user_id);
 
-			String extName = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf(".") + 1);
-
-			if (!".jpg.gif.png.bmp.JPG.GIF.PNG.BMP".contains(extName)) {
-				isImage = false;
-			} else {
-				Image image = null;
-
-				try {
-					image = ImageIO.read(uploadFile.getFile());
-
-					int width = image.getWidth(null);
-					int height = image.getHeight(null);
-
-					if (image == null || width <= 0 || height <= 0) {
-						isImage = false;
-
-						break;
-			        }
-				} catch (IOException e) {
-					isImage = false;
-
-					break;
-				} finally {
-					image = null;
-				}
-			}
-
-			if (isImage) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put(Const.KEY_URL, "/upload/" + user_id + "/" + uploadFile.getFileName());
-
+			if(map != null) {
 				list.add(0, map);
-
-				uploadFile.getFile().renameTo(new File(PathKit.getWebRootPath() + "/upload/" + user_id + "/" + Utility.getUUID() + "." + extName));
-			} else {
-				FileKit.delete(uploadFile.getFile());
 			}
 		}
 

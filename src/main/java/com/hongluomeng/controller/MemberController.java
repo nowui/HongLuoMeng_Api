@@ -113,4 +113,12 @@ public class MemberController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_UPLOAD_IMAGE)
+	public void uploadImage() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
 }

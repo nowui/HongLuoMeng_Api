@@ -81,6 +81,7 @@ public class Const {
 	public static final String URL_MEMBER_WECHAT_BIND = "/member/wechat/bind";
 	public static final String URL_MEMBER_REGISTER = "/member/register";
 	public static final String URL_MEMBER_RESET_PASSWORD = "/member/resetpassword";
+	public static final String URL_MEMBER_UPLOAD_IMAGE = "/member/upload/image";
 	public static final String URL_MENU_LIST = "/menu/list";
 	public static final String URL_MENU_FIND = "/menu/find";
 	public static final String URL_MENU_SAVE = "/menu/save";
