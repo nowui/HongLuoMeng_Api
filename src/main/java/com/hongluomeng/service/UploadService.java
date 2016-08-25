@@ -60,4 +60,8 @@ public class UploadService {
 		}
 	}
 
+	private void resizeImage(Image image) {
+
+	}
+
 }
