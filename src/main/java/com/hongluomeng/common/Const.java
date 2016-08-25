@@ -33,9 +33,13 @@ public class Const {
 
 	public static final String CACHE_OPERATION = "cache_operation";
 
-	public static final int batchSize = 100;
+	public static final int BATCH_SIZE = 100;
 
 	public static final String LINE_FEED = "; ";
+
+	public static final String UPLOAD_FILE = "upload";
+	public static final String UPLOAD_SMALL = "small";
+	public static final String UPLOAD_LARGE = "large";
 
 	public static final String PERMISSION_DENIED = "没有权限";
 	public static final String URL_DENIED = "请求地址不对";
@@ -74,6 +78,7 @@ public class Const {
 	public static final String URL_LOG_FIND = "/log/find";
 	public static final String URL_MEMBER_LIST = "/member/list";
 	public static final String URL_MEMBER_FIND = "/member/find";
+	public static final String URL_MEMBER_DELETE = "/member/delete";
 	public static final String URL_MEMBER_LOGIN = "/member/login";
 	public static final String URL_MEMBER_WEIBO_OAUTH = "/member/weibo/oauth";
 	public static final String URL_MEMBER_WECHAT_OAUTH = "/member/wechat/oauth";

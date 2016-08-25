@@ -40,6 +40,16 @@ public class MemberController extends BaseController {
     }
 
 	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_DELETE)
+	public void delete() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.delete(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+    }
+
+	@Before(MemberValidator.class)
 	@ActionKey(Const.URL_MEMBER_LOGIN)
 	public void login() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -116,7 +126,7 @@ public class MemberController extends BaseController {
 	@Before(MemberValidator.class)
 	@ActionKey(Const.URL_MEMBER_UPLOAD_IMAGE)
 	public void uploadImage() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+		//JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}

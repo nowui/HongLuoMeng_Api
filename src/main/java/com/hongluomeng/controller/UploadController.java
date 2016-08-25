@@ -31,7 +31,9 @@ public class UploadController extends BaseController {
 
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
 
-		File pathFile = new File(PathKit.getWebRootPath() + "/upload/" + user_id);
+		Utility.createUserUploadPath(user_id);
+
+		File pathFile = new File(PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + user_id);
 
 		File [] files = pathFile.listFiles();
 
@@ -47,17 +49,14 @@ public class UploadController extends BaseController {
 			}
 		}
 
+		Integer start = Utility.getStarNumber(jsonObject);
+		Integer end = Utility.getEndNumber(jsonObject);
 
 		for (int i = 0; i < fileList.size(); i++) {
-			File file = fileList.get(i);
-
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Const.KEY_URL, "/upload/" + user_id + "/" + file.getName());
-
-			int start = Utility.getStarNumber(jsonObject);
-			int end = Utility.getEndNumber(jsonObject);
-
 			if (i >= start && i < start + end) {
+				File file = fileList.get(i);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put(Const.KEY_URL, "/upload/" + user_id + "/" + file.getName());
 				resultList.add(map);
 			}
 		}

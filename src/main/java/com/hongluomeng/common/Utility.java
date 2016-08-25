@@ -1,5 +1,6 @@
 package com.hongluomeng.common;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.hongluomeng.type.CodeEnum;
+import com.jfinal.kit.PathKit;
 
 public class Utility {
 
@@ -244,6 +246,24 @@ public class Utility {
 		if(jsonObject.getIntValue(Const.KEY_RESULT) > 0) {
 			throw new RuntimeException("包含不良信息");
 		}*/
+	}
+
+	private static void createPath(String path) {
+		File file = new File(path);
+
+		if(!file .exists()  && !file .isDirectory()) {
+			file.mkdirs();
+		}
+	}
+
+	public static void createUserUploadPath(String user_id) {
+		String path = PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + user_id;
+		File file = new File(path);
+
+		if(!file .exists()  && !file .isDirectory()) {
+			createPath(path + "/" + Const.UPLOAD_SMALL);
+			createPath(path + "/" + Const.UPLOAD_LARGE);
+		}
 	}
 
 }

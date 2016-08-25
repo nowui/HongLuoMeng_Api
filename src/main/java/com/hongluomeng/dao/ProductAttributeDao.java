@@ -56,7 +56,7 @@ public class ProductAttributeDao {
 			parameterList.add(objectList.toArray());
 		}
 
-		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.batchSize);
+		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
 	}
 
 	public void deleteByProduct_id(String product_id) {

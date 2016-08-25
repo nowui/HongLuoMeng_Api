@@ -28,10 +28,21 @@ public class MemberValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_MEMBER_FIND)) {
 			isExit = true;
 
-			/*if(Utility.isNullOrEmpty(member.getMember_id())) {
+			Member member = jsonObject.toJavaObject(Member.class);
+
+			if(Utility.isNullOrEmpty(member.getMember_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
-			}*/
+			}
+		} else if(actionKey.equals(Const.URL_MEMBER_DELETE)) {
+			isExit = true;
+
+			Member member = jsonObject.toJavaObject(Member.class);
+
+			if(Utility.isNullOrEmpty(member.getMember_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
 		} else if(actionKey.equals(Const.URL_MEMBER_LOGIN)) {
 			isExit = true;
 

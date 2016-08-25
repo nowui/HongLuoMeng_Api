@@ -71,7 +71,7 @@ public class UserRoleDao {
 			parameterList.add(objectList.toArray());
 		}
 
-		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.batchSize);
+		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
 	}
 
 	public void delete(List<UserRole> userRoleList, String user_id, String user_type) {

@@ -56,7 +56,7 @@ public class RoleOperationDao {
 			parameterList.add(objectList.toArray());
 		}
 
-		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.batchSize);
+		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
 	}
 
 	public void deleteByRole_id(List<RoleOperation> roleOperationList, String role_id) {

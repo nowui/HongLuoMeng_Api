@@ -41,6 +41,16 @@ public class MemberService {
 		return member;
 	}
 
+	public void delete(JSONObject jsonObject) {
+		Member memberMap = jsonObject.toJavaObject(Member.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		memberDao.delete(memberMap.getMember_id(), request_user_id);
+
+		userService.deleteByObject_id(memberMap.getMember_id(), request_user_id);
+	}
+
 	public Map<String, Object> register(JSONObject jsonObject) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
