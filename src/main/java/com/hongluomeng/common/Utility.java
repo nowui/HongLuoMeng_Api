@@ -258,12 +258,16 @@ public class Utility {
 
 	public static void createUserUploadPath(String user_id) {
 		String path = PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + user_id;
-		File file = new File(path);
+		File file = new File(path + "/" + Const.UPLOAD_SMALL);
 
 		if(!file .exists()  && !file .isDirectory()) {
 			createPath(path + "/" + Const.UPLOAD_SMALL);
 			createPath(path + "/" + Const.UPLOAD_LARGE);
 		}
+	}
+
+	public static String packageImagePath(String path, String type) {
+		return path.substring(0, path.lastIndexOf("/")) + "/" + type + "/" + path.substring(path.lastIndexOf("/") + 1);
 	}
 
 }

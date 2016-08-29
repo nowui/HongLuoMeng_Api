@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class AdminService {
 	private AdminDao adminDao = new AdminDao();
 	private UserService userService = new UserService();
 	private RoleService roleService = new RoleService();
+	private AuthorizationService authorizationService = new AuthorizationService();
 
 	public Integer count(JSONObject jsonObject) {
 		//Admin adminMap = jsonObject.toJavaObject(Admin.class);
@@ -112,9 +114,22 @@ public class AdminService {
 	}
 
 	public Map<String, Object> login(JSONObject jsonObject) {
+
 		User userMap = jsonObject.toJavaObject(User.class);
 
-		return userService.loginByUser_accountAndUser_password(userMap.getUser_account(), userMap.getUser_password());
+		User user = userService.loginByUser_accountAndUser_password(userMap.getUser_account(), userMap.getUser_password());
+
+		if(user == null) {
+			return null;
+		} else {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+
+			String token = authorizationService.saveByUser_id(user.getUser_id());
+
+			resultMap.put(Const.KEY_TOKEN, token);
+
+			return resultMap;
+		}
 	}
 
 }

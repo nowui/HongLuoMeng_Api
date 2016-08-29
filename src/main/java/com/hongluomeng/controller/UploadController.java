@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.PathKit;
@@ -72,17 +73,17 @@ public class UploadController extends BaseController {
 
 		List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024);
 
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		JSONArray jsonArray = new JSONArray();
 
 		for (UploadFile uploadFile : uploadFileList) {
-			Map<String, Object> map = uploadService.uploadImage(uploadFile, request_user_id);
+			String path = uploadService.uploadImage(uploadFile, request_user_id);
 
-			if(map != null) {
-				list.add(0, map);
+			if(Utility.isNullOrEmpty(path)) {
+				jsonArray.add(path);
 			}
 		}
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", jsonArray));
 	}
 
 	public class CompratorByLastModified implements Comparator<File> {

@@ -18,7 +18,6 @@ public class UserService {
 
 	private UserDao userDao = new UserDao();
 	private CategoryService categoryService = new CategoryService();
-	private AuthorizationService authorizationService = new AuthorizationService();
 	private OperationService operationService= new OperationService();
 
 	public Integer count(JSONObject jsonObject) {
@@ -57,36 +56,12 @@ public class UserService {
 		return userDao.findByWechat_uid(wechat_uid);
 	}
 
-	public Map<String, Object> loginByUser_accountAndUser_password(String user_account, String user_password) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-
-		User user = userDao.findByUser_accountAndUser_password(user_account, user_password);
-
-		if (user == null) {
-			return null;
-		} else {
-			String token = authorizationService.saveByUser_id(user.getUser_id());
-
-			resultMap.put(Const.KEY_TOKEN, token);
-
-			return resultMap;
-		}
+	public User loginByUser_accountAndUser_password(String user_account, String user_password) {
+		return userDao.findByUser_accountAndUser_password(user_account, user_password);
 	}
 
-	public Map<String, Object> loginByUser_phoneAndUser_password(String user_phone, String user_password) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-
-		User user = userDao.findByUser_phoneAndUser_password(user_phone, user_password);
-
-		if (user == null) {
-			return null;
-		} else {
-			String token = authorizationService.saveByUser_id(user.getUser_id());
-
-			resultMap.put(Const.KEY_TOKEN, token);
-
-			return resultMap;
-		}
+	public User loginByUser_phoneAndUser_password(String user_phone, String user_password) {
+		return userDao.findByUser_phoneAndUser_password(user_phone, user_password);
 	}
 
 	public List<Map<String, Object>> menu(JSONObject jsonObject) {

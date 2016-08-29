@@ -95,8 +95,18 @@ public class MemberValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(member.getMember_image())) {
+			if(Utility.isNullOrEmpty(member.getMember_avatar())) {
 				message += "头像为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR + "_" + Const.UPLOAD_SMALL))) {
+				message += "小头像为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR + "_" + Const.UPLOAD_LARGE))) {
+				message += "大头像为空";
 				message += Const.LINE_FEED;
 			}
 
@@ -121,8 +131,18 @@ public class MemberValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(member.getMember_image())) {
+			if(Utility.isNullOrEmpty(member.getMember_avatar())) {
 				message += "头像为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL))) {
+				message += "小头像为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE))) {
+				message += "大头像为空";
 				message += Const.LINE_FEED;
 			}
 
@@ -135,6 +155,9 @@ public class MemberValidator extends Validator {
 				message += "微信Access_Token为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_MEMBER_AVATAR_UPLOAD)) {
+			isExit = true;
+
 		}
 
 		if (! isExit) {

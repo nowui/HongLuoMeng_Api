@@ -85,6 +85,18 @@ public class MemberDao {
 			isExit = true;
 		}
 
+		if (! Utility.isNullOrEmpty(member.getUser_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Member.KEY_USER_ID + " = ? ");
+			parameterList.add(member.getUser_id());
+
+			isExit = true;
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {
@@ -111,6 +123,13 @@ public class MemberDao {
 		return find(member);
 	}
 
+	public Member findByUser_id(String user_id) {
+		Member member = new Member();
+		member.setUser_id(user_id);
+
+		return find(member);
+	}
+
 	public void save(Member member, String request_user_id) {
 		member.setMember_id(Utility.getUUID());
 		member.setMember_create_user_id(request_user_id);
@@ -131,16 +150,17 @@ public class MemberDao {
 		member.update();
 	}
 
-	/*public void updateUser_idByMember_id(String user_id, String member_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+	public Member updateMember_avatarByUser_id(String member_avatar, String user_id, Boolean isOverwrite) {
+		Member member = findByUser_id(user_id);
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_MEMBER + " SET " + Member.KEY_USER_ID + " = ? WHERE " + Member.KEY_MEMBER_ID + " = ? ");
+		if(Utility.isNullOrEmpty(member.getMember_avatar()) || isOverwrite) {
+			member.setMember_avatar(member_avatar);
 
-		parameterList.add(user_id);
-		parameterList.add(member_id);
+			member.update();
+		}
 
-		Db.update(sql.toString(), parameterList.toArray());
-	}*/
+		return member;
+	}
 
 	public void delete(String member_id, String request_user_id) {
 		Member member = new Member();

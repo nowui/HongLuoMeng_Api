@@ -6,6 +6,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
+import com.jfinal.upload.UploadFile;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Member;
@@ -124,11 +125,19 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_UPLOAD_IMAGE)
-	public void uploadImage() {
-		//JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+	@ActionKey(Const.URL_MEMBER_AVATAR_UPLOAD)
+	public void uploadAvatar() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		UploadFile uploadFile = getFile("file", request_user_id, 1024 * 1024);
+
+		System.out.println(request_user_id);
+
+		JSONObject avatarObject = memberService.uploadAvatar(uploadFile, request_user_id);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", avatarObject));
 	}
 
 }

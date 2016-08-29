@@ -11,7 +11,9 @@ public class Member extends Model<Member> {
 	public static final String KEY_MEMBER = "member";
 	public static final String KEY_MEMBER_ID = "member_id";
 	public static final String KEY_MEMBER_NAME = "member_name";
-	public static final String KEY_MEMBER_IMAGE = "member_image";
+	public static final String KEY_MEMBER_AVATAR = "member_avatar";
+	public static final String KEY_MEMBER_AVATAR_SMALL = "member_avatar_small";
+	public static final String KEY_MEMBER_AVATAR_LARGE = "member_avatar_large";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_MEMBER_CREATE_USER_ID = "member_create_user_id";
 	public static final String KEY_MEMBER_CREATE_TIME = "member_create_time";
@@ -27,12 +29,12 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_ID, member_id);
 	}
 
-	public String getMember_image() {
-		return getStr(KEY_MEMBER_IMAGE);
+	public String getMember_avatar() {
+		return getStr(KEY_MEMBER_AVATAR);
 	}
 
-	public void setMember_image(String member_image) {
-		set(KEY_MEMBER_IMAGE, member_image);
+	public void setMember_avatar(String member_avatar) {
+		set(KEY_MEMBER_AVATAR, member_avatar);
 	}
 
 	public String getMember_name() {

@@ -7,8 +7,6 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -20,7 +18,7 @@ import com.jfinal.upload.UploadFile;
 
 public class UploadService {
 
-	public Map<String, Object> uploadImage(UploadFile uploadFile, String request_user_id) {
+	public String uploadImage(UploadFile uploadFile, String request_user_id) {
 		Boolean isImage = true;
 
 		String suffix = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf(".") + 1);
@@ -39,12 +37,12 @@ public class UploadService {
 				if (image == null || width <= 0 || height <= 0) {
 					isImage = false;
 
-					return null;
+					return "";
 		        }
 			} catch (IOException e) {
 				isImage = false;
 
-				return null;
+				return "";
 			} finally {
 				image = null;
 			}
@@ -65,14 +63,11 @@ public class UploadService {
 
 			uploadFile.getFile().renameTo(new File(PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + Const.UPLOAD_LARGE + "/" + name + "." + suffix));
 
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Const.KEY_URL, "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + name + "." + suffix);
-
-			return map;
+			return "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + name + "." + suffix;
 		} else {
 			FileKit.delete(uploadFile.getFile());
 
-			return null;
+			return "";
 		}
 	}
 
