@@ -28,13 +28,13 @@ public class SmsController extends BaseController {
 	}
 
 	@Before(SmsValidator.class)
-	@ActionKey(Const.URL_SMS_RESET_PASSWORD)
-	public void smsResetPassword() throws ApiException {
+	@ActionKey(Const.URL_SMS_PASSWORD)
+	public void smsPassword() throws ApiException {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
 		String ip_address = Utility.getIpAddress(getRequest());
 
-		smsService.save(SmsEnum.RESET_PASSWORD.getKey() ,jsonObject, ip_address);
+		smsService.save(SmsEnum.PASSWORD.getKey() ,jsonObject, ip_address);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}

@@ -57,7 +57,7 @@ public class MemberValidator extends Validator {
 				message += "密码为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_MEMBER_REGISTER) || actionKey.equals(Const.URL_MEMBER_RESET_PASSWORD)) {
+		} else if(actionKey.equals(Const.URL_MEMBER_REGISTER) || actionKey.equals(Const.URL_MEMBER_PASSWORD_UPDATE)) {
 			isExit = true;
 
 			User user = jsonObject.toJavaObject(User.class);
@@ -158,6 +158,15 @@ public class MemberValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_MEMBER_AVATAR_UPLOAD)) {
 			isExit = true;
 
+		} else if(actionKey.equals(Const.URL_MEMBER_NAME_UPDATE)) {
+			isExit = true;
+
+			Member member = jsonObject.toJavaObject(Member.class);
+
+			if(Utility.isNullOrEmpty(member.getMember_name())) {
+				message += "姓名为空";
+				message += Const.LINE_FEED;
+			}
 		}
 
 		if (! isExit) {

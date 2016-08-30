@@ -19,6 +19,7 @@ import com.hongluomeng.controller.CategoryController;
 import com.hongluomeng.controller.GroupController;
 import com.hongluomeng.controller.LogController;
 import com.hongluomeng.controller.MemberController;
+import com.hongluomeng.controller.MemberLevelController;
 import com.hongluomeng.controller.MenuController;
 import com.hongluomeng.controller.ProductController;
 import com.hongluomeng.controller.RoleController;
@@ -36,6 +37,7 @@ import com.hongluomeng.model.Category;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Log;
 import com.hongluomeng.model.Member;
+import com.hongluomeng.model.MemberLevel;
 import com.hongluomeng.model.Operation;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.model.ProductAttribute;
@@ -71,6 +73,7 @@ public class AppConfig extends JFinalConfig {
 		routes.add("/group", GroupController.class);
 		routes.add("/menu", MenuController.class);
 		routes.add("/sms", SmsController.class);
+		routes.add("/member/level", MemberLevelController.class);
 	}
 
 	public void configPlugin(Plugins plugins) {
@@ -106,6 +109,7 @@ public class AppConfig extends JFinalConfig {
 	    activeRecordPlugin.addMapping("member", "member_id", Member.class);
 	    activeRecordPlugin.addMapping("product_attribute", "product_attribute_id", ProductAttribute.class);
 	    activeRecordPlugin.addMapping("sms", "sms_id", Sms.class);
+	    activeRecordPlugin.addMapping("member_level", "member_level_id", MemberLevel.class);
 	    plugins.add(activeRecordPlugin);
 	}
 

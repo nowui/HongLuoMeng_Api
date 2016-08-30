@@ -86,7 +86,8 @@ public class Const {
 	public static final String URL_MEMBER_WEIBO_BIND = "/member/weibo/bind";
 	public static final String URL_MEMBER_WECHAT_BIND = "/member/wechat/bind";
 	public static final String URL_MEMBER_REGISTER = "/member/register";
-	public static final String URL_MEMBER_RESET_PASSWORD = "/member/resetpassword";
+	public static final String URL_MEMBER_NAME_UPDATE = "/member/name/update";
+	public static final String URL_MEMBER_PASSWORD_UPDATE = "/member/password/update";
 	public static final String URL_MEMBER_AVATAR_UPLOAD = "/member/avatar/upload";
 	public static final String URL_MENU_LIST = "/menu/list";
 	public static final String URL_MENU_FIND = "/menu/find";
@@ -129,6 +130,11 @@ public class Const {
 	public static final String URL_UPLOAD_IMAGE = "/upload/image";
 	public static final String URL_USER_MENU_LIST = "/user/menu/list";
 	public static final String URL_SMS_REGISTER = "/sms/register";
-	public static final String URL_SMS_RESET_PASSWORD = "/sms/resetpassword";
+	public static final String URL_SMS_PASSWORD = "/sms/password";
+	public static final String URL_MEMBER_LEVEL_LIST = "/member/level/list";
+	public static final String URL_MEMBER_LEVEL_FIND = "/member/level/find";
+	public static final String URL_MEMBER_LEVEL_SAVE = "/member/level/save";
+	public static final String URL_MEMBER_LEVEL_UPDATE = "/member/level/update";
+	public static final String URL_MEMBER_LEVEL_DELETE = "/member/level/delete";
 
 }

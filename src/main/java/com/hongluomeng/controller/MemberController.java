@@ -115,11 +115,21 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_RESET_PASSWORD)
-	public void resetPassword() {
+	@ActionKey(Const.URL_MEMBER_NAME_UPDATE)
+	public void updatName() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		memberService.resetPassword(jsonObject);
+		memberService.updateName(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_PASSWORD_UPDATE)
+	public void updatePassword() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.updatePassword(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
@@ -132,8 +142,6 @@ public class MemberController extends BaseController {
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		UploadFile uploadFile = getFile("file", request_user_id, 1024 * 1024);
-
-		System.out.println(request_user_id);
 
 		JSONObject avatarObject = memberService.uploadAvatar(uploadFile, request_user_id);
 

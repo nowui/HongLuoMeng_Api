@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
+import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
 
 public class Product extends Model<Product> {
@@ -81,8 +82,8 @@ public class Product extends Model<Product> {
 		set(KEY_PRODUCT_STOCK, product_stock);
 	}
 
-	public String getProduct_image() {
-		return getStr(KEY_PRODUCT_IMAGE);
+	public JSONArray getProduct_image() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_IMAGE));
 	}
 
 	public void setProduct_image(String product_image) {

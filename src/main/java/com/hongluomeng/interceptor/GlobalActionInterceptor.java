@@ -43,10 +43,10 @@ public class GlobalActionInterceptor implements Interceptor {
 		Set<String> urlSet = new HashSet<String>();
 		urlSet.add(Const.URL_MEMBER_LOGIN);
 		urlSet.add(Const.URL_MEMBER_REGISTER);
-		urlSet.add(Const.URL_MEMBER_RESET_PASSWORD);
+		urlSet.add(Const.URL_MEMBER_PASSWORD_UPDATE);
 		urlSet.add(Const.URL_ADMIN_LOGIN);
 		urlSet.add(Const.URL_SMS_REGISTER);
-		urlSet.add(Const.URL_SMS_RESET_PASSWORD);
+		urlSet.add(Const.URL_SMS_PASSWORD);
 		urlSet.add(Const.URL_MEMBER_WEIBO_OAUTH);
 		urlSet.add(Const.URL_MEMBER_WECHAT_OAUTH);
 

@@ -30,7 +30,7 @@ public class SmsService {
 			throw new RuntimeException("该手机号码已经注册过");
 		}
 
-		if (count == 0 && sms_type.equals(SmsEnum.RESET_PASSWORD.getKey())) {
+		if (count == 0 && sms_type.equals(SmsEnum.PASSWORD.getKey())) {
 			throw new RuntimeException("该手机号码还没有注册");
 		}
 

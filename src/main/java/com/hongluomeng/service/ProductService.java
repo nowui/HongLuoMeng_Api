@@ -1,7 +1,5 @@
 package com.hongluomeng.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,10 +43,6 @@ public class ProductService {
 
 		if (Utility.isNullOrEmpty(productMap.getProduct_id())) {
 			product = new Product();
-			product.setProduct_price(BigDecimal.valueOf(0.00));
-			product.setProduct_stock(0);
-			product.setProduct_image("[]");
-			product.setCategoryAttributeList(new ArrayList<CategoryAttribute>());
 		} else {
 			product = productDao.findByProduct_id(productMap.getProduct_id());
 

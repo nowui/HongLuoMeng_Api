@@ -36,13 +36,9 @@ public class UploadService {
 
 				if (image == null || width <= 0 || height <= 0) {
 					isImage = false;
-
-					return "";
 		        }
 			} catch (IOException e) {
 				isImage = false;
-
-				return "";
 			} finally {
 				image = null;
 			}
@@ -67,7 +63,7 @@ public class UploadService {
 		} else {
 			FileKit.delete(uploadFile.getFile());
 
-			return "";
+			throw new RuntimeException("图片格式不对");
 		}
 	}
 

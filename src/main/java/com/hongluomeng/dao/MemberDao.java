@@ -150,11 +150,23 @@ public class MemberDao {
 		member.update();
 	}
 
+	public void updateMember_nameByUser_id(String member_name, String user_id) {
+		Member member = findByUser_id(user_id);
+
+		member.setMember_name(member_name);
+		member.setMember_update_user_id(user_id);
+		member.setMember_update_time(new Date());
+
+		member.update();
+	}
+
 	public Member updateMember_avatarByUser_id(String member_avatar, String user_id, Boolean isOverwrite) {
 		Member member = findByUser_id(user_id);
 
 		if(Utility.isNullOrEmpty(member.getMember_avatar()) || isOverwrite) {
 			member.setMember_avatar(member_avatar);
+			member.setMember_update_user_id(user_id);
+			member.setMember_update_time(new Date());
 
 			member.update();
 		}

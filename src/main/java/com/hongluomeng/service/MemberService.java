@@ -108,14 +108,22 @@ public class MemberService {
 		return resultMap;
 	}
 
-	public void resetPassword(JSONObject jsonObject) {
+	public void updateName(JSONObject jsonObject) {
+		Member memberMap = jsonObject.toJavaObject(Member.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		memberDao.updateMember_nameByUser_id(memberMap.getMember_name(), request_user_id);
+	}
+
+	public void updatePassword(JSONObject jsonObject) {
 		Sms sms = jsonObject.toJavaObject(Sms.class);
 
 		User userMap = jsonObject.toJavaObject(User.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		String sms_type = SmsEnum.RESET_PASSWORD.getKey();
+		String sms_type = SmsEnum.PASSWORD.getKey();
 
 		Integer count = smsService.countBySms_phoneAndSms_codeAndMinute(sms_type, userMap.getUser_phone(), sms.getSms_code(), 30);
 
