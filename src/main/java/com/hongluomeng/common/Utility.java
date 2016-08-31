@@ -81,6 +81,10 @@ public class Utility {
         return false;
     }
 
+	public static boolean isNull(Object obj) {
+		return obj == null;
+	}
+
 	public static boolean isEmail(String str) {
         Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 		Matcher matcher = emailPattern.matcher(str);
