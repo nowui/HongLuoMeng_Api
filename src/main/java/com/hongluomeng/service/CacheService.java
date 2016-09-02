@@ -16,28 +16,29 @@ import com.hongluomeng.model.Operation;
 public class CacheService {
 
     @SuppressWarnings("rawtypes")
-	private static UserManagedCache<String, List> ehcache = newUserManagedCacheBuilder(String.class, List.class).identifier("data-cache").build(true);
+	private static UserManagedCache<String, List> ehcacheList = newUserManagedCacheBuilder(String.class, List.class).identifier("data-cache-list").build(true);
+	//private static UserManagedCache<String, Object> ehcacheObject = newUserManagedCacheBuilder(String.class, Object.class).identifier("data-cache-object").build(true);
     private static Map<String, Set<String>> map = new HashMap<String, Set<String>>();
 
 	@SuppressWarnings("unchecked")
 	public List<Operation> getOperationListByUser_id(String user_id) {
-		return (List<Operation>) ehcache.get(Const.CACHE_OPERATION + "_" + user_id);
+		return (List<Operation>) ehcacheList.get(Const.CACHE_OPERATION + "_" + user_id);
 	}
 
 	public void setOperationListByUser_id(List<Operation> operationList, String user_id) {
-		ehcache.put(Const.CACHE_OPERATION + "_" + user_id, operationList);
+		ehcacheList.put(Const.CACHE_OPERATION + "_" + user_id, operationList);
 
 		setMapByKeyAndId(Const.CACHE_OPERATION, user_id);
 	}
 
 	public void removeOperationList() {
-		ehcache.removeAll(getMapByKey(Const.CACHE_OPERATION));
+		ehcacheList.removeAll(getMapByKey(Const.CACHE_OPERATION));
 
 		removeMapByKey(Const.CACHE_OPERATION);
 	}
 
 	public void removeOperationListByUser_id(String user_id) {
-		ehcache.remove(Const.CACHE_OPERATION + "_" + user_id);
+		ehcacheList.remove(Const.CACHE_OPERATION + "_" + user_id);
 
 		removeMapByKeyAndId(Const.CACHE_OPERATION, user_id);
 	}
