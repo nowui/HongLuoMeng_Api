@@ -10,6 +10,7 @@ import com.hongluomeng.model.Operation;
 import com.hongluomeng.model.Role;
 import com.hongluomeng.model.RoleOperation;
 import com.hongluomeng.model.User;
+import com.hongluomeng.model.UserRole;
 
 public class OperationDao {
 
@@ -109,7 +110,7 @@ public class OperationDao {
 		return operationList;
 	}
 
-	/*public List<Operation> listByUser_id(String user_id) {
+	public List<Operation> listUserRoleByUser_id(String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_OPERATION + ".* FROM " + Operation.KEY_OPERATION + " ");
@@ -119,14 +120,12 @@ public class OperationDao {
 		sql.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		parameterList.add(user_id);
 
-		System.out.println(sql.toString());
-
 		Operation operation = new Operation();
 
 		List<Operation> operationList = operation.find(sql.toString(), parameterList.toArray());
 
 		return operationList;
-	}*/
+	}
 
 	public List<Operation> listByUser_id(String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();

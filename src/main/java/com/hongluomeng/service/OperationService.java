@@ -34,6 +34,8 @@ public class OperationService {
 		if (operationList == null) {
 			operationList = operationDao.listByUser_id(user_id);
 
+			operationList.addAll(operationDao.listUserRoleByUser_id(user_id));
+
 			cacheService.setOperationListByUser_id(operationList, user_id);
 		}
 		return operationList;
