@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
@@ -13,19 +14,19 @@ public class OperationService {
 	private OperationDao operationDao = new OperationDao();
 	private CacheService cacheService = new CacheService();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		Operation operationMap = jsonObject.toJavaObject(Operation.class);
 
-		return operationDao.countByMenu_id(operationMap.getMenu_id());
-	}
-
-	public List<Operation> list(JSONObject jsonObject) {
-		Operation operationMap = jsonObject.toJavaObject(Operation.class);
+		Integer count = operationDao.countByMenu_id(operationMap.getMenu_id());
 
 		Operation operationParameter = new Operation();
 		operationParameter.setMenu_id(operationMap.getMenu_id());
 
-		return operationDao.list(operationParameter, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Operation> operationList = operationDao.list(operationParameter, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, operationList);
+
+		return resultMap;
 	}
 
 	public List<Operation> listByUser_id(String user_id) {

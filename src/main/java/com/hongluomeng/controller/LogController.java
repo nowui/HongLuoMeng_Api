@@ -1,6 +1,6 @@
 package com.hongluomeng.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
@@ -21,11 +21,9 @@ public class LogController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Log> logList = logService.list(jsonObject);
+		Map<String, Object> resultMap = logService.list(jsonObject);
 
-		Integer count = logService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, logList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(LogValidator.class)

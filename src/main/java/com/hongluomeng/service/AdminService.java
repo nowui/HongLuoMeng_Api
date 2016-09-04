@@ -22,16 +22,16 @@ public class AdminService {
 	private RoleService roleService = new RoleService();
 	private AuthorizationService authorizationService = new AuthorizationService();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Admin adminMap = jsonObject.toJavaObject(Admin.class);
 
-		return adminDao.count();
-	}
+		Integer count = adminDao.count();
 
-	public List<Admin> list(JSONObject jsonObject) {
-		//Admin adminMap = jsonObject.toJavaObject(Admin.class);
+		List<Admin> adminList = adminDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return adminDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, adminList);
+
+		return resultMap;
 	}
 
 	public Admin find(JSONObject jsonObject) {

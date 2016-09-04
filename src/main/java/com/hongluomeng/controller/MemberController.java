@@ -1,6 +1,5 @@
 package com.hongluomeng.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
@@ -23,11 +22,9 @@ public class MemberController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Member> memberList = memberService.list(jsonObject);
+		Map<String, Object> resultMap = memberService.list(jsonObject);
 
-		Integer count = memberService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, memberList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(MemberValidator.class)

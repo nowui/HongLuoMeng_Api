@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
@@ -12,16 +13,16 @@ public class MemberLevelService {
 
 	private MemberLevelDao memberLevelDao = new MemberLevelDao();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Member_level member_levelMap = jsonObject.toJavaObject(Member_level.class);
 
-		return memberLevelDao.count();
-	}
+		Integer count = memberLevelDao.count();
 
-	public List<MemberLevel> list(JSONObject jsonObject) {
-		//Member_level member_levelMap = jsonObject.toJavaObject(Member_level.class);
+		List<MemberLevel> memberLevelList = memberLevelDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return memberLevelDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, memberLevelList);
+
+		return resultMap;
 	}
 
 	public List<MemberLevel> listByUser_id(String user_id) {

@@ -1,6 +1,6 @@
 package com.hongluomeng.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
@@ -21,11 +21,9 @@ public class BrandController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Brand> brandList = brandService.list(jsonObject);
+		Map<String, Object> resultMap = brandService.list(jsonObject);
 
-		Integer count = brandService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, brandList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(BrandValidator.class)

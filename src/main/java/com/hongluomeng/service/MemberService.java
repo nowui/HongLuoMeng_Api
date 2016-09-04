@@ -23,16 +23,16 @@ public class MemberService {
 	private SmsService smsService = new SmsService();
 	private UploadService uploadService = new UploadService();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		return memberDao.count();
-	}
+		Integer count = memberDao.count();
 
-	public List<Member> list(JSONObject jsonObject) {
-		//Member memberMap = jsonObject.toJavaObject(Member.class);
+		List<Member> memberList = memberDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return memberDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, memberList);
+
+		return resultMap;
 	}
 
 	public Member find(JSONObject jsonObject) {

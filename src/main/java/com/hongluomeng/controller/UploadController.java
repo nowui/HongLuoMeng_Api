@@ -62,7 +62,9 @@ public class UploadController extends BaseController {
 			}
 		}
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", fileList.size(), resultList));
+		Map<String, Object> resultMap = Utility.setResultMap(fileList.size(), resultList);
+
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
 	@ActionKey(Const.URL_UPLOAD_IMAGE)

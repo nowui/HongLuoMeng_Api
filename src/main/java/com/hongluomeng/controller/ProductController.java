@@ -24,11 +24,9 @@ public class ProductController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Product> productList = productService.list(jsonObject);
+		Map<String, Object> resultMap = productService.list(jsonObject);
 
-		Integer count = productService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, productList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(ProductValidator.class)

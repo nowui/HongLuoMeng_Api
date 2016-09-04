@@ -1,6 +1,6 @@
 package com.hongluomeng.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
@@ -21,11 +21,9 @@ public class AttributeController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Attribute> attributeList = attributeService.list(jsonObject);
+		Map<String, Object> resultMap = attributeService.list(jsonObject);
 
-		Integer count = attributeService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, attributeList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(AttributeValidator.class)

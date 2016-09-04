@@ -1,6 +1,6 @@
 package com.hongluomeng.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
@@ -21,11 +21,9 @@ public class ShopController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Shop> shopList = shopService.list(jsonObject);
+		Map<String, Object> resultMap = shopService.list(jsonObject);
 
-		Integer count = shopService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, shopList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(ShopValidator.class)

@@ -21,16 +21,16 @@ public class ProductService {
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 	private ProductAttributeService productAttributeService = new ProductAttributeService();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Product productMap = jsonObject.toJavaObject(Product.class);
 
-		return productDao.count();
-	}
+		Integer count = productDao.count();
 
-	public List<Product> list(JSONObject jsonObject) {
-		//Product productMap = jsonObject.toJavaObject(Product.class);
+		List<Product> productList = productDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return productDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, productList);
+
+		return resultMap;
 	}
 
 	public Product find(JSONObject jsonObject) {

@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
@@ -14,16 +15,16 @@ public class AttributeService {
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 	private ProductAttributeService productAttributeService = new ProductAttributeService();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
 
-		return attributeDao.count();
-	}
+		Integer count = attributeDao.count();
 
-	public List<Attribute> list(JSONObject jsonObject) {
-		//Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
+		List<Attribute> attributeList = attributeDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return attributeDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, attributeList);
+
+		return resultMap;
 	}
 
 	public Attribute find(JSONObject jsonObject) {

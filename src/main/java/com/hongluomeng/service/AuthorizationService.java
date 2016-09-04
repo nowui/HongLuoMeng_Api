@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -19,16 +20,16 @@ public class AuthorizationService {
 
 	private AuthorizationDao authorizationDao = new AuthorizationDao();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Authorization authorizationMap = jsonObject.toJavaObject(Authorization.class);
 
-		return authorizationDao.count();
-	}
+		Integer count = authorizationDao.count();
 
-	public List<Authorization> list(JSONObject jsonObject) {
-		//Authorization authorizationMap = jsonObject.toJavaObject(Authorization.class);
+		List<Authorization> authorizationList = authorizationDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return authorizationDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, authorizationList);
+
+		return resultMap;
 	}
 
 	public Authorization find(JSONObject jsonObject) {

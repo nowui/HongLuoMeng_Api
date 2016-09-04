@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Utility;
@@ -11,16 +12,16 @@ public class LogService {
 
 	private LogDao logDao = new LogDao();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Log logMap = jsonObject.toJavaObject(Log.class);
 
-		return logDao.count();
-	}
+		Integer count = logDao.count();
 
-	public List<Log> list(JSONObject jsonObject) {
-		//Log logMap = jsonObject.toJavaObject(Log.class);
+		List<Log> logList = logDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return logDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, logList);
+
+		return resultMap;
 	}
 
 	public Log find(JSONObject jsonObject) {

@@ -22,11 +22,9 @@ public class AdminController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Admin> adminList = adminService.list(jsonObject);
+		Map<String, Object> resultMap = adminService.list(jsonObject);
 
-		Integer count = adminService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, adminList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(AdminValidator.class)

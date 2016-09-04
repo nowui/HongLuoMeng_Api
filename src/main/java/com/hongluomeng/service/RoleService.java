@@ -26,16 +26,16 @@ public class RoleService {
 	private UserRoleService userRoleService = new UserRoleService();
 	private CacheService cacheService = new CacheService();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		Role roleMap = jsonObject.toJavaObject(Role.class);
 
-		return roleDao.countByGroup_id(roleMap.getGroup_id());
-	}
+		Integer count = roleDao.countByGroup_id(roleMap.getGroup_id());
 
-	public List<Role> list(JSONObject jsonObject) {
-		Role roleMap = jsonObject.toJavaObject(Role.class);
+		List<Role> roleList = roleDao.listByGroup_id(roleMap.getGroup_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return roleDao.listByGroup_id(roleMap.getGroup_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, roleList);
+
+		return resultMap;
 	}
 
 	public List<Map<String, Object>> listOperation(JSONObject jsonObject) {

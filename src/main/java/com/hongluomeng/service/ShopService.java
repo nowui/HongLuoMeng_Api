@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
@@ -12,16 +13,16 @@ public class ShopService {
 
 	private ShopDao shopDao = new ShopDao();
 
-	public Integer count(JSONObject jsonObject) {
+	public Map<String, Object> list(JSONObject jsonObject) {
 		//Shop shopMap = jsonObject.toJavaObject(Shop.class);
 
-		return shopDao.count();
-	}
+		Integer count = shopDao.count();
 
-	public List<Shop> list(JSONObject jsonObject) {
-		//Shop shopMap = jsonObject.toJavaObject(Shop.class);
+		List<Shop> shopList = shopDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		return shopDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Map<String, Object> resultMap = Utility.setResultMap(count, shopList);
+
+		return resultMap;
 	}
 
 	public Shop find(JSONObject jsonObject) {

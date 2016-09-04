@@ -22,11 +22,9 @@ public class RoleController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Role> roleList = roleService.list(jsonObject);
+		Map<String, Object> resultMap = roleService.list(jsonObject);
 
-		Integer count = roleService.count(jsonObject);
-
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", count, roleList));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(RoleValidator.class)

@@ -151,12 +151,20 @@ public class Utility {
 		return map;
 	}
 
-	public static Map<String, Object> setResponse(CodeEnum code, String message, Integer total, Object data) {
+	/*public static Map<String, Object> setResponse(CodeEnum code, String message, Integer total, Object data) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put(Const.KEY_TOTAL, total);
 		dataMap.put(Const.KEY_LIST, data);
 
 		return setResponse(code, message, dataMap);
+	}*/
+
+	public static Map<String, Object> setResultMap(Integer total, Object data) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put(Const.KEY_TOTAL, total);
+		resultMap.put(Const.KEY_LIST, data);
+
+		return resultMap;
 	}
 
 	public static Integer getStarNumber(Map<String, Object> map) {
