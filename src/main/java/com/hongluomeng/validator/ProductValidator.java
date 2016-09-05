@@ -106,7 +106,13 @@ public class ProductValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_FIND)) {
 			isExit = true;
 
-		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_SAVE) || actionKey.equals(Const.URL_PRODUC_CATEGORYT_UPDATE)) {
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(Utility.isNullOrEmpty(category.getCategory_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_SAVE) || actionKey.equals(Const.URL_PRODUCT_CATEGORYT_UPDATE)) {
 			isExit = true;
 
 			Category category = jsonObject.toJavaObject(Category.class);
@@ -116,7 +122,7 @@ public class ProductValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(actionKey.equals(Const.URL_PRODUC_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
+			if(actionKey.equals(Const.URL_PRODUCT_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
@@ -130,9 +136,15 @@ public class ProductValidator extends Validator {
 				message += "排序为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_PRODUC_CATEGORYT_DELETE)) {
+		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORYT_DELETE)) {
 			isExit = true;
 
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(Utility.isNullOrEmpty(category.getCategory_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
 		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST)) {
 			isExit = true;
 

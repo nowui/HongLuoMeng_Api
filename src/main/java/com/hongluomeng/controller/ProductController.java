@@ -100,7 +100,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUC_CATEGORYT_UPDATE)
+	@ActionKey(Const.URL_PRODUCT_CATEGORYT_UPDATE)
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -110,7 +110,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUC_CATEGORYT_DELETE)
+	@ActionKey(Const.URL_PRODUCT_CATEGORYT_DELETE)
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

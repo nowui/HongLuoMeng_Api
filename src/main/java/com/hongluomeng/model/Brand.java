@@ -10,6 +10,7 @@ public class Brand extends Model<Brand> {
 
 	public static final String KEY_BRAND = "brand";
 	public static final String KEY_BRAND_ID = "brand_id";
+	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_BRAND_NAME = "brand_name";
 	public static final String KEY_BRAND_CREATE_USER_ID = "brand_create_user_id";
 	public static final String KEY_BRAND_CREATE_TIME = "brand_create_time";
@@ -25,6 +26,14 @@ public class Brand extends Model<Brand> {
 
 	public void setBrand_id(String brand_id) {
 		set(KEY_BRAND_ID, brand_id);
+	}
+
+	public String getCategory_id() {
+		return getStr(KEY_CATEGORY_ID);
+	}
+
+	public void setCategory_id(String category_id) {
+		set(KEY_CATEGORY_ID, category_id);
 	}
 
 	public String getBrand_name() {

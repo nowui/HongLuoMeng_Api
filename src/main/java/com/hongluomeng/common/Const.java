@@ -65,6 +65,11 @@ public class Const {
 	public static final String URL_BRAND_SAVE = "/brand/save";
 	public static final String URL_BRAND_UPDATE = "/brand/update";
 	public static final String URL_BRAND_DELETE = "/brand/delete";
+	public static final String URL_BRAND_CATEGORY_LIST = "/brand/category/list";
+	public static final String URL_BRAND_CATEGORY_FIND = "/brand/category/find";
+	public static final String URL_BRAND_CATEGORY_SAVE = "/brand/category/save";
+	public static final String URL_BRAND_CATEGORYT_UPDATE = "/brand/category/update";
+	public static final String URL_BRAND_CATEGORYT_DELETE = "/brand/category/delete";
 	public static final String URL_CATEGORY_LIST = "/category/list";
 	public static final String URL_CATEGORY_FIND = "/category/find";
 	public static final String URL_CATEGORY_SAVE = "/category/save";
@@ -107,8 +112,8 @@ public class Const {
 	public static final String URL_PRODUCT_CATEGORY_LIST = "/product/category/list";
 	public static final String URL_PRODUCT_CATEGORY_FIND = "/product/category/find";
 	public static final String URL_PRODUCT_CATEGORY_SAVE = "/product/category/save";
-	public static final String URL_PRODUC_CATEGORYT_UPDATE = "/product/category/update";
-	public static final String URL_PRODUC_CATEGORYT_DELETE = "/product/category/delete";
+	public static final String URL_PRODUCT_CATEGORYT_UPDATE = "/product/category/update";
+	public static final String URL_PRODUCT_CATEGORYT_DELETE = "/product/category/delete";
 	public static final String URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST = "/product/category/attribute/list";
 	public static final String URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND = "/product/category/attribute/find";
 	public static final String URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE = "/product/category/attribute/save";

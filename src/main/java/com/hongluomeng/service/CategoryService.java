@@ -27,7 +27,7 @@ public class CategoryService {
 		//Category categoryMap = jsonObject.toJavaObject(Category.class);
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put(Const.KEY_ID, "0");
+		resultMap.put(Const.KEY_ID, "");
 		resultMap.put(Const.KEY_TEXT, "系统分类");
 		resultMap.put(Const.KEY_CHILDREN, getChildrenList(categoryDao.listTopCategory(), ""));
 

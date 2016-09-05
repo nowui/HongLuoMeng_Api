@@ -8,10 +8,13 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.BrandDao;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.Category;
+import com.hongluomeng.type.CatetoryEnum;
 
 public class BrandService {
 
 	private BrandDao brandDao = new BrandDao();
+	private CategoryService categoryService = new CategoryService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Brand brandMap = jsonObject.toJavaObject(Brand.class);
@@ -59,6 +62,26 @@ public class BrandService {
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		brandDao.delete(brandMap.getBrand_id(), request_user_id);
+	}
+
+	public Map<String, Object> listCategory(JSONObject jsonObject) {
+		return categoryService.treeByCategory_key(CatetoryEnum.BRAND.getKey());
+	}
+
+	public Category findCategory(JSONObject jsonObject) {
+		return categoryService.find(jsonObject);
+	}
+
+	public void saveCategory(JSONObject jsonObject) {
+		categoryService.save(jsonObject);
+	}
+
+	public void updateCategory(JSONObject jsonObject) {
+		categoryService.update(jsonObject);
+	}
+
+	public void deleteCategory(JSONObject jsonObject) {
+		categoryService.delete(jsonObject);
 	}
 
 }

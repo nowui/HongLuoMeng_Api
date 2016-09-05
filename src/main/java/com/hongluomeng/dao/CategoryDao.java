@@ -105,6 +105,7 @@ public class CategoryDao {
 
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_CATEGORY + " WHERE " + Category.KEY_PARENT_ID + " = '' ");
 		sql.append("AND " + Category.KEY_CATEGORY_STATUS + " = 1 ");
+		sql.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
 
 		List<Category> categoryList = category.find(sql.toString(), parameterList.toArray());
 		return categoryList;

@@ -1,6 +1,6 @@
 package com.hongluomeng.controller;
 
-/*import java.util.Map;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
@@ -10,11 +10,11 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.service.CategoryService;
 import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.CategoryValidator;*/
+import com.hongluomeng.validator.CategoryValidator;
 
 public class CategoryController extends BaseController {
 
-	/*private CategoryService categoryService = new CategoryService();
+	private CategoryService categoryService = new CategoryService();
 
 	@Before(CategoryValidator.class)
 	@ActionKey(Const.URL_CATEGORY_LIST)
@@ -64,6 +64,6 @@ public class CategoryController extends BaseController {
 		categoryService.delete(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-	}*/
+	}
 
 }

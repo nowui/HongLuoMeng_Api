@@ -8,6 +8,7 @@ import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.Category;
 import com.hongluomeng.service.BrandService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.BrandValidator;
@@ -62,6 +63,56 @@ public class BrandController extends BaseController {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
 		brandService.delete(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_CATEGORY_LIST)
+	public void listCategory() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Map<String, Object> resultMap = brandService.listCategory(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_CATEGORY_FIND)
+	public void findCategory() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Category category = brandService.findCategory(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_CATEGORY_SAVE)
+	public void saveCategory() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.saveCategory(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_CATEGORYT_UPDATE)
+	public void updateCategory() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.updateCategory(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_CATEGORYT_DELETE)
+	public void deleteCategory() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.deleteCategory(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}

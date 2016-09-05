@@ -6,6 +6,7 @@ import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.Category;
 import com.hongluomeng.type.CodeEnum;
 
 public class BrandValidator extends Validator {
@@ -40,6 +41,11 @@ public class BrandValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
+			if(Utility.isNullOrEmpty(brand.getCategory_id())) {
+				message += "分类为空";
+				message += Const.LINE_FEED;
+			}
+
 			if(Utility.isNullOrEmpty(brand.getBrand_name())) {
 				message += "名称为空";
 				message += Const.LINE_FEED;
@@ -48,6 +54,51 @@ public class BrandValidator extends Validator {
 			isExit = true;
 
 			if(Utility.isNullOrEmpty(brand.getBrand_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_CATEGORY_LIST)) {
+			isExit = true;
+
+		} else if(actionKey.equals(Const.URL_BRAND_CATEGORY_FIND)) {
+			isExit = true;
+
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(Utility.isNullOrEmpty(category.getCategory_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_CATEGORY_SAVE) || actionKey.equals(Const.URL_BRAND_CATEGORYT_UPDATE)) {
+			isExit = true;
+
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(actionKey.equals(Const.URL_BRAND_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
+				message += "父编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(actionKey.equals(Const.URL_BRAND_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(category.getCategory_name())) {
+				message += "用户名为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(category.getCategory_sort())) {
+				message += "排序为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_CATEGORYT_DELETE)) {
+			isExit = true;
+
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(Utility.isNullOrEmpty(category.getCategory_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}

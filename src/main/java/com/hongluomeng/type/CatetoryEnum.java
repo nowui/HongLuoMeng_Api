@@ -3,7 +3,8 @@ package com.hongluomeng.type;
 public enum CatetoryEnum {
 	GROUP("group"),
 	MENU("menu"),
-	PRODUCT("product");
+	PRODUCT("product"),
+	BRAND("brand");
 
 	private String key;
 
