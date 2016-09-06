@@ -22,8 +22,6 @@ public class Attribute extends Model<Attribute> {
 	public static final String KEY_ATTRIBUTE_UPDATE_TIME = "attribute_update_time";
 	public static final String KEY_ATTRIBUTE_STATUS = "attribute_status";
 
-	private String user_account;
-
 	public String getAttribute_id() {
 		return getStr(KEY_ATTRIBUTE_ID);
 	}
@@ -71,14 +69,6 @@ public class Attribute extends Model<Attribute> {
 
 	public void setAttribute_sort(Integer attribute_sort) {
 		set(KEY_ATTRIBUTE_SORT, attribute_sort);
-	}
-
-	public String getUser_account() {
-		return user_account;
-	}
-
-	public void setUser_account(String user_account) {
-		this.user_account = user_account;
 	}
 
 	public void setAttribute_create_user_id(String attribute_create_user_id) {

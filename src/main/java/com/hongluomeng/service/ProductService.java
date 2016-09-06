@@ -38,7 +38,7 @@ public class ProductService {
 
 		Product product;
 
-		List<Category> categorieList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
+		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
 		List<Brand> brandList = brandService.listByUser_id(jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
 		if (Utility.isNullOrEmpty(productMap.getProduct_id())) {
@@ -51,7 +51,7 @@ public class ProductService {
 			product.setCategoryAttributeList(categoryAttributeList);
 		}
 
-		product.setCategoryList(categorieList);
+		product.setCategoryList(categoryList);
 		product.setBrandList(brandList);
 
 		return product;

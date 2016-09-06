@@ -19,8 +19,6 @@ public class MemberLevel extends Model<MemberLevel> {
 	public static final String KEY_MEMBER_LEVEL_UPDATE_TIME = "member_level_update_time";
 	public static final String KEY_MEMBER_LEVEL_STATUS = "member_level_status";
 
-	private String user_account;
-
 	public String getMember_level_id() {
 		return getStr(KEY_MEMBER_LEVEL_ID);
 	}
@@ -43,14 +41,6 @@ public class MemberLevel extends Model<MemberLevel> {
 
 	public void setMember_level_value(String member_level_value) {
 		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
-	}
-
-	public String getUser_account() {
-		return user_account;
-	}
-
-	public void setUser_account(String user_account) {
-		this.user_account = user_account;
 	}
 
 	public void setMember_level_create_user_id(String member_level_create_user_id) {

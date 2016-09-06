@@ -35,7 +35,17 @@ public class BrandService {
 	public Brand find(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		Brand brand = brandDao.findByBrand_id(brandMap.getBrand_id());
+		Brand brand;
+
+		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.BRAND.getKey());
+
+		if (Utility.isNullOrEmpty(brandMap.getBrand_id())) {
+			brand = new Brand();
+		} else {
+			brand = brandDao.findByBrand_id(brandMap.getBrand_id());
+		}
+
+		brand.setCategoryList(categoryList);
 
 		return brand;
 	}
