@@ -13,11 +13,15 @@ public class Brand extends Model<Brand> {
 	public static final String KEY_BRAND_ID = "brand_id";
 	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_BRAND_NAME = "brand_name";
+	public static final String KEY_BRAND_LOGO = "brand_logo";
+	public static final String KEY_BRAND_INTRODUCE = "brand_introduce";
+	public static final String KEY_BRAND_AGREEMENT = "brand_agreement";
 	public static final String KEY_BRAND_CREATE_USER_ID = "brand_create_user_id";
 	public static final String KEY_BRAND_CREATE_TIME = "brand_create_time";
 	public static final String KEY_BRAND_UPDATE_USER_ID = "brand_update_user_id";
 	public static final String KEY_BRAND_UPDATE_TIME = "brand_update_time";
 	public static final String KEY_BRAND_STATUS = "brand_status";
+	public static final String KEY_BRAND_IS_SIGN = "brand_is_sign";
 
 	private List<Category> categoryList;
 
@@ -43,6 +47,30 @@ public class Brand extends Model<Brand> {
 
 	public void setBrand_name(String brand_name) {
 		set(KEY_BRAND_NAME, brand_name);
+	}
+
+	public String getBrand_logo() {
+		return getStr(KEY_BRAND_LOGO);
+	}
+
+	public void setBrand_logo(String brand_logo) {
+		set(KEY_BRAND_LOGO, brand_logo);
+	}
+
+	public String getBrand_introduce() {
+		return getStr(KEY_BRAND_INTRODUCE);
+	}
+
+	public void setBrand_introduce(String brand_introduce) {
+		set(KEY_BRAND_INTRODUCE, brand_introduce);
+	}
+
+	public String getBrand_agreement() {
+		return getStr(KEY_BRAND_AGREEMENT);
+	}
+
+	public void setBrand_agreement(String brand_agreement) {
+		set(KEY_BRAND_AGREEMENT, brand_agreement);
 	}
 
 	public void setBrand_create_user_id(String brand_create_user_id) {

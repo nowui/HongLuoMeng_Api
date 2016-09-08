@@ -1,5 +1,6 @@
 package com.hongluomeng.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
@@ -116,5 +117,25 @@ public class BrandController extends BaseController {
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_LIST_GET)
+	public void getList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = brandService.getList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_GET)
+	public void get() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Brand brand = brandService.find(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brand));
+    }
 
 }

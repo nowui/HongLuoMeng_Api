@@ -1,5 +1,7 @@
 package com.hongluomeng.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,25 @@ public class BrandService {
 		Map<String, Object> resultMap = Utility.setResultMap(count, brandList);
 
 		return resultMap;
+	}
+
+	public List<Map<String, Object>> getList(JSONObject jsonObject) {
+		Brand brandMap = jsonObject.toJavaObject(Brand.class);
+
+		List<Brand> brandList = brandDao.listByCategory_id(brandMap.getCategory_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Brand brand : brandList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
+			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
+			map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
+			map.put(Brand.KEY_BRAND_IS_SIGN, false);
+			list.add(map);
+		}
+
+		return list;
 	}
 
 	public List<Brand> listByUser_id(String user_id) {

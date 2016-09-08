@@ -66,6 +66,13 @@ public class BrandDao {
 		return list(brand, m, n);
 	}
 
+	public List<Brand> listByCategory_id(String category_id, Integer m, Integer n) {
+		Brand brand = new Brand();
+		brand.setCategory_id(category_id);
+
+		return list(brand, m, n);
+	}
+
 	private Brand find(Brand brand) {
 		List<Object> parameterList = new ArrayList<Object>();
 

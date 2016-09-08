@@ -65,6 +65,8 @@ public class Const {
 	public static final String URL_BRAND_SAVE = "/brand/save";
 	public static final String URL_BRAND_UPDATE = "/brand/update";
 	public static final String URL_BRAND_DELETE = "/brand/delete";
+	public static final String URL_BRAND_LIST_GET = "/brand/list/get";
+	public static final String URL_BRAND_GET = "/brand/get";
 	public static final String URL_BRAND_CATEGORY_LIST = "/brand/category/list";
 	public static final String URL_BRAND_CATEGORY_FIND = "/brand/category/find";
 	public static final String URL_BRAND_CATEGORY_SAVE = "/brand/category/save";
