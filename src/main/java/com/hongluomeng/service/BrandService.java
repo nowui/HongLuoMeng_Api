@@ -71,6 +71,12 @@ public class BrandService {
 		return brand;
 	}
 
+	public Brand get(JSONObject jsonObject) {
+		Brand brandMap = jsonObject.toJavaObject(Brand.class);
+
+		return brandDao.findByBrand_id(brandMap.getBrand_id());
+	}
+
 	public void save(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
@@ -93,6 +99,21 @@ public class BrandService {
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		brandDao.delete(brandMap.getBrand_id(), request_user_id);
+	}
+
+	public List<Map<String, Object>> getCategoryList(JSONObject jsonObject) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.BRAND.getKey());
+
+		for(Category category : categoryList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Category.KEY_CATEGORY_ID, category.getCategory_id());
+			map.put(Category.KEY_CATEGORY_NAME, category.getCategory_name());
+			list.add(map);
+		}
+
+		return list;
 	}
 
 	public Map<String, Object> listCategory(JSONObject jsonObject) {

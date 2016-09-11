@@ -121,6 +121,9 @@ public class BrandValidator extends Validator {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_BRAND_CATEGORY_LIST_GET)) {
+			isExit = true;
+
 		} else if(actionKey.equals(Const.URL_BRAND_LIST_GET)) {
 			isExit = true;
 

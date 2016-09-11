@@ -87,11 +87,10 @@ public class GlobalActionInterceptor implements Interceptor {
 				}
 			}
 
-			//if (url.equals(Const.URL_MEMBER_LOGIN) || url.equals(Const.URL_MEMBER_REGISTER) || url.equals(Const.URL_MEMBER_RESET_PASSWORD) || url.equals(Const.URL_ADMIN_LOGIN) || url.equals(Const.URL_SMS_REGISTER) || url.equals(Const.URL_SMS_RESET_PASSWORD)) {
-
-			//} else {
 			if (isNotMatch) {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
+
+				//System.out.println(token);
 
 				if(Utility.isNullOrEmpty(token)) {
 					isAuthorization = false;
@@ -113,6 +112,10 @@ public class GlobalActionInterceptor implements Interceptor {
 					request = "{}";
 				} else {
 					request = HttpKit.readData(controller.getRequest());
+				}
+
+				if(Utility.isNullOrEmpty(request)) {
+					request = "{}";
 				}
 
 				JSONObject jsonObject = JSONObject.parseObject(request);

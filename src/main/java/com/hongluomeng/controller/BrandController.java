@@ -119,6 +119,16 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_CATEGORY_LIST_GET)
+	public void getCategoryList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = brandService.getCategoryList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(BrandValidator.class)
 	@ActionKey(Const.URL_BRAND_LIST_GET)
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -133,7 +143,7 @@ public class BrandController extends BaseController {
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Brand brand = brandService.find(jsonObject);
+		Brand brand = brandService.get(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brand));
     }
