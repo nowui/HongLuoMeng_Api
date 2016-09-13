@@ -56,7 +56,7 @@ public class MemberService {
 	public Map<String, Object> login(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
-		User user = userService.loginByUser_phoneAndUser_password(userMap.getUser_phone(), userMap.getUser_password());
+		User user = userService.loginByUser_phoneAndUser_passwordAndUser_type(userMap.getUser_phone(), userMap.getUser_password(), UserEnum.MEMBER.getKey());
 
 		if(user == null) {
 			return null;

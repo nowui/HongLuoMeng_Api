@@ -290,6 +290,19 @@ public class UserDao {
 			isExit = true;
 		}
 
+		if (! Utility.isNullOrEmpty(user.getUser_type())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+
+			sql.append(User.KEY_USER_TYPE + " = ? ");
+			parameterList.add(user.getUser_type());
+
+			isExit = true;
+		}
+
 		if (! Utility.isNullOrEmpty(user.getWeibo_uid())) {
 			if(isExit) {
 				sql.append(" AND ");
@@ -340,18 +353,20 @@ public class UserDao {
 		return find(user);
 	}
 
-	public User findByUser_accountAndUser_password(String user_account, String user_password) {
+	public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
 		User user = new User();
 		user.setUser_account(user_account);
 		user.setUser_password(user_password);
+		user.setUser_type(user_type);
 
 		return find(user);
 	}
 
-	public User findByUser_phoneAndUser_password(String user_phone, String user_password) {
+	public User findByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
 		User user = new User();
 		user.setUser_phone(user_phone);
 		user.setUser_password(user_password);
+		user.setUser_type(user_type);
 
 		return find(user);
 	}

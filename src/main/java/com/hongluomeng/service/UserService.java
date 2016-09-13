@@ -56,12 +56,12 @@ public class UserService {
 		return userDao.findByWechat_uid(wechat_uid);
 	}
 
-	public User loginByUser_accountAndUser_password(String user_account, String user_password) {
-		return userDao.findByUser_accountAndUser_password(user_account, user_password);
+	public User loginByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
+		return userDao.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, user_type);
 	}
 
-	public User loginByUser_phoneAndUser_password(String user_phone, String user_password) {
-		return userDao.findByUser_phoneAndUser_password(user_phone, user_password);
+	public User loginByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
+		return userDao.findByUser_phoneAndUser_passwordAndUser_type(user_phone, user_password, user_type);
 	}
 
 	public List<Map<String, Object>> menu(JSONObject jsonObject) {

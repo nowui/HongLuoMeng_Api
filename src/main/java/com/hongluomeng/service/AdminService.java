@@ -117,7 +117,7 @@ public class AdminService {
 
 		User userMap = jsonObject.toJavaObject(User.class);
 
-		User user = userService.loginByUser_accountAndUser_password(userMap.getUser_account(), userMap.getUser_password());
+		User user = userService.loginByUser_accountAndUser_passwordAndUser_type(userMap.getUser_account(), userMap.getUser_password(), UserEnum.ADMIN.getKey());
 
 		if(user == null) {
 			return null;
