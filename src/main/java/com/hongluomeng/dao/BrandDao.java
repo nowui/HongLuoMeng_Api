@@ -41,6 +41,18 @@ public class BrandDao {
 
 		Boolean isExit = false;
 
+		if (! Utility.isNullOrEmpty(brand.getCategory_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Brand.KEY_CATEGORY_ID + " = ? ");
+			parameterList.add(brand.getCategory_id());
+
+			isExit = true;
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {

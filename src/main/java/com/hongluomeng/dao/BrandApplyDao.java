@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.BrandApply;
 
 public class BrandApplyDao {
@@ -32,6 +33,27 @@ public class BrandApplyDao {
 
 		return count(brandApply);
 	}*/
+
+	public Integer countByBrand_idAndUser_id(String brand_id, String user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + BrandApply.KEY_BRAND_APPLY + " ");
+		sql.append("LEFT JOIN " + Brand.KEY_BRAND + " ON " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " ");
+
+		sql.append("WHERE " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+		parameterList.add(user_id);
+
+		sql.append("AND " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+
+		sql.append("AND " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
+		parameterList.add(brand_id);
+
+		sql.append("AND " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+
+		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		return count.intValue();
+
+	}
 
 	private List<BrandApply> list(BrandApply brandApply, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
