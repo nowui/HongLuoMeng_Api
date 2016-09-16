@@ -144,6 +144,15 @@ public class BrandValidator extends Validator {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_BRAND_APPLY)) {
+			isExit = true;
+
+			Brand brand = jsonObject.toJavaObject(Brand.class);
+
+			if(Utility.isNullOrEmpty(brand.getBrand_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
 		}
 
 		if (! isExit) {

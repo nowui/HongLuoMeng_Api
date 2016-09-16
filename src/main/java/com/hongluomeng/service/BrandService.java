@@ -16,6 +16,7 @@ import com.hongluomeng.type.CatetoryEnum;
 public class BrandService {
 
 	private BrandDao brandDao = new BrandDao();
+	private BrandApplyService brandApplyService = new BrandApplyService();
 	private CategoryService categoryService = new CategoryService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
@@ -33,7 +34,7 @@ public class BrandService {
 	public List<Map<String, Object>> getList(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		List<Brand> brandList = brandDao.listByCategory_id(brandMap.getCategory_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Brand> brandList = brandDao.listByCategory_idForApply(brandMap.getCategory_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -42,7 +43,13 @@ public class BrandService {
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
 			map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
-			map.put(Brand.KEY_BRAND_IS_SIGN, false);
+
+			if(brand.getBrand_apply_count() == 0) {
+				map.put(Brand.KEY_BRAND_IS_APPLY, false);
+			} else {
+				map.put(Brand.KEY_BRAND_IS_APPLY, true);
+			}
+
 			list.add(map);
 		}
 
@@ -74,7 +81,15 @@ public class BrandService {
 	public Brand get(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		return brandDao.findByBrand_id(brandMap.getBrand_id());
+		Brand brand = brandDao.findByBrand_idForApply(brandMap.getBrand_id());
+
+		if(brand.getBrand_apply_count() == 0) {
+			brand.setBrand_is_apply(false);
+		} else {
+			brand.setBrand_is_apply(true);
+		}
+
+		return brand;
 	}
 
 	public void save(JSONObject jsonObject) {
@@ -99,6 +114,20 @@ public class BrandService {
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		brandDao.delete(brandMap.getBrand_id(), request_user_id);
+	}
+
+	public void apply(JSONObject jsonObject) {
+		Brand brandMap = jsonObject.toJavaObject(Brand.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		Integer count = brandApplyService.countByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
+
+		if(count == 0) {
+			brandApplyService.save(brandMap.getBrand_id(), request_user_id);
+		} else {
+			throw new RuntimeException("这品牌已经申请过,不能再申请!");
+		}
 	}
 
 	public List<Map<String, Object>> getCategoryList(JSONObject jsonObject) {

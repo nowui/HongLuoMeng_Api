@@ -3,6 +3,7 @@ package com.hongluomeng.model;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class Brand extends Model<Brand> {
@@ -21,9 +22,11 @@ public class Brand extends Model<Brand> {
 	public static final String KEY_BRAND_UPDATE_USER_ID = "brand_update_user_id";
 	public static final String KEY_BRAND_UPDATE_TIME = "brand_update_time";
 	public static final String KEY_BRAND_STATUS = "brand_status";
-	public static final String KEY_BRAND_IS_SIGN = "brand_is_sign";
+	public static final String KEY_BRAND_APPLY_COUNT = "brand_apply_count";
+	public static final String KEY_BRAND_IS_APPLY = "brand_is_apply";
 
 	private List<Category> categoryList;
+	private Boolean brand_is_apply;
 
 	public String getBrand_id() {
 		return getStr(KEY_BRAND_ID);
@@ -97,12 +100,24 @@ public class Brand extends Model<Brand> {
 		set(KEY_BRAND_STATUS, brand_status);
 	}
 
+	public Integer getBrand_apply_count() {
+		return Utility.getIntegerValue(get(KEY_BRAND_APPLY_COUNT));
+	}
+
 	public List<Category> getCategoryList() {
 		return categoryList;
 	}
 
 	public void setCategoryList(List<Category> categoryList) {
 		this.categoryList = categoryList;
+	}
+
+	public Boolean getBrand_is_apply() {
+		return brand_is_apply;
+	}
+
+	public void setBrand_is_apply(Boolean brand_is_apply) {
+		this.brand_is_apply = brand_is_apply;
 	}
 
 }

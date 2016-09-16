@@ -148,4 +148,14 @@ public class BrandController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brand));
     }
 
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_APPLY)
+	public void apply() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.apply(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+    }
+
 }

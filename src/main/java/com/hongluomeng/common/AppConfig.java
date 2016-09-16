@@ -33,6 +33,7 @@ import com.hongluomeng.model.Admin;
 import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.Authorization;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Log;
@@ -110,6 +111,7 @@ public class AppConfig extends JFinalConfig {
 	    activeRecordPlugin.addMapping("product_attribute", "product_attribute_id", ProductAttribute.class);
 	    activeRecordPlugin.addMapping("sms", "sms_id", Sms.class);
 	    activeRecordPlugin.addMapping("member_level", "member_level_id", MemberLevel.class);
+	    activeRecordPlugin.addMapping("brand_apply", "brand_apply_id", BrandApply.class);
 	    plugins.add(activeRecordPlugin);
 	}
 

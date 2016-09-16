@@ -87,7 +87,10 @@ public class BrandApplyDao {
 		return list(brandApply, m, n);
 	}
 
-	public void save(BrandApply brandApply, String request_user_id) {
+	public void save(String brand_id, String request_user_id) {
+		BrandApply brandApply = new BrandApply();
+		brandApply.setBrand_id(brand_id);
+		brandApply.setUser_id(request_user_id);
 		brandApply.setBrand_apply_create_user_id(request_user_id);
 		brandApply.setBrand_apply_create_time(new Date());
 		brandApply.setBrand_apply_update_user_id(request_user_id);
@@ -95,15 +98,6 @@ public class BrandApplyDao {
 		brandApply.setBrand_apply_status(true);
 
 		brandApply.save();
-	}
-
-	public void update(BrandApply brandApply, String request_user_id) {
-		brandApply.remove(BrandApply.KEY_BRAND_APPLY_CREATE_USER_ID);
-		brandApply.remove(BrandApply.KEY_BRAND_APPLY_CREATE_TIME);
-		brandApply.setBrand_apply_update_user_id(request_user_id);
-		brandApply.setBrand_apply_update_time(new Date());
-
-		brandApply.update();
 	}
 
 	public void delete(String brand_id, String request_user_id) {
