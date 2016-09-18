@@ -76,6 +76,7 @@ public class Const {
 	public static final String URL_BRAND_LIST_GET = "/brand/list/get";
 	public static final String URL_BRAND_GET = "/brand/get";
 	public static final String URL_BRAND_APPLY = "/brand/apply";
+	public static final String URL_BRAND_MY_LIST_GET = "/brand/my/list/get";
 
 	public static final String URL_CATEGORY_LIST = "/category/list";
 	public static final String URL_CATEGORY_FIND = "/category/find";

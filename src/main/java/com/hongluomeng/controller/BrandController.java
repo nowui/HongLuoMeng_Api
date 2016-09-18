@@ -158,4 +158,14 @@ public class BrandController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
     }
 
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_MY_LIST_GET)
+	public void getMyList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = brandService.getMyList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
 }

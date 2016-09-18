@@ -110,6 +110,33 @@ public class BrandDao {
 		return brandList;
 	}
 
+	public List<Brand> listByCategory_idForMy(String category_id, String user_id, Integer m, Integer n) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("SELECT " + Brand.KEY_BRAND + ".* FROM " + Brand.KEY_BRAND + " ");
+		sql.append("LEFT JOIN " + BrandApply.KEY_BRAND_APPLY + " ON " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
+		sql.append("WHERE " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+
+		if (! Utility.isNullOrEmpty(category_id)) {
+			sql.append("AND " + Brand.KEY_BRAND + "." + Brand.KEY_CATEGORY_ID + " = ? ");
+			parameterList.add(category_id);
+		}
+
+		sql.append("AND " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+
+		sql.append("AND " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+		parameterList.add(user_id);
+
+		if (n > 0) {
+			sql.append("LIMIT ?, ? ");
+			parameterList.add(m);
+			parameterList.add(n);
+		}
+
+		List<Brand> brandList = new Brand().find(sql.toString(), parameterList.toArray());
+		return brandList;
+	}
+
 	private Brand find(Brand brand) {
 		List<Object> parameterList = new ArrayList<Object>();
 

@@ -60,6 +60,28 @@ public class BrandService {
 		return brandDao.list(0, 0);
 	}
 
+	public List<Map<String, Object>> getMyList(JSONObject jsonObject) {
+		Brand brandMap = jsonObject.toJavaObject(Brand.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		List<Brand> brandList = brandDao.listByCategory_idForMy(brandMap.getCategory_id(), request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Brand brand : brandList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
+			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
+			map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
+			map.put(Brand.KEY_BRAND_IS_APPLY, true);
+
+			list.add(map);
+		}
+
+		return list;
+	}
+
 	public Brand find(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 

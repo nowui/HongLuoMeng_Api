@@ -135,6 +135,18 @@ public class BrandValidator extends Validator {
 			}
 
 			message += Utility.checkPageAndLimit(jsonObject);
+
+		} else if(actionKey.equals(Const.URL_BRAND_MY_LIST_GET)) {
+			isExit = true;
+
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(Utility.isNull(category.getCategory_id())) {
+				message += "分类编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			message += Utility.checkPageAndLimit(jsonObject);
 		} else if(actionKey.equals(Const.URL_BRAND_GET)) {
 			isExit = true;
 
