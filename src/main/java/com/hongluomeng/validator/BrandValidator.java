@@ -28,12 +28,12 @@ public class BrandValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_BRAND_FIND)) {
 			isExit = true;
 
-			Brand brand = jsonObject.toJavaObject(Brand.class);
+			/*Brand brand = jsonObject.toJavaObject(Brand.class);
 
 			if(Utility.isNullOrEmpty(brand.getBrand_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
-			}
+			}*/
 		} else if(actionKey.equals(Const.URL_BRAND_SAVE) || actionKey.equals(Const.URL_BRAND_UPDATE)) {
 			isExit = true;
 

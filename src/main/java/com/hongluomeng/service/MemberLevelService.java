@@ -25,7 +25,7 @@ public class MemberLevelService {
 		return resultMap;
 	}
 
-	public List<MemberLevel> listByUser_id(String user_id) {
+	public List<MemberLevel> listAll() {
 		return memberLevelDao.list(0, 0);
 	}
 

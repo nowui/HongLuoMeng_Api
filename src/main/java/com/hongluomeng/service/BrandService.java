@@ -51,6 +51,12 @@ public class BrandService {
 				map.put(Brand.KEY_BRAND_IS_APPLY, true);
 			}
 
+			if(brand.getBrand_review_count() == 0) {
+				map.put(Brand.KEY_BRAND_IS_REVIEW, false);
+			} else {
+				map.put(Brand.KEY_BRAND_IS_REVIEW, true);
+			}
+
 			list.add(map);
 		}
 
@@ -110,6 +116,12 @@ public class BrandService {
 			brand.setBrand_is_apply(false);
 		} else {
 			brand.setBrand_is_apply(true);
+		}
+
+		if(brand.getBrand_review_count() == 0) {
+			brand.setBrand_is_review(false);
+		} else {
+			brand.setBrand_is_review(true);
 		}
 
 		return brand;

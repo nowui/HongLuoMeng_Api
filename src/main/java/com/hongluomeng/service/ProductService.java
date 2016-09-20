@@ -10,6 +10,7 @@ import com.hongluomeng.dao.ProductDao;
 import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.CategoryAttribute;
+import com.hongluomeng.model.MemberLevel;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.type.CatetoryEnum;
 
@@ -20,6 +21,7 @@ public class ProductService {
 	private BrandService brandService = new BrandService();
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 	private ProductAttributeService productAttributeService = new ProductAttributeService();
+	private MemberLevelService memberLevelService = new MemberLevelService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Product productMap = jsonObject.toJavaObject(Product.class);
@@ -40,6 +42,7 @@ public class ProductService {
 
 		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
 		List<Brand> brandList = brandService.listByUser_id(jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		List<MemberLevel> memberLevelList = memberLevelService.listAll();
 
 		if (Utility.isNullOrEmpty(productMap.getProduct_id())) {
 			product = new Product();
@@ -53,6 +56,7 @@ public class ProductService {
 
 		product.setCategoryList(categoryList);
 		product.setBrandList(brandList);
+		product.setMemberLevelList(memberLevelList);
 
 		return product;
 	}

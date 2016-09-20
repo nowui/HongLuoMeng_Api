@@ -33,6 +33,7 @@ public class Product extends Model<Product> {
 	private List<Category> categoryList;
 	private List<Brand> brandList;
 	private List<CategoryAttribute> categoryAttributeList;
+	private List<MemberLevel> memberLevelList;
 
 	public String getProduct_id() {
 		return getStr(KEY_PRODUCT_ID);
@@ -169,6 +170,14 @@ public class Product extends Model<Product> {
 	public void setCategoryAttributeList(
 			List<CategoryAttribute> categoryAttributeList) {
 		this.categoryAttributeList = categoryAttributeList;
+	}
+
+	public List<MemberLevel> getMemberLevelList() {
+		return memberLevelList;
+	}
+
+	public void setMemberLevelList(List<MemberLevel> memberLevelList) {
+		this.memberLevelList = memberLevelList;
 	}
 
 }
