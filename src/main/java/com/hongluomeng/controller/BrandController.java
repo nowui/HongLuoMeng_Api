@@ -9,6 +9,7 @@ import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.service.BrandService;
 import com.hongluomeng.type.CodeEnum;
@@ -166,6 +167,36 @@ public class BrandController extends BaseController {
 		List<Map<String, Object>> resultList = brandService.getMyList(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_APPLY_LIST)
+	public void listApply() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Map<String, Object> resultMap = brandService.listApply(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_APPLYY_FIND)
+	public void findApply() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		BrandApply brandApply = brandService.findApply(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brandApply));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_APPLYY_REVIEW)
+	public void reviewApply() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.reviewApply(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
     }
 
 }

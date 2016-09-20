@@ -6,6 +6,7 @@ import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.type.CodeEnum;
 
@@ -104,7 +105,7 @@ public class BrandValidator extends Validator {
 			}
 
 			if(Utility.isNullOrEmpty(category.getCategory_name())) {
-				message += "用户名为空";
+				message += "名称为空";
 				message += Const.LINE_FEED;
 			}
 
@@ -163,6 +164,38 @@ public class BrandValidator extends Validator {
 
 			if(Utility.isNullOrEmpty(brand.getBrand_id())) {
 				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_APPLY_LIST)) {
+			isExit = true;
+
+			message += Utility.checkPageAndLimit(jsonObject);
+		} else if(actionKey.equals(Const.URL_BRAND_APPLYY_FIND)) {
+			isExit = true;
+
+			BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+
+			if(Utility.isNullOrEmpty(brandApply.getBrand_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(brandApply.getUser_id())) {
+				message += "用户编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_APPLYY_REVIEW)) {
+			isExit = true;
+
+			BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+
+			if(Utility.isNullOrEmpty(brandApply.getBrand_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(brandApply.getUser_id())) {
+				message += "用户编号为空";
 				message += Const.LINE_FEED;
 			}
 		}

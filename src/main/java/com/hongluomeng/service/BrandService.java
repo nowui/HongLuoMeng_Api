@@ -10,6 +10,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.BrandDao;
 import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.type.CatetoryEnum;
 
@@ -185,6 +186,32 @@ public class BrandService {
 
 	public void deleteCategory(JSONObject jsonObject) {
 		categoryService.delete(jsonObject);
+	}
+
+	public Map<String, Object> listApply(JSONObject jsonObject) {
+		Integer count = brandApplyService.count();
+
+		List<BrandApply> brandApplyList = brandApplyService.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, brandApplyList);
+
+		return resultMap;
+	}
+
+	public BrandApply findApply(JSONObject jsonObject) {
+		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
+
+		BrandApply brandApply = brandApplyService.findByBrand_id(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id());
+
+		return brandApply;
+	}
+
+	public void reviewApply(JSONObject jsonObject) {
+		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandApplyService.review(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id(), request_user_id);
 	}
 
 }
