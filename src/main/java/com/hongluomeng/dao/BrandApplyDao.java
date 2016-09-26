@@ -149,10 +149,14 @@ public class BrandApplyDao {
 		return find(brandApply);
 	}
 
-	public void save(String brand_id, String request_user_id) {
+	public void save(String brand_id, String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
 		BrandApply brandApply = new BrandApply();
 		brandApply.setBrand_id(brand_id);
 		brandApply.setUser_id(request_user_id);
+		brandApply.setMember_real_name(member_real_name);
+		brandApply.setMember_identity_card(member_identity_card);
+		brandApply.setMember_identity_card_front_image(member_identity_card_front_image);
+		brandApply.setMember_identity_card_back_image(member_identity_card_back_image);
 		brandApply.setBrand_apply_create_user_id(request_user_id);
 		brandApply.setBrand_apply_create_time(new Date());
 		brandApply.setBrand_apply_update_user_id(request_user_id);

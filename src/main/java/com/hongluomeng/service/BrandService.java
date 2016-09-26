@@ -12,6 +12,7 @@ import com.hongluomeng.dao.BrandDao;
 import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
+import com.hongluomeng.model.Member;
 import com.hongluomeng.type.CatetoryEnum;
 
 public class BrandService {
@@ -19,6 +20,7 @@ public class BrandService {
 	private BrandDao brandDao = new BrandDao();
 	private BrandApplyService brandApplyService = new BrandApplyService();
 	private CategoryService categoryService = new CategoryService();
+	private MemberService memberService = new MemberService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Brand brandMap = jsonObject.toJavaObject(Brand.class);
@@ -159,7 +161,11 @@ public class BrandService {
 		Integer count = brandApplyService.countByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
 
 		if(count == 0) {
-			brandApplyService.save(brandMap.getBrand_id(), request_user_id);
+			Member memberMap = jsonObject.toJavaObject(Member.class);
+
+			memberService.updateInfo(memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
+
+			brandApplyService.save(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
 		} else {
 			throw new RuntimeException("这品牌已经申请过,不能再申请!");
 		}

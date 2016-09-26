@@ -132,6 +132,10 @@ public class MemberDao {
 
 	public void save(Member member, String request_user_id) {
 		member.setMember_id(Utility.getUUID());
+		member.setMember_real_name("");
+		member.setMember_identity_card("");
+		member.setMember_identity_card_front_image("");
+		member.setMember_identity_card_back_image("");
 		member.setMember_create_user_id(request_user_id);
 		member.setMember_create_time(new Date());
 		member.setMember_update_user_id(request_user_id);
@@ -172,6 +176,29 @@ public class MemberDao {
 		}
 
 		return member;
+	}
+
+	public void updateInfo(String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_MEMBER + " SET ");
+		sql.append(Member.KEY_MEMBER_REAL_NAME + " = ? ");
+		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD + " = ? ");
+		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ? ");
+		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE + " = ? ");
+		sql.append("," + Member.KEY_MEMBER_UPDATE_USER_ID + " = ? ");
+		sql.append("," + Member.KEY_MEMBER_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + Member.KEY_USER_ID + " = ?  ");
+
+		parameterList.add(member_real_name);
+		parameterList.add(member_identity_card);
+		parameterList.add(member_identity_card_front_image);
+		parameterList.add(member_identity_card_back_image);
+		parameterList.add(request_user_id);
+		parameterList.add(new Date());
+		parameterList.add(request_user_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
 	}
 
 	public void delete(String member_id, String request_user_id) {

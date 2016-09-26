@@ -8,6 +8,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
+import com.hongluomeng.model.Member;
 import com.hongluomeng.type.CodeEnum;
 
 public class BrandValidator extends Validator {
@@ -164,6 +165,28 @@ public class BrandValidator extends Validator {
 
 			if(Utility.isNullOrEmpty(brand.getBrand_id())) {
 				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			Member member = jsonObject.toJavaObject(Member.class);
+
+			if(Utility.isNullOrEmpty(member.getMember_real_name())) {
+				message += "真实姓名为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_identity_card())) {
+				message += "生份证为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_identity_card_front_image())) {
+				message += "生份证照片正面为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_identity_card_back_image())) {
+				message += "生份证照片反面为空";
 				message += Const.LINE_FEED;
 			}
 		} else if(actionKey.equals(Const.URL_BRAND_APPLY_LIST)) {

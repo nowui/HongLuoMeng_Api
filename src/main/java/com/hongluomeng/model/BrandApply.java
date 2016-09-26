@@ -13,6 +13,10 @@ public class BrandApply extends Model<BrandApply> {
 	public static final String KEY_BRAND_NAME = "brand_name";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_MEMBER_NAME = "member_name";
+	public static final String KEY_MEMBER_REAL_NAME = "member_real_name";
+	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
+	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
+	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
 	public static final String KEY_BRAND_APPLY_CREATE_USER_ID = "brand_apply_create_user_id";
 	public static final String KEY_BRAND_APPLY_CREATE_TIME = "brand_apply_create_time";
 	public static final String KEY_BRAND_APPLY_UPDATE_USER_ID = "brand_apply_update_user_id";
@@ -50,6 +54,38 @@ public class BrandApply extends Model<BrandApply> {
 
 	public void setMember_name(String member_name) {
 		set(KEY_MEMBER_NAME, member_name);
+	}
+
+	public String getMember_real_name() {
+		return getStr(KEY_MEMBER_REAL_NAME);
+	}
+
+	public void setMember_real_name(String member_real_name) {
+		set(KEY_MEMBER_REAL_NAME, member_real_name);
+	}
+
+	public String getMember_identity_card() {
+		return getStr(KEY_MEMBER_IDENTITY_CARD);
+	}
+
+	public void setMember_identity_card(String member_identity_card) {
+		set(KEY_MEMBER_IDENTITY_CARD, member_identity_card);
+	}
+
+	public String getMember_identity_card_front_image() {
+		return getStr(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
+	}
+
+	public void setMember_identity_card_front_image(String member_identity_card_front_image) {
+		set(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
+	}
+
+	public String getMember_identity_card_back_image() {
+		return getStr(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE);
+	}
+
+	public void setMember_identity_card_back_image(String member_identity_card_back_image) {
+		set(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
 	}
 
 	public void setBrand_apply_create_user_id(String brand_apply_create_user_id) {

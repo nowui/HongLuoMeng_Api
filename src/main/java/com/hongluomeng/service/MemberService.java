@@ -273,4 +273,8 @@ public class MemberService {
 		return resultMap;
 	}
 
+	public void updateInfo(String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
+		memberDao.updateInfo(member_real_name, member_identity_card, member_identity_card_front_image, member_identity_card_back_image, request_user_id);
+	}
+
 }

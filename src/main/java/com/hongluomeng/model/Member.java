@@ -15,6 +15,10 @@ public class Member extends Model<Member> {
 	public static final String KEY_MEMBER_AVATAR_SMALL = "member_avatar_small";
 	public static final String KEY_MEMBER_AVATAR_LARGE = "member_avatar_large";
 	public static final String KEY_USER_ID = "user_id";
+	public static final String KEY_MEMBER_REAL_NAME = "member_real_name";
+	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
+	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
+	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
 	public static final String KEY_MEMBER_CREATE_USER_ID = "member_create_user_id";
 	public static final String KEY_MEMBER_CREATE_TIME = "member_create_time";
 	public static final String KEY_MEMBER_UPDATE_USER_ID = "member_update_user_id";
@@ -51,6 +55,38 @@ public class Member extends Model<Member> {
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
+	}
+
+	public String getMember_real_name() {
+		return getStr(KEY_MEMBER_REAL_NAME);
+	}
+
+	public void setMember_real_name(String member_real_name) {
+		set(KEY_MEMBER_REAL_NAME, member_real_name);
+	}
+
+	public String getMember_identity_card() {
+		return getStr(KEY_MEMBER_IDENTITY_CARD);
+	}
+
+	public void setMember_identity_card(String member_identity_card) {
+		set(KEY_MEMBER_IDENTITY_CARD, member_identity_card);
+	}
+
+	public String getMember_identity_card_front_image() {
+		return getStr(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
+	}
+
+	public void setMember_identity_card_front_image(String member_identity_card_front_image) {
+		set(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
+	}
+
+	public String getMember_identity_card_back_image() {
+		return getStr(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE);
+	}
+
+	public void setMember_identity_card_back_image(String member_identity_card_back_image) {
+		set(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
 	}
 
 	public void setMember_create_user_id(String member_create_user_id) {
