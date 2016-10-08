@@ -94,7 +94,8 @@ public class BrandApplyDao {
 	private BrandApply find(BrandApply brandApply) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + BrandApply.KEY_BRAND_APPLY + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + BrandApply.KEY_BRAND_APPLY + ".*, " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_NAME + " FROM " + BrandApply.KEY_BRAND_APPLY + " ");
+		sql.append("LEFT JOIN " + Brand.KEY_BRAND + " ON " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
 
 		Boolean isExit = false;
 
@@ -104,7 +105,7 @@ public class BrandApplyDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(BrandApply.KEY_BRAND_ID + " = ? ");
+			sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = ? ");
 			parameterList.add(brandApply.getBrand_id());
 
 			isExit = true;
@@ -116,7 +117,7 @@ public class BrandApplyDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(BrandApply.KEY_USER_ID + " = ? ");
+			sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
 			parameterList.add(brandApply.getUser_id());
 
 			isExit = true;
@@ -127,7 +128,7 @@ public class BrandApplyDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+		sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
 
 		if(! isExit) {
 			return null;

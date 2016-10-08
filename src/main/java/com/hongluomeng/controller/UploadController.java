@@ -80,12 +80,16 @@ public class UploadController extends BaseController {
 		for (UploadFile uploadFile : uploadFileList) {
 			String path = uploadService.uploadImage(uploadFile, request_user_id);
 
-			if(Utility.isNullOrEmpty(path)) {
+			if(! Utility.isNullOrEmpty(path)) {
 				jsonArray.add(path);
 			}
 		}
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", jsonArray));
+		if(jsonArray.size() == 0) {
+			throw new RuntimeException("上传出错了");
+		} else {
+			renderJson(Utility.setResponse(CodeEnum.CODE_200, "", jsonArray));
+		}
 	}
 
 	public class CompratorByLastModified implements Comparator<File> {
