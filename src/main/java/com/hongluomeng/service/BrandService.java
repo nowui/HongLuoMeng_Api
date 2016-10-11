@@ -66,7 +66,16 @@ public class BrandService {
 	}
 
 	public List<Brand> listByUser_id(String user_id) {
-		return brandDao.list(0, 0);
+		List<Brand> brandList = brandDao.list(0, 0);
+
+		List<Brand> brandResultList = new ArrayList<Brand>();
+		for(Brand brand : brandList) {
+			Brand b = new Brand();
+			b.setBrand_id(brand.getBrand_id());
+			b.setBrand_name(brand.getBrand_name());
+			brandResultList.add(b);
+		}
+		return brandResultList;
 	}
 
 	public List<Map<String, Object>> getMyList(JSONObject jsonObject) {

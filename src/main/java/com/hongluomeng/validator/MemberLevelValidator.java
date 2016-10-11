@@ -19,7 +19,7 @@ public class MemberLevelValidator extends Validator {
 
 		String message = "";
 
-		MemberLevel member_level = jsonObject.toJavaObject(MemberLevel.class);
+		MemberLevel memberLevel = jsonObject.toJavaObject(MemberLevel.class);
 
 		if(actionKey.equals(Const.URL_MEMBER_LEVEL_LIST)) {
 			isExit = true;
@@ -28,26 +28,26 @@ public class MemberLevelValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_FIND)) {
 			isExit = true;
 
-			if(Utility.isNullOrEmpty(member_level.getMember_level_id())) {
+			if(Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
 		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_SAVE) || actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE)) {
 			isExit = true;
 
-			if(actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE) && Utility.isNullOrEmpty(member_level.getMember_level_id())) {
+			if(actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE) && Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(member_level.getMember_level_name())) {
+			if(Utility.isNullOrEmpty(memberLevel.getMember_level_name())) {
 				message += "名称为空";
 				message += Const.LINE_FEED;
 			}
 		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_DELETE)) {
 			isExit = true;
 
-			if(Utility.isNullOrEmpty(member_level.getMember_level_id())) {
+			if(Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}

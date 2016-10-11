@@ -1,5 +1,6 @@
 package com.hongluomeng.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,14 @@ public class ProductService {
 		Product product;
 
 		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
+
 		List<Brand> brandList = brandService.listByUser_id(jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+
 		List<MemberLevel> memberLevelList = memberLevelService.listAll();
+
+		for(MemberLevel memberLevel : memberLevelList) {
+			memberLevel.setMember_level_price(BigDecimal.valueOf(0.01));
+		}
 
 		if (Utility.isNullOrEmpty(productMap.getProduct_id())) {
 			product = new Product();

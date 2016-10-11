@@ -14,7 +14,7 @@ public class MemberLevelService {
 	private MemberLevelDao memberLevelDao = new MemberLevelDao();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Member_level member_levelMap = jsonObject.toJavaObject(Member_level.class);
+		//Member_level memberLevelMap = jsonObject.toJavaObject(Member_level.class);
 
 		Integer count = memberLevelDao.count();
 
@@ -30,35 +30,35 @@ public class MemberLevelService {
 	}
 
 	public MemberLevel find(JSONObject jsonObject) {
-		MemberLevel member_levelMap = jsonObject.toJavaObject(MemberLevel.class);
+		MemberLevel memberLevelMap = jsonObject.toJavaObject(MemberLevel.class);
 
-		MemberLevel member_level = memberLevelDao.findByMember_level_id(member_levelMap.getMember_level_id());
+		MemberLevel memberLevel = memberLevelDao.findByMember_level_id(memberLevelMap.getMember_level_id());
 
-		return member_level;
+		return memberLevel;
 	}
 
 	public void save(JSONObject jsonObject) {
-		MemberLevel member_levelMap = jsonObject.toJavaObject(MemberLevel.class);
+		MemberLevel memberLevelMap = jsonObject.toJavaObject(MemberLevel.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		memberLevelDao.save(member_levelMap, request_user_id);
+		memberLevelDao.save(memberLevelMap, request_user_id);
 	}
 
 	public void update(JSONObject jsonObject) {
-		MemberLevel member_levelMap = jsonObject.toJavaObject(MemberLevel.class);
+		MemberLevel memberLevelMap = jsonObject.toJavaObject(MemberLevel.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		memberLevelDao.update(member_levelMap, request_user_id);
+		memberLevelDao.update(memberLevelMap, request_user_id);
 	}
 
 	public void delete(JSONObject jsonObject) {
-		MemberLevel member_levelMap = jsonObject.toJavaObject(MemberLevel.class);
+		MemberLevel memberLevelMap = jsonObject.toJavaObject(MemberLevel.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		memberLevelDao.delete(member_levelMap.getMember_level_id(), request_user_id);
+		memberLevelDao.delete(memberLevelMap.getMember_level_id(), request_user_id);
 	}
 
 }

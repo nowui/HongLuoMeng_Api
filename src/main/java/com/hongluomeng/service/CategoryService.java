@@ -47,7 +47,15 @@ public class CategoryService {
 
 		setChildren(list, categorieList, category.getCategory_id());
 
-		return list;
+		List<Category> categoryResultList = new ArrayList<Category>();
+		for(Category model : list) {
+			Category c = new Category();
+			c.setCategory_id(model.getCategory_id());
+			c.setCategory_name(model.getCategory_name());
+			categoryResultList.add(c);
+		}
+
+		return categoryResultList;
 	}
 
 	private void setChildren(List<Category> list, List<Category> categorieList, String category_id) {
