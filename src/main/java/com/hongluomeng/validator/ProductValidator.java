@@ -57,7 +57,7 @@ public class ProductValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(product.getProduct_price())) {
+			/*if(Utility.isNullOrEmpty(product.getProduct_price())) {
 				message += "价格为空";
 				message += Const.LINE_FEED;
 			}
@@ -65,7 +65,7 @@ public class ProductValidator extends Validator {
 			if(Utility.isNullOrEmpty(product.getProduct_stock())) {
 				message += "库存为空";
 				message += Const.LINE_FEED;
-			}
+			}*/
 
 			if(Utility.isNullOrEmpty(product.getProduct_is_newarrival())) {
 				message += "新品参数为空";

@@ -13,6 +13,7 @@ import com.hongluomeng.model.Category;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.MemberLevel;
 import com.hongluomeng.model.Product;
+import com.hongluomeng.model.ProductSku;
 import com.hongluomeng.type.CatetoryEnum;
 
 public class ProductService {
@@ -23,6 +24,7 @@ public class ProductService {
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 	private ProductAttributeService productAttributeService = new ProductAttributeService();
 	private MemberLevelService memberLevelService = new MemberLevelService();
+	private ProductSkuService productSkuService = new ProductSkuService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Product productMap = jsonObject.toJavaObject(Product.class);
@@ -79,9 +81,25 @@ public class ProductService {
 	public void update(JSONObject jsonObject) {
 		Product productMap = jsonObject.toJavaObject(Product.class);
 
-		productDao.update(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+		//productDao.update(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
-		productAttributeService.saveByProduct_idAndCategory_Attribute(productMap.getProduct_id(), productMap.getCategoryAttributeList());
+		//productAttributeService.saveByProduct_idAndCategory_Attribute(productMap.getProduct_id(), productMap.getCategoryAttributeList());
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		List<ProductSku> pkList = productSkuService.listByProduct_id(productMap.getProduct_id());
+
+		for(ProductSku pk : pkList) {
+
+		}
+
+		List<ProductSku> productSkuList = productMap.getProductSkuList();
+
+		for(ProductSku productSku : productSkuList) {
+			productSku.setProduct_id(productMap.getProduct_id());
+
+			productSkuService.save(productSku, request_user_id);
+		}
 	}
 
 	public void delete(JSONObject jsonObject) {

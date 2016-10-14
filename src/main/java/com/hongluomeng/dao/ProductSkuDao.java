@@ -41,6 +41,18 @@ public class ProductSkuDao {
 
 		Boolean isExit = false;
 
+		if (! Utility.isNullOrEmpty(productSku.getProduct_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(ProductSku.KEY_PRODUCT_ID + " = ? ");
+			parameterList.add(productSku.getProduct_id());
+
+			isExit = true;
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {
@@ -60,10 +72,11 @@ public class ProductSkuDao {
 		return productSkuList;
 	}
 
-	public List<ProductSku> list(Integer m, Integer n) {
+	public List<ProductSku> listByProduct_id(String product_id) {
 		ProductSku productSku = new ProductSku();
+		productSku.setProduct_id(product_id);
 
-		return list(productSku, m, n);
+		return list(productSku, 0, 0);
 	}
 
 	private ProductSku find(ProductSku productSku) {
@@ -122,14 +135,14 @@ public class ProductSkuDao {
 		productSku.save();
 	}
 
-	public void update(ProductSku productSku, String request_user_id) {
+	/*public void update(ProductSku productSku, String request_user_id) {
 		productSku.remove(ProductSku.KEY_PRODUCT_SKU_CREATE_USER_ID);
 		productSku.remove(ProductSku.KEY_PRODUCT_SKU_CREATE_TIME);
 		productSku.setProduct_sku_update_user_id(request_user_id);
 		productSku.setProduct_sku_update_time(new Date());
 
 		productSku.update();
-	}
+	}*/
 
 	public void delete(String productSku_id, String request_user_id) {
 		ProductSku productSku = new ProductSku();
