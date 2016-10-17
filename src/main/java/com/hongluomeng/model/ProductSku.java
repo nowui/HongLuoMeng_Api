@@ -1,7 +1,10 @@
 package com.hongluomeng.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
+import com.alibaba.fastjson.JSONArray;
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class ProductSku extends Model<ProductSku> {
@@ -38,35 +41,35 @@ public class ProductSku extends Model<ProductSku> {
 		set(KEY_PRODUCT_ID, product_id);
 	}
 
-	public String getProduct_attribute_value() {
-		return getStr(KEY_PRODUCT_ATTRIBUTE_VALUE);
+	public JSONArray getProduct_attribute_value() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_ATTRIBUTE_VALUE));
 	}
 
 	public void setProduct_attribute_value(String product_attribute_value) {
 		set(KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
 	}
 
-	public String getProduct_price() {
-		return getStr(KEY_PRODUCT_PRICE);
+	public BigDecimal getProduct_price() {
+		return getBigDecimal(KEY_PRODUCT_PRICE);
 	}
 
-	public void setProduct_price(String product_price) {
+	public void setProduct_price(BigDecimal product_price) {
 		set(KEY_PRODUCT_PRICE, product_price);
 	}
 
-	public String getMember_level_price() {
-		return getStr(KEY_MEMBER_LEVEL_PRICE);
+	public JSONArray getMember_level_price() {
+		return JSONArray.parseArray(getStr(KEY_MEMBER_LEVEL_PRICE));
 	}
 
 	public void setMember_level_price(String member_level_price) {
 		set(KEY_MEMBER_LEVEL_PRICE, member_level_price);
 	}
 
-	public String getProduct_stock() {
-		return getStr(KEY_PRODUCT_STOCK);
+	public Integer getProduct_stock() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_STOCK));
 	}
 
-	public void setProduct_stock(String product_stock) {
+	public void setProduct_stock(Integer product_stock) {
 		set(KEY_PRODUCT_STOCK, product_stock);
 	}
 

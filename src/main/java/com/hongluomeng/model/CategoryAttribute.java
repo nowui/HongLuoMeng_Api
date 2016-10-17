@@ -1,6 +1,7 @@
 package com.hongluomeng.model;
 
 import com.jfinal.plugin.activerecord.Model;
+import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
 
 public class CategoryAttribute extends Model<CategoryAttribute> {
@@ -67,8 +68,8 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 		this.attribute_type = attribute_type;
 	}
 
-	public String getAttribute_default_value() {
-		return attribute_default_value;
+	public JSONArray getAttribute_default_value() {
+		return JSONArray.parseArray(attribute_default_value);
 	}
 
 	public void setAttribute_default_value(String attribute_default_value) {

@@ -3,7 +3,6 @@ package com.hongluomeng.service;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hongluomeng.common.Const;
 import com.hongluomeng.dao.ProductSkuDao;
 import com.hongluomeng.model.ProductSku;
 
@@ -35,12 +34,8 @@ public class ProductSkuService {
 		memberLevelDao.update(productSkuMap, request_user_id);
 	}*/
 
-	public void delete(JSONObject jsonObject) {
-		ProductSku productSkuMap = jsonObject.toJavaObject(ProductSku.class);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		memberLevelDao.delete(productSkuMap.getProduct_sku_id(), request_user_id);
+	public void delete(String product_sku_id, String request_user_id) {
+		memberLevelDao.delete(product_sku_id, request_user_id);
 	}
 
 }

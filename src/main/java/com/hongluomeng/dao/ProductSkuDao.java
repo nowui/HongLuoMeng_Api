@@ -117,9 +117,9 @@ public class ProductSkuDao {
 		}
 	}
 
-	public ProductSku findByProduct_sku_id(String productSku_id) {
+	public ProductSku findByProduct_sku_id(String product_sku_id) {
 		ProductSku productSku = new ProductSku();
-		productSku.setProduct_sku_id(productSku_id);
+		productSku.setProduct_sku_id(product_sku_id);
 
 		return find(productSku);
 	}
@@ -144,9 +144,9 @@ public class ProductSkuDao {
 		productSku.update();
 	}*/
 
-	public void delete(String productSku_id, String request_user_id) {
+	public void delete(String product_sku_id, String request_user_id) {
 		ProductSku productSku = new ProductSku();
-		productSku.setProduct_sku_id(productSku_id);
+		productSku.setProduct_sku_id(product_sku_id);
 		productSku.setProduct_sku_update_user_id(request_user_id);
 		productSku.setProduct_sku_update_time(new Date());
 		productSku.setProduct_sku_status(false);

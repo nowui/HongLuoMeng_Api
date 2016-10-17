@@ -49,6 +49,8 @@ public class ProductService {
 
 		List<MemberLevel> memberLevelList = memberLevelService.listAll();
 
+		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
+
 		for(MemberLevel memberLevel : memberLevelList) {
 			memberLevel.setMember_level_price(BigDecimal.valueOf(0.01));
 		}
@@ -66,6 +68,7 @@ public class ProductService {
 		product.setCategoryList(categoryList);
 		product.setBrandList(brandList);
 		product.setMemberLevelList(memberLevelList);
+		product.setProductSkuList(productSkuList);
 
 		return product;
 	}
@@ -89,16 +92,40 @@ public class ProductService {
 
 		List<ProductSku> pkList = productSkuService.listByProduct_id(productMap.getProduct_id());
 
-		for(ProductSku pk : pkList) {
-
-		}
-
 		List<ProductSku> productSkuList = productMap.getProductSkuList();
 
-		for(ProductSku productSku : productSkuList) {
-			productSku.setProduct_id(productMap.getProduct_id());
+		for(ProductSku pk : pkList) {
+			Boolean isExit = false;
 
-			productSkuService.save(productSku, request_user_id);
+			for(ProductSku productSku : productSkuList) {
+				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price())) {
+					isExit = true;
+
+					break;
+				}
+			}
+
+			if(! isExit) {
+				productSkuService.delete(pk.getProduct_sku_id(), request_user_id);
+			}
+		}
+
+		for(ProductSku productSku : productSkuList) {
+			Boolean isExit = false;
+
+			for(ProductSku pk : pkList) {
+				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price())) {
+					isExit = true;
+
+					break;
+				}
+			}
+
+			if(! isExit) {
+				productSku.setProduct_id(productMap.getProduct_id());
+
+				productSkuService.save(productSku, request_user_id);
+			}
 		}
 	}
 
