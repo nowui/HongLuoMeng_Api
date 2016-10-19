@@ -15,6 +15,15 @@ public class ProductDao {
 
 		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Product.KEY_PRODUCT + " ");
 
+		Boolean isExit = false;
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Product.KEY_PRODUCT_STATUS + " = 1 ");
+
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
 	}
@@ -29,6 +38,40 @@ public class ProductDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_PRODUCT + " ");
+
+		Boolean isExit = false;
+
+		if (! Utility.isNullOrEmpty(product.getCategory_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Product.KEY_CATEGORY_ID + " = ? ");
+			parameterList.add(product.getCategory_id());
+
+			isExit = true;
+		}
+
+		if (! Utility.isNullOrEmpty(product.getBrand_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Product.KEY_BRAND_ID + " = ? ");
+			parameterList.add(product.getBrand_id());
+
+			isExit = true;
+		}
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(Product.KEY_PRODUCT_STATUS + " = 1 ");
+
 		sql.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -42,9 +85,23 @@ public class ProductDao {
 	}
 
 	public List<Product> list(Integer m, Integer n) {
-		Product product = new Product();
+		Product productMap = new Product();
 
-		return list(product, m, n);
+		return list(productMap, m, n);
+	}
+
+	public List<Product> listByCategory_id(String category_id, Integer m, Integer n) {
+		Product productMap = new Product();
+		productMap.setCategory_id(category_id);
+
+		return list(productMap, m, n);
+	}
+
+	public List<Product> listByBrand_id(String brand_id, Integer m, Integer n) {
+		Product productMap = new Product();
+		productMap.setBrand_id(brand_id);
+
+		return list(productMap, m, n);
 	}
 
 	private Product find(Product product) {

@@ -150,7 +150,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUC_CATEGORYT_ATTRIBUTE_UPDATE)
+	@ActionKey(Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE)
 	public void updateCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -160,7 +160,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUC_CATEGORYT_ATTRIBUTE_DELETE)
+	@ActionKey(Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE)
 	public void deleteCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -168,5 +168,45 @@ public class ProductController extends BaseController {
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
+
+	@Before(ProductValidator.class)
+	@ActionKey(Const.URL_PRODUCT_CATEGORY_LIST_GET)
+	public void getCategoryList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = productService.getCategoryList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(ProductValidator.class)
+	@ActionKey(Const.URL_PRODUCT_LIST_GET)
+	public void getList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = productService.getList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(ProductValidator.class)
+	@ActionKey(Const.URL_PRODUCT_BRAND_LIST_GET)
+	public void getBrandList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = productService.getBrandList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(ProductValidator.class)
+	@ActionKey(Const.URL_PRODUCT_GET)
+	public void get() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Product product = productService.get(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", product));
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,19 @@ public class ProductService {
 
 		List<Product> productList = productDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Product product : productList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
+			map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
+			map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
+			map.put(Product.KEY_PRODUCT_STOCK, product.getProduct_stock());
+			//map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
+
+			list.add(map);
+		}
+
 		Map<String, Object> resultMap = Utility.setResultMap(count, productList);
 
 		return resultMap;
@@ -50,10 +64,6 @@ public class ProductService {
 		List<MemberLevel> memberLevelList = memberLevelService.listAll();
 
 		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
-
-		for(MemberLevel memberLevel : memberLevelList) {
-			memberLevel.setMember_level_price(BigDecimal.valueOf(0.01));
-		}
 
 		if (Utility.isNullOrEmpty(productMap.getProduct_id())) {
 			product = new Product();
@@ -83,10 +93,6 @@ public class ProductService {
 
 	public void update(JSONObject jsonObject) {
 		Product productMap = jsonObject.toJavaObject(Product.class);
-
-		//productDao.update(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
-
-		//productAttributeService.saveByProduct_idAndCategory_Attribute(productMap.getProduct_id(), productMap.getCategoryAttributeList());
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
@@ -126,7 +132,17 @@ public class ProductService {
 
 				productSkuService.save(productSku, request_user_id);
 			}
+
+			//更新product里面的价格信息
+			if(productSku.getProduct_attribute_value().size() == 0) {
+				productMap.setProduct_price(productSku.getProduct_price());
+				productMap.setProduct_stock(productSku.getProduct_stock());
+			}
 		}
+
+		productDao.update(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
+
+		productAttributeService.saveByProduct_idAndCategory_Attribute(productMap.getProduct_id(), productMap.getCategoryAttributeList());
 	}
 
 	public void delete(JSONObject jsonObject) {
@@ -173,6 +189,77 @@ public class ProductService {
 
 	public void deleteCategoryAttribute(JSONObject jsonObject) {
 		categoryAttributeService.delete(jsonObject);
+	}
+
+	public List<Map<String, Object>> getCategoryList(JSONObject jsonObject) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
+
+		for(Category category : categoryList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Category.KEY_CATEGORY_ID, category.getCategory_id());
+			map.put(Category.KEY_CATEGORY_NAME, category.getCategory_name());
+			list.add(map);
+		}
+
+		return list;
+	}
+
+	public List<Map<String, Object>> getList(JSONObject jsonObject) {
+		Product productMap = jsonObject.toJavaObject(Product.class);
+
+		List<Product> productList = productDao.listByCategory_id(productMap.getCategory_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Product product : productList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
+			map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
+			map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
+			//map.put(Product.KEY_PRODUCT_STOCK, product.getProduct_stock());
+			map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
+
+			list.add(map);
+		}
+
+		return list;
+	}
+
+	public List<Map<String, Object>> getBrandList(JSONObject jsonObject) {
+		Product productMap = jsonObject.toJavaObject(Product.class);
+
+		List<Product> productList = productDao.listByBrand_id(productMap.getBrand_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Product product : productList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
+			map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
+			map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
+			//map.put(Product.KEY_PRODUCT_STOCK, product.getProduct_stock());
+			map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
+
+			list.add(map);
+		}
+
+		return list;
+	}
+
+	public Product get(JSONObject jsonObject) {
+		Product productMap = jsonObject.toJavaObject(Product.class);
+
+		Product product = productDao.findByProduct_id(productMap.getProduct_id());
+
+		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
+		product.setProductSkuList(productSkuList);
+
+		//List<CategoryAttribute> categoryAttributeList = categoryAttributeService.listByProduct_idAndCategory_id(product.getProduct_id(), product.getCategory_id());
+		//product.setCategoryAttributeList(categoryAttributeList);
+
+		return product;
 	}
 
 }

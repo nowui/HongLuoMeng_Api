@@ -134,8 +134,12 @@ public class Const {
 	public static final String URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST = "/product/category/attribute/list";
 	public static final String URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND = "/product/category/attribute/find";
 	public static final String URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE = "/product/category/attribute/save";
-	public static final String URL_PRODUC_CATEGORYT_ATTRIBUTE_UPDATE = "/product/category/attribute/update";
-	public static final String URL_PRODUC_CATEGORYT_ATTRIBUTE_DELETE = "/product/category/attribute/delete";
+	public static final String URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE = "/product/category/attribute/update";
+	public static final String URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE = "/product/category/attribute/delete";
+	public static final String URL_PRODUCT_CATEGORY_LIST_GET = "/product/category/list/get";
+	public static final String URL_PRODUCT_LIST_GET = "/product/list/get";
+	public static final String URL_PRODUCT_BRAND_LIST_GET = "/product/brand/list/get";
+	public static final String URL_PRODUCT_GET = "/product/get";
 
 	public static final String URL_ROLE_LIST = "/role/list";
 	public static final String URL_ROLE_FIND = "/role/find";

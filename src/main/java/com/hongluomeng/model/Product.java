@@ -1,8 +1,10 @@
 package com.hongluomeng.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 import com.alibaba.fastjson.JSONArray;
 
@@ -16,6 +18,8 @@ public class Product extends Model<Product> {
 	public static final String KEY_BRAND_ID = "brand_id";
 	public static final String KEY_PRODUCT_NAME = "product_name";
 	public static final String KEY_PRODUCT_IMAGE = "product_image";
+	public static final String KEY_PRODUCT_PRICE = "product_price";
+	public static final String KEY_PRODUCT_STOCK = "product_stock";
 	public static final String KEY_PRODUCT_IS_NEWWRRIVAL = "product_is_newarrival";
 	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
 	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
@@ -70,6 +74,22 @@ public class Product extends Model<Product> {
 
 	public void setProduct_image(String product_image) {
 		set(KEY_PRODUCT_IMAGE, product_image);
+	}
+
+	public BigDecimal getProduct_price() {
+		return getBigDecimal(KEY_PRODUCT_PRICE);
+	}
+
+	public void setProduct_price(BigDecimal product_price) {
+		set(KEY_PRODUCT_PRICE, product_price);
+	}
+
+	public Integer getProduct_stock() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_STOCK));
+	}
+
+	public void setProduct_stock(Integer product_stock) {
+		set(KEY_PRODUCT_STOCK, product_stock);
 	}
 
 	public Boolean getProduct_is_newarrival() {

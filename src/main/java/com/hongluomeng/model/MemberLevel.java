@@ -1,6 +1,5 @@
 package com.hongluomeng.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import com.hongluomeng.common.Utility;
@@ -19,8 +18,6 @@ public class MemberLevel extends Model<MemberLevel> {
 	public static final String KEY_MEMBER_LEVEL_UPDATE_USER_ID = "member_level_update_user_id";
 	public static final String KEY_MEMBER_LEVEL_UPDATE_TIME = "member_level_update_time";
 	public static final String KEY_MEMBER_LEVEL_STATUS = "member_level_status";
-
-	public BigDecimal member_level_price;
 
 	public String getMember_level_id() {
 		return getStr(KEY_MEMBER_LEVEL_ID);
@@ -68,14 +65,6 @@ public class MemberLevel extends Model<MemberLevel> {
 
 	public void setMember_level_status(Boolean member_level_status) {
 		set(KEY_MEMBER_LEVEL_STATUS, member_level_status);
-	}
-
-	public BigDecimal getMember_level_price() {
-		return member_level_price;
-	}
-
-	public void setMember_level_price(BigDecimal member_level_price) {
-		this.member_level_price = member_level_price;
 	}
 
 }

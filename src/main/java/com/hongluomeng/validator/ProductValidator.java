@@ -164,7 +164,7 @@ public class ProductValidator extends Validator {
 				message += "分类编号为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE) || actionKey.equals(Const.URL_PRODUC_CATEGORYT_ATTRIBUTE_UPDATE)) {
+		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE) || actionKey.equals(Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE)) {
 			isExit = true;
 
 			CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -183,7 +183,7 @@ public class ProductValidator extends Validator {
 				message += "排序为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_PRODUC_CATEGORYT_ATTRIBUTE_DELETE)) {
+		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE)) {
 			isExit = true;
 
 			CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -195,6 +195,40 @@ public class ProductValidator extends Validator {
 
 			if(Utility.isNullOrEmpty(categoryAttribute.getAttribute_id())) {
 				message += "属性编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_PRODUCT_CATEGORY_LIST_GET)) {
+			isExit = true;
+
+		} else if(actionKey.equals(Const.URL_PRODUCT_LIST_GET)) {
+			isExit = true;
+
+			Category category = jsonObject.toJavaObject(Category.class);
+
+			if(Utility.isNull(category.getCategory_id())) {
+				message += "分类编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			message += Utility.checkPageAndLimit(jsonObject);
+		} else if(actionKey.equals(Const.URL_PRODUCT_BRAND_LIST_GET)) {
+			isExit = true;
+
+			Product product = jsonObject.toJavaObject(Product.class);
+
+			if(Utility.isNullOrEmpty(product.getBrand_id())) {
+				message += "品牌为空";
+				message += Const.LINE_FEED;
+			}
+
+			message += Utility.checkPageAndLimit(jsonObject);
+		} else if(actionKey.equals(Const.URL_PRODUCT_GET)) {
+			isExit = true;
+
+			Product product = jsonObject.toJavaObject(Product.class);
+
+			if(Utility.isNullOrEmpty(product.getProduct_id())) {
+				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
 		}
