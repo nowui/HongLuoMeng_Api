@@ -256,6 +256,9 @@ public class ProductService {
 		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
 		product.setProductSkuList(productSkuList);
 
+		product.setProduct_price(null);
+		product.setProduct_stock(null);
+
 		//List<CategoryAttribute> categoryAttributeList = categoryAttributeService.listByProduct_idAndCategory_id(product.getProduct_id(), product.getCategory_id());
 		//product.setCategoryAttributeList(categoryAttributeList);
 

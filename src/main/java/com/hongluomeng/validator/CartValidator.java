@@ -21,27 +21,22 @@ public class CartValidator extends Validator {
 
 		Cart cart = jsonObject.toJavaObject(Cart.class);
 
-		if(actionKey.equals(Const.URL_SHOP_LIST)) {
+		if(actionKey.equals(Const.URL_CART_LIST)) {
 			isExit = true;
 
 			message += Utility.checkPageAndLimit(jsonObject);
-		} else if(actionKey.equals(Const.URL_SHOP_FIND)) {
+		} else if(actionKey.equals(Const.URL_CART_FIND)) {
 			isExit = true;
 
 			if(Utility.isNullOrEmpty(cart.getCart_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_SHOP_SAVE) || actionKey.equals(Const.URL_SHOP_UPDATE)) {
+		} else if(actionKey.equals(Const.URL_CART_SAVE) || actionKey.equals(Const.URL_CART_UPDATE)) {
 			isExit = true;
 
-			if(actionKey.equals(Const.URL_SHOP_UPDATE) && Utility.isNullOrEmpty(cart.getCart_id())) {
+			if(actionKey.equals(Const.URL_CART_UPDATE) && Utility.isNullOrEmpty(cart.getCart_id())) {
 				message += "编号为空";
-				message += Const.LINE_FEED;
-			}
-
-			if(Utility.isNullOrEmpty(cart.getUser_id())) {
-				message += "用户编号为空";
 				message += Const.LINE_FEED;
 			}
 
@@ -54,13 +49,15 @@ public class CartValidator extends Validator {
 				message += "商品数量为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_SHOP_DELETE)) {
+		} else if(actionKey.equals(Const.URL_CART_DELETE)) {
 			isExit = true;
 
 			if(Utility.isNullOrEmpty(cart.getCart_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_CART_LIST_GET)) {
+			isExit = true;
 		}
 
 		if (! isExit) {

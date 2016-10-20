@@ -1,5 +1,6 @@
 package com.hongluomeng.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
@@ -17,7 +18,7 @@ public class CartController extends BaseController {
 	private CartService cartService = new CartService();
 
 	@Before(CartValidator.class)
-	@ActionKey(Const.URL_SHOP_LIST)
+	@ActionKey(Const.URL_CART_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -27,7 +28,7 @@ public class CartController extends BaseController {
     }
 
 	@Before(CartValidator.class)
-	@ActionKey(Const.URL_SHOP_FIND)
+	@ActionKey(Const.URL_CART_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -37,7 +38,7 @@ public class CartController extends BaseController {
     }
 
 	@Before(CartValidator.class)
-	@ActionKey(Const.URL_SHOP_SAVE)
+	@ActionKey(Const.URL_CART_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -47,7 +48,7 @@ public class CartController extends BaseController {
 	}
 
 	@Before(CartValidator.class)
-	@ActionKey(Const.URL_SHOP_UPDATE)
+	@ActionKey(Const.URL_CART_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -57,7 +58,7 @@ public class CartController extends BaseController {
 	}
 
 	@Before(CartValidator.class)
-	@ActionKey(Const.URL_SHOP_DELETE)
+	@ActionKey(Const.URL_CART_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -65,5 +66,15 @@ public class CartController extends BaseController {
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
+
+	@Before(CartValidator.class)
+	@ActionKey(Const.URL_CART_LIST_GET)
+	public void getList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Cart> cartList = cartService.getList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", cartList));
+    }
 
 }

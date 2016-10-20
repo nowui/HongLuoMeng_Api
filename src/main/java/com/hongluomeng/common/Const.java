@@ -169,4 +169,11 @@ public class Const {
 	public static final String URL_MEMBER_LEVEL_UPDATE = "/member/level/update";
 	public static final String URL_MEMBER_LEVEL_DELETE = "/member/level/delete";
 
+	public static final String URL_CART_LIST = "/cart/list";
+	public static final String URL_CART_FIND = "/cart/find";
+	public static final String URL_CART_SAVE = "/cart/save";
+	public static final String URL_CART_UPDATE = "/cart/update";
+	public static final String URL_CART_DELETE = "/cart/delete";
+	public static final String URL_CART_LIST_GET = "/cart/list/get";
+
 }

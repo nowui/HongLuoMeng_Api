@@ -38,7 +38,17 @@ public class CartService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		cartDao.save(cartMap, request_user_id);
+		cartMap.setUser_id(request_user_id);
+
+		Cart cart = cartDao.findByProduct_sku_id(cartMap.getProduct_sku_id());
+
+		if(cart == null) {
+			cartDao.save(cartMap, request_user_id);
+		} else {
+			cart.setCart_product_number(cart.getCart_product_number() + cartMap.getCart_product_number());
+
+			cartDao.update(cart, request_user_id);
+		}
 	}
 
 	public void update(JSONObject jsonObject) {
@@ -55,6 +65,14 @@ public class CartService {
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		cartDao.delete(cartMap.getCart_id(), request_user_id);
+	}
+
+	public List<Cart> getList(JSONObject jsonObject) {
+		//Cart cartMap = jsonObject.toJavaObject(Cart.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		return cartDao.listByUser_id(request_user_id);
 	}
 
 }
