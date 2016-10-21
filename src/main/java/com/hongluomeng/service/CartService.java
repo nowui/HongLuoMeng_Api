@@ -72,7 +72,15 @@ public class CartService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		return cartDao.listByUser_id(request_user_id);
+		List<Cart> cartList = cartDao.listByUser_id(request_user_id);
+
+		for(Cart cart : cartList) {
+			cart.setUser_id(null);
+			cart.setProduct_sku_id(null);
+			cart.setCart_status(null);
+		}
+
+		return cartList;
 	}
 
 }

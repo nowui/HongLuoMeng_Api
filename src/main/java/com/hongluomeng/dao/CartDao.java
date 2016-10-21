@@ -7,6 +7,8 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Cart;
+import com.hongluomeng.model.Product;
+import com.hongluomeng.model.ProductSku;
 
 public class CartDao {
 
@@ -37,7 +39,18 @@ public class CartDao {
 	private List<Cart> list(Cart cart, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Cart.KEY_CART + " ");
+		StringBuffer sql = new StringBuffer("SELECT ");
+		sql.append(Cart.KEY_CART + ".*, ");
+		sql.append(Product.KEY_PRODUCT + "." + Product.KEY_PRODUCT_ID + ", ");
+		sql.append(Product.KEY_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
+		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
+		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
+		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_STOCK + ", ");
+		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " ");
+		sql.append(" ");
+		sql.append("FROM " + Cart.KEY_CART + " ");
+		sql.append("LEFT JOIN " + ProductSku.KEY_PRODUCT_SKU + " ON " + ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
+		sql.append("LEFT JOIN " + Product.KEY_PRODUCT + " ON " + Product.KEY_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
 
 		Boolean isExit = false;
 
@@ -47,7 +60,7 @@ public class CartDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(Cart.KEY_USER_ID + " = ? ");
+			sql.append(Cart.KEY_CART + "." + Cart.KEY_USER_ID + " = ? ");
 			parameterList.add(cart.getUser_id());
 
 			isExit = true;
@@ -58,9 +71,9 @@ public class CartDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(Cart.KEY_CART_STATUS + " = 1 ");
+		sql.append(Cart.KEY_CART + "." + Cart.KEY_CART_STATUS + " = 1 ");
 
-		sql.append("ORDER BY " + Cart.KEY_CART_CREATE_TIME + " DESC ");
+		sql.append("ORDER BY " + Cart.KEY_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
 			sql.append("LIMIT ?, ? ");
@@ -161,6 +174,9 @@ public class CartDao {
 	}
 
 	public void update(Cart cart, String request_user_id) {
+		cart.remove(Cart.KEY_USER_ID);
+		cart.remove(Cart.KEY_PRODUCT_SKU_ID);
+
 		cart.remove(Cart.KEY_CART_CREATE_USER_ID);
 		cart.remove(Cart.KEY_CART_CREATE_TIME);
 		cart.setCart_update_user_id(request_user_id);

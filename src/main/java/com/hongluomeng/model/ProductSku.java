@@ -16,7 +16,6 @@ public class ProductSku extends Model<ProductSku> {
 	public static final String KEY_PRODUCT_ID = "product_id";
 	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
 	public static final String KEY_PRODUCT_PRICE = "product_price";
-	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
 	public static final String KEY_PRODUCT_STOCK = "product_stock";
 	public static final String KEY_PRODUCT_SKU_CREATE_USER_ID = "product_sku_create_user_id";

@@ -40,7 +40,7 @@ public class CartValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
+			if(actionKey.equals(Const.URL_CART_SAVE) && Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
 				message += "商品SKU编号为空";
 				message += Const.LINE_FEED;
 			}
