@@ -1,5 +1,6 @@
 package com.hongluomeng.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
@@ -9,6 +10,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.service.CategoryService;
+import com.hongluomeng.type.CatetoryEnum;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.CategoryValidator;
 
@@ -65,5 +67,13 @@ public class CategoryController extends BaseController {
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
+
+	@Before(CategoryValidator.class)
+	@ActionKey(Const.URL_CATEGORY_CHINA)
+	public void china() {
+		Map<String, Object> map = categoryService.treeByCategory_key(CatetoryEnum.CHINA.getKey());
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+    }
 
 }

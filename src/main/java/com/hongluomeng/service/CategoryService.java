@@ -101,7 +101,7 @@ public class CategoryService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put(Const.KEY_ID, category.getCategory_id());
 		resultMap.put(Const.KEY_NAME, category.getCategory_name());
-		resultMap.put(Const.KEY_SORT, category.getCategory_sort());
+		//resultMap.put(Const.KEY_SORT, category.getCategory_sort());
 		resultMap.put(Const.KEY_CHILDREN, getChildrenList(categoryDao.listByCategory_path(category.getCategory_id().toString()), category.getCategory_id()));
 
 		return resultMap;
@@ -114,7 +114,7 @@ public class CategoryService {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put(Const.KEY_ID, category.getCategory_id());
 				map.put(Const.KEY_NAME, category.getCategory_name());
-				map.put(Const.KEY_SORT, category.getCategory_sort());
+				//map.put(Const.KEY_SORT, category.getCategory_sort());
 
 				List<Map<String, Object>> childrenList = getChildrenList(categoryList, category.getCategory_id());
 				if (childrenList.size() > 0) {
@@ -145,7 +145,7 @@ public class CategoryService {
 		return categoryDao.findByCategory_key(category_key);
 	}
 
-	public void save(JSONObject jsonObject) {
+	public Category save(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
@@ -169,7 +169,7 @@ public class CategoryService {
 				}
 			}
 
-			categoryDao.save(categoryMap, request_user_id);
+			return categoryDao.save(categoryMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");
 		}

@@ -55,6 +55,8 @@ public class CategoryValidator extends Validator {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_CATEGORY_CHINA)) {
+			isExit = true;
 		}
 
 		if (! isExit) {

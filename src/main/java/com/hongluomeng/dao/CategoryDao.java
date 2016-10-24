@@ -184,7 +184,7 @@ public class CategoryDao {
 		return find(category);
 	}
 
-	public void save(Category category, String request_user_id) {
+	public Category save(Category category, String request_user_id) {
 		category.setCategory_id(Utility.getUUID());
 		category.setCategory_create_user_id(request_user_id);
 		category.setCategory_create_time(new Date());
@@ -193,6 +193,8 @@ public class CategoryDao {
 		category.setCategory_status(true);
 
 		category.save();
+
+		return category;
 	}
 
 	public void update(Category category, String request_user_id) {

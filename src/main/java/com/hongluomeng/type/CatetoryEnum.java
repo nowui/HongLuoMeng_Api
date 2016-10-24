@@ -4,7 +4,8 @@ public enum CatetoryEnum {
 	GROUP("group"),
 	MENU("menu"),
 	PRODUCT("product"),
-	BRAND("brand");
+	BRAND("brand"),
+	CHINA("china");
 
 	private String key;
 

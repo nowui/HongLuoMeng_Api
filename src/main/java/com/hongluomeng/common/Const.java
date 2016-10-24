@@ -86,6 +86,7 @@ public class Const {
 	public static final String URL_CATEGORY_SAVE = "/category/save";
 	public static final String URL_CATEGORY_UPDATE = "/category/update";
 	public static final String URL_CATEGORY_DELETE = "/category/delete";
+	public static final String URL_CATEGORY_CHINA = "/category/china";
 
 	public static final String URL_GROUP_LIST = "/group/list";
 	public static final String URL_GROUP_FIND = "/group/find";
@@ -175,5 +176,13 @@ public class Const {
 	public static final String URL_CART_UPDATE = "/cart/update";
 	public static final String URL_CART_DELETE = "/cart/delete";
 	public static final String URL_CART_LIST_GET = "/cart/list/get";
+
+	public static final String URL_MEMBER_DELIVERY_LIST = "/member/delivery/list";
+	public static final String URL_MEMBER_DELIVERY_FIND = "/member/delivery/find";
+	public static final String URL_MEMBER_DELIVERY_SAVE = "/member/delivery/save";
+	public static final String URL_MEMBER_DELIVERY_UPDATE = "/member/delivery/update";
+	public static final String URL_MEMBER_DELIVERY_DELETE = "/member/delivery/delete";
+	public static final String URL_MEMBER_DELIVERY_LIST_GET = "/member/delivery/list/get";
+	public static final String URL_MEMBER_DELIVERY_GET = "/member/delivery/get";
 
 }
