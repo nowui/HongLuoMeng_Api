@@ -24,6 +24,13 @@ public class ProductValidator extends Validator {
 		if(actionKey.equals(Const.URL_PRODUCT_LIST)) {
 			isExit = true;
 
+			Product product = jsonObject.toJavaObject(Product.class);
+
+			if(Utility.isNull(product.getProduct_name())) {
+				message += "名称为空";
+				message += Const.LINE_FEED;
+			}
+
 			message += Utility.checkPageAndLimit(jsonObject);
 		} else if(actionKey.equals(Const.URL_PRODUCT_FIND)) {
 			isExit = true;
@@ -67,27 +74,37 @@ public class ProductValidator extends Validator {
 				message += Const.LINE_FEED;
 			}*/
 
-			if(Utility.isNullOrEmpty(product.getProduct_is_newarrival())) {
-				message += "新品参数为空";
+			if(Utility.isNullOrEmpty(product.getProduct_is_new())) {
+				message += "是否新品参数为空";
 				message += Const.LINE_FEED;
 			}
 
 			if(Utility.isNullOrEmpty(product.getProduct_is_recommend())) {
-				message += "推荐参数为空";
+				message += "是否推荐参数为空";
 				message += Const.LINE_FEED;
 			}
 
 			if(Utility.isNullOrEmpty(product.getProduct_is_bargain())) {
-				message += "特价参数为空";
+				message += "是否特价参数为空";
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(product.getProduct_status())) {
-				message += "状态为空";
+			if(Utility.isNullOrEmpty(product.getProduct_is_hot())) {
+				message += "是否热卖参数为空";
 				message += Const.LINE_FEED;
 			}
 
-			if(jsonObject.getString(Product.KEY_PRODUCT_CONTENT) == null) {
+			if(Utility.isNullOrEmpty(product.getProduct_is_sell_out())) {
+				message += "是否买完参数为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(product.getProduct_is_sale())) {
+				message += "是否上下架为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNull(product.getProduct_content())) {
 				message += "介绍为空";
 				message += Const.LINE_FEED;
 			}

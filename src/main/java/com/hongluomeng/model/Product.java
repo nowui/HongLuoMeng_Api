@@ -20,9 +20,12 @@ public class Product extends Model<Product> {
 	public static final String KEY_PRODUCT_IMAGE = "product_image";
 	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_PRODUCT_STOCK = "product_stock";
-	public static final String KEY_PRODUCT_IS_NEWWRRIVAL = "product_is_newarrival";
+	public static final String KEY_PRODUCT_IS_NEW = "product_is_new";
 	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
 	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
+	public static final String KEY_PRODUCT_IS_HOT = "product_is_hot";
+	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
+	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
 	public static final String KEY_PRODUCT_STATUS = "product_status";
 	public static final String KEY_PRODUCT_CONTENT = "product_content";
 	public static final String KEY_PRODUCT_CREATE_USER_ID = "product_create_user_id";
@@ -92,12 +95,12 @@ public class Product extends Model<Product> {
 		set(KEY_PRODUCT_STOCK, product_stock);
 	}
 
-	public Boolean getProduct_is_newarrival() {
-		return getBoolean(KEY_PRODUCT_IS_NEWWRRIVAL);
+	public Boolean getProduct_is_new() {
+		return getBoolean(KEY_PRODUCT_IS_NEW);
 	}
 
-	public void setProduct_is_newarrival(Boolean product_is_newarrival) {
-		set(KEY_PRODUCT_IS_NEWWRRIVAL, product_is_newarrival);
+	public void setProduct_is_new(Boolean product_is_new) {
+		set(KEY_PRODUCT_IS_NEW, product_is_new);
 	}
 
 	public Boolean getProduct_is_recommend() {
@@ -114,6 +117,30 @@ public class Product extends Model<Product> {
 
 	public void setProduct_is_bargain(Boolean product_is_bargain) {
 		set(KEY_PRODUCT_IS_BARGAIN, product_is_bargain);
+	}
+
+	public Boolean getProduct_is_hot() {
+		return getBoolean(KEY_PRODUCT_IS_HOT);
+	}
+
+	public void setProduct_is_hot(Boolean product_is_hot) {
+		set(KEY_PRODUCT_IS_HOT, product_is_hot);
+	}
+
+	public Boolean getProduct_is_sell_out() {
+		return getBoolean(KEY_PRODUCT_IS_SELL_OUT);
+	}
+
+	public void setProduct_is_sell_out(Boolean product_is_sell_out) {
+		set(KEY_PRODUCT_IS_SELL_OUT, product_is_sell_out);
+	}
+
+	public Boolean getProduct_is_sale() {
+		return getBoolean(KEY_PRODUCT_IS_SALE);
+	}
+
+	public void setProduct_is_sale(Boolean product_is_sale) {
+		set(KEY_PRODUCT_IS_SALE, product_is_sale);
 	}
 
 	public Boolean getProduct_status() {

@@ -3,16 +3,12 @@ package com.hongluomeng.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
-import com.hongluomeng.model.Category;
 import com.hongluomeng.model.MemberDelivery;
-import com.hongluomeng.service.CategoryService;
 import com.hongluomeng.service.MemberDeliveryService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.MemberDeliveryValidator;
@@ -20,7 +16,7 @@ import com.hongluomeng.validator.MemberDeliveryValidator;
 public class MemberDeliveryController extends BaseController {
 
 	private MemberDeliveryService memberDeliveryService = new MemberDeliveryService();
-	private CategoryService categoryService = new CategoryService();
+	//private CategoryService categoryService = new CategoryService();
 
 	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Const.URL_MEMBER_DELIVERY_LIST)

@@ -28,11 +28,11 @@ public class ProductService {
 	private ProductSkuService productSkuService = new ProductSkuService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Product productMap = jsonObject.toJavaObject(Product.class);
+		Product productMap = jsonObject.toJavaObject(Product.class);
 
-		Integer count = productDao.count();
+		Integer count = productDao.count(productMap.getProduct_name());
 
-		List<Product> productList = productDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Product> productList = productDao.list(productMap.getProduct_name(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -47,7 +47,7 @@ public class ProductService {
 			list.add(map);
 		}
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, productList);
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}
@@ -63,7 +63,7 @@ public class ProductService {
 
 		List<MemberLevel> memberLevelList = memberLevelService.listAll();
 
-		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
+		List<ProductSku> productSkuList = new ArrayList<ProductSku>();
 
 		if (Utility.isNullOrEmpty(productMap.getProduct_id())) {
 			product = new Product();
@@ -73,6 +73,8 @@ public class ProductService {
 			List<CategoryAttribute> categoryAttributeList = categoryAttributeService.listByProduct_idAndCategory_id(product.getProduct_id(), product.getCategory_id());
 
 			product.setCategoryAttributeList(categoryAttributeList);
+
+			productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
 		}
 
 		product.setCategoryList(categoryList);
@@ -86,9 +88,27 @@ public class ProductService {
 	public void save(JSONObject jsonObject) {
 		Product productMap = jsonObject.toJavaObject(Product.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		List<ProductSku> productSkuList = productMap.getProductSkuList();
+
+		for(ProductSku productSku : productSkuList) {
+			//更新product里面的价格信息
+			if(productSku.getProduct_attribute_value().size() == 0) {
+				productMap.setProduct_price(productSku.getProduct_price());
+				productMap.setProduct_stock(productSku.getProduct_stock());
+			}
+		}
+
 		String product_id = productDao.save(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
 		productAttributeService.saveByProduct_idAndCategory_Attribute(product_id, productMap.getCategoryAttributeList());
+
+		for(ProductSku productSku : productSkuList) {
+			productSku.setProduct_id(productMap.getProduct_id());
+
+			productSkuService.save(productSku, request_user_id);
+		}
 	}
 
 	public void update(JSONObject jsonObject) {
@@ -104,7 +124,7 @@ public class ProductService {
 			Boolean isExit = false;
 
 			for(ProductSku productSku : productSkuList) {
-				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price())) {
+				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price()) && pk.getProduct_stock().equals(productSku.getProduct_stock())) {
 					isExit = true;
 
 					break;
@@ -120,7 +140,7 @@ public class ProductService {
 			Boolean isExit = false;
 
 			for(ProductSku pk : pkList) {
-				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price())) {
+				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price()) && pk.getProduct_stock().equals(productSku.getProduct_stock())) {
 					isExit = true;
 
 					break;
@@ -148,7 +168,9 @@ public class ProductService {
 	public void delete(JSONObject jsonObject) {
 		Product productMap = jsonObject.toJavaObject(Product.class);
 
-		productDao.delete(productMap);
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		productDao.delete(productMap.getProduct_id(), request_user_id);
 	}
 
 	public Map<String, Object> listCategory(JSONObject jsonObject) {
@@ -260,9 +282,6 @@ public class ProductService {
 		product.setBrand_id(null);
 		product.setProduct_price(null);
 		product.setProduct_stock(null);
-		product.setProduct_is_newarrival(null);
-		product.setProduct_is_recommend(null);
-		product.setProduct_is_bargain(null);
 		product.setProduct_status(null);
 
 		//List<CategoryAttribute> categoryAttributeList = categoryAttributeService.listByProduct_idAndCategory_id(product.getProduct_id(), product.getCategory_id());

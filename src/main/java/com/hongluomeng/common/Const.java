@@ -185,4 +185,10 @@ public class Const {
 	public static final String URL_MEMBER_DELIVERY_LIST_GET = "/member/delivery/list/get";
 	public static final String URL_MEMBER_DELIVERY_GET = "/member/delivery/get";
 
+	public static final String URL_ORDER_LIST = "/order/list";
+	public static final String URL_ORDER_FIND = "/order/find";
+	public static final String URL_ORDER_SAVE = "/order/save";
+	public static final String URL_ORDER_UPDATE = "/order/update";
+	public static final String URL_ORDER_DELETE = "/order/delete";
+
 }

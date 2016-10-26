@@ -17,6 +17,18 @@ public class ProductDao {
 
 		Boolean isExit = false;
 
+		if (! Utility.isNullOrEmpty(product.getProduct_name())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+			sql.append(Product.KEY_PRODUCT_NAME + " LIKE ? ");
+			parameterList.add("%" + product.getProduct_name() + "%");
+
+			isExit = true;
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {
@@ -28,8 +40,9 @@ public class ProductDao {
 		return count.intValue();
 	}
 
-	public Integer count() {
+	public Integer count(String product_name) {
 		Product product = new Product();
+		product.setProduct_name(product_name);
 
 		return count(product);
 	}
@@ -40,6 +53,18 @@ public class ProductDao {
 		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_PRODUCT + " ");
 
 		Boolean isExit = false;
+
+		if (! Utility.isNullOrEmpty(product.getProduct_name())) {
+			if(isExit) {
+				sql.append("AND ");
+			} else {
+				sql.append("WHERE ");
+			}
+			sql.append(Product.KEY_PRODUCT_NAME + " LIKE ? ");
+			parameterList.add("%" + product.getProduct_name() + "%");
+
+			isExit = true;
+		}
 
 		if (! Utility.isNullOrEmpty(product.getCategory_id())) {
 			if(isExit) {
@@ -84,8 +109,9 @@ public class ProductDao {
 		return productList;
 	}
 
-	public List<Product> list(Integer m, Integer n) {
+	public List<Product> list(String product_name, Integer m, Integer n) {
 		Product productMap = new Product();
+		productMap.setProduct_name(product_name);
 
 		return list(productMap, m, n);
 	}
@@ -148,6 +174,7 @@ public class ProductDao {
 		product.setProduct_create_time(new Date());
 		product.setProduct_update_user_id(user_id);
 		product.setProduct_update_time(new Date());
+		product.setProduct_status(true);
 
 		product.save();
 
@@ -163,8 +190,14 @@ public class ProductDao {
 		product.update();
 	}
 
-	public void delete(Product product) {
-		product.delete();
+	public void delete(String product_id, String request_user_id) {
+		Product product = new Product();
+		product.setProduct_id(product_id);
+		product.setProduct_update_user_id(request_user_id);
+		product.setProduct_update_time(new Date());
+		product.setProduct_status(false);
+
+		product.update();
 	}
 
 }

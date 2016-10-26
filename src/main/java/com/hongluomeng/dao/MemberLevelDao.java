@@ -48,7 +48,7 @@ public class MemberLevelDao {
 		}
 		sql.append(MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
 
-		sql.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_CREATE_TIME + " DESC ");
+		sql.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_SORT + " ASC ");
 
 		if (n > 0) {
 			sql.append("LIMIT ?, ? ");

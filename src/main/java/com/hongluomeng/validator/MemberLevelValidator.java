@@ -44,6 +44,16 @@ public class MemberLevelValidator extends Validator {
 				message += "名称为空";
 				message += Const.LINE_FEED;
 			}
+
+			if(Utility.isNullOrEmpty(memberLevel.getMember_level_value())) {
+				message += "粉丝数为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(memberLevel.getMember_level_sort())) {
+				message += "排序为空";
+				message += Const.LINE_FEED;
+			}
 		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_DELETE)) {
 			isExit = true;
 

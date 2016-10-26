@@ -73,7 +73,7 @@ public class UploadController extends BaseController {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024);
+		List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024 * 2);
 
 		JSONArray jsonArray = new JSONArray();
 

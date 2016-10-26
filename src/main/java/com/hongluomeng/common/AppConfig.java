@@ -23,6 +23,7 @@ import com.hongluomeng.controller.MemberController;
 import com.hongluomeng.controller.MemberDeliveryController;
 import com.hongluomeng.controller.MemberLevelController;
 import com.hongluomeng.controller.MenuController;
+import com.hongluomeng.controller.OrderController;
 import com.hongluomeng.controller.ProductController;
 import com.hongluomeng.controller.RoleController;
 import com.hongluomeng.controller.ShopController;
@@ -44,6 +45,7 @@ import com.hongluomeng.model.Member;
 import com.hongluomeng.model.MemberDelivery;
 import com.hongluomeng.model.MemberLevel;
 import com.hongluomeng.model.Operation;
+import com.hongluomeng.model.Order;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.model.ProductAttribute;
 import com.hongluomeng.model.ProductSku;
@@ -82,6 +84,7 @@ public class AppConfig extends JFinalConfig {
 		routes.add("/member/level", MemberLevelController.class);
 		routes.add("/cart", CartController.class);
 		routes.add("/member/delivery", MemberDeliveryController.class);
+		routes.add("/order", OrderController.class);
 	}
 
 	public void configPlugin(Plugins plugins) {
@@ -122,6 +125,7 @@ public class AppConfig extends JFinalConfig {
 	    activeRecordPlugin.addMapping("product_sku", "product_sku_id", ProductSku.class);
 	    activeRecordPlugin.addMapping("cart", "cart_id", Cart.class);
 	    activeRecordPlugin.addMapping("member_delivery", "member_delivery_id", MemberDelivery.class);
+	    activeRecordPlugin.addMapping("order", "order_id", Order.class);
 	    plugins.add(activeRecordPlugin);
 	}
 
