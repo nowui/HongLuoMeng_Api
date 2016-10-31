@@ -124,6 +124,11 @@ public class GlobalActionInterceptor implements Interceptor {
 
 				jsonObject.put(Const.KEY_REQUEST_USER_ID, user_id);
 
+				//上传base64图片 request内容不要保存到log里面
+				if(url.equals(Const.URL_UPLOAD_BASE64)) {
+					request = "{}";
+				}
+
 				if(isNotMatch) {
 					isAuthorization = false;
 

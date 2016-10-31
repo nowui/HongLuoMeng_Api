@@ -105,4 +105,16 @@ public class UploadController extends BaseController {
 	        }
 	    }
 	}
+
+	@ActionKey(Const.URL_UPLOAD_BASE64)
+	public void uploadBase64() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		uploadService.uploadBase64(jsonObject, request_user_id);
+
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
 }

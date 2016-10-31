@@ -9,7 +9,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
 
+import org.apache.commons.codec.binary.Base64;
+
+import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.jfinal.kit.FileKit;
@@ -67,6 +71,39 @@ public class UploadService {
 		}
 	}
 
+	public void uploadBase64(JSONObject jsonObject, String request_user_id) {
+		String dataString = jsonObject.getString(Const.KEY_DATA);
+
+		System.out.println(request_user_id);
+
+		String name = Utility.getUUID();
+
+		String suffix = dataString.substring(11, dataString.indexOf(";base64,"));
+
+		String imageString = dataString.substring(dataString.indexOf(","));
+
+		byte[] imageByte = Base64.decodeBase64(imageString.getBytes());
+
+		File imageFile = new File(PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + Const.UPLOAD_LARGE + "/" + name + "." + suffix);
+
+        try {
+            FileImageOutputStream fos = new FileImageOutputStream (imageFile);
+            fos.write(imageByte);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+			resizeImage(imageFile, PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + Const.UPLOAD_SMALL + "/" + name + "." + suffix, 100);
+
+			resizeImage(imageFile, PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + name + "." + suffix, 320);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void resizeImage(File imageFile, String newPath, int length) throws IOException {
 		BufferedImage bufferedImage = ImageIO.read(imageFile);
 
@@ -97,7 +134,7 @@ public class UploadService {
         zoomImageUtils(imageFile, newPath, bufferedImage, newWidth, newHeight);
 	}
 
-	private static void zoomImageUtils(File imageFile, String newPath, BufferedImage bufferedImage, int width, int height) throws IOException{
+	private void zoomImageUtils(File imageFile, String newPath, BufferedImage bufferedImage, int width, int height) throws IOException{
 
          String suffix = imageFile.getName().substring(imageFile.getName().lastIndexOf(".") + 1);
 

@@ -158,6 +158,7 @@ public class Const {
 
 	public static final String URL_UPLOAD_LIST = "/upload/list";
 	public static final String URL_UPLOAD_IMAGE = "/upload/image";
+	public static final String URL_UPLOAD_BASE64 = "/upload/base64";
 
 	public static final String URL_USER_MENU_LIST = "/user/menu/list";
 
