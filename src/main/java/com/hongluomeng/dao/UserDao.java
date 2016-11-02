@@ -15,7 +15,7 @@ public class UserDao {
 	private Integer count(User user) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + User.KEY_USER + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
 
 		Boolean isExit = false;
 
@@ -181,7 +181,7 @@ public class UserDao {
 	private List<User> list(User user, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + User.KEY_USER + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + User.KEY_TABLE_USER + " ");
 
 		Boolean isExit = false;
 
@@ -226,7 +226,7 @@ public class UserDao {
 	private User find(User user) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + User.KEY_USER + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + User.KEY_TABLE_USER + " ");
 
 		Boolean isExit = false;
 
@@ -496,7 +496,7 @@ public class UserDao {
 
 	public void updateUser_account(User user, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
-		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_ACCOUNT + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_USER_ACCOUNT + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
 		parameterList.add(user.getUser_account());
 		parameterList.add(request_user_id);
@@ -509,7 +509,7 @@ public class UserDao {
 	public void updateUser_passwordByUser_id(String user_id, String user_password, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
 		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user_password));
 		parameterList.add(request_user_id);
@@ -522,7 +522,7 @@ public class UserDao {
 	public void updateUser_passwordByUser_phone(String user_phone, String user_password, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_PHONE + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_PHONE + " = ? ");
 
 		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user_password));
 		parameterList.add(request_user_id);
@@ -535,7 +535,7 @@ public class UserDao {
 	public void updateObject_idByUser_id(String object_id, String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_OBJECT_ID + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_OBJECT_ID + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
 		parameterList.add(object_id);
 		parameterList.add(user_id);
@@ -546,7 +546,7 @@ public class UserDao {
 	public void deleteByObject_id(String object_id, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_USER + " SET " + User.KEY_USER_STATUS + " = 0, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_OBJECT_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_USER_STATUS + " = 0, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_OBJECT_ID + " = ? ");
 
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());

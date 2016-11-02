@@ -15,7 +15,7 @@ public class BrandApplyDao {
 	private Integer count(BrandApply brandApply) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + BrandApply.KEY_BRAND_APPLY + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " ");
 
 		Boolean isExit = false;
 
@@ -39,18 +39,18 @@ public class BrandApplyDao {
 	public Integer countByBrand_idAndUser_id(String brand_id, String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + BrandApply.KEY_BRAND_APPLY + " ");
-		sql.append("LEFT JOIN " + Brand.KEY_BRAND + " ON " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " ");
+		sql.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " ");
 
-		sql.append("WHERE " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+		sql.append("WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
 		parameterList.add(user_id);
 
-		sql.append("AND " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
 
-		sql.append("AND " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
+		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
 		parameterList.add(brand_id);
 
-		sql.append("AND " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
@@ -60,9 +60,9 @@ public class BrandApplyDao {
 	private List<BrandApply> list(BrandApply brandApply, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + BrandApply.KEY_BRAND_APPLY + ".*, " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_NAME + ", " + Member.KEY_MEMBER + "." + Member.KEY_MEMBER_NAME + " FROM " + BrandApply.KEY_BRAND_APPLY + " ");
-		sql.append("LEFT JOIN " + Brand.KEY_BRAND + " ON " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
-		sql.append("LEFT JOIN " + Member.KEY_MEMBER + " ON " + Member.KEY_MEMBER + "." + Member.KEY_USER_ID + " = " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + BrandApply.KEY_TABLE_BRAND_APPLY + ".*, " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_NAME + ", " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_NAME + " FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " ");
+		sql.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
+		sql.append("LEFT JOIN " + Member.KEY_TABLE_MEMBER + " ON " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_USER_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " ");
 
 		Boolean isExit = false;
 
@@ -71,7 +71,7 @@ public class BrandApplyDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+		sql.append(BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
 
 		sql.append("ORDER BY " + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " DESC ");
 
@@ -94,8 +94,8 @@ public class BrandApplyDao {
 	private BrandApply find(BrandApply brandApply) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + BrandApply.KEY_BRAND_APPLY + ".*, " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_NAME + " FROM " + BrandApply.KEY_BRAND_APPLY + " ");
-		sql.append("LEFT JOIN " + Brand.KEY_BRAND + " ON " + Brand.KEY_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + BrandApply.KEY_TABLE_BRAND_APPLY + ".*, " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_NAME + " FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " ");
+		sql.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
 
 		Boolean isExit = false;
 
@@ -105,7 +105,7 @@ public class BrandApplyDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = ? ");
+			sql.append(BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = ? ");
 			parameterList.add(brandApply.getBrand_id());
 
 			isExit = true;
@@ -117,7 +117,7 @@ public class BrandApplyDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+			sql.append(BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
 			parameterList.add(brandApply.getUser_id());
 
 			isExit = true;
@@ -128,7 +128,7 @@ public class BrandApplyDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(BrandApply.KEY_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+		sql.append(BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
 
 		if(! isExit) {
 			return null;
@@ -171,7 +171,7 @@ public class BrandApplyDao {
 	public void review(String brand_id, String user_id, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + BrandApply.KEY_BRAND_APPLY + " SET " + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = 1, " + BrandApply.KEY_BRAND_APPLY_UPDATE_USER_ID + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_TIME + " = ? WHERE " + BrandApply.KEY_BRAND_ID + " = ? AND " + BrandApply.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + BrandApply.KEY_TABLE_BRAND_APPLY + " SET " + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = 1, " + BrandApply.KEY_BRAND_APPLY_UPDATE_USER_ID + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_TIME + " = ? WHERE " + BrandApply.KEY_BRAND_ID + " = ? AND " + BrandApply.KEY_USER_ID + " = ? ");
 
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());

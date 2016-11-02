@@ -286,7 +286,7 @@ public class RoleService {
 	public void updateOperation(JSONObject jsonObject) {
 		Role roleMap = jsonObject.toJavaObject(Role.class);
 
-		JSONArray jsonArray = jsonObject.getJSONArray(RoleOperation.KEY_ROLE_OPERATION);
+		JSONArray jsonArray = jsonObject.getJSONArray(RoleOperation.KEY_TABLE_ROLE_OPERATION);
 
 		List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
 

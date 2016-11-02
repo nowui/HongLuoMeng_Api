@@ -17,7 +17,7 @@ public class OperationDao {
 	private Integer count(Operation operation) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Operation.KEY_OPERATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Operation.KEY_TABLE_OPERATION + " ");
 
 		Boolean isExit = false;
 
@@ -75,7 +75,7 @@ public class OperationDao {
 	public List<Operation> list(Operation operation, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Operation.KEY_OPERATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
 
 		Boolean isExit = false;
 
@@ -113,10 +113,10 @@ public class OperationDao {
 	public List<Operation> listUserRoleByUser_id(String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_OPERATION + ".* FROM " + Operation.KEY_OPERATION + " ");
-		sql.append("LEFT JOIN " + RoleOperation.KEY_ROLE_OPERATION + " ON " + Operation.KEY_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
-		sql.append("LEFT JOIN " + UserRole.KEY_USER_ROLE + " ON " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
-		sql.append("WHERE " + UserRole.KEY_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_TABLE_OPERATION + ".* FROM " + Operation.KEY_TABLE_OPERATION + " ");
+		sql.append("LEFT JOIN " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ON " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
+		sql.append("LEFT JOIN " + UserRole.KEY_TABLE_USER_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
+		sql.append("WHERE " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ");
 		sql.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		parameterList.add(user_id);
 
@@ -130,11 +130,11 @@ public class OperationDao {
 	public List<Operation> listByUser_id(String user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_OPERATION + ".* FROM " + Operation.KEY_OPERATION + " ");
-		sql.append("LEFT JOIN " + RoleOperation.KEY_ROLE_OPERATION + " ON " + Operation.KEY_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
-		sql.append("LEFT JOIN " + Role.KEY_ROLE + " ON " + RoleOperation.KEY_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + Role.KEY_ROLE + "." + Role.KEY_ROLE_ID + " ");
-		sql.append("LEFT JOIN " + User.KEY_USER + " ON " + Role.KEY_ROLE + "." + Role.KEY_ROLE_KEY + " = " + User.KEY_USER + "." + User.KEY_USER_TYPE + " ");
-		sql.append("WHERE " + User.KEY_USER + "." + User.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("SELECT " + Operation.KEY_TABLE_OPERATION + ".* FROM " + Operation.KEY_TABLE_OPERATION + " ");
+		sql.append("LEFT JOIN " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ON " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
+		sql.append("LEFT JOIN " + Role.KEY_TABLE_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_ID + " ");
+		sql.append("LEFT JOIN " + User.KEY_TABLE_USER + " ON " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_KEY + " = " + User.KEY_TABLE_USER + "." + User.KEY_USER_TYPE + " ");
+		sql.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_USER_ID + " = ? ");
 		sql.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		parameterList.add(user_id);
 
@@ -148,7 +148,7 @@ public class OperationDao {
 	public Operation find(Operation operation) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Operation.KEY_OPERATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
 
 		Boolean isExit = false;
 

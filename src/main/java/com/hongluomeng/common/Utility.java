@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -230,6 +231,10 @@ public class Utility {
 		return dateFormat.parse(date);
 	}
 
+	public static String getDateString(Date dateTime) {
+		return dateFormat.format(dateTime);
+	}
+
 	public static String getDateTimeString(Date dateTime) {
 		return dateTimeFormat.format(dateTime);
 	}
@@ -280,6 +285,16 @@ public class Utility {
 
 	public static String packageImagePath(String path, String type) {
 		return path.substring(0, path.lastIndexOf("/")) + "/" + type + "/" + path.substring(path.lastIndexOf("/") + 1);
+	}
+
+	public static String getFixLenthString(int strLength) {
+	    Random rm = new Random();
+
+	    double pross = (1 + rm.nextDouble()) * Math.pow(10, strLength);
+
+	    String fixLenthString = String.valueOf(pross);
+
+	    return fixLenthString.substring(1, strLength + 1);
 	}
 
 }

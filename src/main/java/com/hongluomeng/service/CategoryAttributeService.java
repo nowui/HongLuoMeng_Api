@@ -41,7 +41,14 @@ public class CategoryAttributeService {
 	}
 
 	public List<CategoryAttribute> listByProduct_idAndCategory_id(String product_id, String category_id) {
-		return categoryAttributeDao.listByProduct_idAndCategory_id(product_id, category_id);
+		List<CategoryAttribute> categoryAttributeList = categoryAttributeDao.listByProduct_idAndCategory_id(product_id, category_id);
+
+		for(CategoryAttribute categoryAttribute : categoryAttributeList) {
+			categoryAttribute.setCategory_id(null);
+			categoryAttribute.setCategory_attribute_sort(null);
+		}
+
+		return categoryAttributeList;
 	}
 
 	public Map<String, Object> find(JSONObject jsonObject) {

@@ -9,7 +9,7 @@ public class Category extends Model<Category> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_CATEGORY = "category";
+	public static final String KEY_TABLE_CATEGORY = "table_category";
 	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_PARENT_ID = "parent_id";
 	public static final String KEY_CATEGORY_NAME = "category_name";

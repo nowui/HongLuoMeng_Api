@@ -12,7 +12,7 @@ public class AuthorizationDao {
 	private Integer count(Authorization authorization) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Authorization.KEY_AUTHORIZATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
 
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
@@ -27,7 +27,7 @@ public class AuthorizationDao {
 	private List<Authorization> list(Authorization authorization, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Authorization.KEY_AUTHORIZATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
 		sql.append("ORDER BY " + Authorization.KEY_AUTHORIZATION_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -49,7 +49,7 @@ public class AuthorizationDao {
 	private Authorization find(Authorization authorization) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Authorization.KEY_AUTHORIZATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
 
 		Boolean isExit = false;
 
@@ -93,7 +93,7 @@ public class AuthorizationDao {
 	public void updateToken(Authorization authorization) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Authorization.KEY_AUTHORIZATION + " SET " + Authorization.KEY_AUTHORIZATION_TOKEN + " = ? WHERE " + Authorization.KEY_AUTHORIZATION_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Authorization.KEY_TABLE_AUTHORIZATION + " SET " + Authorization.KEY_AUTHORIZATION_TOKEN + " = ? WHERE " + Authorization.KEY_AUTHORIZATION_ID + " = ? ");
 
 		parameterList.add(authorization.getAuthorization_token());
 		parameterList.add(authorization.getAuthorization_id());

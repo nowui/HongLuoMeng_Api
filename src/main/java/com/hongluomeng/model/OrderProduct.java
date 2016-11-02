@@ -2,24 +2,24 @@ package com.hongluomeng.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
-import com.alibaba.fastjson.JSONArray;
 
-public class Product extends Model<Product> {
+public class OrderProduct extends Model<OrderProduct> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_PRODUCT = "table_product";
+	public static final String KEY_TABLE_ORDER_PRODUCT = "table_order_product";
+	public static final String KEY_ORDER_ID = "order_id";
 	public static final String KEY_PRODUCT_ID = "product_id";
 	public static final String KEY_CATEGORY_ID = "category_id";
+	public static final String KEY_CATEGORY_NAME = "category_name";
 	public static final String KEY_BRAND_ID = "brand_id";
+	public static final String KEY_BRAND_NAME = "brand_name";
 	public static final String KEY_PRODUCT_NAME = "product_name";
 	public static final String KEY_PRODUCT_IMAGE = "product_image";
-	public static final String KEY_PRODUCT_PRICE = "product_price";
-	public static final String KEY_PRODUCT_STOCK = "product_stock";
 	public static final String KEY_PRODUCT_IS_NEW = "product_is_new";
 	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
 	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
@@ -29,16 +29,25 @@ public class Product extends Model<Product> {
 	public static final String KEY_PRODUCT_STATUS = "product_status";
 	public static final String KEY_PRODUCT_CONTENT = "product_content";
 	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";
-	public static final String KEY_PRODUCT_CREATE_USER_ID = "product_create_user_id";
-	public static final String KEY_PRODUCT_CREATE_TIME = "product_create_time";
-	public static final String KEY_PRODUCT_UPDATE_USER_ID = "product_update_user_id";
-	public static final String KEY_PRODUCT_UPDATE_TIME = "product_update_time";
+	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
+	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
+	public static final String KEY_PRODUCT_PRICE = "product_price";
+	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
+	public static final String KEY_PAYMENT_PRICE = "payment_price";
+	public static final String KEY_PAYMENT_AMOUNT = "payment_amount";
+	public static final String KEY_ORDER_PRODUCT_CREATE_USER_ID = "order_product_create_user_id";
+	public static final String KEY_ORDER_PRODUCT_CREATE_TIME = "order_product_create_time";
+	public static final String KEY_ORDER_PRODUCT_UPDATE_USER_ID = "order_product_update_user_id";
+	public static final String KEY_ORDER_PRODUCT_UPDATE_TIME = "order_product_update_time";
+	public static final String KEY_ORDER_PRODUCT_STATUS = "order_product_status";
 
-	private List<Category> categoryList;
-	private List<Brand> brandList;
-	private List<CategoryAttribute> categoryAttributeList;
-	private List<MemberLevel> memberLevelList;
-	private List<ProductSku> productSkuList;
+	public String getOrder_id() {
+		return getStr(KEY_ORDER_ID);
+	}
+
+	public void setOrder_id(String order_id) {
+		set(KEY_ORDER_ID, order_id);
+	}
 
 	public String getProduct_id() {
 		return getStr(KEY_PRODUCT_ID);
@@ -56,12 +65,28 @@ public class Product extends Model<Product> {
 		set(KEY_CATEGORY_ID, category_id);
 	}
 
+	public String getCategory_name() {
+		return getStr(KEY_CATEGORY_NAME);
+	}
+
+	public void setCategory_name(String category_name) {
+		set(KEY_CATEGORY_NAME, category_name);
+	}
+
 	public String getBrand_id() {
 		return getStr(KEY_BRAND_ID);
 	}
 
 	public void setBrand_id(String brand_id) {
 		set(KEY_BRAND_ID, brand_id);
+	}
+
+	public String getBrand_name() {
+		return getStr(KEY_BRAND_NAME);
+	}
+
+	public void setBrand_name(String brand_name) {
+		set(KEY_BRAND_NAME, brand_name);
 	}
 
 	public String getProduct_name() {
@@ -78,22 +103,6 @@ public class Product extends Model<Product> {
 
 	public void setProduct_image(String product_image) {
 		set(KEY_PRODUCT_IMAGE, product_image);
-	}
-
-	public BigDecimal getProduct_price() {
-		return getBigDecimal(KEY_PRODUCT_PRICE);
-	}
-
-	public void setProduct_price(BigDecimal product_price) {
-		set(KEY_PRODUCT_PRICE, product_price);
-	}
-
-	public Integer getProduct_stock() {
-		return Utility.getIntegerValue(get(KEY_PRODUCT_STOCK));
-	}
-
-	public void setProduct_stock(Integer product_stock) {
-		set(KEY_PRODUCT_STOCK, product_stock);
 	}
 
 	public Boolean getProduct_is_new() {
@@ -171,61 +180,76 @@ public class Product extends Model<Product> {
 		set(KEY_PRODUCT_SKU_VALUE, product_sku_value);
 	}
 
-	public void setProduct_create_user_id(String product_create_user_id) {
-		set(KEY_PRODUCT_CREATE_USER_ID, product_create_user_id);
+	public String getProduct_sku_id() {
+		return getStr(KEY_PRODUCT_SKU_ID);
 	}
 
-	public void setProduct_create_time(Date product_create_time) {
-		set(KEY_PRODUCT_CREATE_TIME, product_create_time);
+	public void setProduct_sku_id(String product_sku_id) {
+		set(KEY_PRODUCT_SKU_ID, product_sku_id);
 	}
 
-	public void setProduct_update_user_id(String product_update_user_id) {
-		set(KEY_PRODUCT_UPDATE_USER_ID, product_update_user_id);
+	public JSONArray getProduct_attribute_value() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_ATTRIBUTE_VALUE));
 	}
 
-	public void setProduct_update_time(Date product_update_time) {
-		set(KEY_PRODUCT_UPDATE_TIME, product_update_time);
+	public void setProduct_attribute_value(String product_attribute_value) {
+		set(KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
 	}
 
-	public List<Category> getCategoryList() {
-		return categoryList;
+	public BigDecimal getProduct_price() {
+		return getBigDecimal(KEY_PRODUCT_PRICE);
 	}
 
-	public void setCategoryList(List<Category> categoryList) {
-		this.categoryList = categoryList;
+	public void setProduct_price(BigDecimal product_price) {
+		set(KEY_PRODUCT_PRICE, product_price);
 	}
 
-	public List<Brand> getBrandList() {
-		return brandList;
+	public JSONArray getMember_level_price() {
+		return JSONArray.parseArray(getStr(KEY_MEMBER_LEVEL_PRICE));
 	}
 
-	public void setBrandList(List<Brand> brandList) {
-		this.brandList = brandList;
+	public void setMember_level_price(String member_level_price) {
+		set(KEY_MEMBER_LEVEL_PRICE, member_level_price);
 	}
 
-	public List<CategoryAttribute> getCategoryAttributeList() {
-		return categoryAttributeList;
+	public BigDecimal getPayment_price() {
+		return getBigDecimal(KEY_PAYMENT_PRICE);
 	}
 
-	public void setCategoryAttributeList(
-			List<CategoryAttribute> categoryAttributeList) {
-		this.categoryAttributeList = categoryAttributeList;
+	public void setPayment_price(BigDecimal payment_price) {
+		set(KEY_PAYMENT_PRICE, payment_price);
 	}
 
-	public List<MemberLevel> getMemberLevelList() {
-		return memberLevelList;
+	public Integer getPayment_amount() {
+		return Utility.getIntegerValue(get(KEY_PAYMENT_AMOUNT));
 	}
 
-	public void setMemberLevelList(List<MemberLevel> memberLevelList) {
-		this.memberLevelList = memberLevelList;
+	public void setPayment_amount(Integer payment_amount) {
+		set(KEY_PAYMENT_AMOUNT, payment_amount);
 	}
 
-	public List<ProductSku> getProductSkuList() {
-		return productSkuList;
+	public void setOrder_product_create_user_id(String order_product_create_user_id) {
+		set(KEY_ORDER_PRODUCT_CREATE_USER_ID, order_product_create_user_id);
 	}
 
-	public void setProductSkuList(List<ProductSku> productSkuList) {
-		this.productSkuList = productSkuList;
+	public void setOrder_product_create_time(Date order_product_create_time) {
+		set(KEY_ORDER_PRODUCT_CREATE_TIME, order_product_create_time);
+	}
+
+	public void setOrder_product_update_user_id(String order_product_update_user_id) {
+		set(KEY_ORDER_PRODUCT_UPDATE_USER_ID, order_product_update_user_id);
+	}
+
+	public void setOrder_product_update_time(Date order_product_update_time) {
+		set(KEY_ORDER_PRODUCT_UPDATE_TIME, order_product_update_time);
+	}
+
+	public Boolean getOrder_product_status() {
+		return getBoolean(KEY_ORDER_PRODUCT_STATUS);
+	}
+
+	public void setOrder_product_status(Boolean order_product_status) {
+		set(KEY_ORDER_PRODUCT_STATUS, order_product_status);
 	}
 
 }

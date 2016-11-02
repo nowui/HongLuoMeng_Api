@@ -13,7 +13,7 @@ public class MemberLevelDao {
 	private Integer count(MemberLevel memberLevel) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + MemberLevel.KEY_MEMBER_LEVEL + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
 
 		Boolean isExit = false;
 
@@ -37,7 +37,7 @@ public class MemberLevelDao {
 	private List<MemberLevel> list(MemberLevel memberLevel, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberLevel.KEY_MEMBER_LEVEL + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
 
 		Boolean isExit = false;
 
@@ -69,7 +69,7 @@ public class MemberLevelDao {
 	private MemberLevel find(MemberLevel memberLevel) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberLevel.KEY_MEMBER_LEVEL + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
 
 		Boolean isExit = false;
 

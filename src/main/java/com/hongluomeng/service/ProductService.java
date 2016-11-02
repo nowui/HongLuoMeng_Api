@@ -2,6 +2,7 @@ package com.hongluomeng.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -276,6 +277,19 @@ public class ProductService {
 		Product product = productDao.findByProduct_id(productMap.getProduct_id());
 
 		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
+
+		//如果有sku选项，去除商品基本的价格和库存信息
+		if(productSkuList.size() > 1) {
+			Iterator<ProductSku> productSkuIterator = productSkuList.iterator();
+			while(productSkuIterator.hasNext()) {
+				ProductSku productSku = productSkuIterator.next();
+
+				if(productSku.getProduct_attribute_value().size() == 0) {
+					productSkuIterator.remove();
+				}
+			}
+		}
+
 		product.setProductSkuList(productSkuList);
 
 		product.setCategory_id(null);

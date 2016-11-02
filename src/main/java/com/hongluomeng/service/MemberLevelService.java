@@ -26,7 +26,14 @@ public class MemberLevelService {
 	}
 
 	public List<MemberLevel> listAll() {
-		return memberLevelDao.list(0, 0);
+		List<MemberLevel> memberLevelList = memberLevelDao.list(0, 0);
+
+		for(MemberLevel memberLevel : memberLevelList) {
+			memberLevel.setMember_level_sort(null);
+			memberLevel.setMember_level_status(null);
+		}
+
+		return memberLevelList;
 	}
 
 	public MemberLevel find(JSONObject jsonObject) {

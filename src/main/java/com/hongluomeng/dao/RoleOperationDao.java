@@ -13,7 +13,7 @@ public class RoleOperationDao {
 	private List<RoleOperation> list(RoleOperation roleOperation) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + RoleOperation.KEY_ROLE_OPERATION + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ");
 
 		Boolean isExit = false;
 
@@ -43,7 +43,7 @@ public class RoleOperationDao {
 	public void save(List<RoleOperation> roleOperationList) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + RoleOperation.KEY_ROLE_OPERATION + " (" + RoleOperation.KEY_ROLE_ID + ", " + RoleOperation.KEY_OPERATION_ID + ") SELECT ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + RoleOperation.KEY_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_ROLE_ID + " = ? AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " (" + RoleOperation.KEY_ROLE_ID + ", " + RoleOperation.KEY_OPERATION_ID + ") SELECT ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_ROLE_ID + " = ? AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ");
 
 		for(RoleOperation roleOperation : roleOperationList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -62,10 +62,10 @@ public class RoleOperationDao {
 	public void deleteByRole_id(List<RoleOperation> roleOperationList, String role_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + RoleOperation.KEY_ROLE_OPERATION + " WHERE ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
 
 		if (roleOperationList.size() > 0) {
-			sql.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_ROLE_OPERATION + " WHERE ");
+			sql.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
 
 			int i = 0;
 			for(RoleOperation roleOperation : roleOperationList) {
@@ -90,7 +90,7 @@ public class RoleOperationDao {
 	public void deleteByOperation_id(String operation_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + RoleOperation.KEY_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ");
 
 		parameterList.add(operation_id);
 

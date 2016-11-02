@@ -13,7 +13,7 @@ public class AdminDao {
 	private Integer count(Admin admin) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Admin.KEY_ADMIN + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Admin.KEY_TABLE_ADMIN + " ");
 
 		Boolean isExit = false;
 
@@ -37,7 +37,7 @@ public class AdminDao {
 	private List<Admin> list(Admin admin, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Admin.KEY_ADMIN + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
 
 		Boolean isExit = false;
 
@@ -69,7 +69,7 @@ public class AdminDao {
 	private Admin find(Admin admin) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Admin.KEY_ADMIN + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
 
 		Boolean isExit = false;
 

@@ -13,7 +13,7 @@ public class UserRoleDao {
 	private List<UserRole> list(UserRole userRole) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + UserRole.KEY_USER_ROLE + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + UserRole.KEY_TABLE_USER_ROLE + " ");
 
 		Boolean isExit = false;
 
@@ -56,7 +56,7 @@ public class UserRoleDao {
 	public void save(List<UserRole> userRoleList, String user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + UserRole.KEY_USER_ROLE + " (" + UserRole.KEY_USER_ID + ", " + UserRole.KEY_USER_TYPE + ", " + UserRole.KEY_ROLE_ID + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + UserRole.KEY_USER_ROLE + " WHERE " + UserRole.KEY_USER_ID + " = ? AND " + UserRole.KEY_USER_TYPE + " = ? AND " + UserRole.KEY_ROLE_ID + " = ?) ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + UserRole.KEY_TABLE_USER_ROLE + " (" + UserRole.KEY_USER_ID + ", " + UserRole.KEY_USER_TYPE + ", " + UserRole.KEY_ROLE_ID + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE " + UserRole.KEY_USER_ID + " = ? AND " + UserRole.KEY_USER_TYPE + " = ? AND " + UserRole.KEY_ROLE_ID + " = ?) ");
 
 		for(UserRole userRole : userRoleList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -77,10 +77,10 @@ public class UserRoleDao {
 	public void delete(List<UserRole> userRoleList, String user_id, String user_type) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + UserRole.KEY_USER_ROLE + " WHERE ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
 
 		if (userRoleList.size() > 0) {
-			sql.append(UserRole.KEY_ROLE_ID + " NOT IN (SELECT A." + UserRole.KEY_ROLE_ID + " FROM (SELECT " + UserRole.KEY_ROLE_ID + " FROM " + UserRole.KEY_USER_ROLE + " WHERE ");
+			sql.append(UserRole.KEY_ROLE_ID + " NOT IN (SELECT A." + UserRole.KEY_ROLE_ID + " FROM (SELECT " + UserRole.KEY_ROLE_ID + " FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
 
 			int i = 0;
 			for(UserRole userRole : userRoleList) {

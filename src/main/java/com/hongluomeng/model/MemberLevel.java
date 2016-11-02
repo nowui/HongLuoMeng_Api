@@ -9,11 +9,11 @@ public class MemberLevel extends Model<MemberLevel> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_MEMBER_LEVEL = "member_level";
+	public static final String KEY_TABLE_MEMBER_LEVEL = "table_member_level";
 	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
 	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
-	public static final String  KEY_MEMBER_LEVEL_SORT = "member_level_sort";
+	public static final String KEY_MEMBER_LEVEL_SORT = "member_level_sort";
 	public static final String KEY_MEMBER_LEVEL_CREATE_USER_ID = "member_level_create_user_id";
 	public static final String KEY_MEMBER_LEVEL_CREATE_TIME = "member_level_create_time";
 	public static final String KEY_MEMBER_LEVEL_UPDATE_USER_ID = "member_level_update_user_id";

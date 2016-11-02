@@ -8,7 +8,7 @@ public class User extends Model<User> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_USER = "user";
+	public static final String KEY_TABLE_USER = "table_user";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_USER_ACCOUNT = "user_account";
 	public static final String KEY_USER_PHONE = "user_phone";

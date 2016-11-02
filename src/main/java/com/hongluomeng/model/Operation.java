@@ -9,7 +9,7 @@ public class Operation extends Model<Operation> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_OPERATION = "operation";
+	public static final String KEY_TABLE_OPERATION = "table_operation";
 	public static final String KEY_OPERATION_ID = "operation_id";
 	public static final String KEY_MENU_ID = "menu_id";
 	public static final String KEY_OPERATION_NAME = "operation_name";

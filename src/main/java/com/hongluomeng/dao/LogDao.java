@@ -12,7 +12,7 @@ public class LogDao {
 	private Integer count(Log log) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Log.KEY_LOG + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Log.KEY_TABLE_LOG + " ");
 
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
@@ -27,7 +27,7 @@ public class LogDao {
 	private List<Log> list(Log log, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Log.KEY_LOG + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Log.KEY_TABLE_LOG + " ");
 		sql.append("ORDER BY " + Log.KEY_LOG_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -49,7 +49,7 @@ public class LogDao {
 	private Log find(Log log) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Log.KEY_LOG + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Log.KEY_TABLE_LOG + " ");
 
 		Boolean isExit = false;
 

@@ -46,7 +46,7 @@ public class OrderValidator extends Validator {
 			}
 
 			if(Utility.isNullOrEmpty(order.getOrder_delivery_name())) {
-				message += "名称为空";
+				message += "收货人为空";
 				message += Const.LINE_FEED;
 			}
 
@@ -75,9 +75,14 @@ public class OrderValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(order.getOrder_delivery_zip().length() > 6) {
-				message += "邮政编码过长";
+			if(Utility.isNullOrEmpty(order.getOrder_delivery_zip())) {
+				message += "邮政编码为空";
 				message += Const.LINE_FEED;
+			} else {
+				if(order.getOrder_delivery_zip().length() > 6) {
+					message += "邮政编码过长";
+					message += Const.LINE_FEED;
+				}
 			}
 		} else if(actionKey.equals(Const.URL_ORDER_DELETE)) {
 			isExit = true;

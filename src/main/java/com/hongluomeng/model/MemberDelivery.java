@@ -8,7 +8,7 @@ public class MemberDelivery extends Model<MemberDelivery> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_MEMBER_DELIVERY = "member_delivery";
+	public static final String KEY_TABLE_MEMBER_DELIVERY = "table_member_delivery";
 	public static final String KEY_MEMBER_DELIVERY_ID = "member_delivery_id";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_MEMBER_DELIVERY_NAME = "member_delivery_name";

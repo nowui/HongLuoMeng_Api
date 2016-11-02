@@ -13,7 +13,7 @@ public class SmsDao {
 	private Integer count(Sms sms, Integer minute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Sms.KEY_SMS + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
 
 		Boolean isExit = false;
 
@@ -105,7 +105,7 @@ public class SmsDao {
 	private List<Sms> list(Sms sms, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Sms.KEY_SMS + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
 		sql.append("ORDER BY " + Sms.KEY_SMS_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
@@ -127,7 +127,7 @@ public class SmsDao {
 	private Sms find(Sms sms) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Sms.KEY_SMS + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
 
 		Boolean isExit = false;
 
@@ -173,7 +173,7 @@ public class SmsDao {
 	public void updateSms_statusBySms_phone(Boolean sms_status, String sms_type, String sms_phone, String sms_code) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Sms.KEY_SMS + " ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Sms.KEY_TABLE_SMS + " ");
 		sql.append("SET " + Sms.KEY_SMS_STATUS + " = ? ");
 		sql.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ");
 		sql.append("AND " + Sms.KEY_SMS_PHONE + " = ? ");

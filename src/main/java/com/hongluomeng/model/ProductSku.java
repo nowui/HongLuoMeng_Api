@@ -11,7 +11,7 @@ public class ProductSku extends Model<ProductSku> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_PRODUCT_SKU = "product_sku";
+	public static final String KEY_TABLE_PRODUCT_SKU = "table_product_sku";
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
 	public static final String KEY_PRODUCT_ID = "product_id";
 	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";

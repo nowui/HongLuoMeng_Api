@@ -10,7 +10,7 @@ public class Brand extends Model<Brand> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_BRAND = "brand";
+	public static final String KEY_TABLE_BRAND = "table_brand";
 	public static final String KEY_BRAND_ID = "brand_id";
 	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_BRAND_NAME = "brand_name";

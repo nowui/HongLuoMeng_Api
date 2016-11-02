@@ -13,7 +13,7 @@ public class ShopDao {
 	private Integer count(Shop shop) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Shop.KEY_SHOP + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Shop.KEY_TABLE_SHOP + " ");
 
 		Boolean isExit = false;
 
@@ -37,7 +37,7 @@ public class ShopDao {
 	private List<Shop> list(Shop shop, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Shop.KEY_SHOP + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Shop.KEY_TABLE_SHOP + " ");
 
 		Boolean isExit = false;
 
@@ -69,7 +69,7 @@ public class ShopDao {
 	private Shop find(Shop shop) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Shop.KEY_SHOP + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Shop.KEY_TABLE_SHOP + " ");
 
 		Boolean isExit = false;
 

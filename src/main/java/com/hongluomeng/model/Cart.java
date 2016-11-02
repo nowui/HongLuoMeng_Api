@@ -11,7 +11,7 @@ public class Cart extends Model<Cart> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_CART = "cart";
+	public static final String KEY_TABLE_CART = "table_cart";
 	public static final String KEY_CART_ID = "cart_id";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
@@ -21,7 +21,7 @@ public class Cart extends Model<Cart> {
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
 	public static final String KEY_PRODUCT_STOCK = "product_stock";
 	public static final String KEY_PRODUCT_SKU_STATUS = "product_sku_status";
-	public static final String KEY_CART_PRODUCT_NUMBER = "cart_product_number";
+	public static final String KEY_PRODUCT_AMOUNT = "product_amount";
 	public static final String KEY_CART_CREATE_USER_ID = "cart_create_user_id";
 	public static final String KEY_CART_CREATE_TIME = "cart_create_time";
 	public static final String KEY_CART_UPDATE_USER_ID = "cart_update_user_id";
@@ -76,12 +76,12 @@ public class Cart extends Model<Cart> {
 		return getBoolean(KEY_PRODUCT_SKU_STATUS);
 	}
 
-	public Integer getCart_product_number() {
-		return Utility.getIntegerValue(get(KEY_CART_PRODUCT_NUMBER));
+	public Integer getProduct_amount() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_AMOUNT));
 	}
 
-	public void setCart_product_number(Integer cart_product_number) {
-		set(KEY_CART_PRODUCT_NUMBER, cart_product_number);
+	public void setProduct_amount(Integer product_amount) {
+		set(KEY_PRODUCT_AMOUNT, product_amount);
 	}
 
 	public void setCart_create_user_id(String cart_create_user_id) {

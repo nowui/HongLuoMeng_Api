@@ -9,7 +9,7 @@ public class Role extends Model<Role> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_ROLE = "role";
+	public static final String KEY_TABLE_ROLE = "table_role";
 	public static final String KEY_ROLE_ID = "role_id";
 	public static final String KEY_GROUP_ID = "group_id";
 	public static final String KEY_ROLE_NAME = "role_name";

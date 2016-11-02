@@ -88,7 +88,7 @@ public class AdminValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(jsonObject.get(UserRole.KEY_USER_ROLE) == null) {
+			if(jsonObject.get(UserRole.KEY_TABLE_USER_ROLE) == null) {
 				message += "用户角色为空";
 				message += Const.LINE_FEED;
 			}

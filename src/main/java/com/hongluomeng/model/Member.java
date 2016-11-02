@@ -8,7 +8,7 @@ public class Member extends Model<Member> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_MEMBER = "member";
+	public static final String KEY_TABLE_MEMBER = "table_member";
 	public static final String KEY_MEMBER_ID = "member_id";
 	public static final String KEY_MEMBER_NAME = "member_name";
 	public static final String KEY_MEMBER_AVATAR = "member_avatar";

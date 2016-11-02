@@ -8,7 +8,7 @@ public class Shop extends Model<Shop> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_SHOP = "shop";
+	public static final String KEY_TABLE_SHOP = "table_shop";
 	public static final String KEY_SHOP_ID = "shop_id";
 	public static final String KEY_SHOP_NAME = "shop_name";
 	public static final String KEY_SHOP_CREATE_USER_ID = "shop_create_user_id";

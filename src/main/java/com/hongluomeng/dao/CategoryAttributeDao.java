@@ -15,12 +15,12 @@ public class CategoryAttributeDao {
 	private List<CategoryAttribute> list(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".* ");
-		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
-		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
-		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
-		sql.append("FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ");
-		sql.append("LEFT JOIN " + Attribute.KEY_ATTRIBUTE + " ON " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
+		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
+		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
+		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
+		sql.append("FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
+		sql.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
 
 		Boolean isExit = false;
 
@@ -30,13 +30,13 @@ public class CategoryAttributeDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
+			sql.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
 			parameterList.add(categoryAttribute.getCategory_id());
 
 			isExit = true;
 		}
 
-		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
+		sql.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		List<Record> recordList = Db.find(sql.toString(), parameterList.toArray());
 
@@ -72,23 +72,23 @@ public class CategoryAttributeDao {
 	public List<CategoryAttribute> listByProduct_idAndCategory_id(String product_id, String category_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".* ");
-		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
-		sql.append(", IFNULL(" + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " ");
-		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
-		sql.append(", " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
-		sql.append("FROM " + Attribute.KEY_ATTRIBUTE + " ");
-		sql.append("LEFT JOIN " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ON " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
+		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
+		sql.append(", IFNULL(" + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " ");
+		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
+		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
+		sql.append("FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		sql.append("LEFT JOIN " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
 
-		sql.append("LEFT JOIN (SELECT * FROM " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_PRODUCT_ID + " = ?) AS " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " ON " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_ID + " ");
+		sql.append("LEFT JOIN (SELECT * FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_PRODUCT_ID + " = ?) AS " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_ID + " ");
 		parameterList.add(product_id);
 
-		sql.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
+		sql.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
 		parameterList.add(category_id);
 
-		sql.append("AND " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		sql.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
 
-		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
+		sql.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		List<Record> recordList = Db.find(sql.toString(), parameterList.toArray());
 
@@ -114,12 +114,12 @@ public class CategoryAttributeDao {
 	public List<Attribute> listNotUsedAttributeByCategory_id(String category_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Attribute.KEY_ATTRIBUTE + ".* FROM " + Attribute.KEY_ATTRIBUTE + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + Attribute.KEY_TABLE_ATTRIBUTE + ".* FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
 
-		sql.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ");
-		sql.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
-		sql.append("AND " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-		sql.append("ORDER BY " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
+		sql.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ");
+		sql.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
+		sql.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		sql.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		parameterList.add(category_id);
 
@@ -131,8 +131,8 @@ public class CategoryAttributeDao {
 	private CategoryAttribute find(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + ".*, " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " ");
-		sql.append("LEFT JOIN " + Attribute.KEY_ATTRIBUTE + " ON " + Attribute.KEY_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".*, " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
+		sql.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
 
 		Boolean isExit = false;
 
@@ -142,7 +142,7 @@ public class CategoryAttributeDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
+			sql.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
 			parameterList.add(categoryAttribute.getCategory_id());
 
 			isExit = true;
@@ -154,7 +154,7 @@ public class CategoryAttributeDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+			sql.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
 			parameterList.add(categoryAttribute.getAttribute_id());
 
 			isExit = true;
@@ -193,7 +193,7 @@ public class CategoryAttributeDao {
 	public void save(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " (" + CategoryAttribute.KEY_CATEGORY_ID + ", " + CategoryAttribute.KEY_ATTRIBUTE_ID + ", " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ?) ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " (" + CategoryAttribute.KEY_CATEGORY_ID + ", " + CategoryAttribute.KEY_ATTRIBUTE_ID + ", " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ?) ");
 
 		parameterList.add(categoryAttribute.getCategory_id());
 		parameterList.add(categoryAttribute.getAttribute_id());
@@ -207,7 +207,7 @@ public class CategoryAttributeDao {
 	public void update(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " SET " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " = ? WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " SET " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " = ? WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
 
 		parameterList.add(categoryAttribute.getCategory_attribute_sort());
 		parameterList.add(categoryAttribute.getCategory_id());
@@ -219,7 +219,7 @@ public class CategoryAttributeDao {
 	public void delete(CategoryAttribute categoryAttribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
 
 		parameterList.add(categoryAttribute.getCategory_id());
 		parameterList.add(categoryAttribute.getAttribute_id());
@@ -230,7 +230,7 @@ public class CategoryAttributeDao {
 	public void deleteByCategory_id(String category_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE ");
 		sql.append(CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
 
 		parameterList.add(category_id);
@@ -241,7 +241,7 @@ public class CategoryAttributeDao {
 	public void deleteByAttribute_id(String attribute_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE + " WHERE ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE ");
 		sql.append(CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
 
 		parameterList.add(attribute_id);

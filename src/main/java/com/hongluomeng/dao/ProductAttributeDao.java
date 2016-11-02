@@ -44,7 +44,7 @@ public class ProductAttributeDao {
 	public void saveByProduct_idAndCategory_Attribute(String product_id, List<CategoryAttribute> categoryAttributeList) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " (" + ProductAttribute.KEY_PRODUCT_ID + ", " + ProductAttribute.KEY_ATTRIBUTE_ID + ", " + ProductAttribute.KEY_ATTRIBUTE_VALUE + ") VALUES (?, ?, ?) ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " (" + ProductAttribute.KEY_PRODUCT_ID + ", " + ProductAttribute.KEY_ATTRIBUTE_ID + ", " + ProductAttribute.KEY_ATTRIBUTE_VALUE + ") VALUES (?, ?, ?) ");
 
 		for(CategoryAttribute categoryAttribute : categoryAttributeList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -62,7 +62,7 @@ public class ProductAttributeDao {
 	public void deleteByProduct_id(String product_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_PRODUCT_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_PRODUCT_ID + " = ? ");
 
 		parameterList.add(product_id);
 
@@ -72,7 +72,7 @@ public class ProductAttributeDao {
 	public void deleteByAttribute_id(String attribute_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_ATTRIBUTE_ID + " = ? ");
 
 		parameterList.add(attribute_id);
 

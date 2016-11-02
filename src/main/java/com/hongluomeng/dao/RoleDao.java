@@ -13,7 +13,7 @@ public class RoleDao {
 	private Integer count(Role role) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Role.KEY_ROLE + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Role.KEY_TABLE_ROLE + " ");
 
 		Boolean isExit = false;
 
@@ -71,7 +71,7 @@ public class RoleDao {
 	private List<Role> list(Role role, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Role.KEY_ROLE + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Role.KEY_TABLE_ROLE + " ");
 
 		Boolean isExit = false;
 
@@ -116,7 +116,7 @@ public class RoleDao {
 	private Role find(Role role) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Role.KEY_ROLE + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Role.KEY_TABLE_ROLE + " ");
 
 		Boolean isExit = false;
 

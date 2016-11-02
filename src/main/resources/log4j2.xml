@@ -8,7 +8,7 @@
       		<PatternLayout pattern=" url: %X{log_url}%n request: %X{log_request}%n response: %X{log_response}%n authorization_id: %X{authorization_id}%n user_id: %X{user_id}%n code: %X{log_code}%n platform: %X{log_platform}%n version: %X{log_version}%n ip_address: %X{log_ip_address}%n create_time: %X{log_create_time}%n run_time: %X{log_run_time}%n ------------------------------------------------------------------------------------------------------------------------------%n" />
       		<SizeBasedTriggeringPolicy size="200 MB" />
     	</RollingFile>
-		<JDBC name="DatabaseAppender" tableName="log">
+		<JDBC name="DatabaseAppender" tableName="table_log">
       		<ConnectionFactory class="com.hongluomeng.common.MyConnectionFactory" method="getDatabaseConnection" />
       		<Column name="log_id" pattern="%X{log_id}" />
       		<Column name="log_url" pattern="%X{log_url}" />

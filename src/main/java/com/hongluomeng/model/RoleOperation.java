@@ -6,7 +6,7 @@ public class RoleOperation extends Model<RoleOperation> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_ROLE_OPERATION = "role_operation";
+	public static final String KEY_TABLE_ROLE_OPERATION = "table_role_operation";
 	public static final String KEY_ROLE_ID = "role_id";
 	public static final String KEY_OPERATION_ID = "operation_id";
 

@@ -9,7 +9,7 @@ public class Authorization extends Model<Authorization> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_AUTHORIZATION = "authorization";
+	public static final String KEY_TABLE_AUTHORIZATION = "table_authorization";
 	public static final String KEY_AUTHORIZATION_ID = "authorization_id";
 	public static final String KEY_AUTHORIZATION_TOKEN = "authorization_token";
 	public static final String KEY_USER_ID = "user_id";

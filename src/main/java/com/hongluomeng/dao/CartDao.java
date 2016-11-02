@@ -15,7 +15,7 @@ public class CartDao {
 	private Integer count(Cart cart) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Cart.KEY_CART + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
 
 		Boolean isExit = false;
 
@@ -40,17 +40,17 @@ public class CartDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT ");
-		sql.append(Cart.KEY_CART + ".*, ");
-		sql.append(Product.KEY_PRODUCT + "." + Product.KEY_PRODUCT_ID + ", ");
-		sql.append(Product.KEY_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_STOCK + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " ");
+		sql.append(Cart.KEY_TABLE_CART + ".*, ");
+		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + ", ");
+		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_STOCK + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " ");
 		sql.append(" ");
-		sql.append("FROM " + Cart.KEY_CART + " ");
-		sql.append("LEFT JOIN " + ProductSku.KEY_PRODUCT_SKU + " ON " + ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
-		sql.append("LEFT JOIN " + Product.KEY_PRODUCT + " ON " + Product.KEY_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
+		sql.append("FROM " + Cart.KEY_TABLE_CART + " ");
+		sql.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
+		sql.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
 
 		Boolean isExit = false;
 
@@ -60,7 +60,7 @@ public class CartDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(Cart.KEY_CART + "." + Cart.KEY_USER_ID + " = ? ");
+			sql.append(Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ");
 			parameterList.add(cart.getUser_id());
 
 			isExit = true;
@@ -71,9 +71,9 @@ public class CartDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(Cart.KEY_CART + "." + Cart.KEY_CART_STATUS + " = 1 ");
+		sql.append(Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_STATUS + " = 1 ");
 
-		sql.append("ORDER BY " + Cart.KEY_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
+		sql.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
 			sql.append("LIMIT ?, ? ");
@@ -101,7 +101,7 @@ public class CartDao {
 	private Cart find(Cart cart) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Cart.KEY_CART + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
 
 		Boolean isExit = false;
 

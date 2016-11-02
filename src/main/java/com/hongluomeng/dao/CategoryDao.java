@@ -13,7 +13,7 @@ public class CategoryDao {
 	private Integer count(Category category) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Category.KEY_CATEGORY + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Category.KEY_TABLE_CATEGORY + " ");
 
 		Boolean isExit = false;
 
@@ -57,7 +57,7 @@ public class CategoryDao {
 	private List<Category> list(Category category) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_CATEGORY + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " ");
 
 		Boolean isExit = false;
 
@@ -103,7 +103,7 @@ public class CategoryDao {
 		Category category = new Category();
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_CATEGORY + " WHERE " + Category.KEY_PARENT_ID + " = '' ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " WHERE " + Category.KEY_PARENT_ID + " = '' ");
 		sql.append("AND " + Category.KEY_CATEGORY_STATUS + " = 1 ");
 		sql.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
 
@@ -123,7 +123,7 @@ public class CategoryDao {
 	private Category find(Category category) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_CATEGORY + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " ");
 
 		Boolean isExit = false;
 
@@ -211,7 +211,7 @@ public class CategoryDao {
 	public void deleteByCategory_id(String category_id, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Category.KEY_CATEGORY + " ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Category.KEY_TABLE_CATEGORY + " ");
 		sql.append("SET " + Category.KEY_CATEGORY_STATUS + " = 0 ");
 
 		sql.append(", " + Category.KEY_CATEGORY_UPDATE_USER_ID + " = ? ");

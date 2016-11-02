@@ -13,7 +13,7 @@ public class ProductDao {
 	private Integer count(Product product) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Product.KEY_PRODUCT + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Product.KEY_TABLE_PRODUCT + " ");
 
 		Boolean isExit = false;
 
@@ -50,7 +50,7 @@ public class ProductDao {
 	private List<Product> list(Product product, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_PRODUCT + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
 
 		Boolean isExit = false;
 
@@ -133,7 +133,7 @@ public class ProductDao {
 	private Product find(Product product) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_PRODUCT + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
 
 		Boolean isExit = false;
 

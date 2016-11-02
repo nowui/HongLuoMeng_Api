@@ -6,7 +6,7 @@ public class UserRole extends Model<UserRole> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_USER_ROLE = "user_role";
+	public static final String KEY_TABLE_USER_ROLE = "table_user_role";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_USER_TYPE = "user_type";
 	public static final String KEY_ROLE_ID = "role_id";

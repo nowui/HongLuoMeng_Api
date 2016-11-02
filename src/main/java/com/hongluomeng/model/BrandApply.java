@@ -8,7 +8,7 @@ public class BrandApply extends Model<BrandApply> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_BRAND_APPLY = "brand_apply";
+	public static final String KEY_TABLE_BRAND_APPLY = "table_brand_apply";
 	public static final String KEY_BRAND_ID = "brand_id";
 	public static final String KEY_BRAND_NAME = "brand_name";
 	public static final String KEY_USER_ID = "user_id";

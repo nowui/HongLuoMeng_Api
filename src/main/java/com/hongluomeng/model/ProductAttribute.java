@@ -6,7 +6,7 @@ public class ProductAttribute extends Model<ProductAttribute> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_PRODUCT_ATTRIBUTE = "product_attribute";
+	public static final String KEY_TABLE_PRODUCT_ATTRIBUTE = "table_product_attribute";
 	public static final String KEY_PRODUCT_ID = "product_id";
 	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 	public static final String KEY_ATTRIBUTE_VALUE = "attribute_value";

@@ -1,6 +1,8 @@
 package com.hongluomeng.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.jfinal.plugin.activerecord.Model;
 
@@ -8,7 +10,7 @@ public class Order extends Model<Order> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_ORDER = "order";
+	public static final String KEY_TABLE_ORDER = "table_order";
 	public static final String KEY_ORDER_ID = "order_id";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_ORDER_NO = "order_no";
@@ -20,6 +22,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_DELIVERY_AREA = "order_delivery_area";
 	public static final String KEY_ORDER_DELIVERY_ADDRESS = "order_delivery_address";
 	public static final String KEY_ORDER_DELIVERY_ZIP = "order_delivery_zip";
+	public static final String KEY_ORDER_IS_PAY = "order_is_pay";
 	public static final String KEY_ORDER_PAY_NO = "order_pay_no";
 	public static final String KEY_ORDER_PAY_ACCOUNT = "order_pay_account";
 	public static final String KEY_ORDER_PAY_PRICE = "order_pay_price";
@@ -28,7 +31,10 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_CREATE_TIME = "order_create_time";
 	public static final String KEY_ORDER_UPDATE_USER_ID = "order_update_user_id";
 	public static final String KEY_ORDER_UPDATE_TIME = "order_update_time";
+	public static final String KEY_ORDER_FLOW_STATUS = "order_flow_status";
 	public static final String KEY_ORDER_STATUS = "order_status";
+
+	private List<ProductSku> productSkuList;
 
 	public String getOrder_id() {
 		return getStr(KEY_ORDER_ID);
@@ -118,6 +124,14 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_DELIVERY_ZIP, order_delivery_zip);
 	}
 
+	public Boolean getOrder_is_pay() {
+		return getBoolean(KEY_ORDER_IS_PAY);
+	}
+
+	public void setOrder_is_pay(Boolean order_is_pay) {
+		set(KEY_ORDER_IS_PAY, order_is_pay);
+	}
+
 	public String getOrder_pay_no() {
 		return getStr(KEY_ORDER_PAY_NO);
 	}
@@ -134,11 +148,11 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_PAY_ACCOUNT, order_pay_account);
 	}
 
-	public String getOrder_pay_price() {
-		return getStr(KEY_ORDER_PAY_PRICE);
+	public BigDecimal getOrder_pay_price() {
+		return getBigDecimal(KEY_ORDER_PAY_PRICE);
 	}
 
-	public void setOrder_pay_price(String order_pay_price) {
+	public void setOrder_pay_price(BigDecimal order_pay_price) {
 		set(KEY_ORDER_PAY_PRICE, order_pay_price);
 	}
 
@@ -166,12 +180,28 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_UPDATE_TIME, order_update_time);
 	}
 
+	public String getOrder_flow_status() {
+		return getStr(KEY_ORDER_FLOW_STATUS);
+	}
+
+	public void setOrder_flow_status(String order_flow_status) {
+		set(KEY_ORDER_FLOW_STATUS, order_flow_status);
+	}
+
 	public Boolean getOrder_status() {
 		return getBoolean(KEY_ORDER_STATUS);
 	}
 
 	public void setOrder_status(Boolean order_status) {
 		set(KEY_ORDER_STATUS, order_status);
+	}
+
+	public List<ProductSku> getProductSkuList() {
+		return productSkuList;
+	}
+
+	public void setProductSkuList(List<ProductSku> productSkuList) {
+		this.productSkuList = productSkuList;
 	}
 
 }

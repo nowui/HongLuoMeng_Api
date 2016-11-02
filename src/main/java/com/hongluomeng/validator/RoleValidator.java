@@ -82,7 +82,7 @@ public class RoleValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(jsonObject.get(RoleOperation.KEY_ROLE_OPERATION) == null) {
+			if(jsonObject.get(RoleOperation.KEY_TABLE_ROLE_OPERATION) == null) {
 				message += "角色操作为空";
 				message += Const.LINE_FEED;
 			}

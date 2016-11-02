@@ -8,7 +8,7 @@ public class Sms extends Model<Sms> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_SMS = "sms";
+	public static final String KEY_TABLE_SMS = "table_sms";
 	public static final String KEY_SMS_ID = "sms_id";
 	public static final String KEY_SMS_TYPE = "sms_type";
 	public static final String KEY_SMS_PHONE = "sms_phone";

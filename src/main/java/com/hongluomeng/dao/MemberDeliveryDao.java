@@ -14,7 +14,7 @@ public class MemberDeliveryDao {
 	private Integer count(MemberDelivery memberDelivery) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + MemberDelivery.KEY_MEMBER_DELIVERY + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
 
 		Boolean isExit = false;
 
@@ -39,17 +39,17 @@ public class MemberDeliveryDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT ");
-		sql.append(MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ID + ", ");
-		sql.append(MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_NAME + ", ");
-		sql.append(MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PHONE + ", ");
+		sql.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ID + ", ");
+		sql.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_NAME + ", ");
+		sql.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PHONE + ", ");
 		sql.append("province." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + ", ");
 		sql.append("city." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + ", ");
 		sql.append("area." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + ", ");
-		sql.append(MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ADDRESS + " ");
-		sql.append("FROM " + MemberDelivery.KEY_MEMBER_DELIVERY + " ");
-		sql.append("LEFT JOIN " + Category.KEY_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + " ");
-		sql.append("LEFT JOIN " + Category.KEY_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + " ");
-		sql.append("LEFT JOIN " + Category.KEY_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + " ");
+		sql.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ADDRESS + " ");
+		sql.append("FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
+		sql.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + " ");
+		sql.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + " ");
+		sql.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + " ");
 
 		Boolean isExit = false;
 
@@ -59,7 +59,7 @@ public class MemberDeliveryDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ");
+			sql.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ");
 			parameterList.add(memberDelivery.getUser_id());
 
 			isExit = true;
@@ -70,9 +70,9 @@ public class MemberDeliveryDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_STATUS + " = 1 ");
+		sql.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_STATUS + " = 1 ");
 
-		sql.append("ORDER BY " + MemberDelivery.KEY_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CREATE_TIME + " DESC ");
+		sql.append("ORDER BY " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CREATE_TIME + " DESC ");
 
 		if (n > 0) {
 			sql.append("LIMIT ?, ? ");
@@ -100,7 +100,7 @@ public class MemberDeliveryDao {
 	private MemberDelivery find(MemberDelivery memberDelivery) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberDelivery.KEY_MEMBER_DELIVERY + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
 
 		Boolean isExit = false;
 

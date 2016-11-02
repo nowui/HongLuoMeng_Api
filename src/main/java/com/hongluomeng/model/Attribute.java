@@ -9,7 +9,7 @@ public class Attribute extends Model<Attribute> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_ATTRIBUTE = "attribute";
+	public static final String KEY_TABLE_ATTRIBUTE = "table_attribute";
 	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 	public static final String KEY_ATTRIBUTE_NAME = "attribute_name";
 	public static final String KEY_ATTRIBUTE_INPUT_TYPE = "attribute_input_type";

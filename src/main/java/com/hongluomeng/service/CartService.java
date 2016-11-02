@@ -45,7 +45,7 @@ public class CartService {
 		if(cart == null) {
 			cartDao.save(cartMap, request_user_id);
 		} else {
-			cart.setCart_product_number(cart.getCart_product_number() + cartMap.getCart_product_number());
+			cart.setProduct_amount(cart.getProduct_amount() + cartMap.getProduct_amount());
 
 			cartDao.update(cart, request_user_id);
 		}

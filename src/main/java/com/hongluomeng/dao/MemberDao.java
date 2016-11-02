@@ -13,7 +13,7 @@ public class MemberDao {
 	private Integer count(Member member) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Member.KEY_MEMBER + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Member.KEY_TABLE_MEMBER + " ");
 
 		Boolean isExit = false;
 
@@ -37,7 +37,7 @@ public class MemberDao {
 	private List<Member> list(Member member, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_MEMBER + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
 
 		Boolean isExit = false;
 
@@ -69,7 +69,7 @@ public class MemberDao {
 	private Member find(Member member) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_MEMBER + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
 
 		Boolean isExit = false;
 
@@ -181,7 +181,7 @@ public class MemberDao {
 	public void updateInfo(String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_MEMBER + " SET ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
 		sql.append(Member.KEY_MEMBER_REAL_NAME + " = ? ");
 		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD + " = ? ");
 		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ? ");

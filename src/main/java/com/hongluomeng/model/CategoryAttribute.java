@@ -8,7 +8,7 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_CATEGORY_ATTRIBUTE = "category_attribute";
+	public static final String KEY_TABLE_CATEGORY_ATTRIBUTE = "table_category_attribute";
 	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 	public static final String KEY_ATTRIBUTE_NAME = "attribute_name";

@@ -13,7 +13,7 @@ public class AttributeDao {
 	private Integer count(Attribute attribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Attribute.KEY_ATTRIBUTE + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
 
 		Boolean isExit = false;
 
@@ -37,7 +37,7 @@ public class AttributeDao {
 	private List<Attribute> list(Attribute attribute, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Attribute.KEY_ATTRIBUTE + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
 
 		Boolean isExit = false;
 
@@ -69,7 +69,7 @@ public class AttributeDao {
 	private Attribute find(Attribute attribute) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Attribute.KEY_ATTRIBUTE + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
 
 		Boolean isExit = false;
 

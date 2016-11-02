@@ -1,5 +1,6 @@
 package com.hongluomeng.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,9 +14,21 @@ public class OrderDao {
 	private Integer count(Order order) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Order.KEY_ORDER + " ");
+		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
 
 		Boolean isExit = false;
+
+		if (! Utility.isNullOrEmpty(order.getOrder_no())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Order.KEY_ORDER_NO + " = ? ");
+			parameterList.add(order.getOrder_no());
+
+			isExit = true;
+		}
 
 		if(isExit) {
 			sql.append("AND ");
@@ -37,7 +50,7 @@ public class OrderDao {
 	private List<Order> list(Order order, Integer m, Integer n) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_ORDER + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
 
 		Boolean isExit = false;
 
@@ -69,7 +82,7 @@ public class OrderDao {
 	private Order find(Order order) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_ORDER + " ");
+		StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
 
 		Boolean isExit = false;
 
@@ -111,12 +124,48 @@ public class OrderDao {
 		return find(order);
 	}
 
+	private Boolean checkOrder_no(String order_no) {
+		Order order = new Order();
+		order.setOrder_no(order_no);
+
+		Integer count = count(order);
+
+		if(count == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private String getOrder_no() {
+		return Utility.getDateString(new Date()).replaceAll("-", "") + Utility.getFixLenthString(6);
+	}
+
 	public void save(Order order, String request_user_id) {
+		String order_no = getOrder_no();
+
+		Boolean isExit = true;
+
+		while(isExit) {
+			if(checkOrder_no(order_no)) {
+				isExit = false;
+			} else {
+				order_no = getOrder_no();
+			}
+		}
+
 		order.setOrder_id(Utility.getUUID());
+		order.setOrder_no(order_no);
+		order.setOrder_is_pay(false);
+		order.setOrder_pay_no("");
+		order.setOrder_pay_account("");
+		order.setOrder_pay_price(BigDecimal.valueOf(0));
+		order.setOrder_pay_time(new Date());
 		order.setOrder_create_user_id(request_user_id);
 		order.setOrder_create_time(new Date());
 		order.setOrder_update_user_id(request_user_id);
 		order.setOrder_update_time(new Date());
+		order.setOrder_flow_status("");
 		order.setOrder_status(true);
 
 		order.save();

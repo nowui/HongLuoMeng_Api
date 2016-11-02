@@ -8,7 +8,7 @@ public class Admin extends Model<Admin> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_ADMIN = "admin";
+	public static final String KEY_TABLE_ADMIN = "table_admin";
 	public static final String KEY_ADMIN_ID = "admin_id";
 	public static final String KEY_ADMIN_NAME = "admin_name";
 	public static final String KEY_USER_ID = "user_id";

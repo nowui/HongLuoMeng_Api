@@ -8,7 +8,7 @@ public class Log extends Model<Log> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_LOG = "log";
+	public static final String KEY_TABLE_LOG = "table_log";
 	public static final String KEY_LOG_ID = "log_id";
 	public static final String KEY_LOG_URL = "log_url";
 	public static final String KEY_LOG_REQUEST = "log_request";
