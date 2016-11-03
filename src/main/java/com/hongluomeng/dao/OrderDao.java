@@ -141,7 +141,7 @@ public class OrderDao {
 		return Utility.getDateString(new Date()).replaceAll("-", "") + Utility.getFixLenthString(6);
 	}
 
-	public void save(Order order, String request_user_id) {
+	public void save(Order order, String member_level_id, String member_level_name, Integer member_level_value, String request_user_id) {
 		String order_no = getOrder_no();
 
 		Boolean isExit = true;
@@ -157,10 +157,13 @@ public class OrderDao {
 		order.setOrder_id(Utility.getUUID());
 		order.setOrder_no(order_no);
 		order.setOrder_is_pay(false);
-		order.setOrder_pay_no("");
-		order.setOrder_pay_account("");
-		order.setOrder_pay_price(BigDecimal.valueOf(0));
-		order.setOrder_pay_time(new Date());
+		order.setOrder_payment_no("");
+		order.setOrder_payment_account("");
+		order.setOrder_payment_price(BigDecimal.valueOf(0));
+		order.setOrder_payment_time("");
+		order.setMember_level_id(member_level_id);
+		order.setMember_level_name(member_level_name);
+		order.setMember_level_value(member_level_value);
 		order.setOrder_create_user_id(request_user_id);
 		order.setOrder_create_time(new Date());
 		order.setOrder_update_user_id(request_user_id);

@@ -1,10 +1,13 @@
 package com.hongluomeng.validator;
 
+import java.util.List;
+
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.model.Cart;
 import com.hongluomeng.model.Order;
 import com.hongluomeng.type.CodeEnum;
 
@@ -81,6 +84,30 @@ public class OrderValidator extends Validator {
 			} else {
 				if(order.getOrder_delivery_zip().length() > 6) {
 					message += "邮政编码过长";
+					message += Const.LINE_FEED;
+				}
+			}
+
+			if(Utility.isNullOrEmpty(order.getCartList())) {
+				message += "商品为空";
+				message += Const.LINE_FEED;
+			} else {
+				List<Cart> cartList = order.getCartList();
+
+				Boolean isError = false;
+
+				for(Cart cart : cartList) {
+					if(Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
+						isError = true;
+					}
+
+					if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
+						isError = true;
+					}
+				}
+
+				if(isError) {
+					message += "商品参数格式错误";
 					message += Const.LINE_FEED;
 				}
 			}

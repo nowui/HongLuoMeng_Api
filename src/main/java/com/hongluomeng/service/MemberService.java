@@ -43,6 +43,10 @@ public class MemberService {
 		return member;
 	}
 
+	public Member findByUser_id(String user_id) {
+		return memberDao.findByUser_id(user_id);
+	}
+
 	public void delete(JSONObject jsonObject) {
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 

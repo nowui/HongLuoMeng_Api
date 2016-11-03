@@ -7,6 +7,7 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Member;
+import com.hongluomeng.model.MemberLevel;
 
 public class MemberDao {
 
@@ -69,7 +70,11 @@ public class MemberDao {
 	private Member find(Member member) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
+		StringBuffer sql = new StringBuffer("SELECT " + Member.KEY_TABLE_MEMBER + ".* ");
+		sql.append(", IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_NAME + ", '') AS " + MemberLevel.KEY_MEMBER_LEVEL_NAME + " ");
+		sql.append(", IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_VALUE + ", 0) AS " + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ");
+		sql.append("FROM " + Member.KEY_TABLE_MEMBER + " ");
+		sql.append("LEFT JOIN " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ON " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_ID + " = " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_LEVEL_ID + " ");
 
 		Boolean isExit = false;
 
@@ -79,7 +84,7 @@ public class MemberDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(Member.KEY_MEMBER_ID + " = ? ");
+			sql.append(Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_ID + " = ? ");
 			parameterList.add(member.getMember_id());
 
 			isExit = true;
@@ -91,7 +96,7 @@ public class MemberDao {
 			} else {
 				sql.append(" WHERE ");
 			}
-			sql.append(Member.KEY_USER_ID + " = ? ");
+			sql.append(Member.KEY_TABLE_MEMBER + "." + Member.KEY_USER_ID + " = ? ");
 			parameterList.add(member.getUser_id());
 
 			isExit = true;
@@ -102,7 +107,7 @@ public class MemberDao {
 		} else {
 			sql.append("WHERE ");
 		}
-		sql.append(Member.KEY_MEMBER_STATUS + " = 1 ");
+		sql.append(Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_STATUS + " = 1 ");
 
 		if(! isExit) {
 			return null;
@@ -132,6 +137,7 @@ public class MemberDao {
 
 	public void save(Member member, String request_user_id) {
 		member.setMember_id(Utility.getUUID());
+		member.setMember_level_id("");
 		member.setMember_real_name("");
 		member.setMember_identity_card("");
 		member.setMember_identity_card_front_image("");

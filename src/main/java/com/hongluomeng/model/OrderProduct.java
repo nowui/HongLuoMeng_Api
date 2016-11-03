@@ -33,8 +33,8 @@ public class OrderProduct extends Model<OrderProduct> {
 	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
 	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
-	public static final String KEY_PAYMENT_PRICE = "payment_price";
-	public static final String KEY_PAYMENT_AMOUNT = "payment_amount";
+	public static final String KEY_PRODUCT_PAYMENT_PRICE = "product_payment_price";
+	public static final String KEY_PRODUCT_PAYMENT_AMOUNT = "product_payment_amount";
 	public static final String KEY_ORDER_PRODUCT_CREATE_USER_ID = "order_product_create_user_id";
 	public static final String KEY_ORDER_PRODUCT_CREATE_TIME = "order_product_create_time";
 	public static final String KEY_ORDER_PRODUCT_UPDATE_USER_ID = "order_product_update_user_id";
@@ -212,20 +212,20 @@ public class OrderProduct extends Model<OrderProduct> {
 		set(KEY_MEMBER_LEVEL_PRICE, member_level_price);
 	}
 
-	public BigDecimal getPayment_price() {
-		return getBigDecimal(KEY_PAYMENT_PRICE);
+	public BigDecimal getProduct_payment_price() {
+		return getBigDecimal(KEY_PRODUCT_PAYMENT_PRICE);
 	}
 
-	public void setPayment_price(BigDecimal payment_price) {
-		set(KEY_PAYMENT_PRICE, payment_price);
+	public void setProduct_payment_price(BigDecimal product_payment_price) {
+		set(KEY_PRODUCT_PAYMENT_PRICE, product_payment_price);
 	}
 
-	public Integer getPayment_amount() {
-		return Utility.getIntegerValue(get(KEY_PAYMENT_AMOUNT));
+	public Integer getProduct_payment_amount() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_PAYMENT_AMOUNT));
 	}
 
-	public void setPayment_amount(Integer payment_amount) {
-		set(KEY_PAYMENT_AMOUNT, payment_amount);
+	public void setProduct_payment_amount(Integer product_payment_amount) {
+		set(KEY_PRODUCT_PAYMENT_AMOUNT, product_payment_amount);
 	}
 
 	public void setOrder_product_create_user_id(String order_product_create_user_id) {

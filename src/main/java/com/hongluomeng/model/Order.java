@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class Order extends Model<Order> {
@@ -23,10 +24,14 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_DELIVERY_ADDRESS = "order_delivery_address";
 	public static final String KEY_ORDER_DELIVERY_ZIP = "order_delivery_zip";
 	public static final String KEY_ORDER_IS_PAY = "order_is_pay";
-	public static final String KEY_ORDER_PAY_NO = "order_pay_no";
-	public static final String KEY_ORDER_PAY_ACCOUNT = "order_pay_account";
-	public static final String KEY_ORDER_PAY_PRICE = "order_pay_price";
-	public static final String KEY_ORDER_PAY_TIME = "order_pay_time";
+	public static final String KEY_ORDER_PAYMENT_NO = "order_payment_no";
+	public static final String KEY_ORDER_PAYMENT_ACCOUNT = "order_payment_account";
+	public static final String KEY_ORDER_PAYMENT_PRICE = "order_payment_price";
+	public static final String KEY_ORDER_PAYMENT_AMOUNT = "order_payment_amount";
+	public static final String KEY_ORDER_PAYMENT_TIME = "order_payment_time";
+	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
+	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
+	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
 	public static final String KEY_ORDER_CREATE_USER_ID = "order_create_user_id";
 	public static final String KEY_ORDER_CREATE_TIME = "order_create_time";
 	public static final String KEY_ORDER_UPDATE_USER_ID = "order_update_user_id";
@@ -34,7 +39,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_FLOW_STATUS = "order_flow_status";
 	public static final String KEY_ORDER_STATUS = "order_status";
 
-	private List<ProductSku> productSkuList;
+	private List<Cart> cartList;
 
 	public String getOrder_id() {
 		return getStr(KEY_ORDER_ID);
@@ -132,36 +137,68 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_IS_PAY, order_is_pay);
 	}
 
-	public String getOrder_pay_no() {
-		return getStr(KEY_ORDER_PAY_NO);
+	public String getOrder_payment_no() {
+		return getStr(KEY_ORDER_PAYMENT_NO);
 	}
 
-	public void setOrder_pay_no(String order_pay_no) {
-		set(KEY_ORDER_PAY_NO, order_pay_no);
+	public void setOrder_payment_no(String order_payment_no) {
+		set(KEY_ORDER_PAYMENT_NO, order_payment_no);
 	}
 
-	public String getOrder_pay_account() {
-		return getStr(KEY_ORDER_PAY_ACCOUNT);
+	public String getOrder_payment_account() {
+		return getStr(KEY_ORDER_PAYMENT_ACCOUNT);
 	}
 
-	public void setOrder_pay_account(String order_pay_account) {
-		set(KEY_ORDER_PAY_ACCOUNT, order_pay_account);
+	public void setOrder_payment_account(String order_payment_account) {
+		set(KEY_ORDER_PAYMENT_ACCOUNT, order_payment_account);
 	}
 
-	public BigDecimal getOrder_pay_price() {
-		return getBigDecimal(KEY_ORDER_PAY_PRICE);
+	public BigDecimal getOrder_payment_price() {
+		return getBigDecimal(KEY_ORDER_PAYMENT_PRICE);
 	}
 
-	public void setOrder_pay_price(BigDecimal order_pay_price) {
-		set(KEY_ORDER_PAY_PRICE, order_pay_price);
+	public void setOrder_payment_price(BigDecimal order_payment_price) {
+		set(KEY_ORDER_PAYMENT_PRICE, order_payment_price);
 	}
 
-	public String getOrder_pay_time() {
-		return getStr(KEY_ORDER_PAY_TIME);
+	public Integer getOrder_payment_amount() {
+		return Utility.getIntegerValue(get(KEY_ORDER_PAYMENT_AMOUNT));
 	}
 
-	public void setOrder_pay_time(Date order_pay_time) {
-		set(KEY_ORDER_PAY_TIME, order_pay_time);
+	public void setOrder_payment_amount(Integer order_payment_amount) {
+		set(KEY_ORDER_PAYMENT_AMOUNT, order_payment_amount);
+	}
+
+	public String getOrder_payment_time() {
+		return getStr(KEY_ORDER_PAYMENT_TIME);
+	}
+
+	public void setOrder_payment_time(String order_payment_time) {
+		set(KEY_ORDER_PAYMENT_TIME, order_payment_time);
+	}
+
+	public String getMember_level_id() {
+		return getStr(KEY_MEMBER_LEVEL_ID);
+	}
+
+	public void setMember_level_id(String member_level_id) {
+		set(KEY_MEMBER_LEVEL_ID, member_level_id);
+	}
+
+	public String getMember_level_name() {
+		return getStr(KEY_MEMBER_LEVEL_NAME);
+	}
+
+	public void setMember_level_name(String member_level_name) {
+		set(KEY_MEMBER_LEVEL_NAME, member_level_name);
+	}
+
+	public Integer getMember_level_value() {
+		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
+	}
+
+	public void setMember_level_value(Integer member_level_value) {
+		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
 	}
 
 	public void setOrder_create_user_id(String order_create_user_id) {
@@ -196,12 +233,12 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_STATUS, order_status);
 	}
 
-	public List<ProductSku> getProductSkuList() {
-		return productSkuList;
+	public List<Cart> getCartList() {
+		return cartList;
 	}
 
-	public void setProductSkuList(List<ProductSku> productSkuList) {
-		this.productSkuList = productSkuList;
+	public void setCartList(List<Cart> cartList) {
+		this.cartList = cartList;
 	}
 
 }

@@ -40,7 +40,7 @@ public class MemberLevel extends Model<MemberLevel> {
 		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
 	}
 
-	public void setMember_level_value(String member_level_value) {
+	public void setMember_level_value(Integer member_level_value) {
 		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
 	}
 

@@ -76,7 +76,6 @@ public class CartService {
 
 		for(Cart cart : cartList) {
 			cart.setUser_id(null);
-			cart.setProduct_sku_id(null);
 			cart.setCart_status(null);
 		}
 

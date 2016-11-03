@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import java.util.Date;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class Member extends Model<Member> {
@@ -10,11 +11,14 @@ public class Member extends Model<Member> {
 
 	public static final String KEY_TABLE_MEMBER = "table_member";
 	public static final String KEY_MEMBER_ID = "member_id";
+	public static final String KEY_USER_ID = "user_id";
+	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
+	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
+	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
 	public static final String KEY_MEMBER_NAME = "member_name";
 	public static final String KEY_MEMBER_AVATAR = "member_avatar";
 	public static final String KEY_MEMBER_AVATAR_SMALL = "member_avatar_small";
 	public static final String KEY_MEMBER_AVATAR_LARGE = "member_avatar_large";
-	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_MEMBER_REAL_NAME = "member_real_name";
 	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
 	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
@@ -33,6 +37,30 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_ID, member_id);
 	}
 
+	public String getUser_id() {
+		return getStr(KEY_USER_ID);
+	}
+
+	public void setUser_id(String user_id) {
+		set(KEY_USER_ID, user_id);
+	}
+
+	public String getMember_level_id() {
+		return getStr(KEY_MEMBER_LEVEL_ID);
+	}
+
+	public void setMember_level_id(String member_level_id) {
+		set(KEY_MEMBER_LEVEL_ID, member_level_id);
+	}
+
+	public String getMember_level_name() {
+		return getStr(KEY_MEMBER_LEVEL_NAME);
+	}
+
+	public Integer getMember_level_value() {
+		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
+	}
+
 	public String getMember_avatar() {
 		return getStr(KEY_MEMBER_AVATAR);
 	}
@@ -47,14 +75,6 @@ public class Member extends Model<Member> {
 
 	public void setMember_name(String member_name) {
 		set(KEY_MEMBER_NAME, member_name);
-	}
-
-	public String getUser_id() {
-		return getStr(KEY_USER_ID);
-	}
-
-	public void setUser_id(String user_id) {
-		set(KEY_USER_ID, user_id);
 	}
 
 	public String getMember_real_name() {
