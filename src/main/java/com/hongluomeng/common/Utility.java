@@ -253,6 +253,17 @@ public class Utility {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
+	public static boolean checkSql(String str) {
+		String inj_str = "'|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+|,";
+		String inj_stra[] = inj_str.split("|");
+		for (int i=0 ; i < inj_stra.length; i++ ) {
+			if (str.indexOf(inj_stra[i])>=0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void checkContent(String content) throws Exception {
 		/*Map<String, String> parameter = new HashMap<String, String>();
 		parameter.put("apikey", "297e48e88d49aa57c9f6f062c01cf138");

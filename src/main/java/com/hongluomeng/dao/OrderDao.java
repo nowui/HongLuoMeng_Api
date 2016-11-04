@@ -1,6 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -159,7 +158,6 @@ public class OrderDao {
 		order.setOrder_is_pay(false);
 		order.setOrder_payment_no("");
 		order.setOrder_payment_account("");
-		order.setOrder_payment_price(BigDecimal.valueOf(0));
 		order.setOrder_payment_time("");
 		order.setMember_level_id(member_level_id);
 		order.setMember_level_name(member_level_name);

@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
@@ -16,7 +17,22 @@ public class Cart extends Model<Cart> {
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
 	public static final String KEY_PRODUCT_ID = "product_id";
+	public static final String KEY_CATEGORY_ID = "category_id";
+	public static final String KEY_CATEGORY_NAME = "category_name";
+	public static final String KEY_BRAND_ID = "brand_id";
+	public static final String KEY_BRAND_NAME = "brand_name";
 	public static final String KEY_PRODUCT_NAME = "product_name";
+	public static final String KEY_PRODUCT_IMAGE = "product_image";
+	public static final String KEY_PRODUCT_IS_NEW = "product_is_new";
+	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
+	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
+	public static final String KEY_PRODUCT_IS_HOT = "product_is_hot";
+	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
+	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
+	public static final String KEY_PRODUCT_STATUS = "product_status";
+	public static final String KEY_PRODUCT_CONTENT = "product_content";
+	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";
+	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
 	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
 	public static final String KEY_PRODUCT_STOCK = "product_stock";
@@ -27,6 +43,8 @@ public class Cart extends Model<Cart> {
 	public static final String KEY_CART_UPDATE_USER_ID = "cart_update_user_id";
 	public static final String KEY_CART_UPDATE_TIME = "cart_update_time";
 	public static final String KEY_CART_STATUS = "cart_status";
+
+	private List<String> productSkuIdList;
 
 	public String getCart_id() {
 		return getStr(KEY_CART_ID);
@@ -56,8 +74,64 @@ public class Cart extends Model<Cart> {
 		return getStr(KEY_PRODUCT_ID);
 	}
 
+	public String getCategory_id() {
+		return getStr(KEY_CATEGORY_ID);
+	}
+
+	public String getCategory_name() {
+		return getStr(KEY_CATEGORY_NAME);
+	}
+
+	public String getBrand_id() {
+		return getStr(KEY_BRAND_ID);
+	}
+
+	public String getBrand_name() {
+		return getStr(KEY_BRAND_NAME);
+	}
+
 	public String getProduct_name() {
 		return getStr(KEY_PRODUCT_NAME);
+	}
+
+	public JSONArray getProduct_image() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_IMAGE));
+	}
+
+	public Boolean getProduct_is_new() {
+		return getBoolean(KEY_PRODUCT_IS_NEW);
+	}
+
+	public Boolean getProduct_is_bargain() {
+		return getBoolean(KEY_PRODUCT_IS_BARGAIN);
+	}
+
+	public Boolean getProduct_is_recommend() {
+		return getBoolean(KEY_PRODUCT_IS_RECOMMEND);
+	}
+
+	public Boolean getProduct_is_hot() {
+		return getBoolean(KEY_PRODUCT_IS_HOT);
+	}
+
+	public Boolean getProduct_is_sell_out() {
+		return getBoolean(KEY_PRODUCT_IS_SELL_OUT);
+	}
+
+	public Boolean getProduct_is_sale() {
+		return getBoolean(KEY_PRODUCT_IS_SALE);
+	}
+
+	public String getProduct_content() {
+		return getStr(KEY_PRODUCT_CONTENT);
+	}
+
+	public JSONArray getProduct_sku_value() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_SKU_VALUE));
+	}
+
+	public JSONArray getProduct_attribute_value() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_ATTRIBUTE_VALUE));
 	}
 
 	public BigDecimal getProduct_price() {
@@ -106,6 +180,14 @@ public class Cart extends Model<Cart> {
 
 	public void setCart_status(Boolean cart_status) {
 		set(KEY_CART_STATUS, cart_status);
+	}
+
+	public List<String> getProductSkuIdList() {
+		return productSkuIdList;
+	}
+
+	public void setProductSkuIdList(List<String> productSkuIdList) {
+		this.productSkuIdList = productSkuIdList;
 	}
 
 }

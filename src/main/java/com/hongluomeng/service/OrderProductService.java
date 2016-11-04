@@ -19,6 +19,10 @@ public class OrderProductService {
 		return orderProductList;
 	}
 
+	public void saveByOrderProductList(List<OrderProduct> orderProductList, String request_user_id) {
+		orderProductDao.saveByOrderProductList(orderProductList, request_user_id);
+	}
+
 	/*public OrderProduct find(JSONObject jsonObject) {
 		OrderProduct orderProductMap = jsonObject.toJavaObject(OrderProduct.class);
 

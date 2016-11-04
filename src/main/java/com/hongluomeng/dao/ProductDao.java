@@ -139,9 +139,9 @@ public class ProductDao {
 
 		if (! Utility.isNullOrEmpty(product.getProduct_id())) {
 			if(isExit) {
-				sql.append(" AND ");
+				sql.append("AND ");
 			} else {
-				sql.append(" WHERE ");
+				sql.append("WHERE ");
 			}
 			sql.append(Product.KEY_PRODUCT_ID + " = ? ");
 			parameterList.add(product.getProduct_id());

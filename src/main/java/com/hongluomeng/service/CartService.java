@@ -1,5 +1,6 @@
 package com.hongluomeng.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,10 @@ public class CartService {
 		Map<String, Object> resultMap = Utility.setResultMap(count, cartList);
 
 		return resultMap;
+	}
+
+	public List<Cart> listByProductSkuIdList(List<String> productSkuIdList) {
+		return cartDao.listByProductSkuIdList(productSkuIdList);
 	}
 
 	public Cart find(JSONObject jsonObject) {
@@ -74,12 +79,18 @@ public class CartService {
 
 		List<Cart> cartList = cartDao.listByUser_id(request_user_id);
 
+		List<Cart> resultList = new ArrayList<Cart>();
+
 		for(Cart cart : cartList) {
-			cart.setUser_id(null);
-			cart.setCart_status(null);
+			Cart cartMap = new Cart();
+			cartMap.setCart_id(cart.getCart_id());
+			cartMap.setProduct_sku_id(cart.getProduct_sku_id());
+			cartMap.setProduct_amount(cart.getProduct_amount());
+
+			resultList.add(cartMap);
 		}
 
-		return cartList;
+		return resultList;
 	}
 
 }

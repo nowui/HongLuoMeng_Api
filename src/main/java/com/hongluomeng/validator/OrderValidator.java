@@ -94,6 +94,11 @@ public class OrderValidator extends Validator {
 			} else {
 				List<Cart> cartList = order.getCartList();
 
+				if(cartList.size() == 0) {
+					message += "商品参数格为空";
+					message += Const.LINE_FEED;
+				}
+
 				Boolean isError = false;
 
 				for(Cart cart : cartList) {

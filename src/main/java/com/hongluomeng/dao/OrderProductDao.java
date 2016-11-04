@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.OrderProduct;
 
@@ -120,6 +121,104 @@ public class OrderProductDao {
 		orderProduct.setOrder_product_status(true);
 
 		orderProduct.save();
+	}
+
+	public void saveByOrderProductList(List<OrderProduct> orderProductList, String request_user_id) {
+		List<Object[]> parameterList = new ArrayList<Object[]>();
+
+		StringBuffer sql = new StringBuffer("INSERT INTO " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ( ");
+		sql.append(OrderProduct.KEY_ORDER_ID + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_ID + ", ");
+		sql.append(OrderProduct.KEY_CATEGORY_ID + ", ");
+		sql.append(OrderProduct.KEY_CATEGORY_NAME + ", ");
+		sql.append(OrderProduct.KEY_BRAND_ID + ", ");
+		sql.append(OrderProduct.KEY_BRAND_NAME + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_NAME + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IMAGE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IS_NEW + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IS_RECOMMEND + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IS_BARGAIN + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IS_HOT + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IS_SELL_OUT + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_IS_SALE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_CONTENT + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_SKU_VALUE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_SKU_ID + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_PRICE + ", ");
+		sql.append(OrderProduct.KEY_MEMBER_LEVEL_PRICE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_PAYMENT_PRICE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_PAYMENT_AMOUNT + ", ");
+		sql.append(OrderProduct.KEY_ORDER_PRODUCT_CREATE_USER_ID + ", ");
+		sql.append(OrderProduct.KEY_ORDER_PRODUCT_CREATE_TIME + ", ");
+		sql.append(OrderProduct.KEY_ORDER_PRODUCT_UPDATE_USER_ID + ", ");
+		sql.append(OrderProduct.KEY_ORDER_PRODUCT_UPDATE_TIME + ", ");
+		sql.append(OrderProduct.KEY_ORDER_PRODUCT_STATUS + " ");
+		sql.append(") VALUES ( ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("?, ");
+		sql.append("? ");
+		sql.append(") ");
+
+		for(OrderProduct orderProduct : orderProductList) {
+			List<Object> objectList = new ArrayList<Object>();
+
+			objectList.add(orderProduct.getOrder_id());
+			objectList.add(orderProduct.getProduct_id());
+			objectList.add(orderProduct.getCategory_id());
+			objectList.add(orderProduct.getCategory_name());
+			objectList.add(orderProduct.getBrand_id());
+			objectList.add(orderProduct.getBrand_name());
+			objectList.add(orderProduct.getProduct_name());
+			objectList.add(orderProduct.getProduct_image().toJSONString());
+			objectList.add(orderProduct.getProduct_is_new());
+			objectList.add(orderProduct.getProduct_is_recommend());
+			objectList.add(orderProduct.getProduct_is_bargain());
+			objectList.add(orderProduct.getProduct_is_hot());
+			objectList.add(orderProduct.getProduct_is_sell_out());
+			objectList.add(orderProduct.getProduct_is_sale());
+			objectList.add(orderProduct.getProduct_content());
+			objectList.add(orderProduct.getProduct_sku_value().toJSONString());
+			objectList.add(orderProduct.getProduct_sku_id());
+			objectList.add(orderProduct.getProduct_attribute_value().toJSONString());
+			objectList.add(orderProduct.getProduct_price());
+			objectList.add(orderProduct.getMember_level_price().toJSONString());
+			objectList.add(orderProduct.getProduct_payment_price());
+			objectList.add(orderProduct.getProduct_payment_amount());
+			objectList.add(request_user_id);
+			objectList.add(new Date());
+			objectList.add(request_user_id);
+			objectList.add(new Date());
+			objectList.add(true);
+
+			parameterList.add(objectList.toArray());
+		}
+
+		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
 	}
 
 	public void update(OrderProduct orderProduct, String request_user_id) {
