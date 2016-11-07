@@ -37,7 +37,9 @@ public class BrandService {
 	public List<Map<String, Object>> getList(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		List<Brand> brandList = brandDao.listByCategory_idForApply(brandMap.getCategory_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		List<Brand> brandList = brandDao.listByCategory_idForApply(brandMap.getCategory_id(), request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -46,18 +48,7 @@ public class BrandService {
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
 			map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
-
-			if(brand.getBrand_apply_count() == 0) {
-				map.put(Brand.KEY_BRAND_IS_APPLY, false);
-			} else {
-				map.put(Brand.KEY_BRAND_IS_APPLY, true);
-			}
-
-			if(brand.getBrand_review_count() == 0) {
-				map.put(Brand.KEY_BRAND_IS_REVIEW, false);
-			} else {
-				map.put(Brand.KEY_BRAND_IS_REVIEW, true);
-			}
+			map.put(Brand.KEY_BRAND_APPLY_REVIEW_STATUS, brand.getBrand_apply_review_status());
 
 			list.add(map);
 		}
@@ -92,7 +83,7 @@ public class BrandService {
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
 			map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
-			map.put(Brand.KEY_BRAND_IS_APPLY, true);
+			map.put(Brand.KEY_BRAND_APPLY_REVIEW_STATUS, brand.getBrand_apply_review_status());
 
 			list.add(map);
 		}
@@ -118,24 +109,22 @@ public class BrandService {
 		return brand;
 	}
 
-	public Brand get(JSONObject jsonObject) {
+	public Map<String, Object> get(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		Brand brand = brandDao.findByBrand_idForApply(brandMap.getBrand_id());
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		if(brand.getBrand_apply_count() == 0) {
-			brand.setBrand_is_apply(false);
-		} else {
-			brand.setBrand_is_apply(true);
-		}
+		Brand brand = brandDao.findByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
 
-		if(brand.getBrand_review_count() == 0) {
-			brand.setBrand_is_review(false);
-		} else {
-			brand.setBrand_is_review(true);
-		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
+		map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
+		map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
+		map.put(Brand.KEY_BRAND_INTRODUCE, brand.getBrand_introduce());
+		map.put(Brand.KEY_BRAND_AGREEMENT, brand.getBrand_agreement());
+		map.put(Brand.KEY_BRAND_APPLY_REVIEW_STATUS, brand.getBrand_apply_review_status());
 
-		return brand;
+		return map;
 	}
 
 	public void save(JSONObject jsonObject) {
@@ -233,12 +222,28 @@ public class BrandService {
 		return brandApply;
 	}
 
-	public void reviewApply(JSONObject jsonObject) {
+	public void reviewPass(JSONObject jsonObject) {
 		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		brandApplyService.review(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id(), request_user_id);
+		brandApplyService.reviewPass(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id(), request_user_id);
+	}
+
+	public void reviewRefuse(JSONObject jsonObject) {
+		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandApplyService.reviewRefuse(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id(), request_user_id);
+	}
+
+	public void reviewCancel(JSONObject jsonObject) {
+		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandApplyService.reviewCancel(brandApplyMap.getBrand_id(), request_user_id, request_user_id);
 	}
 
 }

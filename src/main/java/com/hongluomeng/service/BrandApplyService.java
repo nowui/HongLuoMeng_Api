@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hongluomeng.dao.BrandApplyDao;
 import com.hongluomeng.model.BrandApply;
+import com.hongluomeng.type.BrandApplyReviewEnum;
 
 public class BrandApplyService {
 
@@ -29,8 +30,16 @@ public class BrandApplyService {
 		brandApplyDao.save(brand_id, member_real_name, member_identity_card, member_identity_card_front_image, member_identity_card_back_image, request_user_id);
 	}
 
-	public void review(String brand_id, String user_id, String request_user_id) {
-		brandApplyDao.review(brand_id, user_id, request_user_id);
+	public void reviewPass(String brand_id, String user_id, String request_user_id) {
+		brandApplyDao.update(brand_id, BrandApplyReviewEnum.PASS.getKey(), user_id, request_user_id);
+	}
+
+	public void reviewRefuse(String brand_id, String user_id, String request_user_id) {
+		brandApplyDao.update(brand_id, BrandApplyReviewEnum.REFUSE.getKey(), user_id, request_user_id);
+	}
+
+	public void reviewCancel(String brand_id, String user_id, String request_user_id) {
+		brandApplyDao.update(brand_id, BrandApplyReviewEnum.CANCEL.getKey(), user_id, request_user_id);
 	}
 
 }

@@ -9,6 +9,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Member;
+import com.hongluomeng.type.BrandApplyReviewEnum;
 
 public class BrandApplyDao {
 
@@ -51,6 +52,10 @@ public class BrandApplyDao {
 		parameterList.add(brand_id);
 
 		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+
+		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " != '" + BrandApplyReviewEnum.REFUSE.getKey() + "' ");
+
+		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " != '" + BrandApplyReviewEnum.CANCEL.getKey() + "' ");
 
 		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
 		return count.intValue();
@@ -129,6 +134,9 @@ public class BrandApplyDao {
 			sql.append("WHERE ");
 		}
 		sql.append(BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
+		sql.append("ORDER BY " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " DESC LIMIT 0, 1 ");
+
+		System.out.println(sql.toString());
 
 		if(! isExit) {
 			return null;
@@ -163,16 +171,17 @@ public class BrandApplyDao {
 		brandApply.setBrand_apply_update_user_id(request_user_id);
 		brandApply.setBrand_apply_update_time(new Date());
 		brandApply.setBrand_apply_status(true);
-		brandApply.setBrand_apply_review_status(false);
+		brandApply.setBrand_apply_review_status(BrandApplyReviewEnum.WAITING.getKey());
 
 		brandApply.save();
 	}
 
-	public void review(String brand_id, String user_id, String request_user_id) {
+	public void update(String brand_id, String brand_apply_review_status, String user_id, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + BrandApply.KEY_TABLE_BRAND_APPLY + " SET " + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = 1, " + BrandApply.KEY_BRAND_APPLY_UPDATE_USER_ID + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_TIME + " = ? WHERE " + BrandApply.KEY_BRAND_ID + " = ? AND " + BrandApply.KEY_USER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + BrandApply.KEY_TABLE_BRAND_APPLY + " SET " + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_USER_ID + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_TIME + " = ? WHERE " + BrandApply.KEY_BRAND_ID + " = ? AND " + BrandApply.KEY_USER_ID + " = ? ");
 
+		parameterList.add(brand_apply_review_status);
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());
 		parameterList.add(brand_id);

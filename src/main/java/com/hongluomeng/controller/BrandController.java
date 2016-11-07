@@ -144,13 +144,13 @@ public class BrandController extends BaseController {
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Brand brand = brandService.get(jsonObject);
+		Map<String, Object> resultMap = brandService.get(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brand));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLY)
+	@ActionKey(Const.URL_BRAND_APPLY_SAVE)
 	public void apply() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -190,11 +190,31 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLYY_REVIEW)
-	public void reviewApply() {
+	@ActionKey(Const.URL_BRAND_APPLYY_PASS)
+	public void reviewPass() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		brandService.reviewApply(jsonObject);
+		brandService.reviewPass(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_APPLYY_REFUSE)
+	public void reviewRefuse() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.reviewRefuse(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+    }
+
+	@Before(BrandValidator.class)
+	@ActionKey(Const.URL_BRAND_APPLYY_CANCEL)
+	public void reviewCancel() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		brandService.reviewCancel(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
     }

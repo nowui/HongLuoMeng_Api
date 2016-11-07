@@ -158,7 +158,7 @@ public class BrandValidator extends Validator {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_BRAND_APPLY)) {
+		} else if(actionKey.equals(Const.URL_BRAND_APPLY_SAVE)) {
 			isExit = true;
 
 			Brand brand = jsonObject.toJavaObject(Brand.class);
@@ -207,7 +207,7 @@ public class BrandValidator extends Validator {
 				message += "用户编号为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_BRAND_APPLYY_REVIEW)) {
+		} else if(actionKey.equals(Const.URL_BRAND_APPLYY_PASS)) {
 			isExit = true;
 
 			BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
@@ -219,6 +219,29 @@ public class BrandValidator extends Validator {
 
 			if(Utility.isNullOrEmpty(brandApply.getUser_id())) {
 				message += "用户编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_APPLYY_REFUSE)) {
+			isExit = true;
+
+			BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+
+			if(Utility.isNullOrEmpty(brandApply.getBrand_id())) {
+				message += "编号为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(brandApply.getUser_id())) {
+				message += "用户编号为空";
+				message += Const.LINE_FEED;
+			}
+		} else if(actionKey.equals(Const.URL_BRAND_APPLYY_CANCEL)) {
+			isExit = true;
+
+			BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+
+			if(Utility.isNullOrEmpty(brandApply.getBrand_id())) {
+				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
 		}

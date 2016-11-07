@@ -6,7 +6,6 @@ import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Role;
-import com.hongluomeng.model.RoleOperation;
 import com.hongluomeng.type.CodeEnum;
 
 public class RoleValidator extends Validator {
@@ -82,7 +81,7 @@ public class RoleValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(jsonObject.get(RoleOperation.KEY_TABLE_ROLE_OPERATION) == null) {
+			if(Utility.isNullOrEmpty(Const.KEY_LIST)) {
 				message += "角色操作为空";
 				message += Const.LINE_FEED;
 			}

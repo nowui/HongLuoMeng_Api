@@ -3,7 +3,6 @@ package com.hongluomeng.model;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class Brand extends Model<Brand> {
@@ -22,14 +21,9 @@ public class Brand extends Model<Brand> {
 	public static final String KEY_BRAND_UPDATE_USER_ID = "brand_update_user_id";
 	public static final String KEY_BRAND_UPDATE_TIME = "brand_update_time";
 	public static final String KEY_BRAND_STATUS = "brand_status";
-	public static final String KEY_BRAND_APPLY_COUNT = "brand_apply_count";
-	public static final String KEY_BRAND_REVIEW_COUNT = "brand_review_count";
-	public static final String KEY_BRAND_IS_APPLY = "brand_is_apply";
-	public static final String KEY_BRAND_IS_REVIEW = "brand_is_review";
+	public static final String KEY_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
 
 	private List<Category> categoryList;
-	private Boolean brand_is_apply;
-	private Boolean brand_is_review;
 
 	public String getBrand_id() {
 		return getStr(KEY_BRAND_ID);
@@ -103,14 +97,6 @@ public class Brand extends Model<Brand> {
 		set(KEY_BRAND_STATUS, brand_status);
 	}
 
-	public Integer getBrand_apply_count() {
-		return Utility.getIntegerValue(get(KEY_BRAND_APPLY_COUNT));
-	}
-
-	public Integer getBrand_review_count() {
-		return Utility.getIntegerValue(get(KEY_BRAND_REVIEW_COUNT));
-	}
-
 	public List<Category> getCategoryList() {
 		return categoryList;
 	}
@@ -119,20 +105,8 @@ public class Brand extends Model<Brand> {
 		this.categoryList = categoryList;
 	}
 
-	public Boolean getBrand_is_apply() {
-		return brand_is_apply;
-	}
-
-	public void setBrand_is_apply(Boolean brand_is_apply) {
-		this.brand_is_apply = brand_is_apply;
-	}
-
-	public Boolean getBrand_is_review() {
-		return brand_is_review;
-	}
-
-	public void setBrand_is_review(Boolean brand_is_review) {
-		this.brand_is_review = brand_is_review;
+	public String getBrand_apply_review_status() {
+		return getStr(KEY_BRAND_APPLY_REVIEW_STATUS);
 	}
 
 }

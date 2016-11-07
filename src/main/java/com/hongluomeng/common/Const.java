@@ -75,11 +75,13 @@ public class Const {
 	public static final String URL_BRAND_CATEGORY_LIST_GET = "/brand/category/list/get";
 	public static final String URL_BRAND_LIST_GET = "/brand/list/get";
 	public static final String URL_BRAND_GET = "/brand/get";
-	public static final String URL_BRAND_APPLY = "/brand/apply";
+	public static final String URL_BRAND_APPLY_SAVE = "/brand/apply/save";
 	public static final String URL_BRAND_MY_LIST_GET = "/brand/my/list/get";
 	public static final String URL_BRAND_APPLY_LIST = "/brand/apply/list";
 	public static final String URL_BRAND_APPLYY_FIND = "/brand/apply/find";
-	public static final String URL_BRAND_APPLYY_REVIEW = "/brand/apply/review";
+	public static final String URL_BRAND_APPLYY_PASS = "/brand/apply/pass";
+	public static final String URL_BRAND_APPLYY_REFUSE = "/brand/apply/refuse";
+	public static final String URL_BRAND_APPLYY_CANCEL = "/brand/apply/cancel";
 
 	public static final String URL_CATEGORY_LIST = "/category/list";
 	public static final String URL_CATEGORY_FIND = "/category/find";
