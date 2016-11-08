@@ -239,6 +239,10 @@ public class ProductValidator extends Validator {
 			}
 
 			message += Utility.checkPageAndLimit(jsonObject);
+		} else if(actionKey.equals(Const.URL_PRODUCT_MARKET_LIST_GET)) {
+			isExit = true;
+
+			message += Utility.checkPageAndLimit(jsonObject);
 		} else if(actionKey.equals(Const.URL_PRODUCT_GET)) {
 			isExit = true;
 

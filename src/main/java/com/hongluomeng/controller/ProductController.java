@@ -200,6 +200,16 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
+	@ActionKey(Const.URL_PRODUCT_MARKET_LIST_GET)
+	public void getMarketList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = productService.getMarketList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+    }
+
+	@Before(ProductValidator.class)
 	@ActionKey(Const.URL_PRODUCT_GET)
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Product;
+import com.hongluomeng.type.BrandApplyReviewEnum;
 
 public class ProductDao {
 
@@ -128,6 +130,29 @@ public class ProductDao {
 		productMap.setBrand_id(brand_id);
 
 		return list(productMap, m, n);
+	}
+
+	public List<Product> listByUser_id(String user_id, Integer m, Integer n) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("SELECT " + Product.KEY_TABLE_PRODUCT + ".* FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		sql.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "' AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1) " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ");
+		sql.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
+		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+
+		parameterList.add(user_id);
+		parameterList.add(user_id);
+
+		sql.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
+
+		if (n > 0) {
+			sql.append("LIMIT ?, ? ");
+			parameterList.add(m);
+			parameterList.add(n);
+		}
+
+		List<Product> productList = new Product().find(sql.toString(), parameterList.toArray());
+		return productList;
 	}
 
 	private Product find(Product product) {

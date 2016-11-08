@@ -142,6 +142,12 @@ public class MemberDao {
 		member.setMember_identity_card("");
 		member.setMember_identity_card_front_image("");
 		member.setMember_identity_card_back_image("");
+		if(Utility.isNullOrEmpty(member.getMember_weibo_fans())) {
+			member.setMember_weibo_fans(0);
+		}
+		if(Utility.isNullOrEmpty(member.getMember_weibo_friend())) {
+			member.setMember_weibo_friend(0);
+		}
 		member.setMember_create_user_id(request_user_id);
 		member.setMember_create_time(new Date());
 		member.setMember_update_user_id(request_user_id);
@@ -161,13 +167,52 @@ public class MemberDao {
 	}
 
 	public void updateMember_nameByUser_id(String member_name, String user_id) {
-		Member member = findByUser_id(user_id);
+		/*Member member = findByUser_id(user_id);
 
 		member.setMember_name(member_name);
 		member.setMember_update_user_id(user_id);
 		member.setMember_update_time(new Date());
 
-		member.update();
+		member.update();*/
+
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
+		sql.append(Member.KEY_MEMBER_NAME + " = ?, ");
+		sql.append( Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ");
+		sql.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + Member.KEY_USER_ID + " = ?  ");
+
+		parameterList.add(member_name);
+		parameterList.add(user_id);
+		parameterList.add(new Date());
+		parameterList.add(user_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
+	}
+
+	public void updateMember_weibo_fansAndMember_weibo_friend(int member_weibo_fans, int member_weibo_friend, String user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
+		sql.append(Member.KEY_MEMBER_WEIBO_FANS + " = ?, ");
+		sql.append(Member.KEY_MEMBER_WEIBO_FRIEND + " = ?, ");
+		sql.append( Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ");
+		sql.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + Member.KEY_USER_ID + " = ?  ");
+
+		parameterList.add(member_weibo_fans);
+		parameterList.add(member_weibo_friend);
+		parameterList.add(user_id);
+		parameterList.add(new Date());
+		parameterList.add(user_id);
+
+		System.out.println(sql.toString());
+		System.out.println(member_weibo_fans);
+		System.out.println(member_weibo_friend);
+		System.out.println(user_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
 	}
 
 	public Member updateMember_avatarByUser_id(String member_avatar, String user_id, Boolean isOverwrite) {

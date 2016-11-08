@@ -147,17 +147,18 @@ public class MemberService {
 
 		String user_id = userService.saveWeibo(userMap.getWeibo_uid(), userMap.getWeibo_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
 
-		Member memberMap;
+		Member memberMap = jsonObject.toJavaObject(Member.class);
 
 		if(Utility.isNullOrEmpty(user_id)) {
 			User user = userService.findByWeibo_uid(userMap.getWeibo_uid());
 
 			user_id = user.getUser_id();
 
+			memberDao.updateMember_weibo_fansAndMember_weibo_friend(memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), user_id);
+
 			//更新会员头像并且返回会员信息
 			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user_id, false);
 		} else {
-			memberMap = jsonObject.toJavaObject(Member.class);
 			memberMap.setUser_id(user_id);
 
 			memberMap.setMember_avatar(packageAvatar(jsonObject));
@@ -211,7 +212,11 @@ public class MemberService {
 	public void bindWeibo(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
+		Member memberMap = jsonObject.toJavaObject(Member.class);
+
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		memberDao.updateMember_weibo_fansAndMember_weibo_friend(memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), request_user_id);
 
 		//更新会员头像
 		memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), request_user_id, false);
@@ -279,6 +284,14 @@ public class MemberService {
 
 	public void updateInfo(String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
 		memberDao.updateInfo(member_real_name, member_identity_card, member_identity_card_front_image, member_identity_card_back_image, request_user_id);
+	}
+
+	public void updateWeibo(JSONObject jsonObject) {
+		Member memberMap = jsonObject.toJavaObject(Member.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		memberDao.updateMember_weibo_fansAndMember_weibo_friend(memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), request_user_id);
 	}
 
 }

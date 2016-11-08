@@ -111,6 +111,7 @@ public class Const {
 	public static final String URL_MEMBER_NAME_UPDATE = "/member/name/update";
 	public static final String URL_MEMBER_PASSWORD_UPDATE = "/member/password/update";
 	public static final String URL_MEMBER_AVATAR_UPLOAD = "/member/avatar/upload";
+	public static final String URL_MEMBER_WEIBO_UPDATE = "/member/weibo/update";
 
 	public static final String URL_MENU_LIST = "/menu/list";
 	public static final String URL_MENU_FIND = "/menu/find";
@@ -142,6 +143,7 @@ public class Const {
 	public static final String URL_PRODUCT_CATEGORY_LIST_GET = "/product/category/list/get";
 	public static final String URL_PRODUCT_LIST_GET = "/product/list/get";
 	public static final String URL_PRODUCT_BRAND_LIST_GET = "/product/brand/list/get";
+	public static final String URL_PRODUCT_MARKET_LIST_GET = "/product/market/list/get";
 	public static final String URL_PRODUCT_GET = "/product/get";
 
 	public static final String URL_ROLE_LIST = "/role/list";

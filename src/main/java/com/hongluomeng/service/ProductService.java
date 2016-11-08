@@ -262,7 +262,26 @@ public class ProductService {
 			map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
 			map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
 			map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
-			//map.put(Product.KEY_PRODUCT_STOCK, product.getProduct_stock());
+			map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
+
+			list.add(map);
+		}
+
+		return list;
+	}
+
+	public List<Map<String, Object>> getMarketList(JSONObject jsonObject) {
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		List<Product> productList = productDao.listByUser_id(request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Product product : productList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
+			map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
+			map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
 			map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
 
 			list.add(map);

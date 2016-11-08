@@ -13,6 +13,7 @@ import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.Member;
+import com.hongluomeng.type.BrandApplyReviewEnum;
 import com.hongluomeng.type.CatetoryEnum;
 
 public class BrandService {
@@ -83,7 +84,8 @@ public class BrandService {
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
 			map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
-			map.put(Brand.KEY_BRAND_APPLY_REVIEW_STATUS, brand.getBrand_apply_review_status());
+			map.put(Brand.KEY_BRAND_APPLY_CREATE_TIME, brand.getBrand_apply_create_time());
+			map.put(Brand.KEY_BRAND_APPLY_EXPIRE_TIME, brand.getBrand_apply_expire_time());
 
 			list.add(map);
 		}
@@ -151,24 +153,6 @@ public class BrandService {
 		brandDao.delete(brandMap.getBrand_id(), request_user_id);
 	}
 
-	public void apply(JSONObject jsonObject) {
-		Brand brandMap = jsonObject.toJavaObject(Brand.class);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		Integer count = brandApplyService.countByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
-
-		if(count == 0) {
-			Member memberMap = jsonObject.toJavaObject(Member.class);
-
-			memberService.updateInfo(memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
-
-			brandApplyService.save(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
-		} else {
-			throw new RuntimeException("这品牌已经申请过,不能再申请!");
-		}
-	}
-
 	public List<Map<String, Object>> getCategoryList(JSONObject jsonObject) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -217,9 +201,36 @@ public class BrandService {
 	public BrandApply findApply(JSONObject jsonObject) {
 		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
 
-		BrandApply brandApply = brandApplyService.findByBrand_id(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id());
+		BrandApply brandApply = brandApplyService.findByBrand_idAndUser_id(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id());
 
 		return brandApply;
+	}
+
+	public void apply(JSONObject jsonObject) {
+		Brand brandMap = jsonObject.toJavaObject(Brand.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		BrandApply brandApply = brandApplyService.findByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
+
+		if(brandApply == null) {
+			Member memberMap = jsonObject.toJavaObject(Member.class);
+
+			memberService.updateInfo(memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
+
+			brandApplyService.save(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
+		} else {
+			System.out.println(brandApply.getBrand_apply_review_status());
+			if(brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.WAITING.getKey()) || brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
+				throw new RuntimeException("这品牌已经申请过,不能再申请!");
+			} else {
+				Member memberMap = jsonObject.toJavaObject(Member.class);
+
+				memberService.updateInfo(memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
+
+				brandApplyService.update(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
+			}
+		}
 	}
 
 	public void reviewPass(JSONObject jsonObject) {

@@ -20,6 +20,30 @@ public class BrandApplyDao {
 
 		Boolean isExit = false;
 
+		if (! Utility.isNullOrEmpty(brandApply.getBrand_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(BrandApply.KEY_BRAND_ID + " = ? ");
+			parameterList.add(brandApply.getBrand_id());
+
+			isExit = true;
+		}
+
+		if (! Utility.isNullOrEmpty(brandApply.getUser_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(BrandApply.KEY_USER_ID + " = ? ");
+			parameterList.add(brandApply.getUser_id());
+
+			isExit = true;
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {
@@ -43,13 +67,13 @@ public class BrandApplyDao {
 		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " ");
 		sql.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " ");
 
-		sql.append("WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+		sql.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
+		parameterList.add(brand_id);
+
+		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
 		parameterList.add(user_id);
 
 		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
-
-		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
-		parameterList.add(brand_id);
 
 		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
 
@@ -150,7 +174,7 @@ public class BrandApplyDao {
 		}
 	}
 
-	public BrandApply findByBrand_id(String brand_id, String user_id) {
+	public BrandApply findByBrand_idAndUser_id(String brand_id, String user_id) {
 		BrandApply brandApply = new BrandApply();
 		brandApply.setBrand_id(brand_id);
 		brandApply.setUser_id(user_id);
@@ -176,7 +200,33 @@ public class BrandApplyDao {
 		brandApply.save();
 	}
 
-	public void update(String brand_id, String brand_apply_review_status, String user_id, String request_user_id) {
+	public void update(String brand_id, String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + BrandApply.KEY_TABLE_BRAND_APPLY + " SET ");
+		sql.append(BrandApply.KEY_MEMBER_REAL_NAME + " = ?, ");
+		sql.append(BrandApply.KEY_MEMBER_IDENTITY_CARD + " = ?, ");
+		sql.append(BrandApply.KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ?, ");
+		sql.append(BrandApply.KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE + " = ?, ");
+		sql.append(BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = ?, ");
+		sql.append(BrandApply.KEY_BRAND_APPLY_UPDATE_USER_ID + " = ?, ");
+		sql.append(BrandApply.KEY_BRAND_APPLY_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + BrandApply.KEY_BRAND_ID + " = ? AND " + BrandApply.KEY_USER_ID + " = ? ");
+
+		parameterList.add(member_real_name);
+		parameterList.add(member_identity_card);
+		parameterList.add(member_identity_card_front_image);
+		parameterList.add(member_identity_card_back_image);
+		parameterList.add(BrandApplyReviewEnum.WAITING.getKey());
+		parameterList.add(request_user_id);
+		parameterList.add(new Date());
+		parameterList.add(brand_id);
+		parameterList.add(request_user_id);
+
+		Db.update(sql.toString(), parameterList.toArray());
+	}
+
+	public void updateStatus(String brand_id, String brand_apply_review_status, String user_id, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("UPDATE " + BrandApply.KEY_TABLE_BRAND_APPLY + " SET " + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_USER_ID + " = ?, " + BrandApply.KEY_BRAND_APPLY_UPDATE_TIME + " = ? WHERE " + BrandApply.KEY_BRAND_ID + " = ? AND " + BrandApply.KEY_USER_ID + " = ? ");

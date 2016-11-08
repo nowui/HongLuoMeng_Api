@@ -23,6 +23,8 @@ public class Member extends Model<Member> {
 	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
 	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
 	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
+	public static final String KEY_MEMBER_WEIBO_FANS = "member_weibo_fans";
+	public static final String KEY_MEMBER_WEIBO_FRIEND = "member_weibo_friend";
 	public static final String KEY_MEMBER_CREATE_USER_ID = "member_create_user_id";
 	public static final String KEY_MEMBER_CREATE_TIME = "member_create_time";
 	public static final String KEY_MEMBER_UPDATE_USER_ID = "member_update_user_id";
@@ -107,6 +109,22 @@ public class Member extends Model<Member> {
 
 	public void setMember_identity_card_back_image(String member_identity_card_back_image) {
 		set(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
+	}
+
+	public Integer getMember_weibo_fans() {
+		return Utility.getIntegerValue(get(KEY_MEMBER_WEIBO_FANS));
+	}
+
+	public void setMember_weibo_fans(Integer member_weibo_fans) {
+		set(KEY_MEMBER_WEIBO_FANS, member_weibo_fans);
+	}
+
+	public Integer getMember_weibo_friend() {
+		return Utility.getIntegerValue(get(KEY_MEMBER_WEIBO_FRIEND));
+	}
+
+	public void setMember_weibo_friend(Integer member_weibo_friend) {
+		set(KEY_MEMBER_WEIBO_FRIEND, member_weibo_friend);
 	}
 
 	public void setMember_create_user_id(String member_create_user_id) {

@@ -52,6 +52,18 @@ public class Utility {
 		return request.getRequestURI() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
 	}
 
+	public static String isLength(String str, int minLength, int maxLength, String message) {
+		int length = str.length();
+
+		if(length < minLength) {
+			return message + "长度小于" + minLength;
+		} else if(length >= minLength || length <= maxLength) {
+			return "";
+		} else {
+			return message + "长度大于" + maxLength;
+		}
+	}
+
 	public static boolean isNullOrEmpty(Object obj) {
         if (obj == null)
             return true;

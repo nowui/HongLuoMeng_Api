@@ -145,4 +145,14 @@ public class MemberController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", avatarObject));
 	}
 
+	@Before(MemberValidator.class)
+	@ActionKey(Const.URL_MEMBER_WEIBO_UPDATE)
+	public void uploadWeibo() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.updateWeibo(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
 }

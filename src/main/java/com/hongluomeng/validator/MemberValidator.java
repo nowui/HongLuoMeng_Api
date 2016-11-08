@@ -100,12 +100,12 @@ public class MemberValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR + "_" + Const.UPLOAD_SMALL))) {
+			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL))) {
 				message += "小头像为空";
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR + "_" + Const.UPLOAD_LARGE))) {
+			if(Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE))) {
 				message += "大头像为空";
 				message += Const.LINE_FEED;
 			}
@@ -117,6 +117,16 @@ public class MemberValidator extends Validator {
 
 			if(Utility.isNullOrEmpty(user.getWeibo_access_token())) {
 				message += "微博Access_Token为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_weibo_fans())) {
+				message += "微博粉丝数为空";
+				message += Const.LINE_FEED;
+			}
+
+			if(Utility.isNullOrEmpty(member.getMember_weibo_friend())) {
+				message += "微博好友数为空";
 				message += Const.LINE_FEED;
 			}
 		} else if(actionKey.equals(Const.URL_MEMBER_WECHAT_OAUTH) || actionKey.equals(Const.URL_MEMBER_WECHAT_BIND)) {
