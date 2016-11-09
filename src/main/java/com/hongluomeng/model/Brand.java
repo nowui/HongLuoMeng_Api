@@ -94,15 +94,23 @@ public class Brand extends Model<Brand> {
 	}
 
 	public String getBrand_apply_create_time() {
-		return Utility.getDateTimeString(getDate(KEY_BRAND_APPLY_CREATE_TIME));
+		if(Utility.isNullOrEmpty(getDate(KEY_BRAND_APPLY_CREATE_TIME))) {
+			return "";
+		} else {
+			return Utility.getDateTimeString(getDate(KEY_BRAND_APPLY_CREATE_TIME));
+		}
 	}
 
 	public String getBrand_apply_expire_time() {
-		Calendar  calendar = Calendar.getInstance();
-		calendar.setTime(getDate(KEY_BRAND_APPLY_CREATE_TIME));
-		calendar.add(Calendar.MONTH, 3);
+		if(Utility.isNullOrEmpty(getDate(KEY_BRAND_APPLY_CREATE_TIME))) {
+			return "";
+		} else {
+			Calendar  calendar = Calendar.getInstance();
+			calendar.setTime(getDate(KEY_BRAND_APPLY_CREATE_TIME));
+			calendar.add(Calendar.MONTH, 3);
 
-		return Utility.getDateTimeString(calendar.getTime());
+			return Utility.getDateTimeString(calendar.getTime());
+		}
 	}
 
 	public String getBrand_apply_review_status() {
