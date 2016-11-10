@@ -1,5 +1,6 @@
 package com.hongluomeng.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
@@ -65,5 +66,15 @@ public class OrderController extends BaseController {
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
+
+	@Before(OrderValidator.class)
+	@ActionKey(Const.URL_ORDER_LIST_GET)
+	public void getList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> orderList = orderService.getList(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", orderList));
+    }
 
 }

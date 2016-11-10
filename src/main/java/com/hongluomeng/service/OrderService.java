@@ -2,6 +2,7 @@ package com.hongluomeng.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class OrderService {
 	private OrderDao orderDao = new OrderDao();
 	private MemberService memberService = new MemberService();
 	private CartService cartService = new CartService();
+	private ProductSkuService productSkuService = new ProductSkuService();
 	private OrderProductService orderProductService = new OrderProductService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
@@ -51,44 +53,91 @@ public class OrderService {
 
 		Member member = memberService.findByUser_id(request_user_id);
 
-		List<String> product_sku_id_list = new ArrayList<String>();
-
 		if(orderMap.getCartList().size() == 0) {
 			throw new RuntimeException("商品列表为空");
 		}
 
+		List<String> productSkuIdList = new ArrayList<String>();
+
 		for(Cart cart : orderMap.getCartList()) {
-			product_sku_id_list.add(cart.getProduct_sku_id());
+			productSkuIdList.add(cart.getProduct_sku_id());
 		}
 
-		List<Cart> cartList = cartService.listByProductSkuIdList(product_sku_id_list);
+		List<ProductSku> productSkuList = productSkuService.listByProductSkuIdList(productSkuIdList);
 
-		//判断传过来的商品编号是否存在对应的数据
 		for(Cart cart : orderMap.getCartList()) {
+			//SKU编号是否存在
 			Boolean isExit = false;
+			//数量是否超出
+			Boolean isOver = false;
 
-			for(Cart cartObject : cartList) {
-				if(cart.getProduct_sku_id().equals(cartObject.getProduct_sku_id())) {
+			for(ProductSku productSku : productSkuList) {
+				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
 					isExit = true;
+
+					if(cart.getCart_product_amount() > productSku.getProduct_stock()) {
+						isOver = true;
+					}
 
 					break;
 				}
 			}
 
 			if(! isExit) {
-				throw new RuntimeException("没有找到商品编号:" + cart.getProduct_id());
+				throw new RuntimeException("没有找到的商品SKU编号是:" + cart.getProduct_id());
+			}
+
+			if(isOver) {
+				throw new RuntimeException("超过库存的商品SKU编号是:" + cart.getProduct_id());
+			}
+		}
+
+
+
+		Boolean aaa = true;
+
+		//是否直接购买
+		if(aaa) {
+			List<Cart> cartList = cartService.listByUser_idAndproductSkuIdList(request_user_id, productSkuIdList);
+
+			//判断传过来的商品编号在购物车是否存在对应的数据
+			for(Cart cart : orderMap.getCartList()) {
+				//SKU编号是否存在
+				Boolean isExit = false;
+				//数量是否超出
+				Boolean isOver = false;
+
+				for(Cart cartObject : cartList) {
+					if(cart.getProduct_sku_id().equals(cartObject.getProduct_sku_id())) {
+						isExit = true;
+
+						if(cart.getCart_product_amount() > cartObject.getCart_product_amount()) {
+							isOver = true;
+						}
+
+						break;
+					}
+				}
+
+				if(! isExit) {
+					throw new RuntimeException("没有找到的商品SKU编号是:" + cart.getProduct_sku_id());
+				}
+
+				if(isOver) {
+					throw new RuntimeException("超过购物车中数量的商品SKU编号是:" + cart.getProduct_sku_id());
+				}
 			}
 		}
 
 		//计算订单的总价格
 		BigDecimal order_pament_price = BigDecimal.valueOf(0);
-		for(Cart cart : cartList) {
+		for(ProductSku productSku : productSkuList) {
 			if(member.getMember_level_id().equals("")) {
-				order_pament_price = order_pament_price.add(cart.getProduct_price());
+				order_pament_price = order_pament_price.add(productSku.getProduct_price());
 			} else {
 				Boolean isExit = false;
 
-				JSONArray array = cart.getMember_level_price();
+				JSONArray array = productSku.getMember_level_price();
 
 				for(int i = 0; i < array.size(); i++) {
 					JSONObject object = array.getJSONObject(i);
@@ -105,7 +154,7 @@ public class OrderService {
 				}
 
 				if(! isExit) {
-					order_pament_price = order_pament_price.add(cart.getProduct_price());
+					order_pament_price = order_pament_price.add(productSku.getProduct_price());
 				}
 			}
 		}
@@ -115,16 +164,17 @@ public class OrderService {
 
 		orderDao.save(orderMap, member.getMember_level_id(), member.getMember_level_name(), member.getMember_level_value(), request_user_id);
 
+		//保存购物车里的商品
 		List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
-		for(Cart cart : cartList) {
+		for(ProductSku productSku : productSkuList) {
 			BigDecimal product_payment_price = BigDecimal.valueOf(0);
 
 			if(member.getMember_level_id().equals("")) {
-				product_payment_price = cart.getProduct_price();
+				product_payment_price = productSku.getProduct_price();
 			} else {
 				Boolean isExit = false;
 
-				JSONArray array = cart.getMember_level_price();
+				JSONArray array = productSku.getMember_level_price();
 
 				for(int i = 0; i < array.size(); i++) {
 					JSONObject object = array.getJSONObject(i);
@@ -141,33 +191,39 @@ public class OrderService {
 				}
 
 				if(! isExit) {
-					product_payment_price = cart.getProduct_price();
+					product_payment_price = productSku.getProduct_price();
 				}
 			}
 
 			OrderProduct orderProduct = new OrderProduct();
 			orderProduct.setOrder_id(orderMap.getOrder_id());
-			orderProduct.setCategory_id(cart.getCategory_id());
-			orderProduct.setCategory_name(cart.getCategory_name());
-			orderProduct.setBrand_id(cart.getBrand_id());
-			orderProduct.setBrand_name(cart.getBrand_name());
-			orderProduct.setProduct_id(cart.getProduct_id());
-			orderProduct.setProduct_name(cart.getProduct_name());
-			orderProduct.setProduct_image(cart.getProduct_image().toJSONString());
-			orderProduct.setProduct_is_new(cart.getProduct_is_new());
-			orderProduct.setProduct_is_recommend(cart.getProduct_is_recommend());
-			orderProduct.setProduct_is_bargain(cart.getProduct_is_bargain());
-			orderProduct.setProduct_is_hot(cart.getProduct_is_hot());
-			orderProduct.setProduct_is_sell_out(cart.getProduct_is_sell_out());
-			orderProduct.setProduct_is_sale(cart.getProduct_is_sale());
-			orderProduct.setProduct_content(cart.getProduct_content());
-			orderProduct.setProduct_sku_value(cart.getProduct_sku_value().toJSONString());
-			orderProduct.setProduct_sku_id(cart.getProduct_sku_id());
-			orderProduct.setProduct_attribute_value(cart.getProduct_attribute_value().toJSONString());
-			orderProduct.setProduct_price(cart.getProduct_price());
-			orderProduct.setMember_level_price(cart.getMember_level_price().toJSONString());
+			orderProduct.setCategory_id(productSku.getCategory_id());
+			orderProduct.setCategory_name(productSku.getCategory_name());
+			orderProduct.setBrand_id(productSku.getBrand_id());
+			orderProduct.setBrand_name(productSku.getBrand_name());
+			orderProduct.setProduct_id(productSku.getProduct_id());
+			orderProduct.setProduct_name(productSku.getProduct_name());
+			orderProduct.setProduct_image(productSku.getProduct_image().toJSONString());
+			orderProduct.setProduct_is_new(productSku.getProduct_is_new());
+			orderProduct.setProduct_is_recommend(productSku.getProduct_is_recommend());
+			orderProduct.setProduct_is_bargain(productSku.getProduct_is_bargain());
+			orderProduct.setProduct_is_hot(productSku.getProduct_is_hot());
+			orderProduct.setProduct_is_sell_out(productSku.getProduct_is_sell_out());
+			orderProduct.setProduct_is_sale(productSku.getProduct_is_sale());
+			orderProduct.setProduct_content(productSku.getProduct_content());
+			orderProduct.setProduct_sku_value(productSku.getProduct_sku_value().toJSONString());
+			orderProduct.setProduct_sku_id(productSku.getProduct_sku_id());
+			orderProduct.setProduct_attribute_value(productSku.getProduct_attribute_value().toJSONString());
+			orderProduct.setProduct_price(productSku.getProduct_price());
+			orderProduct.setMember_level_price(productSku.getMember_level_price().toJSONString());
 			orderProduct.setProduct_payment_price(product_payment_price);
-			orderProduct.setProduct_payment_amount(cart.getProduct_amount());
+
+			orderProduct.setProduct_payment_amount(0);
+			for(Cart cart : orderMap.getCartList()) {
+				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
+					orderProduct.setProduct_payment_amount(cart.getCart_product_amount());
+				}
+			}
 
 			orderProductList.add(orderProduct);
 		}
@@ -189,6 +245,28 @@ public class OrderService {
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		orderDao.delete(orderMap.getOrder_id(), request_user_id);
+	}
+
+	public List<Map<String, Object>> getList(JSONObject jsonObject) {
+		//Cart cartMap = jsonObject.toJavaObject(Cart.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		List<Order> orderList = orderDao.listByUser_id(request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+
+		for(Order order : orderList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Order.KEY_ORDER_ID, order.getOrder_id());
+			map.put(Order.KEY_ORDER_NO, order.getOrder_no());
+			map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
+			map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
+
+			resultList.add(map);
+		}
+
+		return resultList;
 	}
 
 }

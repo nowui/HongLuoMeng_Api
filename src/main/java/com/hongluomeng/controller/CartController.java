@@ -72,7 +72,7 @@ public class CartController extends BaseController {
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Cart> cartList = cartService.getList(jsonObject);
+		List<Map<String, Object>> cartList = cartService.getList(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", cartList));
     }

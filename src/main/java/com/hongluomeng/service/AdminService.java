@@ -96,7 +96,7 @@ public class AdminService {
 
 	public void updateRole(JSONObject jsonObject) {
 		Admin adminMap = jsonObject.toJavaObject(Admin.class);
-		JSONArray jsonArray = jsonObject.getJSONArray(UserRole.KEY_TABLE_USER_ROLE);
+		JSONArray jsonArray = jsonObject.getJSONArray(Const.KEY_LIST);
 
 		List<UserRole> userRoleList = new ArrayList<UserRole>();
 

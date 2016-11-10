@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
-import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.Cart;
-import com.hongluomeng.model.Category;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.model.ProductSku;
 
@@ -43,22 +41,11 @@ public class CartDao {
 
 		StringBuffer sql = new StringBuffer("SELECT ");
 		sql.append(Cart.KEY_TABLE_CART + ".*, ");
-		sql.append(Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + ", ");
-		sql.append(Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_NAME + ", ");
-		sql.append(Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + ", ");
-		sql.append(Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_NAME + ", ");
-		sql.append(Product.KEY_TABLE_PRODUCT + ".*, ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_STOCK + ", ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " ");
+		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + " ");
 		sql.append(" ");
 		sql.append("FROM " + Cart.KEY_TABLE_CART + " ");
 		sql.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
 		sql.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
-		sql.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " ON " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_CATEGORY_ID + " ");
-		sql.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ");
 
 		Boolean isExit = false;
 
@@ -121,8 +108,9 @@ public class CartDao {
 		return list(cart, 0, 0);
 	}
 
-	public List<Cart> listByProductSkuIdList(List<String> productSkuIdList) {
+	public List<Cart> listByUser_idAndproductSkuIdList(String user_id, List<String> productSkuIdList) {
 		Cart cart = new Cart();
+		cart.setUser_id(user_id);
 		cart.setProductSkuIdList(productSkuIdList);
 
 		return list(cart, 0, 0);

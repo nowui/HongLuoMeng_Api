@@ -7,7 +7,6 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Admin;
 import com.hongluomeng.model.User;
-import com.hongluomeng.model.UserRole;
 import com.hongluomeng.type.CodeEnum;
 
 public class AdminValidator extends Validator {
@@ -88,7 +87,7 @@ public class AdminValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(jsonObject.get(UserRole.KEY_TABLE_USER_ROLE) == null) {
+			if(jsonObject.get(Const.KEY_LIST) == null) {
 				message += "用户角色为空";
 				message += Const.LINE_FEED;
 			}

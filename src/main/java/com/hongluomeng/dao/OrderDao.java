@@ -53,6 +53,18 @@ public class OrderDao {
 
 		Boolean isExit = false;
 
+		if (! Utility.isNullOrEmpty(order.getUser_id())) {
+			if(isExit) {
+				sql.append(" AND ");
+			} else {
+				sql.append(" WHERE ");
+			}
+			sql.append(Order.KEY_USER_ID + " = ? ");
+			parameterList.add(order.getUser_id());
+
+			isExit = true;
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {
@@ -74,6 +86,13 @@ public class OrderDao {
 
 	public List<Order> list(Integer m, Integer n) {
 		Order order = new Order();
+
+		return list(order, m, n);
+	}
+
+	public List<Order> listByUser_id(String user_id, Integer m, Integer n) {
+		Order order = new Order();
+		order.setUser_id(user_id);
 
 		return list(order, m, n);
 	}
@@ -154,6 +173,7 @@ public class OrderDao {
 		}
 
 		order.setOrder_id(Utility.getUUID());
+		order.setUser_id(request_user_id);
 		order.setOrder_no(order_no);
 		order.setOrder_is_pay(false);
 		order.setOrder_payment_no("");

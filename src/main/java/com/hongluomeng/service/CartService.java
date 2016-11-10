@@ -1,6 +1,7 @@
 package com.hongluomeng.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +27,8 @@ public class CartService {
 		return resultMap;
 	}
 
-	public List<Cart> listByProductSkuIdList(List<String> productSkuIdList) {
-		return cartDao.listByProductSkuIdList(productSkuIdList);
+	public List<Cart> listByUser_idAndproductSkuIdList(String user_id, List<String> productSkuIdList) {
+		return cartDao.listByUser_idAndproductSkuIdList(user_id, productSkuIdList);
 	}
 
 	public Cart find(JSONObject jsonObject) {
@@ -50,7 +51,7 @@ public class CartService {
 		if(cart == null) {
 			cartDao.save(cartMap, request_user_id);
 		} else {
-			cart.setProduct_amount(cart.getProduct_amount() + cartMap.getProduct_amount());
+			cart.setCart_product_amount(cart.getCart_product_amount() + cartMap.getCart_product_amount());
 
 			cartDao.update(cart, request_user_id);
 		}
@@ -72,22 +73,23 @@ public class CartService {
 		cartDao.delete(cartMap.getCart_id(), request_user_id);
 	}
 
-	public List<Cart> getList(JSONObject jsonObject) {
+	public List<Map<String, Object>> getList(JSONObject jsonObject) {
 		//Cart cartMap = jsonObject.toJavaObject(Cart.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		List<Cart> cartList = cartDao.listByUser_id(request_user_id);
 
-		List<Cart> resultList = new ArrayList<Cart>();
+		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
 		for(Cart cart : cartList) {
-			Cart cartMap = new Cart();
-			cartMap.setCart_id(cart.getCart_id());
-			cartMap.setProduct_sku_id(cart.getProduct_sku_id());
-			cartMap.setProduct_amount(cart.getProduct_amount());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Cart.KEY_CART_ID, cart.getCart_id());
+			map.put(Cart.KEY_PRODUCT_NAME, cart.getProduct_name());
+			map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
+			map.put(Cart.KEY_CART_PRODUCT_AMOUNT, cart.getCart_product_amount());
 
-			resultList.add(cartMap);
+			resultList.add(map);
 		}
 
 		return resultList;

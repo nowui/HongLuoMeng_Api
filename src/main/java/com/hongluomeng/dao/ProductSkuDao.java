@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.model.Brand;
+import com.hongluomeng.model.Category;
+import com.hongluomeng.model.Product;
 import com.hongluomeng.model.ProductSku;
 
 public class ProductSkuDao {
@@ -53,6 +56,36 @@ public class ProductSkuDao {
 			isExit = true;
 		}
 
+		if (! Utility.isNullOrEmpty(productSku.getProductSkuIdList())) {
+			for(String product_sku_id : productSku.getProductSkuIdList()) {
+				if(isExit) {
+					sql.append("AND ");
+				} else {
+					sql.append("WHERE ");
+				}
+
+				sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ");
+				parameterList.add(product_sku_id);
+
+				isExit = true;
+			}
+		}
+
+		if (! Utility.isNullOrEmpty(productSku.getProductSkuIdList())) {
+			for(String product_sku_id : productSku.getProductSkuIdList()) {
+				if(isExit) {
+					sql.append("AND ");
+				} else {
+					sql.append("WHERE ");
+				}
+
+				sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ");
+				parameterList.add(product_sku_id);
+
+				isExit = true;
+			}
+		}
+
 		if(isExit) {
 			sql.append("AND ");
 		} else {
@@ -78,6 +111,62 @@ public class ProductSkuDao {
 
 		return list(productSku, 0, 0);
 	}
+
+	public List<ProductSku> listByProductSkuIdList(List<String> productSkuIdList) {
+		List<Object> parameterList = new ArrayList<Object>();
+
+		StringBuffer sql = new StringBuffer("SELECT ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + ".*, ");
+		sql.append(Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + ", ");
+		sql.append(Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_NAME + ", ");
+		sql.append(Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + ", ");
+		sql.append(Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_NAME + ", ");
+		sql.append(Product.KEY_TABLE_PRODUCT + ".*, ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_STOCK + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " ");
+		sql.append(" ");
+		sql.append("FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
+		sql.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
+		sql.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " ON " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_CATEGORY_ID + " ");
+		sql.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ");
+
+		Boolean isExit = false;
+
+		if (productSkuIdList.size() > 0) {
+			for(String product_sku_id : productSkuIdList) {
+				if(isExit) {
+					sql.append("AND ");
+				} else {
+					sql.append("WHERE ");
+				}
+
+				sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ");
+				parameterList.add(product_sku_id);
+
+				isExit = true;
+			}
+		}
+
+		if(isExit) {
+			sql.append("AND ");
+		} else {
+			sql.append("WHERE ");
+		}
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " = 1 ");
+
+		List<ProductSku> productSkuList = new ProductSku().find(sql.toString(), parameterList.toArray());
+		return productSkuList;
+	}
+
+	/*public List<ProductSku> listByProductSkuIdList(List<String> productSkuIdList) {
+		ProductSku productSku = new ProductSku();
+		productSku.setProductSkuIdList(productSkuIdList);
+
+		return list(productSku, 0, 0);
+	}*/
 
 	private ProductSku find(ProductSku productSku) {
 		List<Object> parameterList = new ArrayList<Object>();

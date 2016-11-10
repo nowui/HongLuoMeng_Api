@@ -106,7 +106,7 @@ public class OrderValidator extends Validator {
 						isError = true;
 					}
 
-					if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
+					if(Utility.isNullOrEmpty(cart.getCart_product_amount())) {
 						isError = true;
 					}
 				}
@@ -123,6 +123,10 @@ public class OrderValidator extends Validator {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
+		} else if(actionKey.equals(Const.URL_ORDER_LIST_GET)) {
+			isExit = true;
+
+			message += Utility.checkPageAndLimit(jsonObject);
 		}
 
 		if (! isExit) {
