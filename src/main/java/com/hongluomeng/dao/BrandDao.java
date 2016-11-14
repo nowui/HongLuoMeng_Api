@@ -184,7 +184,7 @@ public class BrandDao {
 		List<Object> parameterList = new ArrayList<Object>();
 
 		StringBuffer sql = new StringBuffer("SELECT " + Brand.KEY_TABLE_BRAND + ".*, IFNULL(" + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + ", '" + BrandApplyReviewEnum.NONE.getKey() + "') AS " + Brand.KEY_BRAND_APPLY_REVIEW_STATUS + " FROM " + Brand.KEY_TABLE_BRAND + " ");
-		sql.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ORDER BY " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " DESC LIMIT 0, 1) AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
+		sql.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ?) AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
 		sql.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
 		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
 		sql.append("GROUP BY " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " ");

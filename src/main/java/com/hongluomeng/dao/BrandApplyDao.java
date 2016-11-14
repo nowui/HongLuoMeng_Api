@@ -160,8 +160,6 @@ public class BrandApplyDao {
 		sql.append(BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 ");
 		sql.append("ORDER BY " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " DESC LIMIT 0, 1 ");
 
-		System.out.println(sql.toString());
-
 		if(! isExit) {
 			return null;
 		}
