@@ -1,6 +1,7 @@
 package com.hongluomeng.dao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -85,6 +86,12 @@ public class StockLockDao {
 		stockLock.setStock_lock_create_time(new Date());
 		stockLock.setStock_lock_update_user_id(request_user_id);
 		stockLock.setStock_lock_update_time(new Date());
+
+		Calendar  calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.MINUTE, 10);
+		stockLock.setStock_lock_expire_time(calendar.getTime());
+
 		stockLock.setStock_lock_status(true);
 
 		stockLock.save();

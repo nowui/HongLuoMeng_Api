@@ -18,6 +18,7 @@ public class StockLock extends Model<StockLock> {
 	public static final String KEY_STOCK_LOCK_CREATE_TIME = "stock_lock_create_time";
 	public static final String KEY_STOCK_LOCK_UPDATE_USER_ID = "stock_lock_update_user_id";
 	public static final String KEY_STOCK_LOCK_UPDATE_TIME = "stock_lock_update_time";
+	public static final String KEY_STOCK_LOCK_EXPIRE_TIME = "stock_lock_expire_time";
 	public static final String KEY_STOCK_LOCK_STATUS = "stock_lock_status";
 
 	private List<String> productSkuIdList;
@@ -60,6 +61,10 @@ public class StockLock extends Model<StockLock> {
 
 	public void setStock_lock_update_time(Date stock_lock_update_time) {
 		set(KEY_STOCK_LOCK_UPDATE_TIME, stock_lock_update_time);
+	}
+
+	public void setStock_lock_expire_time(Date stock_lock_expire_time) {
+		set(KEY_STOCK_LOCK_EXPIRE_TIME, stock_lock_expire_time);
 	}
 
 	public Boolean getStock_lock_status() {
