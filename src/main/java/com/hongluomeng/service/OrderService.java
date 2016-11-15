@@ -17,6 +17,7 @@ import com.hongluomeng.model.MemberLevel;
 import com.hongluomeng.model.Order;
 import com.hongluomeng.model.OrderProduct;
 import com.hongluomeng.model.ProductSku;
+import com.hongluomeng.model.ProductLockStock;
 
 public class OrderService {
 
@@ -25,6 +26,7 @@ public class OrderService {
 	private CartService cartService = new CartService();
 	private ProductSkuService productSkuService = new ProductSkuService();
 	private OrderProductService orderProductService = new OrderProductService();
+	private ProductLockStockService productLockStockService = new ProductLockStockService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Order orderMap = jsonObject.toJavaObject(Order.class);
@@ -75,7 +77,9 @@ public class OrderService {
 				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
 					isExit = true;
 
-					if(cart.getCart_product_amount() > productSku.getProduct_stock()) {
+					System.out.println(cart.getCart_product_amount() + " - " + productSku.getProduct_stock() + " - " + productSku.getProduct_lock_stock());
+
+					if(cart.getCart_product_amount() < productSku.getProduct_stock() + productSku.getProduct_lock_stock()) {
 						isOver = true;
 					}
 
@@ -84,11 +88,11 @@ public class OrderService {
 			}
 
 			if(! isExit) {
-				throw new RuntimeException("没有找到的商品SKU编号是:" + cart.getProduct_id());
+				throw new RuntimeException("没有找到的商品SKU编号是:" + cart.getProduct_sku_id());
 			}
 
 			if(isOver) {
-				throw new RuntimeException("超过库存的商品SKU编号是:" + cart.getProduct_id());
+				throw new RuntimeException("超过库存的商品SKU编号是:" + cart.getProduct_sku_id());
 			}
 		}
 
@@ -166,6 +170,7 @@ public class OrderService {
 
 		//保存购物车里的商品
 		List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+		List<ProductLockStock> productLockStockList = new ArrayList<ProductLockStock>();
 		for(ProductSku productSku : productSkuList) {
 			BigDecimal product_payment_price = BigDecimal.valueOf(0);
 
@@ -217,18 +222,29 @@ public class OrderService {
 			orderProduct.setProduct_price(productSku.getProduct_price());
 			orderProduct.setMember_level_price(productSku.getMember_level_price().toJSONString());
 			orderProduct.setProduct_payment_price(product_payment_price);
-
 			orderProduct.setProduct_payment_amount(0);
 			for(Cart cart : orderMap.getCartList()) {
 				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
 					orderProduct.setProduct_payment_amount(cart.getCart_product_amount());
 				}
 			}
-
 			orderProductList.add(orderProduct);
+
+			ProductLockStock productLockStock = new ProductLockStock();
+			productLockStock.setOrder_id(orderMap.getOrder_id());
+			productLockStock.setProduct_sku_id(productSku.getProduct_sku_id());
+			productLockStock.setProduct_lock_stock(0);
+			for(Cart cart : orderMap.getCartList()) {
+				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
+					productLockStock.setProduct_lock_stock(cart.getCart_product_amount());
+				}
+			}
+			productLockStockList.add(productLockStock);
 		}
 
 		orderProductService.saveByOrderProductList(orderProductList, request_user_id);
+
+		productLockStockService.save(productLockStockList, request_user_id);
 	}
 
 	public void update(JSONObject jsonObject) {

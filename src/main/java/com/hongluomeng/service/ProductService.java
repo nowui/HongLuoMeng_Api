@@ -2,7 +2,6 @@ package com.hongluomeng.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -93,23 +92,25 @@ public class ProductService {
 
 		List<ProductSku> productSkuList = productMap.getProductSkuList();
 
+		List<ProductSku> productSkuSaveList = new ArrayList<ProductSku>();
+
 		for(ProductSku productSku : productSkuList) {
 			//更新product里面的价格信息
 			if(productSku.getProduct_attribute_value().size() == 0) {
 				productMap.setProduct_price(productSku.getProduct_price());
 				productMap.setProduct_stock(productSku.getProduct_stock());
 			}
+
+			productSku.setProduct_id(productMap.getProduct_id());
+
+			productSkuSaveList.add(productSku);
 		}
 
 		String product_id = productDao.save(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
 		productAttributeService.saveByProduct_idAndCategory_Attribute(product_id, productMap.getCategoryAttributeList());
 
-		for(ProductSku productSku : productSkuList) {
-			productSku.setProduct_id(productMap.getProduct_id());
-
-			productSkuService.save(productSku, request_user_id);
-		}
+		productSkuService.save(productSkuSaveList, request_user_id);
 	}
 
 	public void update(JSONObject jsonObject) {
@@ -121,19 +122,40 @@ public class ProductService {
 
 		List<ProductSku> productSkuList = productMap.getProductSkuList();
 
+		//更新product里面的基本价格信息
+		for(ProductSku productSku : productSkuList) {
+			//设置product_id值
+			productSku.setProduct_id(productMap.getProduct_id());
+
+			if(productSku.getProduct_attribute_value().size() == 0) {
+				productMap.setProduct_price(productSku.getProduct_price());
+				productMap.setProduct_stock(productSku.getProduct_stock());
+			}
+		}
+
+		List<String> productSkuIdDeleteList = new ArrayList<String>();
+		List<ProductSku> productSkuSaveList = new ArrayList<ProductSku>();
+		List<ProductSku> productSkuUpdateList = new ArrayList<ProductSku>();
+
 		for(ProductSku pk : pkList) {
+			//判断商品SKU属性和商品价格是否修改
 			Boolean isExit = false;
 
 			for(ProductSku productSku : productSkuList) {
-				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price()) && pk.getProduct_stock().equals(productSku.getProduct_stock())) {
+				if(pk.getProduct_attribute_value().toJSONString().equals(productSku.getProduct_attribute_value().toJSONString()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().toJSONString().equals(productSku.getMember_level_price().toJSONString())) {
 					isExit = true;
+
+					//判断商品库存是否修改
+					if(! pk.getProduct_stock().equals(productSku.getProduct_stock())) {
+						productSkuUpdateList.add(productSku);
+					}
 
 					break;
 				}
 			}
 
 			if(! isExit) {
-				productSkuService.delete(pk.getProduct_sku_id(), request_user_id);
+				productSkuIdDeleteList.add(pk.getProduct_sku_id());
 			}
 		}
 
@@ -141,7 +163,7 @@ public class ProductService {
 			Boolean isExit = false;
 
 			for(ProductSku pk : pkList) {
-				if(pk.getProduct_attribute_value().equals(productSku.getProduct_attribute_value()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().equals(productSku.getMember_level_price()) && pk.getProduct_stock().equals(productSku.getProduct_stock())) {
+				if(pk.getProduct_attribute_value().toJSONString().equals(productSku.getProduct_attribute_value().toJSONString()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().toJSONString().equals(productSku.getMember_level_price().toJSONString())) {
 					isExit = true;
 
 					break;
@@ -149,17 +171,16 @@ public class ProductService {
 			}
 
 			if(! isExit) {
-				productSku.setProduct_id(productMap.getProduct_id());
-
-				productSkuService.save(productSku, request_user_id);
-			}
-
-			//更新product里面的价格信息
-			if(productSku.getProduct_attribute_value().size() == 0) {
-				productMap.setProduct_price(productSku.getProduct_price());
-				productMap.setProduct_stock(productSku.getProduct_stock());
+				productSkuSaveList.add(productSku);
 			}
 		}
+
+		//删除多余的SKU
+		productSkuService.delete(productSkuIdDeleteList, request_user_id);
+		//新增SKU
+		productSkuService.save(productSkuSaveList, request_user_id);
+		//更新SKU的库存
+		productSkuService.update(productSkuUpdateList, request_user_id);
 
 		productDao.update(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
@@ -297,7 +318,7 @@ public class ProductService {
 
 		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
 
-		//如果有sku选项，去除商品基本的价格和库存信息
+		/*//如果有sku选项，去除商品基本的价格和库存信息
 		if(productSkuList.size() > 1) {
 			Iterator<ProductSku> productSkuIterator = productSkuList.iterator();
 			while(productSkuIterator.hasNext()) {
@@ -307,7 +328,7 @@ public class ProductService {
 					productSkuIterator.remove();
 				}
 			}
-		}
+		}*/
 
 		product.setProductSkuList(productSkuList);
 

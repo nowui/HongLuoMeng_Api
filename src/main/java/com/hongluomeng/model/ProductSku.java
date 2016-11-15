@@ -34,6 +34,7 @@ public class ProductSku extends Model<ProductSku> {
 	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
 	public static final String KEY_PRODUCT_STOCK = "product_stock";
+	public static final String KEY_PRODUCT_LOCK_STOCK = "product_lock_stock";
 	public static final String KEY_PRODUCT_SKU_CREATE_USER_ID = "product_sku_create_user_id";
 	public static final String KEY_PRODUCT_SKU_CREATE_TIME = "product_sku_create_time";
 	public static final String KEY_PRODUCT_SKU_UPDATE_USER_ID = "product_sku_update_user_id";
@@ -144,6 +145,10 @@ public class ProductSku extends Model<ProductSku> {
 
 	public void setProduct_stock(Integer product_stock) {
 		set(KEY_PRODUCT_STOCK, product_stock);
+	}
+
+	public Integer getProduct_lock_stock() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_LOCK_STOCK));
 	}
 
 	public void setProduct_sku_create_user_id(String product_sku_create_user_id) {
