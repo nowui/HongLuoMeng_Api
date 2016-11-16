@@ -156,7 +156,7 @@ public class OrderDao {
 	}
 
 	private String getOrder_no() {
-		return Utility.getDateString(new Date()).replaceAll("-", "") + Utility.getFixLenthString(6);
+		return "E" + Utility.getDateString(new Date()).replaceAll("-", "") + Utility.getFixLenthString(6);
 	}
 
 	public void save(Order order, String member_level_id, String member_level_name, Integer member_level_value, String request_user_id) {

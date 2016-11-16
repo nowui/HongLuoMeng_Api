@@ -35,7 +35,19 @@ public class OrderService {
 
 		List<Order> orderList = orderDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, orderList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for(Order order : orderList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Order.KEY_ORDER_ID, order.getOrder_id());
+			map.put(Order.KEY_ORDER_NO, order.getOrder_no());
+			map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
+			map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

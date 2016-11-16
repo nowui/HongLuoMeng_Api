@@ -13,11 +13,6 @@ public class ProductSkuService {
 	public List<ProductSku> listByProduct_id(String product_id) {
 		List<ProductSku> productSkuList = productSkuDao.listByProduct_id(product_id);
 
-		for(ProductSku productSku : productSkuList) {
-			productSku.setProduct_id(null);
-			productSku.setProduct_sku_status(null);
-		}
-
 		return productSkuList;
 	}
 

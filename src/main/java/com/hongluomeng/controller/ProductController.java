@@ -214,9 +214,9 @@ public class ProductController extends BaseController {
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Product product = productService.get(jsonObject);
+		Map<String, Object> resultMap = productService.get(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", product));
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
 }

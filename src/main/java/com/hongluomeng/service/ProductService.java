@@ -142,7 +142,7 @@ public class ProductService {
 			Boolean isExit = false;
 
 			for(ProductSku productSku : productSkuList) {
-				if(pk.getProduct_attribute_value().toJSONString().equals(productSku.getProduct_attribute_value().toJSONString()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().toJSONString().equals(productSku.getMember_level_price().toJSONString())) {
+				if(pk.getProduct_attribute_value().toJSONString().equals(productSku.getProduct_attribute_value().toJSONString()) && pk.getProduct_price().compareTo(productSku.getProduct_price()) == 0 && pk.getMember_level_price().toJSONString().equals(productSku.getMember_level_price().toJSONString())) {
 					isExit = true;
 
 					//判断商品库存是否修改
@@ -163,7 +163,7 @@ public class ProductService {
 			Boolean isExit = false;
 
 			for(ProductSku pk : pkList) {
-				if(pk.getProduct_attribute_value().toJSONString().equals(productSku.getProduct_attribute_value().toJSONString()) && pk.getProduct_price().equals(productSku.getProduct_price()) && pk.getMember_level_price().toJSONString().equals(productSku.getMember_level_price().toJSONString())) {
+				if(pk.getProduct_attribute_value().toJSONString().equals(productSku.getProduct_attribute_value().toJSONString()) && pk.getProduct_price().compareTo(productSku.getProduct_price()) == 0 && pk.getMember_level_price().toJSONString().equals(productSku.getMember_level_price().toJSONString())) {
 					isExit = true;
 
 					break;
@@ -311,37 +311,66 @@ public class ProductService {
 		return list;
 	}
 
-	public Product get(JSONObject jsonObject) {
+	public Map<String, Object> get(JSONObject jsonObject) {
 		Product productMap = jsonObject.toJavaObject(Product.class);
 
 		Product product = productDao.findByProduct_id(productMap.getProduct_id());
 
 		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
 
-		/*//如果有sku选项，去除商品基本的价格和库存信息
-		if(productSkuList.size() > 1) {
-			Iterator<ProductSku> productSkuIterator = productSkuList.iterator();
-			while(productSkuIterator.hasNext()) {
-				ProductSku productSku = productSkuIterator.next();
+		List<Map<String, Object>> productAllSkuList = new ArrayList<Map<String, Object>>();
+		for(ProductSku productSku : productSkuList) {
+			for(int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
+				JSONObject object = productSku.getProduct_attribute_value().getJSONObject(i);
 
-				if(productSku.getProduct_attribute_value().size() == 0) {
-					productSkuIterator.remove();
+				String attribute_id = object.getString("attribute_id");
+				String attribute_name = object.getString("attribute_name");
+				String attribute_value = object.getString("attribute_value");
+
+				int index = -1;
+				for(int j = 0; j < productAllSkuList.size(); j++) {
+					Map<String, Object> map = productAllSkuList.get(j);
+
+					if(map.get("attribute_id").equals(attribute_id)) {
+						index = j;
+
+						break;
+					}
+				}
+
+				if(index > -1) {
+					Map<String, Object> map = productAllSkuList.get(index);
+
+					@SuppressWarnings("unchecked")
+					List<String> array = (List<String>) map.get("attribute_value");
+
+					if(! array.contains(attribute_value)) {
+						array.add(attribute_value);
+					}
+				} else {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("attribute_id", attribute_id);
+					map.put("attribute_name", attribute_name);
+
+					List<String> array = new ArrayList<String>();
+					array.add(attribute_value);
+
+					map.put("attribute_value", array);
+
+					productAllSkuList.add(map);
 				}
 			}
-		}*/
+		}
 
-		product.setProductSkuList(productSkuList);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
+		map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
+		map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image());
+		map.put(Product.KEY_PRODUCT_SKU_LIST, productSkuList);
+		map.put(Product.KEY_PRODUCT_ALL_SKU_LIST, productAllSkuList);
+		map.put(Product.KEY_PRODUCT_CONTENT, product.getProduct_content());
 
-		product.setCategory_id(null);
-		product.setBrand_id(null);
-		product.setProduct_price(null);
-		product.setProduct_stock(null);
-		product.setProduct_status(null);
-
-		//List<CategoryAttribute> categoryAttributeList = categoryAttributeService.listByProduct_idAndCategory_id(product.getProduct_id(), product.getCategory_id());
-		//product.setCategoryAttributeList(categoryAttributeList);
-
-		return product;
+		return map;
 	}
 
 }
