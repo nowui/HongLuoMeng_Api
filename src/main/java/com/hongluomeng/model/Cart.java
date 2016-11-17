@@ -16,27 +16,7 @@ public class Cart extends Model<Cart> {
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
 	public static final String KEY_PRODUCT_ID = "product_id";
 	public static final String KEY_PRODUCT_NAME = "product_name";
-	/*public static final String KEY_CATEGORY_ID = "category_id";
-	public static final String KEY_CATEGORY_NAME = "category_name";
-	public static final String KEY_BRAND_ID = "brand_id";
-	public static final String KEY_BRAND_NAME = "brand_name";
-	public static final String KEY_PRODUCT_NAME = "product_name";
-	public static final String KEY_PRODUCT_IMAGE = "product_image";
-	public static final String KEY_PRODUCT_IS_NEW = "product_is_new";
-	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
-	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
-	public static final String KEY_PRODUCT_IS_HOT = "product_is_hot";
-	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
-	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
-	public static final String KEY_PRODUCT_STATUS = "product_status";
-	public static final String KEY_PRODUCT_CONTENT = "product_content";
-	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";
-	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
-	public static final String KEY_PRODUCT_PRICE = "product_price";
-	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
-	public static final String KEY_PRODUCT_STOCK = "product_stock";
-	public static final String KEY_PRODUCT_SKU_STATUS = "product_sku_status";*/
-	public static final String KEY_CART_PRODUCT_AMOUNT = "cart_product_amount";
+	public static final String KEY_PRODUCT_AMOUNT = "product_amount";
 	public static final String KEY_CART_CREATE_USER_ID = "cart_create_user_id";
 	public static final String KEY_CART_CREATE_TIME = "cart_create_time";
 	public static final String KEY_CART_UPDATE_USER_ID = "cart_update_user_id";
@@ -77,12 +57,12 @@ public class Cart extends Model<Cart> {
 		return getStr(KEY_PRODUCT_NAME);
 	}
 
-	public Integer getCart_product_amount() {
-		return Utility.getIntegerValue(get(KEY_CART_PRODUCT_AMOUNT));
+	public Integer getProduct_amount() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_AMOUNT));
 	}
 
-	public void setCart_product_amount(Integer cart_product_amount) {
-		set(KEY_CART_PRODUCT_AMOUNT, cart_product_amount);
+	public void setProduct_amount(Integer product_amount) {
+		set(KEY_PRODUCT_AMOUNT, product_amount);
 	}
 
 	public void setCart_create_user_id(String cart_create_user_id) {

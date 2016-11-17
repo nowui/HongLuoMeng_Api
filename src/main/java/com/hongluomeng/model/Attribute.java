@@ -21,6 +21,7 @@ public class Attribute extends Model<Attribute> {
 	public static final String KEY_ATTRIBUTE_UPDATE_USER_ID = "attribute_update_user_id";
 	public static final String KEY_ATTRIBUTE_UPDATE_TIME = "attribute_update_time";
 	public static final String KEY_ATTRIBUTE_STATUS = "attribute_status";
+	public static final String KEY_ATTRIBUTE_VALUE = "attribute_value";
 
 	public String getAttribute_id() {
 		return getStr(KEY_ATTRIBUTE_ID);

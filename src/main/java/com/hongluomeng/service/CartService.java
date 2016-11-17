@@ -51,9 +51,15 @@ public class CartService {
 		if(cart == null) {
 			cartDao.save(cartMap, request_user_id);
 		} else {
-			cart.setCart_product_amount(cart.getCart_product_amount() + cartMap.getCart_product_amount());
+			int count = cart.getProduct_amount() + cartMap.getProduct_amount();
 
-			cartDao.update(cart, request_user_id);
+			if(count > 0) {
+				cart.setProduct_amount(cart.getProduct_amount() + cartMap.getProduct_amount());
+
+				cartDao.update(cart, request_user_id);
+			} else {
+				cartDao.delete(cart.getCart_id(), request_user_id);
+			}
 		}
 	}
 
@@ -65,12 +71,20 @@ public class CartService {
 		cartDao.update(cartMap, request_user_id);
 	}
 
+	public void updateProduct_amount(List<Cart> cartList, String request_user_id) {
+		cartDao.updateProduct_amount(cartList, request_user_id);
+	}
+
 	public void delete(JSONObject jsonObject) {
 		Cart cartMap = jsonObject.toJavaObject(Cart.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		cartDao.delete(cartMap.getCart_id(), request_user_id);
+	}
+
+	public void delete(List<Cart> cartList, String request_user_id) {
+		cartDao.delete(cartList, request_user_id);
 	}
 
 	public List<Map<String, Object>> getList(JSONObject jsonObject) {
@@ -87,7 +101,7 @@ public class CartService {
 			map.put(Cart.KEY_CART_ID, cart.getCart_id());
 			map.put(Cart.KEY_PRODUCT_NAME, cart.getProduct_name());
 			map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
-			map.put(Cart.KEY_CART_PRODUCT_AMOUNT, cart.getCart_product_amount());
+			map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getProduct_amount());
 
 			resultList.add(map);
 		}

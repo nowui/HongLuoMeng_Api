@@ -35,7 +35,7 @@ public class OrderValidator extends Validator {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
-		} else if(actionKey.equals(Const.URL_ORDER_SAVE) || actionKey.equals(Const.URL_ORDER_UPDATE)) {
+		} else if(actionKey.equals(Const.URL_ORDER_SAVE) || actionKey.equals(Const.URL_ORDER_CART_SAVE) || actionKey.equals(Const.URL_ORDER_UPDATE)) {
 			isExit = true;
 
 			if(actionKey.equals(Const.URL_ORDER_UPDATE) && Utility.isNullOrEmpty(order.getOrder_id())) {
@@ -106,7 +106,7 @@ public class OrderValidator extends Validator {
 						isError = true;
 					}
 
-					if(Utility.isNullOrEmpty(cart.getCart_product_amount())) {
+					if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
 						isError = true;
 					}
 				}

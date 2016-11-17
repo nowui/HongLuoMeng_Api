@@ -193,6 +193,7 @@ public class Const {
 	public static final String URL_ORDER_LIST = "/order/list";
 	public static final String URL_ORDER_FIND = "/order/find";
 	public static final String URL_ORDER_SAVE = "/order/save";
+	public static final String URL_ORDER_CART_SAVE = "/order/cart/save";
 	public static final String URL_ORDER_UPDATE = "/order/update";
 	public static final String URL_ORDER_DELETE = "/order/delete";
 	public static final String URL_ORDER_LIST_GET = "/order/list/get";

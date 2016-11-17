@@ -42,6 +42,7 @@ public class ProductSku extends Model<ProductSku> {
 	public static final String KEY_PRODUCT_SKU_STATUS = "product_sku_status";
 
 	private List<String> productSkuIdList;
+	private Integer product_amount;
 
 	public String getProduct_sku_id() {
 		return getStr(KEY_PRODUCT_SKU_ID);
@@ -181,6 +182,14 @@ public class ProductSku extends Model<ProductSku> {
 
 	public void setProductSkuIdList(List<String> productSkuIdList) {
 		this.productSkuIdList = productSkuIdList;
+	}
+
+	public Integer getProduct_amount() {
+		return product_amount;
+	}
+
+	public void setProduct_amount(Integer product_amount) {
+		this.product_amount = product_amount;
 	}
 
 }

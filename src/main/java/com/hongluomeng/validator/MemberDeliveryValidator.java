@@ -48,6 +48,11 @@ public class MemberDeliveryValidator extends Validator {
 			if(Utility.isNullOrEmpty(memberDelivery.getMember_delivery_phone())) {
 				message += "电话为空";
 				message += Const.LINE_FEED;
+			} else {
+				if(! Utility.isPhone(memberDelivery.getMember_delivery_phone())) {
+					message += "电话格式不对";
+					message += Const.LINE_FEED;
+				}
 			}
 
 			if(Utility.isNullOrEmpty(memberDelivery.getMember_delivery_province())) {

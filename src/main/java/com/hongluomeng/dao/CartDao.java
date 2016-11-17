@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Cart;
 import com.hongluomeng.model.Product;
@@ -203,14 +204,61 @@ public class CartDao {
 		cart.update();
 	}
 
+	public void updateProduct_amount(List<Cart> cartList, String request_user_id) {
+		List<Object[]> parameterList = new ArrayList<Object[]>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + Cart.KEY_TABLE_CART + " ");
+		sql.append("SET " + Cart.KEY_PRODUCT_AMOUNT + " = ?, ");
+		sql.append(Cart.KEY_CART_UPDATE_USER_ID + " = ?, ");
+		sql.append(Cart.KEY_CART_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
+
+		for(Cart cart : cartList) {
+			List<Object> objectList = new ArrayList<Object>();
+
+			objectList.add(cart.getProduct_amount());
+			objectList.add(request_user_id);
+			objectList.add(new Date());
+			objectList.add(cart.getCart_id());
+
+			parameterList.add(objectList.toArray());
+		}
+
+		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
+	}
+
 	public void delete(String cart_id, String request_user_id) {
 		Cart cart = new Cart();
 		cart.setCart_id(cart_id);
+		cart.setProduct_amount(0);
 		cart.setCart_update_user_id(request_user_id);
 		cart.setCart_update_time(new Date());
 		cart.setCart_status(false);
 
 		cart.update();
+	}
+
+	public void delete(List<Cart> cartList, String request_user_id) {
+		List<Object[]> parameterList = new ArrayList<Object[]>();
+
+		StringBuffer sql = new StringBuffer("UPDATE " + Cart.KEY_TABLE_CART + " ");
+		sql.append("SET " + Cart.KEY_PRODUCT_AMOUNT + " = 0, ");
+		sql.append(Cart.KEY_CART_UPDATE_USER_ID + " = ?, ");
+		sql.append(Cart.KEY_CART_UPDATE_TIME + " = ?, ");
+		sql.append(Cart.KEY_CART_STATUS + " = 0 ");
+		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
+
+		for(Cart cart : cartList) {
+			List<Object> objectList = new ArrayList<Object>();
+
+			objectList.add(request_user_id);
+			objectList.add(new Date());
+			objectList.add(cart.getCart_id());
+
+			parameterList.add(objectList.toArray());
+		}
+
+		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
 	}
 
 }

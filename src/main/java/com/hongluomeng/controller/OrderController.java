@@ -42,7 +42,17 @@ public class OrderController extends BaseController {
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		orderService.save(jsonObject);
+		orderService.saveCart(jsonObject);
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
+	@Before(OrderValidator.class)
+	@ActionKey(Const.URL_ORDER_CART_SAVE)
+	public void saveCart() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		orderService.saveCart(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}

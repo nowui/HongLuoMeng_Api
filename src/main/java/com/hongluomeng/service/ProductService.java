@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.ProductDao;
+import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.CategoryAttribute;
@@ -323,15 +324,15 @@ public class ProductService {
 			for(int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
 				JSONObject object = productSku.getProduct_attribute_value().getJSONObject(i);
 
-				String attribute_id = object.getString("attribute_id");
-				String attribute_name = object.getString("attribute_name");
-				String attribute_value = object.getString("attribute_value");
+				String attribute_id = object.getString(Attribute.KEY_ATTRIBUTE_ID);
+				String attribute_name = object.getString(Attribute.KEY_ATTRIBUTE_NAME);
+				String attribute_value = object.getString(Attribute.KEY_ATTRIBUTE_VALUE);
 
 				int index = -1;
 				for(int j = 0; j < productAllSkuList.size(); j++) {
 					Map<String, Object> map = productAllSkuList.get(j);
 
-					if(map.get("attribute_id").equals(attribute_id)) {
+					if(map.get(Attribute.KEY_ATTRIBUTE_ID).equals(attribute_id)) {
 						index = j;
 
 						break;
@@ -342,20 +343,20 @@ public class ProductService {
 					Map<String, Object> map = productAllSkuList.get(index);
 
 					@SuppressWarnings("unchecked")
-					List<String> array = (List<String>) map.get("attribute_value");
+					List<String> array = (List<String>) map.get(Attribute.KEY_ATTRIBUTE_VALUE);
 
 					if(! array.contains(attribute_value)) {
 						array.add(attribute_value);
 					}
 				} else {
 					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("attribute_id", attribute_id);
-					map.put("attribute_name", attribute_name);
+					map.put(Attribute.KEY_ATTRIBUTE_ID, attribute_id);
+					map.put(Attribute.KEY_ATTRIBUTE_NAME, attribute_name);
 
 					List<String> array = new ArrayList<String>();
 					array.add(attribute_value);
 
-					map.put("attribute_value", array);
+					map.put(Attribute.KEY_ATTRIBUTE_VALUE, array);
 
 					productAllSkuList.add(map);
 				}

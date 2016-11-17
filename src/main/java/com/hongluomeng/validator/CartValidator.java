@@ -45,7 +45,7 @@ public class CartValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(cart.getCart_product_amount())) {
+			if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
 				message += "商品数量为空";
 				message += Const.LINE_FEED;
 			}
