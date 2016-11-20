@@ -40,16 +40,31 @@ public class GlobalActionInterceptor implements Interceptor {
 	public void intercept(Invocation inv) {
 		Date start = new Date();
 
-		Set<String> urlSet = new HashSet<String>();
-		urlSet.add(Const.URL_MEMBER_LOGIN);
-		urlSet.add(Const.URL_MEMBER_REGISTER);
-		urlSet.add(Const.URL_MEMBER_PASSWORD_UPDATE);
-		urlSet.add(Const.URL_ADMIN_LOGIN);
-		urlSet.add(Const.URL_SMS_REGISTER);
-		urlSet.add(Const.URL_SMS_PASSWORD);
-		urlSet.add(Const.URL_MEMBER_WEIBO_OAUTH);
-		urlSet.add(Const.URL_MEMBER_WECHAT_OAUTH);
-		urlSet.add(Const.URL_ORDER_NOTIFY);
+		//不检查token的url列表
+		Set<String> uncheckTokenSet = new HashSet<String>();
+		uncheckTokenSet.add(Const.URL_MEMBER_LOGIN);
+		uncheckTokenSet.add(Const.URL_MEMBER_REGISTER);
+		uncheckTokenSet.add(Const.URL_MEMBER_PASSWORD_UPDATE);
+		uncheckTokenSet.add(Const.URL_ADMIN_LOGIN);
+		uncheckTokenSet.add(Const.URL_SMS_REGISTER);
+		uncheckTokenSet.add(Const.URL_SMS_PASSWORD);
+		uncheckTokenSet.add(Const.URL_MEMBER_WEIBO_OAUTH);
+		uncheckTokenSet.add(Const.URL_MEMBER_WECHAT_OAUTH);
+		uncheckTokenSet.add(Const.URL_ORDER_NOTIFY);
+
+		//不检查request的url列表
+		Set<String> uncheckRequestSet = new HashSet<String>();
+		uncheckRequestSet.add(Const.URL_UPLOAD_IMAGE);
+		uncheckRequestSet.add(Const.URL_MEMBER_AVATAR_UPLOAD);
+		uncheckRequestSet.add(Const.URL_ORDER_NOTIFY);
+
+		//不保存request到log的url列表
+		Set<String> unSaveLogSet = new HashSet<String>();
+		unSaveLogSet.add(Const.URL_UPLOAD_BASE64);
+
+		//不检查请求头的url列表
+		Set<String> uncheckRequestHeaderSet = new HashSet<String>();
+		uncheckRequestHeaderSet.add(Const.URL_ORDER_NOTIFY);
 
 		Connection connection = null;
 
@@ -76,20 +91,20 @@ public class GlobalActionInterceptor implements Interceptor {
 
 			Key key = new SecretKeySpec(Const.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
-			boolean isAuthorization = true;
+			Boolean isAuthorization = true;
 
-			boolean isNotMatch = true;
+			Boolean isCheckToken = true;
 
-			for (String value : urlSet) {
+			for (String value : uncheckTokenSet) {
 				if (value.equals(url)) {
-					isNotMatch = false;
+					isCheckToken = false;
 
 					break;
 				}
 			}
 
 			//验证token
-			if (isNotMatch) {
+			if (isCheckToken) {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
 
 				if(Utility.isNullOrEmpty(token)) {
@@ -108,9 +123,19 @@ public class GlobalActionInterceptor implements Interceptor {
 			}
 
 			if (isAuthorization) {
-				if (url.equals(Const.URL_UPLOAD_IMAGE) || url.equals(Const.URL_MEMBER_AVATAR_UPLOAD) || url.equals(Const.URL_ORDER_NOTIFY)) {
-					request = "{}";
-				} else {
+				Boolean isChecRequest = true;
+
+				for (String value : uncheckRequestSet) {
+					if (value.equals(url)) {
+						request = "{}";
+
+						isChecRequest = false;
+
+						break;
+					}
+				}
+
+				if (isChecRequest) {
 					request = HttpKit.readData(controller.getRequest());
 				}
 
@@ -124,13 +149,17 @@ public class GlobalActionInterceptor implements Interceptor {
 
 				jsonObject.put(Const.KEY_REQUEST_USER_ID, user_id);
 
-				//上传base64图片 request内容不要保存到log里面
-				if(url.equals(Const.URL_UPLOAD_BASE64)) {
-					request = "{}";
+				//request内容不要保存到log里面
+				for (String value : unSaveLogSet) {
+					if (value.equals(url)) {
+						request = "{}";
+
+						break;
+					}
 				}
 
 				//验证是否有权限
-				if(isNotMatch) {
+				if(isCheckToken) {
 					isAuthorization = false;
 
 					List<Operation> operationList = operationService.listByUser_id(user_id);
@@ -159,6 +188,15 @@ public class GlobalActionInterceptor implements Interceptor {
 				if(Utility.isNullOrEmpty(version)) {
 					message += "没有version参数";
 					message += "<br />";
+				}
+
+				//不检查请求头
+				for (String value : uncheckRequestHeaderSet) {
+					if (value.equals(url)) {
+						message = "";
+
+						break;
+					}
 				}
 
 				if (Utility.isNullOrEmpty(message)) {

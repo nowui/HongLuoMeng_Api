@@ -127,6 +127,10 @@ public class OrderValidator extends Validator {
 			isExit = true;
 
 			message += Utility.checkPageAndLimit(jsonObject);
+		} else if(actionKey.equals(Const.URL_ORDER_SIGN)) {
+			isExit = true;
+		} else if(actionKey.equals(Const.URL_ORDER_NOTIFY)) {
+			isExit = true;
 		}
 
 		if (! isExit) {

@@ -335,9 +335,13 @@ public class OrderService {
 
 	public String sign(JSONObject jsonObject) {
 		try {
-			Order orderMap = jsonObject.toJavaObject(Order.class);
+			//Order orderMap = jsonObject.toJavaObject(Order.class);
 
-			Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
+			//Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
+
+			Order order = new Order();
+			order.setOrder_payment_price(BigDecimal.valueOf(0.01));
+			order.setOrder_no("E20161117460473");
 
 			String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content={\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_payment_price() +"\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}&charset=" + Const.ALIPAY_INPUT_CHARSET + "&method=alipay.trade.app.pay&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
 			String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
@@ -349,8 +353,8 @@ public class OrderService {
 		}
 	}
 
-	public void notify(JSONObject jsonObject) {
-
+	public String notify(JSONObject jsonObject) {
+		return "success";
 	}
 
 }
