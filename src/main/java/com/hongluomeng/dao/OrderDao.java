@@ -7,6 +7,7 @@ import java.util.List;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Order;
+import com.hongluomeng.type.OrderFlowEnum;
 
 public class OrderDao {
 
@@ -186,7 +187,7 @@ public class OrderDao {
 		order.setOrder_create_time(new Date());
 		order.setOrder_update_user_id(request_user_id);
 		order.setOrder_update_time(new Date());
-		order.setOrder_flow_status("");
+		order.setOrder_flow_status(OrderFlowEnum.WAIT_PAY.getKey());
 		order.setOrder_status(true);
 
 		order.save();

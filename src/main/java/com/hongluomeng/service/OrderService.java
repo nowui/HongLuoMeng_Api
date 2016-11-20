@@ -2,12 +2,15 @@ package com.hongluomeng.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OrderDao;
@@ -328,6 +331,26 @@ public class OrderService {
 		}
 
 		return resultList;
+	}
+
+	public String sign(JSONObject jsonObject) {
+		try {
+			Order orderMap = jsonObject.toJavaObject(Order.class);
+
+			Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
+
+			String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content={\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_payment_price() +"\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}&charset=" + Const.ALIPAY_INPUT_CHARSET + "&method=alipay.trade.app.pay&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
+			String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
+			data = data+"&sign=\"" + sign + "\"&sign_type=\""+ Const.ALIPAY_SIGN_TYPE + "\"";
+
+			return data;
+		} catch (AlipayApiException e) {
+			throw new RuntimeException("生成签名错误");
+		}
+	}
+
+	public void notify(JSONObject jsonObject) {
+
 	}
 
 }

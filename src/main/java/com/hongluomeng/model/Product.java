@@ -33,6 +33,7 @@ public class Product extends Model<Product> {
 	public static final String KEY_PRODUCT_CREATE_TIME = "product_create_time";
 	public static final String KEY_PRODUCT_UPDATE_USER_ID = "product_update_user_id";
 	public static final String KEY_PRODUCT_UPDATE_TIME = "product_update_time";
+	public static final String KEY_MEMBER_LEVEL_LIST = "memberLevelList";
 	public static final String KEY_PRODUCT_SKU_LIST = "productSkuList";
 	public static final String KEY_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
 

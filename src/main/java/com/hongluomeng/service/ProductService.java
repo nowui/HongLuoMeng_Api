@@ -2,6 +2,7 @@ package com.hongluomeng.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -319,6 +320,24 @@ public class ProductService {
 
 		List<ProductSku> productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
 
+		Iterator<ProductSku> iterator = productSkuList.iterator();
+
+		ProductSku ps = null;
+
+		while (iterator.hasNext()) {
+			ProductSku productSku = iterator.next();
+
+			if (productSku.getProduct_attribute_value().size() == 0) {
+				ps = productSku;
+
+				iterator.remove();
+			}
+		}
+
+		if(ps == null) {
+			throw new RuntimeException("该商品基本价格信息不存在");
+		}
+
 		List<Map<String, Object>> productAllSkuList = new ArrayList<Map<String, Object>>();
 		for(ProductSku productSku : productSkuList) {
 			for(int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
@@ -363,13 +382,47 @@ public class ProductService {
 			}
 		}
 
+		List<Map<String, Object>> productSkuStringList = new ArrayList<Map<String, Object>>();
+		for(ProductSku productSku : productSkuList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(ProductSku.KEY_PRODUCT_SKU_ID, productSku.getProduct_sku_id());
+			map.put(ProductSku.KEY_PRODUCT_PRICE, productSku.getProduct_price());
+			map.put(ProductSku.KEY_PRODUCT_STOCK, productSku.getProduct_stock());
+
+			String attribute_value = "";
+			for(int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
+				JSONObject object = productSku.getProduct_attribute_value().getJSONObject(i);
+
+				if(i > 0) {
+					attribute_value += "_";
+				}
+
+				attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_ID) + "_" + object.getString(Attribute.KEY_ATTRIBUTE_VALUE);
+			}
+
+			map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
+
+			productSkuStringList.add(map);
+		}
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
 		map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
 		map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image());
-		map.put(Product.KEY_PRODUCT_SKU_LIST, productSkuList);
+		map.put(Product.KEY_PRODUCT_SKU_LIST, productSkuStringList);
 		map.put(Product.KEY_PRODUCT_ALL_SKU_LIST, productAllSkuList);
 		map.put(Product.KEY_PRODUCT_CONTENT, product.getProduct_content());
+		map.put(Product.KEY_PRODUCT_PRICE, ps.getProduct_price());
+
+		List<Map<String, Object>> memberPriceList = new ArrayList<Map<String, Object>>();
+		for(int i = 0; i < ps.getMember_level_price().size(); i++) {
+			JSONObject object = ps.getMember_level_price().getJSONObject(i);
+
+			memberPriceList.add(object);
+		}
+		map.put(Product.KEY_MEMBER_LEVEL_LIST, memberPriceList);
+
+		map.put(Product.KEY_PRODUCT_STOCK, ps.getProduct_stock());
 
 		return map;
 	}

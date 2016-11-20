@@ -120,7 +120,7 @@ public class ProductLockStockDao {
 
 			Calendar  calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
-			calendar.add(Calendar.MINUTE, 10);
+			calendar.add(Calendar.MINUTE, Const.ORDER_TIMEOUT_EXPRESS);
 			objectList.add(calendar.getTime());
 
 			objectList.add(true);

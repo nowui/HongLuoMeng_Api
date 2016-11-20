@@ -49,6 +49,7 @@ public class GlobalActionInterceptor implements Interceptor {
 		urlSet.add(Const.URL_SMS_PASSWORD);
 		urlSet.add(Const.URL_MEMBER_WEIBO_OAUTH);
 		urlSet.add(Const.URL_MEMBER_WECHAT_OAUTH);
+		urlSet.add(Const.URL_ORDER_NOTIFY);
 
 		Connection connection = null;
 
@@ -87,10 +88,9 @@ public class GlobalActionInterceptor implements Interceptor {
 				}
 			}
 
+			//验证token
 			if (isNotMatch) {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
-
-				//System.out.println(token);
 
 				if(Utility.isNullOrEmpty(token)) {
 					isAuthorization = false;
@@ -108,7 +108,7 @@ public class GlobalActionInterceptor implements Interceptor {
 			}
 
 			if (isAuthorization) {
-				if (url.equals(Const.URL_UPLOAD_IMAGE) || url.equals(Const.URL_MEMBER_AVATAR_UPLOAD)) {
+				if (url.equals(Const.URL_UPLOAD_IMAGE) || url.equals(Const.URL_MEMBER_AVATAR_UPLOAD) || url.equals(Const.URL_ORDER_NOTIFY)) {
 					request = "{}";
 				} else {
 					request = HttpKit.readData(controller.getRequest());
@@ -129,6 +129,7 @@ public class GlobalActionInterceptor implements Interceptor {
 					request = "{}";
 				}
 
+				//验证是否有权限
 				if(isNotMatch) {
 					isAuthorization = false;
 

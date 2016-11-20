@@ -35,6 +35,14 @@ public class Const {
 
 	public static final int BATCH_SIZE = 100;
 
+	public static final int ORDER_TIMEOUT_EXPRESS = 30;
+
+	public static final String ALIPAY_APP_ID = "2016111002695126";
+	public static final String ALIPAY_PRIVATE_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHeU02DZEoh72NQcEPah3BVHPr Qb72clbTrzRSzOd8tY7W+UYFTwUFWodj30ZuIEmEWhQpQC+4zfGj8Je0pGnzuuJq ngbdHaDRTtS6/TpDOorldWJt/nEI8BuE2Yd0cSKhE8GsWBcXCRUxcmb+rFwWtoIV TnUO376O+4H90nh9pQIDAQAB";
+	public static final String ALIPAY_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
+	public static final String ALIPAY_SIGN_TYPE = "RSA";
+	public static final String ALIPAY_INPUT_CHARSET = "utf-8";
+
 	public static final String LINE_FEED = "; ";
 
 	public static final String UPLOAD_FILE = "upload";
@@ -197,5 +205,7 @@ public class Const {
 	public static final String URL_ORDER_UPDATE = "/order/update";
 	public static final String URL_ORDER_DELETE = "/order/delete";
 	public static final String URL_ORDER_LIST_GET = "/order/list/get";
+	public static final String URL_ORDER_SIGN = "/order/sign";
+	public static final String URL_ORDER_NOTIFY = "/order/notify";
 
 }
