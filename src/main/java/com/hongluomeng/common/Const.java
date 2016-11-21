@@ -205,7 +205,7 @@ public class Const {
 	public static final String URL_ORDER_UPDATE = "/order/update";
 	public static final String URL_ORDER_DELETE = "/order/delete";
 	public static final String URL_ORDER_LIST_GET = "/order/list/get";
-	public static final String URL_ORDER_SIGN = "/order/sign";
+//	public static final String URL_ORDER_SIGN = "/order/sign";
 	public static final String URL_ORDER_NOTIFY = "/order/notify";
 
 }

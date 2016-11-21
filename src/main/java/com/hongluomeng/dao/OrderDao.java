@@ -11,205 +11,223 @@ import com.hongluomeng.type.OrderFlowEnum;
 
 public class OrderDao {
 
-	private Integer count(Order order) {
-		List<Object> parameterList = new ArrayList<Object>();
+    private Integer count(Order order) {
+        List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
+        StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
 
-		Boolean isExit = false;
+        Boolean isExit = false;
 
-		if (! Utility.isNullOrEmpty(order.getOrder_no())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Order.KEY_ORDER_NO + " = ? ");
-			parameterList.add(order.getOrder_no());
+        if (!Utility.isNullOrEmpty(order.getOrder_no())) {
+            if (isExit) {
+                sql.append(" AND ");
+            } else {
+                sql.append(" WHERE ");
+            }
+            sql.append(Order.KEY_ORDER_NO + " = ? ");
+            parameterList.add(order.getOrder_no());
 
-			isExit = true;
-		}
+            isExit = true;
+        }
 
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Order.KEY_ORDER_STATUS + " = 1 ");
+        if (isExit) {
+            sql.append("AND ");
+        } else {
+            sql.append("WHERE ");
+        }
+        sql.append(Order.KEY_ORDER_STATUS + " = 1 ");
 
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
-		return count.intValue();
-	}
+        Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+        return count.intValue();
+    }
 
-	public Integer count() {
-		Order order = new Order();
+    public Integer count() {
+        Order order = new Order();
 
-		return count(order);
-	}
+        return count(order);
+    }
 
-	private List<Order> list(Order order, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+    private List<Order> list(Order order, Integer m, Integer n) {
+        List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
+        StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
 
-		Boolean isExit = false;
+        Boolean isExit = false;
 
-		if (! Utility.isNullOrEmpty(order.getUser_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Order.KEY_USER_ID + " = ? ");
-			parameterList.add(order.getUser_id());
+        if (!Utility.isNullOrEmpty(order.getUser_id())) {
+            if (isExit) {
+                sql.append(" AND ");
+            } else {
+                sql.append(" WHERE ");
+            }
+            sql.append(Order.KEY_USER_ID + " = ? ");
+            parameterList.add(order.getUser_id());
 
-			isExit = true;
-		}
+            isExit = true;
+        }
 
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Order.KEY_ORDER_STATUS + " = 1 ");
+        if (!Utility.isNullOrEmpty(order.getOrder_flow_status())) {
+            if (isExit) {
+                sql.append(" AND ");
+            } else {
+                sql.append(" WHERE ");
+            }
+            sql.append(Order.KEY_ORDER_FLOW_STATUS + " = ? ");
+            parameterList.add(order.getOrder_flow_status());
 
-		sql.append("ORDER BY " + Order.KEY_ORDER_CREATE_TIME + " DESC ");
+            isExit = true;
+        }
 
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
+        if (isExit) {
+            sql.append("AND ");
+        } else {
+            sql.append("WHERE ");
+        }
+        sql.append(Order.KEY_ORDER_STATUS + " = 1 ");
 
-		List<Order> orderList = order.find(sql.toString(), parameterList.toArray());
-		return orderList;
-	}
+        sql.append("ORDER BY " + Order.KEY_ORDER_CREATE_TIME + " DESC ");
 
-	public List<Order> list(Integer m, Integer n) {
-		Order order = new Order();
+        if (n > 0) {
+            sql.append("LIMIT ?, ? ");
+            parameterList.add(m);
+            parameterList.add(n);
+        }
 
-		return list(order, m, n);
-	}
+        return order.find(sql.toString(), parameterList.toArray());
+    }
 
-	public List<Order> listByUser_id(String user_id, Integer m, Integer n) {
-		Order order = new Order();
-		order.setUser_id(user_id);
+    public List<Order> list(Integer m, Integer n) {
+        Order order = new Order();
 
-		return list(order, m, n);
-	}
+        return list(order, m, n);
+    }
 
-	private Order find(Order order) {
-		List<Object> parameterList = new ArrayList<Object>();
+    public List<Order> listByUser_idAndOrder_flow_status(String user_id, String order_flow_status, Integer m, Integer n) {
+        Order order = new Order();
+        order.setUser_id(user_id);
+        order.setOrder_flow_status(order_flow_status);
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
+        return list(order, m, n);
+    }
 
-		Boolean isExit = false;
+    private Order find(Order order) {
+        List<Object> parameterList = new ArrayList<Object>();
 
-		if (! Utility.isNullOrEmpty(order.getOrder_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Order.KEY_ORDER_ID + " = ? ");
-			parameterList.add(order.getOrder_id());
+        StringBuffer sql = new StringBuffer("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
 
-			isExit = true;
-		}
+        Boolean isExit = false;
 
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Order.KEY_ORDER_STATUS + " = 1 ");
+        if (!Utility.isNullOrEmpty(order.getOrder_id())) {
+            if (isExit) {
+                sql.append(" AND ");
+            } else {
+                sql.append(" WHERE ");
+            }
+            sql.append(Order.KEY_ORDER_ID + " = ? ");
+            parameterList.add(order.getOrder_id());
 
-		if(! isExit) {
-			return null;
-		}
+            isExit = true;
+        }
 
-		List<Order> orderList = order.find(sql.toString(), parameterList.toArray());
-		if(orderList.size() == 0) {
-			return null;
-		} else {
-			return orderList.get(0);
-		}
-	}
+        if (isExit) {
+            sql.append("AND ");
+        } else {
+            sql.append("WHERE ");
+        }
+        sql.append(Order.KEY_ORDER_STATUS + " = 1 ");
 
-	public Order findByOrder_id(String order_id) {
-		Order order = new Order();
-		order.setOrder_id(order_id);
+        if (!isExit) {
+            return null;
+        }
 
-		return find(order);
-	}
+        List<Order> orderList = order.find(sql.toString(), parameterList.toArray());
+        if (orderList.size() == 0) {
+            return null;
+        } else {
+            return orderList.get(0);
+        }
+    }
 
-	private Boolean checkOrder_no(String order_no) {
-		Order order = new Order();
-		order.setOrder_no(order_no);
+    public Order findByOrder_id(String order_id) {
+        Order order = new Order();
+        order.setOrder_id(order_id);
 
-		Integer count = count(order);
+        return find(order);
+    }
 
-		if(count == 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private Boolean checkOrder_no(String order_no) {
+        Order order = new Order();
+        order.setOrder_no(order_no);
 
-	private String getOrder_no() {
-		return "E" + Utility.getDateString(new Date()).replaceAll("-", "") + Utility.getFixLenthString(6);
-	}
+        Integer count = count(order);
 
-	public void save(Order order, String member_level_id, String member_level_name, Integer member_level_value, String request_user_id) {
-		String order_no = getOrder_no();
+        if (count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-		Boolean isExit = true;
+    private String getOrder_no() {
+        return "E" + Utility.getDateString(new Date()).replaceAll("-", "") + Utility.getFixLenthString(6);
+    }
 
-		while(isExit) {
-			if(checkOrder_no(order_no)) {
-				isExit = false;
-			} else {
-				order_no = getOrder_no();
-			}
-		}
+    public void save(Order order, String member_level_id, String member_level_name, Integer member_level_value, String request_user_id) {
+        String order_no = getOrder_no();
 
-		order.setOrder_id(Utility.getUUID());
-		order.setUser_id(request_user_id);
-		order.setOrder_no(order_no);
-		order.setOrder_is_pay(false);
-		order.setOrder_payment_no("");
-		order.setOrder_payment_account("");
-		order.setOrder_payment_time("");
-		order.setMember_level_id(member_level_id);
-		order.setMember_level_name(member_level_name);
-		order.setMember_level_value(member_level_value);
-		order.setOrder_create_user_id(request_user_id);
-		order.setOrder_create_time(new Date());
-		order.setOrder_update_user_id(request_user_id);
-		order.setOrder_update_time(new Date());
-		order.setOrder_flow_status(OrderFlowEnum.WAIT_PAY.getKey());
-		order.setOrder_status(true);
+        Boolean isExit = true;
 
-		order.save();
-	}
+        while (isExit) {
+            if (checkOrder_no(order_no)) {
+                isExit = false;
+            } else {
+                order_no = getOrder_no();
+            }
+        }
 
-	public void update(Order order, String request_user_id) {
-		order.remove(Order.KEY_ORDER_CREATE_USER_ID);
-		order.remove(Order.KEY_ORDER_CREATE_TIME);
-		order.setOrder_update_user_id(request_user_id);
-		order.setOrder_update_time(new Date());
+        order.setOrder_id(Utility.getUUID());
+        order.setUser_id(request_user_id);
+        order.setOrder_no(order_no);
+        if(Utility.isNullOrEmpty(order.getOrder_message())) {
+            order.setOrder_message("");
+        }
+        if(Utility.isNullOrEmpty(order.getOrder_delivery_zip())) {
+            order.setOrder_delivery_zip("");
+        }
+        order.setOrder_is_pay(false);
+        order.setOrder_payment_no("");
+        order.setOrder_payment_account("");
+        order.setOrder_payment_time("");
+        order.setMember_level_id(member_level_id);
+        order.setMember_level_name(member_level_name);
+        order.setMember_level_value(member_level_value);
+        order.setOrder_create_user_id(request_user_id);
+        order.setOrder_create_time(new Date());
+        order.setOrder_update_user_id(request_user_id);
+        order.setOrder_update_time(new Date());
+        order.setOrder_flow_status(OrderFlowEnum.WAIT_PAY.getKey());
+        order.setOrder_status(true);
 
-		order.update();
-	}
+        order.save();
+    }
 
-	public void delete(String order_id, String request_user_id) {
-		Order order = new Order();
-		order.setOrder_id(order_id);
-		order.setOrder_update_user_id(request_user_id);
-		order.setOrder_update_time(new Date());
-		order.setOrder_status(false);
+    public void update(Order order, String request_user_id) {
+        order.remove(Order.KEY_ORDER_CREATE_USER_ID);
+        order.remove(Order.KEY_ORDER_CREATE_TIME);
+        order.setOrder_update_user_id(request_user_id);
+        order.setOrder_update_time(new Date());
 
-		order.update();
-	}
+        order.update();
+    }
+
+    public void delete(String order_id, String request_user_id) {
+        Order order = new Order();
+        order.setOrder_id(order_id);
+        order.setOrder_update_user_id(request_user_id);
+        order.setOrder_update_time(new Date());
+        order.setOrder_status(false);
+
+        order.update();
+    }
 
 }

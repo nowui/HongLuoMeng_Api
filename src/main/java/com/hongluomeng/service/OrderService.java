@@ -21,340 +21,360 @@ import com.hongluomeng.model.Order;
 import com.hongluomeng.model.OrderProduct;
 import com.hongluomeng.model.ProductSku;
 import com.hongluomeng.model.ProductLockStock;
+import com.hongluomeng.type.PayEnum;
 
 public class OrderService {
 
-	private OrderDao orderDao = new OrderDao();
-	private MemberService memberService = new MemberService();
-	private CartService cartService = new CartService();
-	private ProductSkuService productSkuService = new ProductSkuService();
-	private OrderProductService orderProductService = new OrderProductService();
-	private ProductLockStockService productLockStockService = new ProductLockStockService();
+    private OrderDao orderDao = new OrderDao();
+    private MemberService memberService = new MemberService();
+    private CartService cartService = new CartService();
+    private ProductSkuService productSkuService = new ProductSkuService();
+    private OrderProductService orderProductService = new OrderProductService();
+    private ProductLockStockService productLockStockService = new ProductLockStockService();
 
-	public Map<String, Object> list(JSONObject jsonObject) {
-		//Order orderMap = jsonObject.toJavaObject(Order.class);
+    public Map<String, Object> list(JSONObject jsonObject) {
+        //Order orderMap = jsonObject.toJavaObject(Order.class);
 
-		Integer count = orderDao.count();
+        Integer count = orderDao.count();
 
-		List<Order> orderList = orderDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+        List<Order> orderList = orderDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-		for(Order order : orderList) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Order.KEY_ORDER_ID, order.getOrder_id());
-			map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-			map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
-			map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
+        for (Order order : orderList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(Order.KEY_ORDER_ID, order.getOrder_id());
+            map.put(Order.KEY_ORDER_NO, order.getOrder_no());
+            map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
+            map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
 
-			list.add(map);
-		}
+            list.add(map);
+        }
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, list);
+        Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
-		return resultMap;
-	}
+        return resultMap;
+    }
 
-	public Order find(JSONObject jsonObject) {
-		Order orderMap = jsonObject.toJavaObject(Order.class);
+    public Order find(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
 
-		Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
+        Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
 
-		return order;
-	}
+        return order;
+    }
 
-	public void save(JSONObject jsonObject) {
-		Order orderMap = jsonObject.toJavaObject(Order.class);
+    public Map<String, Object> save(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
 
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		save(orderMap, request_user_id, false);
-	}
+        String order_id = save(orderMap, request_user_id, false);
 
-	public void saveCart(JSONObject jsonObject) {
-		Order orderMap = jsonObject.toJavaObject(Order.class);
+        String sign = sign(order_id, orderMap.getOrder_pay_type());
 
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put(Order.KEY_SIGN, sign);
 
-		save(orderMap, request_user_id, true);
-	}
+        return resultMap;
+    }
 
-	public void save(Order order, String request_user_id, Boolean isChekCart) {
+    public Map<String, Object> saveCart(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
 
-		Member member = memberService.findByUser_id(request_user_id);
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		if(order.getCartList().size() == 0) {
-			throw new RuntimeException("商品列表为空");
-		}
+        String order_id = save(orderMap, request_user_id, true);
 
-		List<String> productSkuIdList = new ArrayList<String>();
+        String sign = sign(order_id, orderMap.getOrder_pay_type());
 
-		for(Cart cart : order.getCartList()) {
-			productSkuIdList.add(cart.getProduct_sku_id());
-		}
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put(Order.KEY_SIGN, sign);
 
-		List<ProductSku> productSkuList = productSkuService.listByProductSkuIdList(productSkuIdList);
+        return resultMap;
+    }
 
-		for(Cart cart : order.getCartList()) {
-			//SKU编号是否存在
-			Boolean isExit = false;
-			//数量是否超出
-			Boolean isOver = false;
+    private String save(Order order, String request_user_id, Boolean isChekCart) {
 
-			for(ProductSku productSku : productSkuList) {
-				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
-					isExit = true;
+        Member member = memberService.findByUser_id(request_user_id);
 
-					//设置商品数量, 用在下面计算商品数量和商品总价格
-					productSku.setProduct_amount(cart.getProduct_amount());
+        if (order.getCartList().size() == 0) {
+            throw new RuntimeException("商品列表为空");
+        }
 
-					if(cart.getProduct_amount() > productSku.getProduct_stock() + productSku.getProduct_lock_stock()) {
-						isOver = true;
-					}
+        List<String> productSkuIdList = new ArrayList<String>();
 
-					break;
-				}
-			}
+        for (Cart cart : order.getCartList()) {
+            productSkuIdList.add(cart.getProduct_sku_id());
+        }
 
-			if(! isExit) {
-				throw new RuntimeException("没有找到的商品SKU编号是:" + cart.getProduct_sku_id());
-			}
+        List<ProductSku> productSkuList = productSkuService.listByProductSkuIdList(productSkuIdList);
 
-			if(isOver) {
-				throw new RuntimeException("超过库存的商品SKU编号是:" + cart.getProduct_sku_id());
-			}
-		}
+        for (Cart cart : order.getCartList()) {
+            //SKU编号是否存在
+            Boolean isExit = false;
+            //数量是否超出
+            Boolean isOver = false;
 
-		//是否直接购买, 否就检查购物车并且扣购物车库存
-		if(isChekCart) {
-			List<Cart> cartList = cartService.listByUser_idAndproductSkuIdList(request_user_id, productSkuIdList);
-
-			List<Cart> cartUpdateList = new ArrayList<Cart>();
-			List<Cart> cartDeleteList = new ArrayList<Cart>();
-
-			//判断传过来的商品编号在购物车是否存在对应的数据
-			for(Cart cart : order.getCartList()) {
-				//SKU编号是否存在
-				Boolean isExit = false;
-				//数量是否超出
-				Boolean isOver = false;
-
-				for(Cart cartObject : cartList) {
-					if(cart.getProduct_sku_id().equals(cartObject.getProduct_sku_id())) {
-						isExit = true;
-
-						if(cart.getProduct_amount() > cartObject.getProduct_amount()) {
-							isOver = true;
-						} else {
-							//扣除购物车里面商品数量
-							int count = cartObject.getProduct_amount() - cart.getProduct_amount();
+            for (ProductSku productSku : productSkuList) {
+                if (cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
+                    isExit = true;
 
-							if(count > 0) {
-								cartObject.setProduct_amount(cartObject.getProduct_amount() - cart.getProduct_amount());
-
-								cartUpdateList.add(cartObject);
-							} else {
-								cartDeleteList.add(cartObject);
-							}
-						}
-
-						break;
-					}
-				}
-
-				if(! isExit) {
-					throw new RuntimeException("在购物车没有找到的商品SKU编号是:" + cart.getProduct_sku_id());
-				}
-
-				if(isOver) {
-					throw new RuntimeException("超过购物车中数量的商品SKU编号是:" + cart.getProduct_sku_id());
-				}
-			}
-
-			//更新购物车商品数量
-			cartService.updateProduct_amount(cartUpdateList, request_user_id);
-			cartService.delete(cartDeleteList, request_user_id);
-		}
-
-		//计算订单的总价格
-		BigDecimal order_pament_price = BigDecimal.valueOf(0);
-		for(ProductSku productSku : productSkuList) {
-			if(member.getMember_level_id().equals("")) {
-				order_pament_price = order_pament_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
-			} else {
-				Boolean isExit = false;
-
-				JSONArray array = productSku.getMember_level_price();
-
-				for(int i = 0; i < array.size(); i++) {
-					JSONObject object = array.getJSONObject(i);
-
-					String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
-
-					if(member.getMember_level_id().equals(member_level_id)) {
-						BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
-
-						order_pament_price = order_pament_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
-
-						isExit = true;
-					}
-				}
-
-				if(! isExit) {
-					order_pament_price = order_pament_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
-				}
-			}
-		}
-		order.setOrder_payment_price(order_pament_price);
-
-		//计算商品数量
-		Integer order_payment_amount = 0;
-		for(Cart cart : order.getCartList()) {
-			order_payment_amount += cart.getProduct_amount();
-		}
-		order.setOrder_payment_amount(order_payment_amount);
-
-		orderDao.save(order, member.getMember_level_id(), member.getMember_level_name(), member.getMember_level_value(), request_user_id);
-
-		//保存购物车里的商品
-		List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
-		List<ProductLockStock> productLockStockList = new ArrayList<ProductLockStock>();
-		for(ProductSku productSku : productSkuList) {
-			BigDecimal product_payment_price = BigDecimal.valueOf(0);
-
-			if(member.getMember_level_id().equals("")) {
-				product_payment_price = productSku.getProduct_price();
-			} else {
-				Boolean isExit = false;
-
-				JSONArray array = productSku.getMember_level_price();
-
-				for(int i = 0; i < array.size(); i++) {
-					JSONObject object = array.getJSONObject(i);
-
-					String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
-
-					if(member.getMember_level_id().equals(member_level_id)) {
-						BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
-
-						product_payment_price = member_level_price;
-
-						isExit = true;
-					}
-				}
-
-				if(! isExit) {
-					product_payment_price = productSku.getProduct_price();
-				}
-			}
-
-			OrderProduct orderProduct = new OrderProduct();
-			orderProduct.setOrder_id(order.getOrder_id());
-			orderProduct.setCategory_id(productSku.getCategory_id());
-			orderProduct.setCategory_name(productSku.getCategory_name());
-			orderProduct.setBrand_id(productSku.getBrand_id());
-			orderProduct.setBrand_name(productSku.getBrand_name());
-			orderProduct.setProduct_id(productSku.getProduct_id());
-			orderProduct.setProduct_name(productSku.getProduct_name());
-			orderProduct.setProduct_image(productSku.getProduct_image().toJSONString());
-			orderProduct.setProduct_is_new(productSku.getProduct_is_new());
-			orderProduct.setProduct_is_recommend(productSku.getProduct_is_recommend());
-			orderProduct.setProduct_is_bargain(productSku.getProduct_is_bargain());
-			orderProduct.setProduct_is_hot(productSku.getProduct_is_hot());
-			orderProduct.setProduct_is_sell_out(productSku.getProduct_is_sell_out());
-			orderProduct.setProduct_is_sale(productSku.getProduct_is_sale());
-			orderProduct.setProduct_content(productSku.getProduct_content());
-			orderProduct.setProduct_sku_value(productSku.getProduct_sku_value().toJSONString());
-			orderProduct.setProduct_sku_id(productSku.getProduct_sku_id());
-			orderProduct.setProduct_attribute_value(productSku.getProduct_attribute_value().toJSONString());
-			orderProduct.setProduct_price(productSku.getProduct_price());
-			orderProduct.setMember_level_price(productSku.getMember_level_price().toJSONString());
-			orderProduct.setProduct_payment_price(product_payment_price);
-			orderProduct.setProduct_payment_amount(0);
-			for(Cart cart : order.getCartList()) {
-				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
-					orderProduct.setProduct_payment_amount(cart.getProduct_amount());
-				}
-			}
-			orderProductList.add(orderProduct);
-
-			ProductLockStock productLockStock = new ProductLockStock();
-			productLockStock.setOrder_id(order.getOrder_id());
-			productLockStock.setProduct_sku_id(productSku.getProduct_sku_id());
-			productLockStock.setProduct_lock_stock(0);
-			for(Cart cart : order.getCartList()) {
-				if(cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
-					productLockStock.setProduct_lock_stock(cart.getProduct_amount());
-				}
-			}
-			productLockStockList.add(productLockStock);
-		}
-
-		orderProductService.saveByOrderProductList(orderProductList, request_user_id);
-
-		productLockStockService.save(productLockStockList, request_user_id);
-	}
-
-	public void update(JSONObject jsonObject) {
-		Order orderMap = jsonObject.toJavaObject(Order.class);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		orderDao.update(orderMap, request_user_id);
-	}
-
-	public void delete(JSONObject jsonObject) {
-		Order orderMap = jsonObject.toJavaObject(Order.class);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		orderDao.delete(orderMap.getOrder_id(), request_user_id);
-	}
-
-	public List<Map<String, Object>> getList(JSONObject jsonObject) {
-		//Cart cartMap = jsonObject.toJavaObject(Cart.class);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
-		List<Order> orderList = orderDao.listByUser_id(request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
-
-		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-
-		for(Order order : orderList) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Order.KEY_ORDER_ID, order.getOrder_id());
-			map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-			map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
-			map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
-
-			resultList.add(map);
-		}
-
-		return resultList;
-	}
-
-	public String sign(JSONObject jsonObject) {
-		try {
-			//Order orderMap = jsonObject.toJavaObject(Order.class);
-
-			//Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
-
-			Order order = new Order();
-			order.setOrder_payment_price(BigDecimal.valueOf(0.01));
-			order.setOrder_no("E20161117460473");
-
-			String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content={\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_payment_price() +"\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}&charset=" + Const.ALIPAY_INPUT_CHARSET + "&method=alipay.trade.app.pay&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
-			String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
-			data = data+"&sign=\"" + sign + "\"&sign_type=\""+ Const.ALIPAY_SIGN_TYPE + "\"";
-
-			return data;
-		} catch (AlipayApiException e) {
-			throw new RuntimeException("生成签名错误");
-		}
-	}
-
-	public String notify(JSONObject jsonObject) {
-		return "success";
-	}
+                    //设置商品数量, 用在下面计算商品数量和商品总价格
+                    productSku.setProduct_amount(cart.getProduct_amount());
+
+                    if (cart.getProduct_amount() > productSku.getProduct_stock() + productSku.getProduct_lock_stock()) {
+                        isOver = true;
+                    }
+
+                    break;
+                }
+            }
+
+            if (!isExit) {
+                throw new RuntimeException("没有找到的商品SKU编号是:" + cart.getProduct_sku_id());
+            }
+
+            if (isOver) {
+                throw new RuntimeException("超过库存的商品SKU编号是:" + cart.getProduct_sku_id());
+            }
+        }
+
+        //是否直接购买, 否就检查购物车并且扣购物车库存
+        if (isChekCart) {
+            List<Cart> cartList = cartService.listByUser_idAndproductSkuIdList(request_user_id, productSkuIdList);
+
+            List<Cart> cartUpdateList = new ArrayList<Cart>();
+            List<Cart> cartDeleteList = new ArrayList<Cart>();
+
+            //判断传过来的商品编号在购物车是否存在对应的数据
+            for (Cart cart : order.getCartList()) {
+                //SKU编号是否存在
+                Boolean isExit = false;
+                //数量是否超出
+                Boolean isOver = false;
+
+                for (Cart cartObject : cartList) {
+                    if (cart.getProduct_sku_id().equals(cartObject.getProduct_sku_id())) {
+                        isExit = true;
+
+                        if (cart.getProduct_amount() > cartObject.getProduct_amount()) {
+                            isOver = true;
+                        } else {
+                            //扣除购物车里面商品数量
+                            int count = cartObject.getProduct_amount() - cart.getProduct_amount();
+
+                            if (count > 0) {
+                                cartObject.setProduct_amount(cartObject.getProduct_amount() - cart.getProduct_amount());
+
+                                cartUpdateList.add(cartObject);
+                            } else {
+                                cartDeleteList.add(cartObject);
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                if (!isExit) {
+                    throw new RuntimeException("在购物车没有找到的商品SKU编号是:" + cart.getProduct_sku_id());
+                }
+
+                if (isOver) {
+                    throw new RuntimeException("超过购物车中数量的商品SKU编号是:" + cart.getProduct_sku_id());
+                }
+            }
+
+            //更新购物车商品数量
+            cartService.updateProduct_amount(cartUpdateList, request_user_id);
+            cartService.delete(cartDeleteList, request_user_id);
+        }
+
+        //计算订单的总价格
+        BigDecimal order_pament_price = BigDecimal.valueOf(0);
+        for (ProductSku productSku : productSkuList) {
+            if (member.getMember_level_id().equals("")) {
+                order_pament_price = order_pament_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+            } else {
+                Boolean isExit = false;
+
+                JSONArray array = productSku.getMember_level_price();
+
+                for (int i = 0; i < array.size(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+
+                    String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
+
+                    if (member.getMember_level_id().equals(member_level_id)) {
+                        BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
+
+                        order_pament_price = order_pament_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+
+                        isExit = true;
+                    }
+                }
+
+                if (!isExit) {
+                    order_pament_price = order_pament_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                }
+            }
+        }
+        order.setOrder_payment_price(order_pament_price);
+
+        //计算商品数量
+        Integer order_payment_amount = 0;
+        for (Cart cart : order.getCartList()) {
+            order_payment_amount += cart.getProduct_amount();
+        }
+        order.setOrder_payment_amount(order_payment_amount);
+
+        orderDao.save(order, member.getMember_level_id(), member.getMember_level_name(), member.getMember_level_value(), request_user_id);
+
+        //保存购物车里的商品
+        List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+        List<ProductLockStock> productLockStockList = new ArrayList<ProductLockStock>();
+        for (ProductSku productSku : productSkuList) {
+            BigDecimal product_payment_price = BigDecimal.valueOf(0);
+
+            if (member.getMember_level_id().equals("")) {
+                product_payment_price = productSku.getProduct_price();
+            } else {
+                Boolean isExit = false;
+
+                JSONArray array = productSku.getMember_level_price();
+
+                for (int i = 0; i < array.size(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+
+                    String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
+
+                    if (member.getMember_level_id().equals(member_level_id)) {
+                        //BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
+
+                        //product_payment_price = member_level_price;
+
+                        isExit = true;
+                    }
+                }
+
+                if (!isExit) {
+                    product_payment_price = productSku.getProduct_price();
+                }
+            }
+
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setOrder_id(order.getOrder_id());
+            orderProduct.setCategory_id(productSku.getCategory_id());
+            orderProduct.setCategory_name(productSku.getCategory_name());
+            orderProduct.setBrand_id(productSku.getBrand_id());
+            orderProduct.setBrand_name(productSku.getBrand_name());
+            orderProduct.setProduct_id(productSku.getProduct_id());
+            orderProduct.setProduct_name(productSku.getProduct_name());
+            orderProduct.setProduct_image(productSku.getProduct_image().toJSONString());
+            orderProduct.setProduct_is_new(productSku.getProduct_is_new());
+            orderProduct.setProduct_is_recommend(productSku.getProduct_is_recommend());
+            orderProduct.setProduct_is_bargain(productSku.getProduct_is_bargain());
+            orderProduct.setProduct_is_hot(productSku.getProduct_is_hot());
+            orderProduct.setProduct_is_sell_out(productSku.getProduct_is_sell_out());
+            orderProduct.setProduct_is_sale(productSku.getProduct_is_sale());
+            orderProduct.setProduct_content(productSku.getProduct_content());
+            orderProduct.setProduct_sku_value(productSku.getProduct_sku_value().toJSONString());
+            orderProduct.setProduct_sku_id(productSku.getProduct_sku_id());
+            orderProduct.setProduct_attribute_value(productSku.getProduct_attribute_value().toJSONString());
+            orderProduct.setProduct_price(productSku.getProduct_price());
+            orderProduct.setMember_level_price(productSku.getMember_level_price().toJSONString());
+            orderProduct.setProduct_payment_price(product_payment_price);
+            orderProduct.setProduct_payment_amount(0);
+            for (Cart cart : order.getCartList()) {
+                if (cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
+                    orderProduct.setProduct_payment_amount(cart.getProduct_amount());
+                }
+            }
+            orderProductList.add(orderProduct);
+
+            ProductLockStock productLockStock = new ProductLockStock();
+            productLockStock.setOrder_id(order.getOrder_id());
+            productLockStock.setProduct_sku_id(productSku.getProduct_sku_id());
+            productLockStock.setProduct_lock_stock(0);
+            for (Cart cart : order.getCartList()) {
+                if (cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
+                    productLockStock.setProduct_lock_stock(cart.getProduct_amount());
+                }
+            }
+            productLockStockList.add(productLockStock);
+        }
+
+        orderProductService.saveByOrderProductList(orderProductList, request_user_id);
+
+        productLockStockService.save(productLockStockList, request_user_id);
+
+        return order.getOrder_id();
+    }
+
+    public void update(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        orderDao.update(orderMap, request_user_id);
+    }
+
+    public void delete(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        orderDao.delete(orderMap.getOrder_id(), request_user_id);
+    }
+
+    public List<Map<String, Object>> getList(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        List<Order> orderList = orderDao.listByUser_idAndOrder_flow_status(request_user_id, orderMap.getOrder_flow_status(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+
+        for (Order order : orderList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(Order.KEY_ORDER_ID, order.getOrder_id());
+            map.put(Order.KEY_ORDER_NO, order.getOrder_no());
+            map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
+            map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
+            map.put(Order.KEY_ORDER_FLOW_STATUS, order.getOrder_flow_status());
+
+            resultList.add(map);
+        }
+
+        return resultList;
+    }
+
+    private String sign(String order_id, String order_pay_type) {
+        if (order_pay_type.equals(PayEnum.ALI_PAY.getKey())) {
+            try {
+                Order order = orderDao.findByOrder_id(order_id);
+
+                if(order == null) {
+                    throw new RuntimeException("该订单不存在");
+                }
+
+                String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content={\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_payment_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}&charset=" + Const.ALIPAY_INPUT_CHARSET + "&method=alipay.trade.app.pay&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
+                String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
+                data = data + "&sign=\"" + sign + "\"&sign_type=\"" + Const.ALIPAY_SIGN_TYPE + "\"";
+
+                return data;
+            } catch (AlipayApiException e) {
+                throw new RuntimeException("生成签名错误");
+            }
+        } else {
+            return "";
+        }
+    }
+
+    public String notify(JSONObject jsonObject) {
+        return "success";
+    }
 
 }

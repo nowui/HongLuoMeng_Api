@@ -23,6 +23,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_DELIVERY_AREA = "order_delivery_area";
 	public static final String KEY_ORDER_DELIVERY_ADDRESS = "order_delivery_address";
 	public static final String KEY_ORDER_DELIVERY_ZIP = "order_delivery_zip";
+	public static final String KEY_ORDER_PAY_TYPE = "order_pay_type";
 	public static final String KEY_ORDER_IS_PAY = "order_is_pay";
 	public static final String KEY_ORDER_PAYMENT_NO = "order_payment_no";
 	public static final String KEY_ORDER_PAYMENT_ACCOUNT = "order_payment_account";
@@ -38,6 +39,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_UPDATE_TIME = "order_update_time";
 	public static final String KEY_ORDER_FLOW_STATUS = "order_flow_status";
 	public static final String KEY_ORDER_STATUS = "order_status";
+	public static final String KEY_SIGN = "sign";
 
 	private List<Cart> cartList;
 
@@ -119,6 +121,14 @@ public class Order extends Model<Order> {
 
 	public void setOrder_delivery_address(String order_delivery_address) {
 		set(KEY_ORDER_DELIVERY_ADDRESS, order_delivery_address);
+	}
+
+	public String getOrder_pay_type() {
+		return getStr(KEY_ORDER_PAY_TYPE);
+	}
+
+	public void setOrder_pay_type(String order_pay_type) {
+		set(KEY_ORDER_PAY_TYPE, order_pay_type);
 	}
 
 	public String getOrder_delivery_zip() {

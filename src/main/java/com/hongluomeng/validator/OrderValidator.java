@@ -22,14 +22,14 @@ public class OrderValidator extends Validator {
 
 		String message = "";
 
-		Order order = jsonObject.toJavaObject(Order.class);
-
 		if(actionKey.equals(Const.URL_ORDER_LIST)) {
 			isExit = true;
 
 			message += Utility.checkPageAndLimit(jsonObject);
 		} else if(actionKey.equals(Const.URL_ORDER_FIND)) {
 			isExit = true;
+
+			Order order = jsonObject.toJavaObject(Order.class);
 
 			if(Utility.isNullOrEmpty(order.getOrder_id())) {
 				message += "编号为空";
@@ -38,13 +38,15 @@ public class OrderValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_ORDER_SAVE) || actionKey.equals(Const.URL_ORDER_CART_SAVE) || actionKey.equals(Const.URL_ORDER_UPDATE)) {
 			isExit = true;
 
+			Order order = jsonObject.toJavaObject(Order.class);
+
 			if(actionKey.equals(Const.URL_ORDER_UPDATE) && Utility.isNullOrEmpty(order.getOrder_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(order.getOrder_message())) {
-				message += "卖家留言为空";
+			if(Utility.isNullOrEmpty(order.getOrder_pay_type())) {
+				message += "支付类型为空";
 				message += Const.LINE_FEED;
 			}
 
@@ -78,10 +80,7 @@ public class OrderValidator extends Validator {
 				message += Const.LINE_FEED;
 			}
 
-			if(Utility.isNullOrEmpty(order.getOrder_delivery_zip())) {
-				message += "邮政编码为空";
-				message += Const.LINE_FEED;
-			} else {
+			if(!Utility.isNullOrEmpty(order.getOrder_delivery_zip())) {
 				if(order.getOrder_delivery_zip().length() > 6) {
 					message += "邮政编码过长";
 					message += Const.LINE_FEED;
@@ -119,6 +118,8 @@ public class OrderValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_ORDER_DELETE)) {
 			isExit = true;
 
+			Order order = jsonObject.toJavaObject(Order.class);
+
 			if(Utility.isNullOrEmpty(order.getOrder_id())) {
 				message += "编号为空";
 				message += Const.LINE_FEED;
@@ -126,9 +127,23 @@ public class OrderValidator extends Validator {
 		} else if(actionKey.equals(Const.URL_ORDER_LIST_GET)) {
 			isExit = true;
 
+			Order order = jsonObject.toJavaObject(Order.class);
+
+			if(Utility.isNull(order.getOrder_flow_status())) {
+				message += "订单流程状态为空";
+				message += Const.LINE_FEED;
+			}
+
 			message += Utility.checkPageAndLimit(jsonObject);
-		} else if(actionKey.equals(Const.URL_ORDER_SIGN)) {
-			isExit = true;
+//		} else if(actionKey.equals(Const.URL_ORDER_SIGN)) {
+//			isExit = true;
+//
+//			Order order = jsonObject.toJavaObject(Order.class);
+//
+//			if(Utility.isNull(order.getOrder_id())) {
+//				message += "订单编号为空";
+//				message += Const.LINE_FEED;
+//			}
 		} else if(actionKey.equals(Const.URL_ORDER_NOTIFY)) {
 			isExit = true;
 		}
