@@ -2,13 +2,11 @@ package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
-import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Log;
-import com.hongluomeng.type.CodeEnum;
 
-public class LogValidator extends Validator {
+public class LogValidator extends BaseValidator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -21,17 +19,20 @@ public class LogValidator extends Validator {
 
 		Log log = jsonObject.toJavaObject(Log.class);
 
-		if(actionKey.equals(Const.URL_LOG_LIST)) {
-			isExit = true;
+		switch (actionKey) {
+			case Const.URL_LOG_LIST:
+				isExit = true;
 
-			message += Utility.checkPageAndLimit(jsonObject);
-		} else if(actionKey.equals(Const.URL_LOG_FIND)) {
-			isExit = true;
+				message += Utility.checkPageAndLimit(jsonObject);
+				break;
+			case Const.URL_LOG_FIND:
+				isExit = true;
 
-			if(Utility.isNullOrEmpty(log.getLog_id())) {
-				message += "编号为空";
-				message += Const.LINE_FEED;
-			}
+				if (Utility.isNullOrEmpty(log.getLog_id())) {
+					message += "编号为空";
+					message += Const.LINE_FEED;
+				}
+				break;
 		}
 
 		if (! isExit) {
@@ -41,10 +42,6 @@ public class LogValidator extends Validator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
-	}
-
-	protected void handleError(Controller c) {
-		c.renderJson(Utility.setResponse(CodeEnum.CODE_400, c.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

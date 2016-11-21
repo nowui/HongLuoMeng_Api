@@ -23,8 +23,6 @@ public class AdminService {
 	private AuthorizationService authorizationService = new AuthorizationService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Admin adminMap = jsonObject.toJavaObject(Admin.class);
-
 		Integer count = adminDao.count();
 
 		List<Admin> adminList = adminDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));

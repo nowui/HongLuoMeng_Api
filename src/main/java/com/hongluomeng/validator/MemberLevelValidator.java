@@ -2,13 +2,11 @@ package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
-import com.jfinal.validate.Validator;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.MemberLevel;
-import com.hongluomeng.type.CodeEnum;
 
-public class MemberLevelValidator extends Validator {
+public class MemberLevelValidator extends BaseValidator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -21,46 +19,52 @@ public class MemberLevelValidator extends Validator {
 
 		MemberLevel memberLevel = jsonObject.toJavaObject(MemberLevel.class);
 
-		if(actionKey.equals(Const.URL_MEMBER_LEVEL_LIST)) {
-			isExit = true;
+		switch (actionKey) {
+			case Const.URL_MEMBER_LEVEL_LIST:
+				isExit = true;
 
-			message += Utility.checkPageAndLimit(jsonObject);
-		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_FIND)) {
-			isExit = true;
+				message += Utility.checkPageAndLimit(jsonObject);
+				break;
+			case Const.URL_MEMBER_LEVEL_FIND:
+				isExit = true;
 
-			if(Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
-				message += "编号为空";
-				message += Const.LINE_FEED;
-			}
-		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_SAVE) || actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE)) {
-			isExit = true;
+				if (Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
+					message += "编号为空";
+					message += Const.LINE_FEED;
+				}
+				break;
+			case Const.URL_MEMBER_LEVEL_SAVE:
+			case Const.URL_MEMBER_LEVEL_UPDATE:
+				isExit = true;
 
-			if(actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE) && Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
-				message += "编号为空";
-				message += Const.LINE_FEED;
-			}
+				if (actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE) && Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
+					message += "编号为空";
+					message += Const.LINE_FEED;
+				}
 
-			if(Utility.isNullOrEmpty(memberLevel.getMember_level_name())) {
-				message += "名称为空";
-				message += Const.LINE_FEED;
-			}
+				if (Utility.isNullOrEmpty(memberLevel.getMember_level_name())) {
+					message += "名称为空";
+					message += Const.LINE_FEED;
+				}
 
-			if(Utility.isNullOrEmpty(memberLevel.getMember_level_value())) {
-				message += "粉丝数为空";
-				message += Const.LINE_FEED;
-			}
+				if (Utility.isNullOrEmpty(memberLevel.getMember_level_value())) {
+					message += "粉丝数为空";
+					message += Const.LINE_FEED;
+				}
 
-			if(Utility.isNullOrEmpty(memberLevel.getMember_level_sort())) {
-				message += "排序为空";
-				message += Const.LINE_FEED;
-			}
-		} else if(actionKey.equals(Const.URL_MEMBER_LEVEL_DELETE)) {
-			isExit = true;
+				if (Utility.isNullOrEmpty(memberLevel.getMember_level_sort())) {
+					message += "排序为空";
+					message += Const.LINE_FEED;
+				}
+				break;
+			case Const.URL_MEMBER_LEVEL_DELETE:
+				isExit = true;
 
-			if(Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
-				message += "编号为空";
-				message += Const.LINE_FEED;
-			}
+				if (Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
+					message += "编号为空";
+					message += Const.LINE_FEED;
+				}
+				break;
 		}
 
 		if (! isExit) {
@@ -70,10 +74,6 @@ public class MemberLevelValidator extends Validator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
-	}
-
-	protected void handleError(Controller c) {
-		c.renderJson(Utility.setResponse(CodeEnum.CODE_400, c.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }
