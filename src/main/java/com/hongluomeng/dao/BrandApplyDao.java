@@ -193,7 +193,7 @@ public class BrandApplyDao {
 		brandApply.setBrand_apply_update_user_id(request_user_id);
 		brandApply.setBrand_apply_update_time(new Date());
 		brandApply.setBrand_apply_status(true);
-		brandApply.setBrand_apply_review_status(BrandApplyReviewEnum.WAITING.getKey());
+		brandApply.setBrand_apply_review_status(BrandApplyReviewEnum.WAIT.getKey());
 
 		brandApply.save();
 	}
@@ -215,7 +215,7 @@ public class BrandApplyDao {
 		parameterList.add(member_identity_card);
 		parameterList.add(member_identity_card_front_image);
 		parameterList.add(member_identity_card_back_image);
-		parameterList.add(BrandApplyReviewEnum.WAITING.getKey());
+		parameterList.add(BrandApplyReviewEnum.WAIT.getKey());
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());
 		parameterList.add(brand_id);

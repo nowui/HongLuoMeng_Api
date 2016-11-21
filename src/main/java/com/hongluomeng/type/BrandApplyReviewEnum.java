@@ -2,11 +2,11 @@ package com.hongluomeng.type;
 
 public enum BrandApplyReviewEnum {
 
-	NONE("none"),
-	WAITING("waiting"),
-	PASS("pass"),
-	REFUSE("refuse"),
-	CANCEL("cancel");
+	NONE("NONE"),
+	WAIT("WAIT"),
+	PASS("PASS"),
+	REFUSE("REFUSE"),
+	CANCEL("CANCEL");
 
 	private String key;
 

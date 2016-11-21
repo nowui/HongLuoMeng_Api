@@ -162,8 +162,6 @@ public class ProductSkuDao {
 		}
 		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " = 1 ");
 
-		System.out.println(sql.toString());
-
 		List<ProductSku> productSkuList = new ProductSku().find(sql.toString(), parameterList.toArray());
 		return productSkuList;
 	}

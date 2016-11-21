@@ -2,9 +2,9 @@ package com.hongluomeng.type;
 
 public enum UserEnum {
 
-	ADMIN("admin"),
-	MEMBER("member"),
-	ENTERPRISE("enterprise");
+	ADMIN("ADMIN"),
+	MEMBER("MEMBER"),
+	ENTERPRISE("ENTERPRISE");
 
 	private String key;
 

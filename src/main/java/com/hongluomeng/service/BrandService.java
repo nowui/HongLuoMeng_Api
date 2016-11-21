@@ -221,7 +221,7 @@ public class BrandService {
 			brandApplyService.save(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
 		} else {
 			System.out.println(brandApply.getBrand_apply_review_status());
-			if(brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.WAITING.getKey()) || brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
+			if(brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.WAIT.getKey()) || brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
 				throw new RuntimeException("这品牌已经申请过,不能再申请!");
 			} else {
 				Member memberMap = jsonObject.toJavaObject(Member.class);

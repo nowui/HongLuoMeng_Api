@@ -2,13 +2,13 @@ package com.hongluomeng.type;
 
 public enum OrderFlowEnum {
 
-	WAIT_PAY("wait_pay"),
-	WAIT_PAY_EXPIRE("wait_pay_expire"),
-	PAYED("payed"),
-	SEND("send"),
-	RECEIVED("received"),
-	FINISH("finish"),
-	CANCEL("cancel");
+	WAIT("WAIT"),
+	EXPIRE("EXPIRE"),
+	PAYED("PAYED"),
+	SEND("SEND"),
+	RECEIVED("RECEIVED"),
+	FINISH("FINISH"),
+	CANCEL("CANCEL");
 
 	private String key;
 

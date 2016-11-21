@@ -2,11 +2,11 @@ package com.hongluomeng.type;
 
 public enum InputEnum {
 
-	TEXT("text"),
-	SELECT("select"),
-	NUMBER("number"),
-	DATETIME("datetime"),
-	IMAGE("image");
+	TEXT("TEXT"),
+	SELECT("SELECT"),
+	NUMBER("NUMBER"),
+	DATETIME("DATETIME"),
+	IMAGE("IMAGE");
 
 	private String key;
 

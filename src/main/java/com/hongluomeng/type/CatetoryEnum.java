@@ -1,11 +1,11 @@
 package com.hongluomeng.type;
 
 public enum CatetoryEnum {
-	GROUP("group"),
-	MENU("menu"),
-	PRODUCT("product"),
-	BRAND("brand"),
-	CHINA("china");
+	GROUP("GROUP"),
+	MENU("MENU"),
+	PRODUCT("PRODUCT"),
+	BRAND("BRAND"),
+	CHINA("CHINA");
 
 	private String key;
 

@@ -87,34 +87,51 @@ public class OrderValidator extends Validator {
 				}
 			}
 
-			if(Utility.isNullOrEmpty(order.getCartList())) {
-				message += "商品为空";
-				message += Const.LINE_FEED;
-			} else {
-				List<Cart> cartList = order.getCartList();
+			if(actionKey.equals(Const.URL_ORDER_SAVE)) {
+				Cart cart = jsonObject.toJavaObject(Cart.class);
 
-				if(cartList.size() == 0) {
-					message += "商品参数格为空";
+				if(Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
+					message += "商品SKU编号为空";
 					message += Const.LINE_FEED;
 				}
 
-				Boolean isError = false;
-
-				for(Cart cart : cartList) {
-					if(Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
-						isError = true;
-					}
-
-					if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
-						isError = true;
-					}
-				}
-
-				if(isError) {
-					message += "商品参数格式错误";
+				if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
+					message += "商品数量为空";
 					message += Const.LINE_FEED;
 				}
 			}
+
+			if(actionKey.equals(Const.URL_ORDER_CART_SAVE)) {
+				if(Utility.isNullOrEmpty(order.getCartList())) {
+					message += "商品为空";
+					message += Const.LINE_FEED;
+				} else {
+					List<Cart> cartList = order.getCartList();
+
+					if(cartList.size() == 0) {
+						message += "商品参数格为空";
+						message += Const.LINE_FEED;
+					}
+
+					Boolean isError = false;
+
+					for(Cart cart : cartList) {
+						if(Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
+							isError = true;
+						}
+
+						if(Utility.isNullOrEmpty(cart.getProduct_amount())) {
+							isError = true;
+						}
+					}
+
+					if(isError) {
+						message += "商品参数格式错误";
+						message += Const.LINE_FEED;
+					}
+				}
+			}
+
 		} else if(actionKey.equals(Const.URL_ORDER_DELETE)) {
 			isExit = true;
 

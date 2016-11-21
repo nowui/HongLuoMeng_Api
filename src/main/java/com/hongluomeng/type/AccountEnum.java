@@ -2,11 +2,11 @@ package com.hongluomeng.type;
 
 public enum AccountEnum {
 
-	ACCOUNT("account"),
-	PHONE("phone"),
-	EMAIL("email"),
-	WEIBO("weibo"),
-	WECHAT("wechat");
+	ACCOUNT("ACCOUNT"),
+	PHONE("PHONE"),
+	EMAIL("EMAIL"),
+	WEIBO("WEIBO"),
+	WECHAT("WECHAT");
 
 	private String key;
 

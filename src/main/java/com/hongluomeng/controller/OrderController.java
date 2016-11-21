@@ -42,7 +42,7 @@ public class OrderController extends BaseController {
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> resultMap = orderService.saveCart(jsonObject);
+		Map<String, Object> resultMap = orderService.save(jsonObject);
 
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}

@@ -21,7 +21,7 @@ import com.hongluomeng.model.Order;
 import com.hongluomeng.model.OrderProduct;
 import com.hongluomeng.model.ProductSku;
 import com.hongluomeng.model.ProductLockStock;
-import com.hongluomeng.type.PayEnum;
+import com.hongluomeng.type.PayTypeEnum;
 
 public class OrderService {
 
@@ -66,6 +66,13 @@ public class OrderService {
 
     public Map<String, Object> save(JSONObject jsonObject) {
         Order orderMap = jsonObject.toJavaObject(Order.class);
+
+        Cart cartMap = jsonObject.toJavaObject(Cart.class);
+
+        List<Cart> cartList = new ArrayList<Cart>();
+        cartList.add(cartMap);
+
+        orderMap.setCartList(cartList);
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
@@ -123,7 +130,9 @@ public class OrderService {
                     //设置商品数量, 用在下面计算商品数量和商品总价格
                     productSku.setProduct_amount(cart.getProduct_amount());
 
-                    if (cart.getProduct_amount() > productSku.getProduct_stock() + productSku.getProduct_lock_stock()) {
+                    System.out.println(cart.getProduct_amount() + " - " + productSku.getProduct_stock() + " - " + productSku.getProduct_lock_stock());
+
+                    if (cart.getProduct_amount() + productSku.getProduct_lock_stock() > productSku.getProduct_stock()) {
                         isOver = true;
                     }
 
@@ -352,7 +361,7 @@ public class OrderService {
     }
 
     private String sign(String order_id, String order_pay_type) {
-        if (order_pay_type.equals(PayEnum.ALI_PAY.getKey())) {
+        if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
             try {
                 Order order = orderDao.findByOrder_id(order_id);
 

@@ -1,8 +1,8 @@
 package com.hongluomeng.type;
 
 public enum AttributeEnum {
-	NORMAL("normal"),
-	SKU("sku");
+	NORMAL("NORMAL"),
+	SKU("SKU");
 
 	private String key;
 

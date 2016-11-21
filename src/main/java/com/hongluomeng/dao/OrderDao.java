@@ -205,7 +205,7 @@ public class OrderDao {
         order.setOrder_create_time(new Date());
         order.setOrder_update_user_id(request_user_id);
         order.setOrder_update_time(new Date());
-        order.setOrder_flow_status(OrderFlowEnum.WAIT_PAY.getKey());
+        order.setOrder_flow_status(OrderFlowEnum.WAIT.getKey());
         order.setOrder_status(true);
 
         order.save();
