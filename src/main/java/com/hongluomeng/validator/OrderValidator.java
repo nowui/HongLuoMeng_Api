@@ -160,15 +160,17 @@ public class OrderValidator extends BaseValidator {
 				}
 
 				message += Utility.checkPageAndLimit(jsonObject);
-//		} else if(actionKey.equals(Const.URL_ORDER_SIGN)) {
-//			isExit = true;
-//
-//			Order order = jsonObject.toJavaObject(Order.class);
-//
-//			if(Utility.isNull(order.getOrder_id())) {
-//				message += "订单编号为空";
-//				message += Const.LINE_FEED;
-//			}
+				break;
+			}
+			case Const.URL_ORDER_PAYED: {
+				isExit = true;
+
+				Order order = jsonObject.toJavaObject(Order.class);
+
+				if (Utility.isNull(order.getOrder_id())) {
+					message += "订单编号为空";
+					message += Const.LINE_FEED;
+				}
 				break;
 			}
 			case Const.URL_ORDER_NOTIFY:

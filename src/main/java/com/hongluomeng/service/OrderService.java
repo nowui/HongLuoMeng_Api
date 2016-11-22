@@ -1,5 +1,6 @@
 package com.hongluomeng.service;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,8 @@ import com.hongluomeng.model.ProductSku;
 import com.hongluomeng.model.ProductLockStock;
 import com.hongluomeng.type.PayTypeEnum;
 
+import static java.net.URLEncoder.encode;
+
 public class OrderService {
 
     private OrderDao orderDao = new OrderDao();
@@ -45,8 +48,7 @@ public class OrderService {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(Order.KEY_ORDER_ID, order.getOrder_id());
             map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-            map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
-            map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
+            map.put(Order.KEY_ORDER_TRADE_PRICE, order.getOrder_trade_price());
 
             list.add(map);
         }
@@ -81,6 +83,7 @@ public class OrderService {
         String sign = sign(order_id, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put(Order.KEY_ORDER_ID, order_id);
         resultMap.put(Order.KEY_SIGN, sign);
 
         return resultMap;
@@ -96,6 +99,7 @@ public class OrderService {
         String sign = sign(order_id, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put(Order.KEY_ORDER_ID, order_id);
         resultMap.put(Order.KEY_SIGN, sign);
 
         return resultMap;
@@ -107,6 +111,12 @@ public class OrderService {
 
         if (order.getCartList().size() == 0) {
             throw new RuntimeException("商品列表为空");
+        }
+
+        for(Cart cart : order.getCartList()) {
+            if(cart.getProduct_amount() <= 0) {
+                throw new RuntimeException("商品数量不能为空");
+            }
         }
 
         List<String> productSkuIdList = new ArrayList<String>();
@@ -129,8 +139,6 @@ public class OrderService {
 
                     //设置商品数量, 用在下面计算商品数量和商品总价格
                     productSku.setProduct_amount(cart.getProduct_amount());
-
-                    System.out.println(cart.getProduct_amount() + " - " + productSku.getProduct_stock() + " - " + productSku.getProduct_lock_stock());
 
                     if (cart.getProduct_amount() + productSku.getProduct_lock_stock() > productSku.getProduct_stock()) {
                         isOver = true;
@@ -229,14 +237,7 @@ public class OrderService {
                 }
             }
         }
-        order.setOrder_payment_price(order_pament_price);
-
-        //计算商品数量
-        Integer order_payment_amount = 0;
-        for (Cart cart : order.getCartList()) {
-            order_payment_amount += cart.getProduct_amount();
-        }
-        order.setOrder_payment_amount(order_payment_amount);
+        order.setOrder_trade_price(order_pament_price);
 
         orderDao.save(order, member.getMember_level_id(), member.getMember_level_name(), member.getMember_level_value(), request_user_id);
 
@@ -350,14 +351,19 @@ public class OrderService {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(Order.KEY_ORDER_ID, order.getOrder_id());
             map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-            map.put(Order.KEY_ORDER_PAYMENT_AMOUNT, order.getOrder_payment_amount());
-            map.put(Order.KEY_ORDER_PAYMENT_PRICE, order.getOrder_payment_price());
+            map.put(Order.KEY_ORDER_TRADE_PRICE, order.getOrder_trade_price());
             map.put(Order.KEY_ORDER_FLOW_STATUS, order.getOrder_flow_status());
 
             resultList.add(map);
         }
 
         return resultList;
+    }
+
+    public void payed(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
+
+        orderDao.payed(orderMap.getOrder_id());
     }
 
     private String sign(String order_id, String order_pay_type) {
@@ -369,12 +375,17 @@ public class OrderService {
                     throw new RuntimeException("该订单不存在");
                 }
 
-                String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content={\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_payment_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}&charset=" + Const.ALIPAY_INPUT_CHARSET + "&method=alipay.trade.app.pay&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
+                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_trade_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
+                String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Const.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Const.ALIPAY_NOTIFY_URL + "&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
                 String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
-                data = data + "&sign=\"" + sign + "\"&sign_type=\"" + Const.ALIPAY_SIGN_TYPE + "\"";
 
-                return data;
+                String orderInfo = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content=" + encode(content, Const.ALIPAY_INPUT_CHARSET) + "&charset=" + Const.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + encode(Const.ALIPAY_NOTIFY_URL, Const.ALIPAY_INPUT_CHARSET) + "&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + encode(Utility.getDateTimeString(new Date()), Const.ALIPAY_INPUT_CHARSET) + "&version=1.0";
+                orderInfo += "&sign=" + encode(sign, Const.ALIPAY_INPUT_CHARSET);
+
+                return orderInfo;
             } catch (AlipayApiException e) {
+                throw new RuntimeException("生成签名错误");
+            } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException("生成签名错误");
             }
         } else {
@@ -382,8 +393,14 @@ public class OrderService {
         }
     }
 
-    public String notify(JSONObject jsonObject) {
-        return "success";
+    public String notify(String order_no, String order_trade_no, String order_trade_account, String order_trade_price) {
+        int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
+
+        if(result == 1) {
+            return "success";
+        } else {
+            return "error";
+        }
     }
 
 }

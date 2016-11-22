@@ -25,11 +25,10 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_DELIVERY_ZIP = "order_delivery_zip";
 	public static final String KEY_ORDER_PAY_TYPE = "order_pay_type";
 	public static final String KEY_ORDER_IS_PAY = "order_is_pay";
-	public static final String KEY_ORDER_PAYMENT_NO = "order_payment_no";
-	public static final String KEY_ORDER_PAYMENT_ACCOUNT = "order_payment_account";
-	public static final String KEY_ORDER_PAYMENT_PRICE = "order_payment_price";
-	public static final String KEY_ORDER_PAYMENT_AMOUNT = "order_payment_amount";
-	public static final String KEY_ORDER_PAYMENT_TIME = "order_payment_time";
+	public static final String KEY_ORDER_TRADE_NO = "order_trade_no";
+	public static final String KEY_ORDER_TRADE_ACCOUNT = "order_trade_account";
+	public static final String KEY_ORDER_TRADE_PRICE = "order_trade_price";
+	public static final String KEY_ORDER_TRADE_TIME = "order_trade_time";
 	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
 	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
@@ -147,44 +146,36 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_IS_PAY, order_is_pay);
 	}
 
-	public String getOrder_payment_no() {
-		return getStr(KEY_ORDER_PAYMENT_NO);
+	public String getOrder_trade_no() {
+		return getStr(KEY_ORDER_TRADE_NO);
 	}
 
-	public void setOrder_payment_no(String order_payment_no) {
-		set(KEY_ORDER_PAYMENT_NO, order_payment_no);
+	public void setOrder_trade_no(String order_trade_no) {
+		set(KEY_ORDER_TRADE_NO, order_trade_no);
 	}
 
-	public String getOrder_payment_account() {
-		return getStr(KEY_ORDER_PAYMENT_ACCOUNT);
+	public String getOrder_trade_account() {
+		return getStr(KEY_ORDER_TRADE_ACCOUNT);
 	}
 
-	public void setOrder_payment_account(String order_payment_account) {
-		set(KEY_ORDER_PAYMENT_ACCOUNT, order_payment_account);
+	public void setOrder_trade_account(String order_trade_account) {
+		set(KEY_ORDER_TRADE_ACCOUNT, order_trade_account);
 	}
 
-	public BigDecimal getOrder_payment_price() {
-		return getBigDecimal(KEY_ORDER_PAYMENT_PRICE);
+	public BigDecimal getOrder_trade_price() {
+		return getBigDecimal(KEY_ORDER_TRADE_PRICE);
 	}
 
-	public void setOrder_payment_price(BigDecimal order_payment_price) {
-		set(KEY_ORDER_PAYMENT_PRICE, order_payment_price);
+	public void setOrder_trade_price(BigDecimal order_trade_price) {
+		set(KEY_ORDER_TRADE_PRICE, order_trade_price);
 	}
 
-	public Integer getOrder_payment_amount() {
-		return Utility.getIntegerValue(get(KEY_ORDER_PAYMENT_AMOUNT));
+	public String getOrder_trade_time() {
+		return getStr(KEY_ORDER_TRADE_TIME);
 	}
 
-	public void setOrder_payment_amount(Integer order_payment_amount) {
-		set(KEY_ORDER_PAYMENT_AMOUNT, order_payment_amount);
-	}
-
-	public String getOrder_payment_time() {
-		return getStr(KEY_ORDER_PAYMENT_TIME);
-	}
-
-	public void setOrder_payment_time(String order_payment_time) {
-		set(KEY_ORDER_PAYMENT_TIME, order_payment_time);
+	public void setOrder_trade_time(String order_trade_time) {
+		set(KEY_ORDER_TRADE_TIME, order_trade_time);
 	}
 
 	public String getMember_level_id() {

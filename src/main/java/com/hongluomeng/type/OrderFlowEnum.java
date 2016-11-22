@@ -4,6 +4,7 @@ public enum OrderFlowEnum {
 
 	WAIT("WAIT"),
 	EXPIRE("EXPIRE"),
+	CONFIRM("CONFIRM"),
 	PAYED("PAYED"),
 	SEND("SEND"),
 	RECEIVED("RECEIVED"),
