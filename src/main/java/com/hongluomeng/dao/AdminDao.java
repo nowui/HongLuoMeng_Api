@@ -1,9 +1,9 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Admin;
@@ -11,20 +11,11 @@ import com.hongluomeng.model.Admin;
 public class AdminDao {
 
 	private Integer count(Admin admin) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Admin.KEY_TABLE_ADMIN + " ");
+		dynamicSQL.append("WHERE " + Admin.KEY_ADMIN_STATUS + " = 1 ");
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Admin.KEY_TABLE_ADMIN + " ");
-
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Admin.KEY_ADMIN_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -35,28 +26,13 @@ public class AdminDao {
 	}
 
 	private List<Admin> list(Admin admin, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
+		dynamicSQL.append("WHERE " + Admin.KEY_ADMIN_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Admin.KEY_ADMIN_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Admin.KEY_ADMIN_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + Admin.KEY_ADMIN_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Admin> adminList = admin.find(sql.toString(), parameterList.toArray());
+		List<Admin> adminList = new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return adminList;
 	}
 
@@ -67,37 +43,13 @@ public class AdminDao {
 	}
 
 	private Admin find(Admin admin) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
+		dynamicSQL.append("WHERE " + Admin.KEY_ADMIN_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Admin.KEY_ADMIN_ID + " = ? ", admin.getAdmin_id());
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(admin.getAdmin_id())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Admin.KEY_ADMIN_ID + " = ? ");
-			parameterList.add(admin.getAdmin_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Admin.KEY_ADMIN_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Admin> adminList = admin.find(sql.toString(), parameterList.toArray());
-		if(adminList.size() == 0) {
+		List<Admin> adminList = new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if(adminList == null) {
 			return null;
 		} else {
 			return adminList.get(0);
@@ -107,6 +59,8 @@ public class AdminDao {
 	public Admin findByAdmin_id(String admin_id) {
 		Admin admin = new Admin();
 		admin.setAdmin_id(admin_id);
+
+		Utility.checkIsNullOrEmpty(admin_id);
 
 		return find(admin);
 	}

@@ -42,11 +42,7 @@ public class ProductDao {
 
 		List<Product> productList = new Product().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		if(productList == null) {
-			return new ArrayList<Product>();
-		} else {
-			return productList;
-		}
+		return productList;
 	}
 
 	public List<Product> list(String product_name, Integer m, Integer n) {
@@ -81,11 +77,7 @@ public class ProductDao {
 
 		List<Product> productList = new Product().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		if(productList == null) {
-			return new ArrayList<Product>();
-		} else {
-			return productList;
-		}
+		return productList;
 	}
 
 	private Product find(Product product) {
