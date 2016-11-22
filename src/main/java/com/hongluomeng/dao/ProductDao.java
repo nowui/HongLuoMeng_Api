@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.BrandApply;
@@ -13,32 +14,12 @@ import com.hongluomeng.type.BrandApplyReviewEnum;
 public class ProductDao {
 
 	private Integer count(Product product) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		dynamicSQL.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmptyForLike("AND " + Product.KEY_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Product.KEY_TABLE_PRODUCT + " ");
-
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(product.getProduct_name())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Product.KEY_PRODUCT_NAME + " LIKE ? ");
-			parameterList.add("%" + product.getProduct_name() + "%");
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Product.KEY_PRODUCT_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -50,65 +31,22 @@ public class ProductDao {
 	}
 
 	private List<Product> list(Product product, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		dynamicSQL.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmptyForLike("AND " + Product.KEY_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
+		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_CATEGORY_ID + " = ? ", product.getCategory_id());
+		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_BRAND_ID + " = ? ", product.getBrand_id());
+		dynamicSQL.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		List<Product> productList = new Product().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(product.getProduct_name())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Product.KEY_PRODUCT_NAME + " LIKE ? ");
-			parameterList.add("%" + product.getProduct_name() + "%");
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(product.getCategory_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Product.KEY_CATEGORY_ID + " = ? ");
-			parameterList.add(product.getCategory_id());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(product.getBrand_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Product.KEY_BRAND_ID + " = ? ");
-			parameterList.add(product.getBrand_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
+		if(productList == null) {
+			return new ArrayList<Product>();
 		} else {
-			sql.append("WHERE ");
+			return productList;
 		}
-		sql.append(Product.KEY_PRODUCT_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Product> productList = product.find(sql.toString(), parameterList.toArray());
-		return productList;
 	}
 
 	public List<Product> list(String product_name, Integer m, Integer n) {
@@ -133,53 +71,32 @@ public class ProductDao {
 	}
 
 	public List<Product> listByUser_id(String user_id, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT " + Product.KEY_TABLE_PRODUCT + ".* FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "' AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1) " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ", user_id);
+		dynamicSQL.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ", user_id);
+		dynamicSQL.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		StringBuffer sql = new StringBuffer("SELECT " + Product.KEY_TABLE_PRODUCT + ".* FROM " + Product.KEY_TABLE_PRODUCT + " ");
-		sql.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "' AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1) " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ");
-		sql.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
-		sql.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ");
+		List<Product> productList = new Product().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		parameterList.add(user_id);
-		parameterList.add(user_id);
-
-		sql.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
+		if(productList == null) {
+			return new ArrayList<Product>();
+		} else {
+			return productList;
 		}
-
-		List<Product> productList = new Product().find(sql.toString(), parameterList.toArray());
-		return productList;
 	}
 
 	private Product find(Product product) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		dynamicSQL.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_PRODUCT_ID + " = ? ", product.getProduct_id());
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
+		List<Product> productList = new Product().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(product.getProduct_id())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Product.KEY_PRODUCT_ID + " = ? ");
-			parameterList.add(product.getProduct_id());
-
-			isExit = true;
-		}
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Product> productList = product.find(sql.toString(), parameterList.toArray());
-		if(productList.size() == 0) {
+		if(productList == null) {
 			return null;
 		} else {
 			return productList.get(0);
@@ -189,6 +106,8 @@ public class ProductDao {
 	public Product findByProduct_id(String product_id) {
 		Product product = new Product();
 		product.setProduct_id(product_id);
+
+		Utility.checkIsNullOrEmpty(product_id);
 
 		return find(product);
 	}

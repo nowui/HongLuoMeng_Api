@@ -396,9 +396,10 @@ public class OrderService {
     public String notify(String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String request_user_id) {
         int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
 
+        //删除锁定库存
+        productLockStockService.delete(order_no, request_user_id);
+
         if(result == 1) {
-            //删除锁定库存
-            productLockStockService.delete(order_no, request_user_id);
 
             return "success";
         } else {

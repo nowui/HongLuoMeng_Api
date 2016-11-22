@@ -320,4 +320,10 @@ public class Utility {
 	    return fixLenthString.substring(1, strLength + 1);
 	}
 
+	public static void checkIsNullOrEmpty(Object object) {
+		if (isNullOrEmpty(object)) {
+			throw new RuntimeException("空值");
+		}
+	}
+
 }
