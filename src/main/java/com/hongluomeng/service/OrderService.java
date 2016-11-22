@@ -304,7 +304,7 @@ public class OrderService {
             orderProductList.add(orderProduct);
 
             ProductLockStock productLockStock = new ProductLockStock();
-            productLockStock.setOrder_id(order.getOrder_id());
+            productLockStock.setOrder_no(order.getOrder_no());
             productLockStock.setProduct_sku_id(productSku.getProduct_sku_id());
             productLockStock.setProduct_lock_stock(0);
             for (Cart cart : order.getCartList()) {
@@ -393,10 +393,13 @@ public class OrderService {
         }
     }
 
-    public String notify(String order_no, String order_trade_no, String order_trade_account, String order_trade_price) {
+    public String notify(String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String request_user_id) {
         int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
 
         if(result == 1) {
+            //删除锁定库存
+            productLockStockService.delete(order_no, request_user_id);
+
             return "success";
         } else {
             return "error";

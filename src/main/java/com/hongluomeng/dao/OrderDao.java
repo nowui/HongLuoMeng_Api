@@ -243,13 +243,15 @@ public class OrderDao {
         StringBuffer sql = new StringBuffer("UPDATE " + Order.KEY_TABLE_ORDER + " ");
         sql.append("SET " + Order.KEY_ORDER_TRADE_NO + " = ?, ");
         sql.append(Order.KEY_ORDER_TRADE_ACCOUNT + " = ?, ");
-        sql.append(Order.KEY_ORDER_TRADE_PRICE + " = ? ");
+        sql.append(Order.KEY_ORDER_TRADE_PRICE + " = ?, ");
+        sql.append(Order.KEY_ORDER_FLOW_STATUS + " = ? ");
         sql.append("WHERE " + Order.KEY_ORDER_NO + " = ? ");
 
         parameterList.add(order_no);
         parameterList.add(order_trade_no);
         parameterList.add(order_trade_account);
         parameterList.add(order_trade_price);
+        parameterList.add(OrderFlowEnum.PAYED.getKey());
 
         return Db.update(sql.toString(), parameterList.toArray());
     }

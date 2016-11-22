@@ -20,8 +20,8 @@ public class ProductLockStockService {
 		productLockStockDao.save(productLockStockList, request_user_id);
 	}
 
-	public void delete(String order_id, String request_user_id) {
-		productLockStockDao.delete(order_id, request_user_id);
+	public void delete(String order_no, String request_user_id) {
+		productLockStockDao.delete(order_no, request_user_id);
 	}
 
 }

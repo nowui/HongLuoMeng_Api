@@ -1,5 +1,6 @@
 package com.hongluomeng.common;
 
+import com.hongluomeng.model.*;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -31,29 +32,6 @@ import com.hongluomeng.controller.UploadController;
 import com.hongluomeng.controller.UserController;
 import com.hongluomeng.controller.OperationController;
 import com.hongluomeng.interceptor.GlobalActionInterceptor;
-import com.hongluomeng.model.Admin;
-import com.hongluomeng.model.Attribute;
-import com.hongluomeng.model.Authorization;
-import com.hongluomeng.model.Brand;
-import com.hongluomeng.model.BrandApply;
-import com.hongluomeng.model.Cart;
-import com.hongluomeng.model.Category;
-import com.hongluomeng.model.CategoryAttribute;
-import com.hongluomeng.model.Log;
-import com.hongluomeng.model.Member;
-import com.hongluomeng.model.MemberDelivery;
-import com.hongluomeng.model.MemberLevel;
-import com.hongluomeng.model.Operation;
-import com.hongluomeng.model.Order;
-import com.hongluomeng.model.OrderProduct;
-import com.hongluomeng.model.Product;
-import com.hongluomeng.model.ProductAttribute;
-import com.hongluomeng.model.ProductSku;
-import com.hongluomeng.model.Role;
-import com.hongluomeng.model.RoleOperation;
-import com.hongluomeng.model.Sms;
-import com.hongluomeng.model.User;
-import com.hongluomeng.model.UserRole;
 
 public class AppConfig extends JFinalConfig {
 
@@ -125,6 +103,7 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_member_delivery", "member_delivery_id", MemberDelivery.class);
         activeRecordPlugin.addMapping("table_order", "order_id", Order.class);
         activeRecordPlugin.addMapping("table_order_product", "order_product_id", OrderProduct.class);
+        activeRecordPlugin.addMapping("table_product_lock_stock", "product_lock_stock_id", ProductLockStock.class);
         plugins.add(activeRecordPlugin);
     }
 

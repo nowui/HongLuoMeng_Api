@@ -11,7 +11,7 @@ public class ProductLockStock extends Model<ProductLockStock> {
 	private static final long serialVersionUID = 1L;
 
 	public static final String KEY_TABLE_PRODUCT_LOCK_STOCK = "table_product_lock_stock";
-	public static final String KEY_ORDER_ID = "order_id";
+	public static final String KEY_ORDER_NO = "order_no";
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
 	public static final String KEY_PRODUCT_LOCK_STOCK = "product_lock_stock";
 	public static final String KEY_PRODUCT_LOCK_STOCK_CREATE_USER_ID = "product_lock_stock_create_user_id";
@@ -23,12 +23,12 @@ public class ProductLockStock extends Model<ProductLockStock> {
 
 	private List<String> productSkuIdList;
 
-	public String getOrder_id() {
-		return getStr(KEY_ORDER_ID);
+	public String getOrder_no() {
+		return getStr(KEY_ORDER_NO);
 	}
 
-	public void setOrder_id(String order_id) {
-		set(KEY_ORDER_ID, order_id);
+	public void setOrder_no(String order_no) {
+		set(KEY_ORDER_NO, order_no);
 	}
 
 	public String getProduct_sku_id() {

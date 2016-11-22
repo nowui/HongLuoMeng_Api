@@ -108,7 +108,9 @@ public class OrderController extends BaseController {
 		String order_trade_account = getPara("buyer_id");
 		String order_trade_price = getPara("receipt_amount");
 
-		String result = orderService.notify(order_no, order_trade_no, order_trade_account, order_trade_price);
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		String result = orderService.notify(order_no, order_trade_no, order_trade_account, order_trade_price, request_user_id);
 
         renderHtml(result);
     }

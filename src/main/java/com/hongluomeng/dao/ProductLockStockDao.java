@@ -43,12 +43,12 @@ public class ProductLockStockDao {
 
 		Boolean isExit = false;
 
-		if(! Utility.isNullOrEmpty(productLockStock.getProductSkuIdList().size())) {
+		if(! Utility.isNullOrEmpty(productLockStock.getProductSkuIdList())) {
 			for(String product_sku_id : productLockStock.getProductSkuIdList()) {
 				if(isExit) {
-					sql.append("AND ");
+					sql.append("OR ");
 				} else {
-					sql.append("WHERE ");
+					sql.append("WHERE (");
 				}
 
 				sql.append(ProductLockStock.KEY_PRODUCT_SKU_ID + " = ? ");
@@ -56,6 +56,7 @@ public class ProductLockStockDao {
 
 				isExit = true;
 			}
+			sql.append(") ");
 		}
 
 		if(isExit) {
@@ -64,6 +65,10 @@ public class ProductLockStockDao {
 			sql.append("WHERE ");
 		}
 		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 1 ");
+		sql.append("AND " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? ");
+		parameterList.add(new Date());
+
+		sql.append("GROUP BY " + ProductLockStock.KEY_PRODUCT_SKU_ID + " ");
 
 		if (n > 0) {
 			sql.append("LIMIT ?, ? ");
@@ -72,7 +77,11 @@ public class ProductLockStockDao {
 		}
 
 		List<ProductLockStock> productLockStockList = productLockStock.find(sql.toString(), parameterList.toArray());
-		return productLockStockList;
+		if (productLockStockList.size() == 0) {
+			return new ArrayList<ProductLockStock>();
+		} else {
+			return productLockStockList;
+		}
 	}
 
 	public List<ProductLockStock> listByProductSkuIdList(List<String> productSkuIdList) {
@@ -86,7 +95,7 @@ public class ProductLockStockDao {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
 		StringBuffer sql = new StringBuffer("INSERT INTO " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ( ");
-		sql.append(ProductLockStock.KEY_ORDER_ID + ", ");
+		sql.append(ProductLockStock.KEY_ORDER_NO + ", ");
 		sql.append(ProductLockStock.KEY_PRODUCT_SKU_ID + ", ");
 		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK + ", ");
 		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_CREATE_USER_ID + ", ");
@@ -110,7 +119,7 @@ public class ProductLockStockDao {
 		for(ProductLockStock productLockStock : productLockStockList) {
 			List<Object> objectList = new ArrayList<Object>();
 
-			objectList.add(productLockStock.getOrder_id());
+			objectList.add(productLockStock.getOrder_no());
 			objectList.add(productLockStock.getProduct_sku_id());
 			objectList.add(productLockStock.getProduct_lock_stock());
 			objectList.add(request_user_id);
@@ -131,14 +140,14 @@ public class ProductLockStockDao {
 		Db.batch(sql.toString(), Utility.getObjectArray(parameterList), Const.BATCH_SIZE);
 	}
 
-	public void delete(String order_id, String request_user_id) {
+	public void delete(String order_no, String request_user_id) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " SET " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 0, " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_USER_ID + " = ?, " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_TIME + " = ? WHERE " + ProductLockStock.KEY_ORDER_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " SET " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 0, " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_USER_ID + " = ?, " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_TIME + " = ? WHERE " + ProductLockStock.KEY_ORDER_NO + " = ? ");
 
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());
-		parameterList.add(order_id);
+		parameterList.add(order_no);
 
 		Db.update(sql.toString(), parameterList.toArray());
 	}

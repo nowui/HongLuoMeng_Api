@@ -10,13 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.ProductDao;
-import com.hongluomeng.model.Attribute;
-import com.hongluomeng.model.Brand;
-import com.hongluomeng.model.Category;
-import com.hongluomeng.model.CategoryAttribute;
-import com.hongluomeng.model.MemberLevel;
-import com.hongluomeng.model.Product;
-import com.hongluomeng.model.ProductSku;
+import com.hongluomeng.model.*;
 import com.hongluomeng.type.CatetoryEnum;
 
 public class ProductService {
@@ -28,6 +22,7 @@ public class ProductService {
     private ProductAttributeService productAttributeService = new ProductAttributeService();
     private MemberLevelService memberLevelService = new MemberLevelService();
     private ProductSkuService productSkuService = new ProductSkuService();
+    private ProductLockStockService productLockStockService = new ProductLockStockService();
 
     public Map<String, Object> list(JSONObject jsonObject) {
         Product productMap = jsonObject.toJavaObject(Product.class);
@@ -324,8 +319,13 @@ public class ProductService {
 
         ProductSku ps = null;
 
+        List<String> productSkuIdList = new ArrayList<String>();
+
+        //去掉基本价格等信息
         while (iterator.hasNext()) {
             ProductSku productSku = iterator.next();
+
+            productSkuIdList.add(productSku.getProduct_sku_id());
 
             if (productSku.getProduct_attribute_value().size() == 0) {
                 ps = productSku;
@@ -337,6 +337,8 @@ public class ProductService {
         if (ps == null) {
             throw new RuntimeException("该商品基本价格信息不存在");
         }
+
+        List<ProductLockStock> productLockStockList = productLockStockService.listByProductSkuIdList(productSkuIdList);
 
         List<Map<String, Object>> productAllSkuList = new ArrayList<Map<String, Object>>();
         for (ProductSku productSku : productSkuList) {
@@ -389,6 +391,18 @@ public class ProductService {
             map.put(ProductSku.KEY_PRODUCT_PRICE, productSku.getProduct_price());
             map.put(ProductSku.KEY_PRODUCT_STOCK, productSku.getProduct_stock());
 
+            //商品库存减去锁定库存数
+            for(ProductLockStock productLockStock : productLockStockList) {
+                if (productLockStock.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
+                    int productStock = productSku.getProduct_stock() - productLockStock.getProduct_lock_stock();
+
+                    if (productStock < 0) {
+                        throw new RuntimeException("该商品库存有异常");
+                    }
+                    map.put(ProductSku.KEY_PRODUCT_STOCK, productStock);
+                }
+            }
+
             String attribute_value = "";
             for (int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
                 JSONObject object = productSku.getProduct_attribute_value().getJSONObject(i);
@@ -424,6 +438,20 @@ public class ProductService {
 
         map.put(Product.KEY_PRODUCT_STOCK, ps.getProduct_stock());
         map.put(ProductSku.KEY_PRODUCT_SKU_ID, ps.getProduct_sku_id());
+
+        //商品库存减去锁定库存数
+        for(ProductLockStock productLockStock : productLockStockList) {
+            if (productLockStock.getProduct_sku_id().equals(ps.getProduct_sku_id())) {
+                int productStock = ps.getProduct_stock() - productLockStock.getProduct_lock_stock();
+
+                System.out.println(ps.getProduct_stock() + " - " + productLockStock.getProduct_lock_stock());
+
+                if (productStock < 0) {
+                    throw new RuntimeException("该商品库存有异常");
+                }
+                map.put(Product.KEY_PRODUCT_STOCK, productStock);
+            }
+        }
 
         return map;
     }
