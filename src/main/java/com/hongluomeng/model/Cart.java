@@ -1,8 +1,10 @@
 package com.hongluomeng.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
@@ -17,6 +19,9 @@ public class Cart extends Model<Cart> {
 	public static final String KEY_PRODUCT_ID = "product_id";
 	public static final String KEY_PRODUCT_NAME = "product_name";
 	public static final String KEY_PRODUCT_AMOUNT = "product_amount";
+	public static final String KEY_PRODUCT_IMAGE = "product_image";
+	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
+	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_CART_CREATE_USER_ID = "cart_create_user_id";
 	public static final String KEY_CART_CREATE_TIME = "cart_create_time";
 	public static final String KEY_CART_UPDATE_USER_ID = "cart_update_user_id";
@@ -63,6 +68,18 @@ public class Cart extends Model<Cart> {
 
 	public void setProduct_amount(Integer product_amount) {
 		set(KEY_PRODUCT_AMOUNT, product_amount);
+	}
+
+	public JSONArray getProduct_image() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_IMAGE));
+	}
+
+	public JSONArray getProduct_attribute_value() {
+		return JSONArray.parseArray(getStr(KEY_PRODUCT_ATTRIBUTE_VALUE));
+	}
+
+	public BigDecimal getProduct_price() {
+		return getBigDecimal(KEY_PRODUCT_PRICE);
 	}
 
 	public void setCart_create_user_id(String cart_create_user_id) {

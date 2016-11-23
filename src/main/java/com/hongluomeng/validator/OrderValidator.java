@@ -54,41 +54,9 @@ public class OrderValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				if (Utility.isNullOrEmpty(order.getOrder_delivery_name())) {
-					message += "收货人为空";
+				if (Utility.isNullOrEmpty(order.getMember_delivery_id())) {
+					message += "会员收货编号为空";
 					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(order.getOrder_delivery_phone())) {
-					message += "电话为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(order.getOrder_delivery_province())) {
-					message += "省份为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(order.getOrder_delivery_city())) {
-					message += "城市为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(order.getOrder_delivery_area())) {
-					message += "地区为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(order.getOrder_delivery_address())) {
-					message += "详细地址为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (!Utility.isNullOrEmpty(order.getOrder_delivery_zip())) {
-					if (order.getOrder_delivery_zip().length() > 6) {
-						message += "邮政编码过长";
-						message += Const.LINE_FEED;
-					}
 				}
 
 				if (actionKey.equals(Const.URL_ORDER_SAVE)) {

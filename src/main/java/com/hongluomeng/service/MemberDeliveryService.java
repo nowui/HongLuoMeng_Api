@@ -33,6 +33,10 @@ public class MemberDeliveryService {
 		return memberDelivery;
 	}
 
+	public MemberDelivery findByMember_delivery_id(String member_delivery_id) {
+		return memberDeliveryDao.findByMember_delivery_id(member_delivery_id);
+	}
+
 	public void save(JSONObject jsonObject) {
 		MemberDelivery memberDeliveryMap = jsonObject.toJavaObject(MemberDelivery.class);
 

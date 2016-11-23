@@ -17,9 +17,6 @@ public class Const {
 	public static final String KEY_LINK = "link";
 	public static final String KEY_ID = "id";
 	public static final String KEY_TEXT = "text";
-	public static final String KEY_SORT = "sort";
-	public static final String KEY_OPENED = "opened";
-	public static final String KEY_STATE = "state";
 	public static final String KEY_CHILDREN = "children";
 	public static final String KEY_ICON = "icon";
 	public static final String KEY_SELECTED = "selected";
@@ -163,12 +160,6 @@ public class Const {
 	public static final String URL_ROLE_OPERATION_LIST = "/role/operation/list";
 	public static final String URL_ROLE_OPERATION_UPDATE = "/role/operation/update";
 
-	public static final String URL_SHOP_LIST = "/shop/list";
-	public static final String URL_SHOP_FIND = "/shop/find";
-	public static final String URL_SHOP_SAVE = "/shop/save";
-	public static final String URL_SHOP_UPDATE = "/shop/update";
-	public static final String URL_SHOP_DELETE = "/shop/delete";
-
 	public static final String URL_UPLOAD_LIST = "/upload/list";
 	public static final String URL_UPLOAD_IMAGE = "/upload/image";
 	public static final String URL_UPLOAD_BASE64 = "/upload/base64";
@@ -208,5 +199,13 @@ public class Const {
 	public static final String URL_ORDER_LIST_GET = "/order/list/get";
 	public static final String URL_ORDER_PAYED = "/order/payed";
 	public static final String URL_ORDER_NOTIFY = "/order/notify";
+
+	public static final String URL_ACTIVITY_LIST = "/shactivityop/list";
+	public static final String URL_ACTIVITY_FIND = "/activity/find";
+	public static final String URL_ACTIVITY_SAVE = "/activity/save";
+	public static final String URL_ACTIVITY_UPDATE = "/activity/update";
+	public static final String URL_ACTIVITY_DELETE = "/activity/delete";
+	public static final String URL_ACTIVITY_LIST_GET = "/activity/list/get";
+	public static final String URL_ACTIVITY_GET = "/activity/get";
 
 }

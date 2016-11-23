@@ -1,5 +1,6 @@
 package com.hongluomeng.common;
 
+import com.hongluomeng.controller.*;
 import com.hongluomeng.model.*;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -11,26 +12,6 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
-import com.hongluomeng.controller.AdminController;
-import com.hongluomeng.controller.ApplicationController;
-import com.hongluomeng.controller.AttributeController;
-import com.hongluomeng.controller.AuthorizationController;
-import com.hongluomeng.controller.BrandController;
-import com.hongluomeng.controller.CartController;
-import com.hongluomeng.controller.CategoryController;
-import com.hongluomeng.controller.GroupController;
-import com.hongluomeng.controller.LogController;
-import com.hongluomeng.controller.MemberController;
-import com.hongluomeng.controller.MemberDeliveryController;
-import com.hongluomeng.controller.MemberLevelController;
-import com.hongluomeng.controller.MenuController;
-import com.hongluomeng.controller.OrderController;
-import com.hongluomeng.controller.ProductController;
-import com.hongluomeng.controller.RoleController;
-import com.hongluomeng.controller.SmsController;
-import com.hongluomeng.controller.UploadController;
-import com.hongluomeng.controller.UserController;
-import com.hongluomeng.controller.OperationController;
 import com.hongluomeng.interceptor.GlobalActionInterceptor;
 
 public class AppConfig extends JFinalConfig {
@@ -62,6 +43,7 @@ public class AppConfig extends JFinalConfig {
         routes.add("/cart", CartController.class);
         routes.add("/member/delivery", MemberDeliveryController.class);
         routes.add("/order", OrderController.class);
+        routes.add("/activity", ActivityController.class);
     }
 
     public void configPlugin(Plugins plugins) {
@@ -104,6 +86,7 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_order", "order_id", Order.class);
         activeRecordPlugin.addMapping("table_order_product", "order_product_id", OrderProduct.class);
         activeRecordPlugin.addMapping("table_product_lock_stock", "product_lock_stock_id", ProductLockStock.class);
+        activeRecordPlugin.addMapping("table_activity", "activity_id", Activity.class);
         plugins.add(activeRecordPlugin);
     }
 

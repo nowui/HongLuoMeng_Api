@@ -42,7 +42,10 @@ public class CartDao {
 
 		StringBuffer sql = new StringBuffer("SELECT ");
 		sql.append(Cart.KEY_TABLE_CART + ".*, ");
-		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + " ");
+		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
+		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_IMAGE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
+		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + " ");
 		sql.append(" ");
 		sql.append("FROM " + Cart.KEY_TABLE_CART + " ");
 		sql.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");

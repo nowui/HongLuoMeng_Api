@@ -27,7 +27,6 @@ public class ProductSku extends Model<ProductSku> {
 	public static final String KEY_PRODUCT_IS_HOT = "product_is_hot";
 	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
 	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
-	public static final String KEY_PRODUCT_STATUS = "product_status";
 	public static final String KEY_PRODUCT_CONTENT = "product_content";
 	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";
 	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";

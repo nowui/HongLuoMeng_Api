@@ -15,6 +15,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_ID = "order_id";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_ORDER_NO = "order_no";
+	public static final String KEY_ORDER_PRICE = "order_price";
 	public static final String KEY_ORDER_MESSAGE = "order_message";
 	public static final String KEY_ORDER_DELIVERY_NAME = "order_delivery_name";
 	public static final String KEY_ORDER_DELIVERY_PHONE = "order_delivery_phone";
@@ -40,6 +41,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_STATUS = "order_status";
 	public static final String KEY_SIGN = "sign";
 
+	private String member_delivery_id;
 	private List<Cart> cartList;
 
 	public String getOrder_id() {
@@ -64,6 +66,14 @@ public class Order extends Model<Order> {
 
 	public void setOrder_no(String order_no) {
 		set(KEY_ORDER_NO, order_no);
+	}
+
+	public BigDecimal getOrder_price() {
+		return getBigDecimal(KEY_ORDER_PRICE);
+	}
+
+	public void setOrder_price(BigDecimal order_price) {
+		set(KEY_ORDER_PRICE, order_price);
 	}
 
 	public String getOrder_message() {
@@ -242,4 +252,11 @@ public class Order extends Model<Order> {
 		this.cartList = cartList;
 	}
 
+	public String getMember_delivery_id() {
+		return member_delivery_id;
+	}
+
+	public void setMember_delivery_id(String member_delivery_id) {
+		this.member_delivery_id = member_delivery_id;
+	}
 }

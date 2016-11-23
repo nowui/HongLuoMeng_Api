@@ -15,13 +15,7 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OrderDao;
-import com.hongluomeng.model.Cart;
-import com.hongluomeng.model.Member;
-import com.hongluomeng.model.MemberLevel;
-import com.hongluomeng.model.Order;
-import com.hongluomeng.model.OrderProduct;
-import com.hongluomeng.model.ProductSku;
-import com.hongluomeng.model.ProductLockStock;
+import com.hongluomeng.model.*;
 import com.hongluomeng.type.PayTypeEnum;
 
 import static java.net.URLEncoder.encode;
@@ -30,6 +24,7 @@ public class OrderService {
 
     private OrderDao orderDao = new OrderDao();
     private MemberService memberService = new MemberService();
+    private MemberDeliveryService memberDeliveryService = new MemberDeliveryService();
     private CartService cartService = new CartService();
     private ProductSkuService productSkuService = new ProductSkuService();
     private OrderProductService orderProductService = new OrderProductService();
@@ -78,12 +73,12 @@ public class OrderService {
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-        String order_id = save(orderMap, request_user_id, false);
+        Order order = save(orderMap, request_user_id, false);
 
-        String sign = sign(order_id, orderMap.getOrder_pay_type());
+        String sign = sign(order, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(Order.KEY_ORDER_ID, order_id);
+        resultMap.put(Order.KEY_ORDER_ID, order.getOrder_id());
         resultMap.put(Order.KEY_SIGN, sign);
 
         return resultMap;
@@ -94,18 +89,18 @@ public class OrderService {
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-        String order_id = save(orderMap, request_user_id, true);
+        Order order = save(orderMap, request_user_id, true);
 
-        String sign = sign(order_id, orderMap.getOrder_pay_type());
+        String sign = sign(order, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(Order.KEY_ORDER_ID, order_id);
+        resultMap.put(Order.KEY_ORDER_ID, order.getOrder_id());
         resultMap.put(Order.KEY_SIGN, sign);
 
         return resultMap;
     }
 
-    private String save(Order order, String request_user_id, Boolean isChekCart) {
+    private Order save(Order order, String request_user_id, Boolean isChekCart) {
 
         Member member = memberService.findByUser_id(request_user_id);
 
@@ -209,10 +204,10 @@ public class OrderService {
         }
 
         //计算订单的总价格
-        BigDecimal order_trade_price = BigDecimal.valueOf(0);
+        BigDecimal order_price = BigDecimal.valueOf(0);
         for (ProductSku productSku : productSkuList) {
             if (member.getMember_level_id().equals("")) {
-                order_trade_price = order_trade_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                order_price = order_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
             } else {
                 Boolean isExit = false;
 
@@ -226,18 +221,31 @@ public class OrderService {
                     if (member.getMember_level_id().equals(member_level_id)) {
                         BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
 
-                        order_trade_price = order_trade_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                        order_price = order_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
 
                         isExit = true;
                     }
                 }
 
                 if (!isExit) {
-                    order_trade_price = order_trade_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                    order_price = order_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
                 }
             }
         }
-        order.setOrder_trade_price(order_trade_price);
+        order.setOrder_price(order_price);
+
+        //更新收货信息
+        MemberDelivery memberDelivery = memberDeliveryService.findByMember_delivery_id(order.getMember_delivery_id());
+        if(memberDelivery == null) {
+            throw new RuntimeException("无法获取收货信息");
+        }
+        order.setOrder_delivery_name(memberDelivery.getMember_delivery_name());
+        order.setOrder_delivery_phone(memberDelivery.getMember_delivery_phone());
+        order.setOrder_delivery_province(memberDelivery.getMember_delivery_province());
+        order.setOrder_delivery_city(memberDelivery.getMember_delivery_city());
+        order.setOrder_delivery_area(memberDelivery.getMember_delivery_area());
+        order.setOrder_delivery_address(memberDelivery.getMember_delivery_address());
+        order.setOrder_delivery_zip(memberDelivery.getMember_delivery_zip());
 
         orderDao.save(order, member.getMember_level_id(), member.getMember_level_name(), member.getMember_level_value(), request_user_id);
 
@@ -260,9 +268,7 @@ public class OrderService {
                     String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
 
                     if (member.getMember_level_id().equals(member_level_id)) {
-                        BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
-
-                        product_trade_price = member_level_price;
+                        product_trade_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
 
                         isExit = true;
                     }
@@ -319,7 +325,7 @@ public class OrderService {
 
         productLockStockService.save(productLockStockList, request_user_id);
 
-        return order.getOrder_id();
+        return order;
     }
 
     public void update(JSONObject jsonObject) {
@@ -366,16 +372,10 @@ public class OrderService {
         orderDao.payed(orderMap.getOrder_id());
     }
 
-    private String sign(String order_id, String order_pay_type) {
+    private String sign(Order order, String order_pay_type) {
         if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
             try {
-                Order order = orderDao.findByOrder_id(order_id);
-
-                if (order == null) {
-                    throw new RuntimeException("该订单不存在");
-                }
-
-                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_trade_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
+                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
                 String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Const.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Const.ALIPAY_NOTIFY_URL + "&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
                 String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
 

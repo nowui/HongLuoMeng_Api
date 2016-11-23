@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.CartDao;
+import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.Cart;
 
 public class CartService {
@@ -97,11 +98,26 @@ public class CartService {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
 		for(Cart cart : cartList) {
+			String product_attribute_value = "";
+			for (int i = 0; i < cart.getProduct_attribute_value().size(); i++) {
+				JSONObject object = cart.getProduct_attribute_value().getJSONObject(i);
+
+				if (i > 0) {
+					product_attribute_value += " ";
+				}
+
+				product_attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_VALUE);
+			}
+
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Cart.KEY_CART_ID, cart.getCart_id());
 			map.put(Cart.KEY_PRODUCT_NAME, cart.getProduct_name());
 			map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
 			map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getProduct_amount());
+			map.put(Cart.KEY_PRODUCT_IMAGE, cart.getProduct_image().get(0));
+			map.put(Cart.KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
+			map.put(Cart.KEY_PRODUCT_PRICE, cart.getProduct_price());
 
 			resultList.add(map);
 		}
