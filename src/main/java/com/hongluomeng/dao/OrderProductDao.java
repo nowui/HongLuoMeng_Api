@@ -147,8 +147,8 @@ public class OrderProductDao {
 		sql.append(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
 		sql.append(OrderProduct.KEY_PRODUCT_PRICE + ", ");
 		sql.append(OrderProduct.KEY_MEMBER_LEVEL_PRICE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_PAYMENT_PRICE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_PAYMENT_AMOUNT + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_TRADE_PRICE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_TRADE_AMOUNT + ", ");
 		sql.append(OrderProduct.KEY_ORDER_PRODUCT_CREATE_USER_ID + ", ");
 		sql.append(OrderProduct.KEY_ORDER_PRODUCT_CREATE_TIME + ", ");
 		sql.append(OrderProduct.KEY_ORDER_PRODUCT_UPDATE_USER_ID + ", ");
@@ -207,8 +207,8 @@ public class OrderProductDao {
 			objectList.add(orderProduct.getProduct_attribute_value().toJSONString());
 			objectList.add(orderProduct.getProduct_price());
 			objectList.add(orderProduct.getMember_level_price().toJSONString());
-			objectList.add(orderProduct.getProduct_payment_price());
-			objectList.add(orderProduct.getProduct_payment_amount());
+			objectList.add(orderProduct.getProduct_trade_price());
+			objectList.add(orderProduct.getProduct_trade_amount());
 			objectList.add(request_user_id);
 			objectList.add(new Date());
 			objectList.add(request_user_id);

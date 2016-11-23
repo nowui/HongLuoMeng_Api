@@ -209,10 +209,10 @@ public class OrderService {
         }
 
         //计算订单的总价格
-        BigDecimal order_pament_price = BigDecimal.valueOf(0);
+        BigDecimal order_trade_price = BigDecimal.valueOf(0);
         for (ProductSku productSku : productSkuList) {
             if (member.getMember_level_id().equals("")) {
-                order_pament_price = order_pament_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                order_trade_price = order_trade_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
             } else {
                 Boolean isExit = false;
 
@@ -226,29 +226,29 @@ public class OrderService {
                     if (member.getMember_level_id().equals(member_level_id)) {
                         BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
 
-                        order_pament_price = order_pament_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                        order_trade_price = order_trade_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
 
                         isExit = true;
                     }
                 }
 
                 if (!isExit) {
-                    order_pament_price = order_pament_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
+                    order_trade_price = order_trade_price.add(productSku.getProduct_price().multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
                 }
             }
         }
-        order.setOrder_trade_price(order_pament_price);
+        order.setOrder_trade_price(order_trade_price);
 
         orderDao.save(order, member.getMember_level_id(), member.getMember_level_name(), member.getMember_level_value(), request_user_id);
 
-        //保存购物车里的商品
+        //保存购物车里的商品到订单商品
         List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
         List<ProductLockStock> productLockStockList = new ArrayList<ProductLockStock>();
         for (ProductSku productSku : productSkuList) {
-            BigDecimal product_payment_price = BigDecimal.valueOf(0);
+            BigDecimal product_trade_price = BigDecimal.valueOf(0);
 
             if (member.getMember_level_id().equals("")) {
-                product_payment_price = productSku.getProduct_price();
+                product_trade_price = productSku.getProduct_price();
             } else {
                 Boolean isExit = false;
 
@@ -260,16 +260,16 @@ public class OrderService {
                     String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
 
                     if (member.getMember_level_id().equals(member_level_id)) {
-                        //BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
+                        BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
 
-                        //product_payment_price = member_level_price;
+                        product_trade_price = member_level_price;
 
                         isExit = true;
                     }
                 }
 
                 if (!isExit) {
-                    product_payment_price = productSku.getProduct_price();
+                    product_trade_price = productSku.getProduct_price();
                 }
             }
 
@@ -294,11 +294,11 @@ public class OrderService {
             orderProduct.setProduct_attribute_value(productSku.getProduct_attribute_value().toJSONString());
             orderProduct.setProduct_price(productSku.getProduct_price());
             orderProduct.setMember_level_price(productSku.getMember_level_price().toJSONString());
-            orderProduct.setProduct_payment_price(product_payment_price);
-            orderProduct.setProduct_payment_amount(0);
+            orderProduct.setProduct_trade_price(product_trade_price);
+            orderProduct.setProduct_trade_amount(0);
             for (Cart cart : order.getCartList()) {
                 if (cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
-                    orderProduct.setProduct_payment_amount(cart.getProduct_amount());
+                    orderProduct.setProduct_trade_amount(cart.getProduct_amount());
                 }
             }
             orderProductList.add(orderProduct);
