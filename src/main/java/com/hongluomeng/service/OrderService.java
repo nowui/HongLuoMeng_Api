@@ -113,8 +113,8 @@ public class OrderService {
             throw new RuntimeException("商品列表为空");
         }
 
-        for(Cart cart : order.getCartList()) {
-            if(cart.getProduct_amount() <= 0) {
+        for (Cart cart : order.getCartList()) {
+            if (cart.getProduct_amount() <= 0) {
                 throw new RuntimeException("商品数量不能为空");
             }
         }
@@ -371,7 +371,7 @@ public class OrderService {
             try {
                 Order order = orderDao.findByOrder_id(order_id);
 
-                if(order == null) {
+                if (order == null) {
                     throw new RuntimeException("该订单不存在");
                 }
 
@@ -393,18 +393,31 @@ public class OrderService {
         }
     }
 
-    public String notify(String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String request_user_id) {
-        int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
+    public String notify(Map<String, String> parameterMap, String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String request_user_id) {
+        try {
+            boolean signVerified = AlipaySignature.rsaCheckV1(parameterMap, Const.ALIPAY_PUBLIC_KEY, Const.ALIPAY_INPUT_CHARSET);
 
-        //删除锁定库存
-        productLockStockService.delete(order_no, request_user_id);
+            if (signVerified) {
+                int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
 
-        if(result == 1) {
+                //删除锁定库存
+                productLockStockService.delete(order_no, request_user_id);
 
-            return "success";
-        } else {
-            return "error";
+                if (result == 1) {
+                    return "success";
+                } else {
+                    return "failure";
+                }
+            } else {
+                return "failure";
+            }
+        } catch (AlipayApiException e) {
+            return "failure";
         }
+
+
+
+
     }
 
 }
