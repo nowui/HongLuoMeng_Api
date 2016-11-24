@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.cache.OperationCache;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OperationDao;
@@ -12,7 +13,7 @@ import com.hongluomeng.model.Operation;
 public class OperationService {
 
 	private OperationDao operationDao = new OperationDao();
-	private CacheService cacheService = new CacheService();
+	private OperationCache operationCache = new OperationCache();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		Operation operationMap = jsonObject.toJavaObject(Operation.class);
@@ -30,14 +31,14 @@ public class OperationService {
 	}
 
 	public List<Operation> listByUser_id(String user_id) {
-		List<Operation> operationList = cacheService.getOperationListByUser_id(user_id);
+		List<Operation> operationList = operationCache.getOperationListByUser_id(user_id);
 
 		if (operationList == null) {
 			operationList = operationDao.listByUser_id(user_id);
 
 			operationList.addAll(operationDao.listUserRoleByUser_id(user_id));
 
-			cacheService.setOperationListByUser_id(operationList, user_id);
+			operationCache.setOperationListByUser_id(operationList, user_id);
 		}
 		return operationList;
 	}

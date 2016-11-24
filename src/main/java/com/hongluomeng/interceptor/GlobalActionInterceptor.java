@@ -230,10 +230,10 @@ public class GlobalActionInterceptor implements Interceptor {
 			String message = e.toString();
 			String value = "java.lang.RuntimeException: ";
 
-			if (message.indexOf(value) > -1) {
+			if (message.contains(value)) {
 				code = CodeEnum.CODE_400;
 
-				message.replaceAll(value, "");
+				message.replace(value, "");
 			}
 
 			controller.renderJson(Utility.setResponse(code, message, null));

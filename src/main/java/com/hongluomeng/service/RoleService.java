@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.cache.OperationCache;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.RoleDao;
@@ -24,7 +25,7 @@ public class RoleService {
 	private OperationService operationService = new OperationService();
 	private RoleOperationService roleOperationService = new RoleOperationService();
 	private UserRoleService userRoleService = new UserRoleService();
-	private CacheService cacheService = new CacheService();
+	private OperationCache operationCache = new OperationCache();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		Role roleMap = jsonObject.toJavaObject(Role.class);
@@ -303,7 +304,7 @@ public class RoleService {
 
 		roleOperationService.save(roleOperationList);
 
-		cacheService.removeOperationList();
+		operationCache.removeOperationList();
 	}
 
 	public void delete(JSONObject jsonObject) {
@@ -315,7 +316,7 @@ public class RoleService {
 
 		roleOperationService.deleteByRole_id(new ArrayList<RoleOperation>(), roleMap.getRole_id());
 
-		cacheService.removeOperationList();
+		operationCache.removeOperationList();
 	}
 
 	public void updateUserRole(List<UserRole> userRoleList, String user_id, String user_type) {
