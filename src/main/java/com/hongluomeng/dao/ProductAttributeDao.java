@@ -3,6 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -10,36 +11,6 @@ import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.ProductAttribute;
 
 public class ProductAttributeDao {
-
-	/*private List<ProductAttribute> list(ProductAttribute productAttribute) {
-		List<Object> parameterList = new ArrayList<Object>();
-
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + ProductAttribute.KEY_PRODUCT_ATTRIBUTE + " ");
-
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(productAttribute.getProduct_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(ProductAttribute.KEY_PRODUCT_ID + " = ? ");
-			parameterList.add(productAttribute.getProduct_id());
-
-			isExit = true;
-		}
-
-		List<ProductAttribute> productAttributeList = productAttribute.find(sql.toString(), parameterList.toArray());
-		return productAttributeList;
-	}
-
-	public List<ProductAttribute> listByProduct_id(String role_id) {
-		ProductAttribute productAttribute = new ProductAttribute();
-		productAttribute.setProduct_id(role_id);
-
-		return list(productAttribute);
-	}*/
 
 	public void saveByProduct_idAndCategory_Attribute(String product_id, List<CategoryAttribute> categoryAttributeList) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
@@ -60,23 +31,19 @@ public class ProductAttributeDao {
 	}
 
 	public void deleteByProduct_id(String product_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_PRODUCT_ID + " = ? ");
+		dynamicSQL.append("DELETE FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_PRODUCT_ID + " = ? ", product_id);
 
-		parameterList.add(product_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void deleteByAttribute_id(String attribute_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		dynamicSQL.append("DELETE FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_ATTRIBUTE_ID + " = ? ", attribute_id);
 
-		parameterList.add(attribute_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 }

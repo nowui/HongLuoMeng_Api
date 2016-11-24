@@ -1,14 +1,17 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Member;
 import com.hongluomeng.model.Sms;
 import com.hongluomeng.model.User;
+import com.jfinal.validate.Validator;
 
-public class MemberValidator extends BaseValidator {
+public class MemberValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,23 +23,12 @@ public class MemberValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_MEMBER_LIST:
+			case Url.URL_MEMBER_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_MEMBER_FIND: {
-				isExit = true;
-
-				Member member = jsonObject.toJavaObject(Member.class);
-
-				if (Utility.isNullOrEmpty(member.getMember_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
-				break;
-			}
-			case Const.URL_MEMBER_DELETE: {
+			case Url.URL_MEMBER_FIND: {
 				isExit = true;
 
 				Member member = jsonObject.toJavaObject(Member.class);
@@ -47,7 +39,18 @@ public class MemberValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_MEMBER_LOGIN: {
+			case Url.URL_MEMBER_DELETE: {
+				isExit = true;
+
+				Member member = jsonObject.toJavaObject(Member.class);
+
+				if (Utility.isNullOrEmpty(member.getMember_id())) {
+					message += "编号为空";
+					message += Const.LINE_FEED;
+				}
+				break;
+			}
+			case Url.URL_MEMBER_LOGIN: {
 				isExit = true;
 
 				User user = jsonObject.toJavaObject(User.class);
@@ -63,8 +66,8 @@ public class MemberValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_MEMBER_REGISTER:
-			case Const.URL_MEMBER_PASSWORD_UPDATE: {
+			case Url.URL_MEMBER_REGISTER:
+			case Url.URL_MEMBER_PASSWORD_UPDATE: {
 				isExit = true;
 
 				User user = jsonObject.toJavaObject(User.class);
@@ -92,8 +95,8 @@ public class MemberValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_MEMBER_WEIBO_OAUTH:
-			case Const.URL_MEMBER_WEIBO_BIND: {
+			case Url.URL_MEMBER_WEIBO_OAUTH:
+			case Url.URL_MEMBER_WEIBO_BIND: {
 				isExit = true;
 
 				Member member = jsonObject.toJavaObject(Member.class);
@@ -141,8 +144,8 @@ public class MemberValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_MEMBER_WECHAT_OAUTH:
-			case Const.URL_MEMBER_WECHAT_BIND: {
+			case Url.URL_MEMBER_WECHAT_OAUTH:
+			case Url.URL_MEMBER_WECHAT_BIND: {
 				isExit = true;
 
 				Member member = jsonObject.toJavaObject(Member.class);
@@ -180,11 +183,11 @@ public class MemberValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_MEMBER_AVATAR_UPLOAD:
+			case Url.URL_MEMBER_AVATAR_UPLOAD:
 				isExit = true;
 
 				break;
-			case Const.URL_MEMBER_NAME_UPDATE: {
+			case Url.URL_MEMBER_NAME_UPDATE: {
 				isExit = true;
 
 				Member member = jsonObject.toJavaObject(Member.class);
@@ -204,6 +207,10 @@ public class MemberValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

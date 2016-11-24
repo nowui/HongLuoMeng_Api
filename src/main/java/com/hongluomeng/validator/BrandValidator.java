@@ -1,6 +1,8 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -8,8 +10,9 @@ import com.hongluomeng.model.Brand;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.Member;
+import com.jfinal.validate.Validator;
 
-public class BrandValidator extends BaseValidator {
+public class BrandValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -21,22 +24,22 @@ public class BrandValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_BRAND_LIST:
+			case Url.URL_BRAND_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_BRAND_FIND:
+			case Url.URL_BRAND_FIND:
 				isExit = true;
 
 				break;
-			case Const.URL_BRAND_SAVE:
-			case Const.URL_BRAND_UPDATE: {
+			case Url.URL_BRAND_SAVE:
+			case Url.URL_BRAND_UPDATE: {
 				isExit = true;
 
 				Brand brand = jsonObject.toJavaObject(Brand.class);
 
-				if (actionKey.equals(Const.URL_BRAND_UPDATE) && Utility.isNullOrEmpty(brand.getBrand_id())) {
+				if (actionKey.equals(Url.URL_BRAND_UPDATE) && Utility.isNullOrEmpty(brand.getBrand_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -67,7 +70,7 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_DELETE: {
+			case Url.URL_BRAND_DELETE: {
 				isExit = true;
 
 				Brand brand = jsonObject.toJavaObject(Brand.class);
@@ -78,11 +81,11 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_CATEGORY_LIST:
+			case Url.URL_BRAND_CATEGORY_LIST:
 				isExit = true;
 
 				break;
-			case Const.URL_BRAND_CATEGORY_FIND:
+			case Url.URL_BRAND_CATEGORY_FIND:
 				isExit = true;
 
 			/*Category category = jsonObject.toJavaObject(Category.class);
@@ -92,18 +95,18 @@ public class BrandValidator extends BaseValidator {
 				message += Const.LINE_FEED;
 			}*/
 				break;
-			case Const.URL_BRAND_CATEGORY_SAVE:
-			case Const.URL_BRAND_CATEGORYT_UPDATE: {
+			case Url.URL_BRAND_CATEGORY_SAVE:
+			case Url.URL_BRAND_CATEGORYT_UPDATE: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
 
-				if (actionKey.equals(Const.URL_BRAND_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
+				if (actionKey.equals(Url.URL_BRAND_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
 					message += "父编号为空";
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_BRAND_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
+				if (actionKey.equals(Url.URL_BRAND_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -119,7 +122,7 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_CATEGORYT_DELETE: {
+			case Url.URL_BRAND_CATEGORYT_DELETE: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
@@ -130,12 +133,12 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_CATEGORY_LIST_GET:
+			case Url.URL_BRAND_CATEGORY_LIST_GET:
 				isExit = true;
 
 				break;
-			case Const.URL_BRAND_LIST_GET:
-			case Const.URL_BRAND_MY_LIST_GET: {
+			case Url.URL_BRAND_LIST_GET:
+			case Url.URL_BRAND_MY_LIST_GET: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
@@ -145,10 +148,10 @@ public class BrandValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
-			case Const.URL_BRAND_GET: {
+			case Url.URL_BRAND_GET: {
 				isExit = true;
 
 				Brand brand = jsonObject.toJavaObject(Brand.class);
@@ -159,7 +162,7 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_APPLY_SAVE: {
+			case Url.URL_BRAND_APPLY_SAVE: {
 				isExit = true;
 
 				Brand brand = jsonObject.toJavaObject(Brand.class);
@@ -192,14 +195,14 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_APPLY_LIST:
+			case Url.URL_BRAND_APPLY_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_BRAND_APPLYY_FIND:
-			case Const.URL_BRAND_APPLYY_PASS:
-			case Const.URL_BRAND_APPLYY_REFUSE: {
+			case Url.URL_BRAND_APPLYY_FIND:
+			case Url.URL_BRAND_APPLYY_PASS:
+			case Url.URL_BRAND_APPLYY_REFUSE: {
 				isExit = true;
 
 				BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
@@ -215,7 +218,7 @@ public class BrandValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_BRAND_APPLYY_CANCEL: {
+			case Url.URL_BRAND_APPLYY_CANCEL: {
 				isExit = true;
 
 				BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
@@ -235,6 +238,10 @@ public class BrandValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

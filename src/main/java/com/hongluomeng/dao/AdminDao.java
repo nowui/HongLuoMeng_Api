@@ -32,8 +32,7 @@ public class AdminDao {
 		dynamicSQL.append("ORDER BY " + Admin.KEY_ADMIN_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
-		List<Admin> adminList = new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		return adminList;
+		return new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Admin> list(Integer m, Integer n) {
@@ -60,7 +59,7 @@ public class AdminDao {
 		Admin admin = new Admin();
 		admin.setAdmin_id(admin_id);
 
-		Utility.checkIsNullOrEmpty(admin_id);
+		admin.checkAdmin_id();
 
 		return find(admin);
 	}
@@ -85,17 +84,6 @@ public class AdminDao {
 
 		admin.update();
 	}
-
-	/*public void updateUser_idByAdmin_id(String user_id, String admin_id) {
-		List<Object> parameterList = new ArrayList<Object>();
-
-		StringBuffer sql = new StringBuffer("UPDATE " + Admin.KEY_ADMIN + " SET " + Admin.KEY_USER_ID + " = ? WHERE " + Admin.KEY_ADMIN_ID + " = ? ");
-
-		parameterList.add(user_id);
-		parameterList.add(admin_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
-	}*/
 
 	public void delete(String admin_id, String request_user_id) {
 		Admin admin = new Admin();

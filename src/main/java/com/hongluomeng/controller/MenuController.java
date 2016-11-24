@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
+import com.hongluomeng.common.Url;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.service.CategoryService;
@@ -18,7 +19,7 @@ public class MenuController extends BaseController {
 	private CategoryService categoryService = new CategoryService();
 
 	@Before(MenuValidator.class)
-	@ActionKey(Const.URL_MENU_LIST)
+	@ActionKey(Url.URL_MENU_LIST)
 	public void list() {
 		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.MENU.getKey());
 
@@ -26,7 +27,7 @@ public class MenuController extends BaseController {
     }
 
 	@Before(MenuValidator.class)
-	@ActionKey(Const.URL_MENU_FIND)
+	@ActionKey(Url.URL_MENU_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -36,7 +37,7 @@ public class MenuController extends BaseController {
     }
 
 	@Before(MenuValidator.class)
-	@ActionKey(Const.URL_MENU_SAVE)
+	@ActionKey(Url.URL_MENU_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -46,7 +47,7 @@ public class MenuController extends BaseController {
 	}
 
 	@Before(MenuValidator.class)
-	@ActionKey(Const.URL_MENU_UPDATE)
+	@ActionKey(Url.URL_MENU_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -56,7 +57,7 @@ public class MenuController extends BaseController {
 	}
 
 	@Before(MenuValidator.class)
-	@ActionKey(Const.URL_MENU_DELETE)
+	@ActionKey(Url.URL_MENU_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

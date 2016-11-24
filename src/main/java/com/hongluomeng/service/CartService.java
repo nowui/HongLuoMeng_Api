@@ -11,14 +11,14 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.CartDao;
 import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.Cart;
+import com.hongluomeng.model.Product;
+import com.hongluomeng.model.ProductSku;
 
 public class CartService {
 
 	private CartDao cartDao = new CartDao();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Cart cartMap = jsonObject.toJavaObject(Cart.class);
-
 		Integer count = cartDao.count();
 
 		List<Cart> cartList = cartDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
@@ -112,12 +112,12 @@ public class CartService {
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Cart.KEY_CART_ID, cart.getCart_id());
-			map.put(Cart.KEY_PRODUCT_NAME, cart.getProduct_name());
+			map.put(Product.KEY_PRODUCT_NAME, cart.getProduct_name());
 			map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
 			map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getProduct_amount());
-			map.put(Cart.KEY_PRODUCT_IMAGE, cart.getProduct_image().get(0));
-			map.put(Cart.KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
-			map.put(Cart.KEY_PRODUCT_PRICE, cart.getProduct_price());
+			map.put(Product.KEY_PRODUCT_IMAGE, cart.getProduct_image().get(0));
+			map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
+			map.put(ProductSku.KEY_PRODUCT_PRICE, cart.getProduct_price());
 
 			resultList.add(map);
 		}

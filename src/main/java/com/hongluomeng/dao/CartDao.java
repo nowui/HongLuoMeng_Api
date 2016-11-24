@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -14,20 +15,12 @@ import com.hongluomeng.model.ProductSku;
 public class CartDao {
 
 	private Integer count(Cart cart) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
+		dynamicSQL.append(Cart.KEY_CART_STATUS + " = 1 ");
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Cart.KEY_CART_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -38,65 +31,29 @@ public class CartDao {
 	}
 
 	private List<Cart> list(Cart cart, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT ");
-		sql.append(Cart.KEY_TABLE_CART + ".*, ");
-		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
-		sql.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_IMAGE + ", ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
-		sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + " ");
-		sql.append(" ");
-		sql.append("FROM " + Cart.KEY_TABLE_CART + " ");
-		sql.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
-		sql.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
+		dynamicSQL.append("SELECT " + Cart.KEY_TABLE_CART + ".*, ");
+		dynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
+		dynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_IMAGE + ", ");
+		dynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		dynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + " ");
+		dynamicSQL.append("FROM " + Cart.KEY_TABLE_CART + " ");
+		dynamicSQL.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
+		dynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
+		dynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ", cart.getUser_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(cart.getUser_id())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ");
-			parameterList.add(cart.getUser_id());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(cart.getProductSkuIdList())) {
-			for(String product_sku_id : cart.getProductSkuIdList()) {
-				if(isExit) {
-					sql.append("AND ");
-				} else {
-					sql.append("WHERE ");
-				}
-
-				sql.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ");
-				parameterList.add(product_sku_id);
-
-				isExit = true;
+		if (!Utility.isNullOrEmpty(cart.getProductSkuIdList())) {
+			for (String product_sku_id : cart.getProductSkuIdList()) {
+				dynamicSQL.isNullOrEmpty("AND " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
 		}
 
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		sql.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Cart> cartList = cart.find(sql.toString(), parameterList.toArray());
-		return cartList;
+		return cart.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Cart> list(Integer m, Integer n) {
@@ -121,49 +78,15 @@ public class CartDao {
 	}
 
 	private Cart find(Cart cart) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
+		dynamicSQL.append("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
+		dynamicSQL.append("WHERE " + Cart.KEY_CART_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_CART_ID + " = ? ", cart.getCart_id());
+		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(cart.getCart_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Cart.KEY_CART_ID + " = ? ");
-			parameterList.add(cart.getCart_id());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Cart.KEY_PRODUCT_SKU_ID + " = ? ");
-			parameterList.add(cart.getProduct_sku_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Cart.KEY_CART_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Cart> cartList = cart.find(sql.toString(), parameterList.toArray());
-		if(cartList.size() == 0) {
+		List<Cart> cartList = cart.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if (cartList == null) {
 			return null;
 		} else {
 			return cartList.get(0);
@@ -216,7 +139,7 @@ public class CartDao {
 		sql.append(Cart.KEY_CART_UPDATE_TIME + " = ? ");
 		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
 
-		for(Cart cart : cartList) {
+		for (Cart cart : cartList) {
 			List<Object> objectList = new ArrayList<Object>();
 
 			objectList.add(cart.getProduct_amount());
@@ -251,7 +174,7 @@ public class CartDao {
 		sql.append(Cart.KEY_CART_STATUS + " = 0 ");
 		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
 
-		for(Cart cart : cartList) {
+		for (Cart cart : cartList) {
 			List<Object> objectList = new ArrayList<Object>();
 
 			objectList.add(request_user_id);

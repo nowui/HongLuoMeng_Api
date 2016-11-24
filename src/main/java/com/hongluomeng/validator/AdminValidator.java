@@ -1,13 +1,16 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Admin;
 import com.hongluomeng.model.User;
+import com.jfinal.validate.Validator;
 
-public class AdminValidator extends BaseValidator {
+public class AdminValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -19,52 +22,53 @@ public class AdminValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_ADMIN_LIST:
+			case Url.URL_ADMIN_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
+
 				break;
-			case Const.URL_ADMIN_FIND: {
+			case Url.URL_ADMIN_FIND: {
 				isExit = true;
 
 				Admin admin = jsonObject.toJavaObject(Admin.class);
 
-				if (Utility.isNullOrEmpty(admin.getAdmin_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				admin.checkAdmin_id();
+
 				break;
 			}
-			case Const.URL_ADMIN_SAVE:
-			case Const.URL_ADMIN_UPDATE: {
+			case Url.URL_ADMIN_SAVE: {
+				isExit = true;
+
+				Admin admin = jsonObject.toJavaObject(Admin.class);
+
+				admin.checkAdmin_name();
+
+				break;
+			}
+			case Url.URL_ADMIN_UPDATE: {
 				isExit = true;
 
 				Admin admin = jsonObject.toJavaObject(Admin.class);
 
 				User user = jsonObject.toJavaObject(User.class);
 
-				if (actionKey.equals(Const.URL_ADMIN_UPDATE) && Utility.isNullOrEmpty(admin.getAdmin_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				admin.checkAdmin_id();
 
-				if (Utility.isNullOrEmpty(admin.getAdmin_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				admin.checkAdmin_name();
 
 				if (Utility.isNullOrEmpty(user.getUser_account())) {
 					message += "帐号为空";
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_ADMIN_SAVE) && Utility.isNullOrEmpty(user.getUser_password())) {
+				if (actionKey.equals(Url.URL_ADMIN_SAVE) && Utility.isNullOrEmpty(user.getUser_password())) {
 					message += "密码为空";
 					message += Const.LINE_FEED;
 				}
 				break;
 			}
-			case Const.URL_ADMIN_DELETE: {
+			case Url.URL_ADMIN_DELETE: {
 				isExit = true;
 
 				Admin admin = jsonObject.toJavaObject(Admin.class);
@@ -75,7 +79,7 @@ public class AdminValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ADMIN_OPERATION_LIST: {
+			case Url.URL_ADMIN_OPERATION_LIST: {
 				isExit = true;
 
 				Admin admin = jsonObject.toJavaObject(Admin.class);
@@ -86,7 +90,7 @@ public class AdminValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ADMIN_OPERATION_UPDATE: {
+			case Url.URL_ADMIN_OPERATION_UPDATE: {
 				isExit = true;
 
 				Admin admin = jsonObject.toJavaObject(Admin.class);
@@ -102,7 +106,7 @@ public class AdminValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ADMIN_LOGIN: {
+			case Url.URL_ADMIN_LOGIN: {
 				isExit = true;
 
 				User user = jsonObject.toJavaObject(User.class);
@@ -127,6 +131,10 @@ public class AdminValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

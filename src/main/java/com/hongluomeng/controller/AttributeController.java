@@ -3,6 +3,7 @@ package com.hongluomeng.controller;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -17,7 +18,7 @@ public class AttributeController extends BaseController {
 	private AttributeService attributeService = new AttributeService();
 
 	@Before(AttributeValidator.class)
-	@ActionKey(Const.URL_ATTRIBUTE_LIST)
+	@ActionKey(Url.URL_ATTRIBUTE_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -27,7 +28,7 @@ public class AttributeController extends BaseController {
     }
 
 	@Before(AttributeValidator.class)
-	@ActionKey(Const.URL_ATTRIBUTE_FIND)
+	@ActionKey(Url.URL_ATTRIBUTE_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -37,7 +38,7 @@ public class AttributeController extends BaseController {
     }
 
 	@Before(AttributeValidator.class)
-	@ActionKey(Const.URL_ATTRIBUTE_SAVE)
+	@ActionKey(Url.URL_ATTRIBUTE_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -47,7 +48,7 @@ public class AttributeController extends BaseController {
 	}
 
 	@Before(AttributeValidator.class)
-	@ActionKey(Const.URL_ATTRIBUTE_UPDATE)
+	@ActionKey(Url.URL_ATTRIBUTE_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -57,7 +58,7 @@ public class AttributeController extends BaseController {
 	}
 
 	@Before(AttributeValidator.class)
-	@ActionKey(Const.URL_ATTRIBUTE_DELETE)
+	@ActionKey(Url.URL_ATTRIBUTE_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

@@ -26,13 +26,13 @@ public class Product extends Model<Product> {
 	public static final String KEY_PRODUCT_IS_HOT = "product_is_hot";
 	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
 	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
-	public static final String KEY_PRODUCT_STATUS = "product_status";
 	public static final String KEY_PRODUCT_CONTENT = "product_content";
 	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";
 	public static final String KEY_PRODUCT_CREATE_USER_ID = "product_create_user_id";
 	public static final String KEY_PRODUCT_CREATE_TIME = "product_create_time";
 	public static final String KEY_PRODUCT_UPDATE_USER_ID = "product_update_user_id";
 	public static final String KEY_PRODUCT_UPDATE_TIME = "product_update_time";
+	public static final String KEY_PRODUCT_STATUS = "product_status";
 	public static final String KEY_MEMBER_LEVEL_LIST = "memberLevelList";
 	public static final String KEY_PRODUCT_SKU_LIST = "productSkuList";
 	public static final String KEY_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
@@ -147,14 +147,6 @@ public class Product extends Model<Product> {
 		set(KEY_PRODUCT_IS_SALE, product_is_sale);
 	}
 
-	public Boolean getProduct_status() {
-		return getBoolean(KEY_PRODUCT_STATUS);
-	}
-
-	public void setProduct_status(Boolean product_status) {
-		set(KEY_PRODUCT_STATUS, product_status);
-	}
-
 	public String getProduct_content() {
 		return getStr(KEY_PRODUCT_CONTENT);
 	}
@@ -188,6 +180,14 @@ public class Product extends Model<Product> {
 
 	public void setProduct_update_time(Date product_update_time) {
 		set(KEY_PRODUCT_UPDATE_TIME, product_update_time);
+	}
+
+	public Boolean getProduct_status() {
+		return getBoolean(KEY_PRODUCT_STATUS);
+	}
+
+	public void setProduct_status(Boolean product_status) {
+		set(KEY_PRODUCT_STATUS, product_status);
 	}
 
 	public List<Category> getCategoryList() {

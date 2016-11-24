@@ -1,12 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.MemberLevel;
+import com.jfinal.validate.Validator;
 
-public class MemberLevelValidator extends BaseValidator {
+public class MemberLevelValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,12 +23,12 @@ public class MemberLevelValidator extends BaseValidator {
 		MemberLevel memberLevel = jsonObject.toJavaObject(MemberLevel.class);
 
 		switch (actionKey) {
-			case Const.URL_MEMBER_LEVEL_LIST:
+			case Url.URL_MEMBER_LEVEL_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_MEMBER_LEVEL_FIND:
+			case Url.URL_MEMBER_LEVEL_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
@@ -33,11 +36,11 @@ public class MemberLevelValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_MEMBER_LEVEL_SAVE:
-			case Const.URL_MEMBER_LEVEL_UPDATE:
+			case Url.URL_MEMBER_LEVEL_SAVE:
+			case Url.URL_MEMBER_LEVEL_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Const.URL_MEMBER_LEVEL_UPDATE) && Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
+				if (actionKey.equals(Url.URL_MEMBER_LEVEL_UPDATE) && Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -57,7 +60,7 @@ public class MemberLevelValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_MEMBER_LEVEL_DELETE:
+			case Url.URL_MEMBER_LEVEL_DELETE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
@@ -74,6 +77,10 @@ public class MemberLevelValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

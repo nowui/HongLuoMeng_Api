@@ -12,7 +12,6 @@ public class BrandApply extends Model<BrandApply> {
 	public static final String KEY_BRAND_ID = "brand_id";
 	public static final String KEY_BRAND_NAME = "brand_name";
 	public static final String KEY_USER_ID = "user_id";
-	public static final String KEY_MEMBER_NAME = "member_name";
 	public static final String KEY_MEMBER_REAL_NAME = "member_real_name";
 	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
 	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
@@ -46,14 +45,6 @@ public class BrandApply extends Model<BrandApply> {
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
-	}
-
-	public String getMember_name() {
-		return getStr(KEY_MEMBER_NAME);
-	}
-
-	public void setMember_name(String member_name) {
-		set(KEY_MEMBER_NAME, member_name);
 	}
 
 	public String getMember_real_name() {

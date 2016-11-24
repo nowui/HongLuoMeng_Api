@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -20,7 +21,7 @@ public class BrandController extends BaseController {
 	private BrandService brandService = new BrandService();
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_LIST)
+	@ActionKey(Url.URL_BRAND_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -30,7 +31,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_FIND)
+	@ActionKey(Url.URL_BRAND_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -40,7 +41,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_SAVE)
+	@ActionKey(Url.URL_BRAND_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -50,7 +51,7 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_UPDATE)
+	@ActionKey(Url.URL_BRAND_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -60,7 +61,7 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_DELETE)
+	@ActionKey(Url.URL_BRAND_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -70,7 +71,7 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_CATEGORY_LIST)
+	@ActionKey(Url.URL_BRAND_CATEGORY_LIST)
 	public void listCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -80,7 +81,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_CATEGORY_FIND)
+	@ActionKey(Url.URL_BRAND_CATEGORY_FIND)
 	public void findCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -90,7 +91,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_CATEGORY_SAVE)
+	@ActionKey(Url.URL_BRAND_CATEGORY_SAVE)
 	public void saveCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -100,7 +101,7 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_CATEGORYT_UPDATE)
+	@ActionKey(Url.URL_BRAND_CATEGORYT_UPDATE)
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -110,7 +111,7 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_CATEGORYT_DELETE)
+	@ActionKey(Url.URL_BRAND_CATEGORYT_DELETE)
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -120,7 +121,7 @@ public class BrandController extends BaseController {
 	}
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_CATEGORY_LIST_GET)
+	@ActionKey(Url.URL_BRAND_CATEGORY_LIST_GET)
 	public void getCategoryList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -130,7 +131,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_LIST_GET)
+	@ActionKey(Url.URL_BRAND_LIST_GET)
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -140,7 +141,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_GET)
+	@ActionKey(Url.URL_BRAND_GET)
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -150,7 +151,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLY_SAVE)
+	@ActionKey(Url.URL_BRAND_APPLY_SAVE)
 	public void apply() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -160,7 +161,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_MY_LIST_GET)
+	@ActionKey(Url.URL_BRAND_MY_LIST_GET)
 	public void getMyList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -170,7 +171,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLY_LIST)
+	@ActionKey(Url.URL_BRAND_APPLY_LIST)
 	public void listApply() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -180,7 +181,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLYY_FIND)
+	@ActionKey(Url.URL_BRAND_APPLYY_FIND)
 	public void findApply() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -190,7 +191,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLYY_PASS)
+	@ActionKey(Url.URL_BRAND_APPLYY_PASS)
 	public void reviewPass() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -200,7 +201,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLYY_REFUSE)
+	@ActionKey(Url.URL_BRAND_APPLYY_REFUSE)
 	public void reviewRefuse() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -210,7 +211,7 @@ public class BrandController extends BaseController {
     }
 
 	@Before(BrandValidator.class)
-	@ActionKey(Const.URL_BRAND_APPLYY_CANCEL)
+	@ActionKey(Url.URL_BRAND_APPLYY_CANCEL)
 	public void reviewCancel() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

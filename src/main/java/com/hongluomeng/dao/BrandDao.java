@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
@@ -13,20 +14,12 @@ import com.hongluomeng.type.BrandApplyReviewEnum;
 public class BrandDao {
 
 	private Integer count(Brand brand) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("WHERE " + Brand.KEY_BRAND_STATUS + " = 1 ");
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Brand.KEY_BRAND_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -37,41 +30,14 @@ public class BrandDao {
 	}
 
 	private List<Brand> list(Brand brand, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("SELECT * FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("WHERE " + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_CATEGORY_ID + " = ? ", brand.getCategory_id());
+		dynamicSQL.append("ORDER BY " + Brand.KEY_BRAND_CREATE_TIME + " DESC ");
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(brand.getCategory_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Brand.KEY_CATEGORY_ID + " = ? ");
-			parameterList.add(brand.getCategory_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Brand.KEY_BRAND_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + Brand.KEY_BRAND_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Brand> brandList = brand.find(sql.toString(), parameterList.toArray());
-		return brandList;
+		return brand.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Brand> list(Integer m, Integer n) {
@@ -88,85 +54,38 @@ public class BrandDao {
 	}
 
 	public List<Brand> listByCategory_idForApply(String category_id, String user_id, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Brand.KEY_TABLE_BRAND + ".*, IFNULL(" + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + ", '" + BrandApplyReviewEnum.NONE.getKey() + "') AS " + Brand.KEY_BRAND_APPLY_REVIEW_STATUS + " FROM " + Brand.KEY_TABLE_BRAND + " ");
-		sql.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ?) AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
-		sql.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.append("SELECT " + Brand.KEY_TABLE_BRAND + ".*, IFNULL(" + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + ", '" + BrandApplyReviewEnum.NONE.getKey() + "') AS " + Brand.KEY_BRAND_APPLY_REVIEW_STATUS + " FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ?) AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ", user_id);
+		dynamicSQL.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_CATEGORY_ID + " = ? ", category_id);
+		dynamicSQL.appendPagination(m, n);
 
-		parameterList.add(user_id);
-
-		if (! Utility.isNullOrEmpty(category_id)) {
-			sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_CATEGORY_ID + " = ? ");
-			parameterList.add(category_id);
-		}
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Brand> brandList = new Brand().find(sql.toString(), parameterList.toArray());
-		return brandList;
+		return new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Brand> listByCategory_idForMy(String category_id, String user_id, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Brand.KEY_TABLE_BRAND + ".*, " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " AS " + Brand.KEY_BRAND_APPLY_CREATE_TIME + " FROM " + Brand.KEY_TABLE_BRAND + " ");
-		sql.append("INNER JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "') AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
-		sql.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.append("SELECT " + Brand.KEY_TABLE_BRAND + ".*, " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " AS " + Brand.KEY_BRAND_APPLY_CREATE_TIME + " FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("INNER JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "') AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ", user_id);
+		dynamicSQL.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_CATEGORY_ID + " = ? ", category_id);
+		dynamicSQL.appendPagination(m, n);
 
-		parameterList.add(user_id);
-
-		if (! Utility.isNullOrEmpty(category_id)) {
-			sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_CATEGORY_ID + " = ? ");
-			parameterList.add(category_id);
-		}
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Brand> brandList = new Brand().find(sql.toString(), parameterList.toArray());
-		return brandList;
+		return new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	private Brand find(Brand brand) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("SELECT * FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("WHERE " + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_BRAND_ID + " = ? ", brand.getBrand_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(brand.getBrand_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Brand.KEY_BRAND_ID + " = ? ");
-			parameterList.add(brand.getBrand_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Brand.KEY_BRAND_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Brand> brandList = brand.find(sql.toString(), parameterList.toArray());
-		if(brandList.size() == 0) {
+		List<Brand> brandList = new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if(brandList == null) {
 			return null;
 		} else {
 			return brandList.get(0);
@@ -177,25 +96,22 @@ public class BrandDao {
 		Brand brand = new Brand();
 		brand.setBrand_id(brand_id);
 
+		Utility.checkIsNullOrEmpty(brand_id);
+
 		return find(brand);
 	}
 
 	public Brand findByBrand_idAndUser_id(String brand_id, String user_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Brand.KEY_TABLE_BRAND + ".*, IFNULL(" + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + ", '" + BrandApplyReviewEnum.NONE.getKey() + "') AS " + Brand.KEY_BRAND_APPLY_REVIEW_STATUS + " FROM " + Brand.KEY_TABLE_BRAND + " ");
-		sql.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ?) AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ");
-		sql.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
-		sql.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ");
-		sql.append("GROUP BY " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " ");
+		dynamicSQL.append("SELECT " + Brand.KEY_TABLE_BRAND + ".*, IFNULL(" + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + ", '" + BrandApplyReviewEnum.NONE.getKey() + "') AS " + Brand.KEY_BRAND_APPLY_REVIEW_STATUS + " FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_STATUS + " = 1 AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ?) AS " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " ", user_id);
+		dynamicSQL.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_STATUS + " = 1 ");
+		dynamicSQL.append("AND " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = ? ", brand_id);
+		dynamicSQL.append("GROUP BY " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " ");
 
-		parameterList.add(user_id);
-		parameterList.add(brand_id);
-
-		System.out.println(sql.toString());
-
-		List<Brand> brandList = new Brand().find(sql.toString(), parameterList.toArray());
-		if(brandList.size() == 0) {
+		List<Brand> brandList = new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if(brandList == null) {
 			return null;
 		} else {
 			return brandList.get(0);

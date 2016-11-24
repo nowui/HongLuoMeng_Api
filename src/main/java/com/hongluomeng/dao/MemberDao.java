@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Member;
@@ -12,20 +13,12 @@ import com.hongluomeng.model.MemberLevel;
 public class MemberDao {
 
 	private Integer count(Member member) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Member.KEY_TABLE_MEMBER + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Member.KEY_TABLE_MEMBER + " ");
+		dynamicSQL.append("WHERE " + Member.KEY_MEMBER_STATUS + " = 1 ");
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Member.KEY_MEMBER_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -36,29 +29,14 @@ public class MemberDao {
 	}
 
 	private List<Member> list(Member member, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
+		dynamicSQL.append("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
+		dynamicSQL.append("WHERE " + Member.KEY_MEMBER_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Member.KEY_MEMBER_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Member.KEY_MEMBER_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + Member.KEY_MEMBER_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Member> memberList = member.find(sql.toString(), parameterList.toArray());
-		return memberList;
+		return new Member().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Member> list(Integer m, Integer n) {
@@ -68,53 +46,19 @@ public class MemberDao {
 	}
 
 	private Member find(Member member) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Member.KEY_TABLE_MEMBER + ".* ");
-		sql.append(", IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_NAME + ", '') AS " + MemberLevel.KEY_MEMBER_LEVEL_NAME + " ");
-		sql.append(", IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_VALUE + ", 0) AS " + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ");
-		sql.append("FROM " + Member.KEY_TABLE_MEMBER + " ");
-		sql.append("LEFT JOIN " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ON " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_ID + " = " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_LEVEL_ID + " ");
+		dynamicSQL.append("SELECT " + Member.KEY_TABLE_MEMBER + ".*, ");
+		dynamicSQL.append("IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_NAME + ", '') AS " + MemberLevel.KEY_MEMBER_LEVEL_NAME + ", ");
+		dynamicSQL.append("IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_VALUE + ", 0) AS " + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ");
+		dynamicSQL.append("FROM " + Member.KEY_TABLE_MEMBER + " ");
+		dynamicSQL.append("LEFT JOIN " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ON " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_ID + " = " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_LEVEL_ID + " ");
+		dynamicSQL.append("WHERE " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_ID + " = ? ", member.getMember_id());
+		dynamicSQL.isNullOrEmpty("AND " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_USER_ID + " = ? ", member.getUser_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(member.getMember_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_ID + " = ? ");
-			parameterList.add(member.getMember_id());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(member.getUser_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Member.KEY_TABLE_MEMBER + "." + Member.KEY_USER_ID + " = ? ");
-			parameterList.add(member.getUser_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Member> memberList = member.find(sql.toString(), parameterList.toArray());
-		if(memberList.size() == 0) {
+		List<Member> memberList = new Member().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if (memberList == null) {
 			return null;
 		} else {
 			return memberList.get(0);
@@ -142,10 +86,10 @@ public class MemberDao {
 		member.setMember_identity_card("");
 		member.setMember_identity_card_front_image("");
 		member.setMember_identity_card_back_image("");
-		if(Utility.isNullOrEmpty(member.getMember_weibo_fans())) {
+		if (Utility.isNullOrEmpty(member.getMember_weibo_fans())) {
 			member.setMember_weibo_fans(0);
 		}
-		if(Utility.isNullOrEmpty(member.getMember_weibo_friend())) {
+		if (Utility.isNullOrEmpty(member.getMember_weibo_friend())) {
 			member.setMember_weibo_friend(0);
 		}
 		member.setMember_create_user_id(request_user_id);
@@ -167,58 +111,34 @@ public class MemberDao {
 	}
 
 	public void updateMember_nameByUser_id(String member_name, String user_id) {
-		/*Member member = findByUser_id(user_id);
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		member.setMember_name(member_name);
-		member.setMember_update_user_id(user_id);
-		member.setMember_update_time(new Date());
+		dynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
+		dynamicSQL.append(Member.KEY_MEMBER_NAME + " = ?, ", member_name);
+		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ", user_id);
+		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ?  ", user_id);
 
-		member.update();*/
-
-		List<Object> parameterList = new ArrayList<Object>();
-
-		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
-		sql.append(Member.KEY_MEMBER_NAME + " = ?, ");
-		sql.append( Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ");
-		sql.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ");
-		sql.append("WHERE " + Member.KEY_USER_ID + " = ?  ");
-
-		parameterList.add(member_name);
-		parameterList.add(user_id);
-		parameterList.add(new Date());
-		parameterList.add(user_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void updateMember_weibo_fansAndMember_weibo_friend(int member_weibo_fans, int member_weibo_friend, String user_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
-		sql.append(Member.KEY_MEMBER_WEIBO_FANS + " = ?, ");
-		sql.append(Member.KEY_MEMBER_WEIBO_FRIEND + " = ?, ");
-		sql.append( Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ");
-		sql.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ");
-		sql.append("WHERE " + Member.KEY_USER_ID + " = ?  ");
+		dynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
+		dynamicSQL.append(Member.KEY_MEMBER_WEIBO_FANS + " = ?, ", member_weibo_fans);
+		dynamicSQL.append(Member.KEY_MEMBER_WEIBO_FRIEND + " = ?, ", member_weibo_friend);
+		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ", user_id);
+		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ?  ", user_id);
 
-		parameterList.add(member_weibo_fans);
-		parameterList.add(member_weibo_friend);
-		parameterList.add(user_id);
-		parameterList.add(new Date());
-		parameterList.add(user_id);
-
-		System.out.println(sql.toString());
-		System.out.println(member_weibo_fans);
-		System.out.println(member_weibo_friend);
-		System.out.println(user_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public Member updateMember_avatarByUser_id(String member_avatar, String user_id, Boolean isOverwrite) {
 		Member member = findByUser_id(user_id);
 
-		if(Utility.isNullOrEmpty(member.getMember_avatar()) || isOverwrite) {
+		if (Utility.isNullOrEmpty(member.getMember_avatar()) || isOverwrite) {
 			member.setMember_avatar(member_avatar);
 			member.setMember_update_user_id(user_id);
 			member.setMember_update_time(new Date());
@@ -230,26 +150,18 @@ public class MemberDao {
 	}
 
 	public void updateInfo(String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
-		sql.append(Member.KEY_MEMBER_REAL_NAME + " = ? ");
-		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD + " = ? ");
-		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ? ");
-		sql.append("," + Member.KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE + " = ? ");
-		sql.append("," + Member.KEY_MEMBER_UPDATE_USER_ID + " = ? ");
-		sql.append("," + Member.KEY_MEMBER_UPDATE_TIME + " = ? ");
-		sql.append("WHERE " + Member.KEY_USER_ID + " = ?  ");
+		dynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
+		dynamicSQL.append(Member.KEY_MEMBER_REAL_NAME + " = ?, ", member_real_name);
+		dynamicSQL.append(Member.KEY_MEMBER_IDENTITY_CARD + " = ?, ", member_identity_card);
+		dynamicSQL.append(Member.KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ?, ", member_identity_card_front_image);
+		dynamicSQL.append(Member.KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE + " = ?, ", member_identity_card_back_image);
+		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ? ", request_user_id);
 
-		parameterList.add(member_real_name);
-		parameterList.add(member_identity_card);
-		parameterList.add(member_identity_card_front_image);
-		parameterList.add(member_identity_card_back_image);
-		parameterList.add(request_user_id);
-		parameterList.add(new Date());
-		parameterList.add(request_user_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void delete(String member_id, String request_user_id) {

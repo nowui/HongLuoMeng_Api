@@ -53,7 +53,7 @@ public class OperationService {
 		Operation operationParameter = new Operation();
 		operationParameter.setOperation_id(operationMap.getOperation_id());
 
-		return operationDao.find(operationParameter);
+		return operationDao.findByOperation_id(operationParameter.getOperation_id());
 	}
 
 	public void save(JSONObject jsonObject) {

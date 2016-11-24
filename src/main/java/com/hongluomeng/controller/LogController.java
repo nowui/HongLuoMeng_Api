@@ -3,6 +3,7 @@ package com.hongluomeng.controller;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -17,7 +18,7 @@ public class LogController extends BaseController {
 	private LogService logService = new LogService();
 
 	@Before(LogValidator.class)
-	@ActionKey(Const.URL_LOG_LIST)
+	@ActionKey(Url.URL_LOG_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -27,7 +28,7 @@ public class LogController extends BaseController {
     }
 
 	@Before(LogValidator.class)
-	@ActionKey(Const.URL_LOG_FIND)
+	@ActionKey(Url.URL_LOG_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

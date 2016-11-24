@@ -3,6 +3,7 @@ package com.hongluomeng.controller;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -17,7 +18,7 @@ public class OperationController extends BaseController {
 	private OperationService operationService = new OperationService();
 
 	@Before(OperationValidator.class)
-	@ActionKey(Const.URL_OPERATION_LIST)
+	@ActionKey(Url.URL_OPERATION_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -27,7 +28,7 @@ public class OperationController extends BaseController {
     }
 
 	@Before(OperationValidator.class)
-	@ActionKey(Const.URL_OPERATION_FIND)
+	@ActionKey(Url.URL_OPERATION_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -37,7 +38,7 @@ public class OperationController extends BaseController {
     }
 
 	@Before(OperationValidator.class)
-	@ActionKey(Const.URL_OPERATION_SAVE)
+	@ActionKey(Url.URL_OPERATION_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -47,7 +48,7 @@ public class OperationController extends BaseController {
 	}
 
 	@Before(OperationValidator.class)
-	@ActionKey(Const.URL_OPERATION_UPDATE)
+	@ActionKey(Url.URL_OPERATION_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -57,7 +58,7 @@ public class OperationController extends BaseController {
 	}
 
 	@Before(OperationValidator.class)
-	@ActionKey(Const.URL_OPERATION_DELETE)
+	@ActionKey(Url.URL_OPERATION_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

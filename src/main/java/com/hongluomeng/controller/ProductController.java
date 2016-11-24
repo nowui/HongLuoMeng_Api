@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -20,7 +21,7 @@ public class ProductController extends BaseController {
 	private ProductService productService = new ProductService();
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_LIST)
+	@ActionKey(Url.URL_PRODUCT_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -30,7 +31,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_FIND)
+	@ActionKey(Url.URL_PRODUCT_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -40,7 +41,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_SAVE)
+	@ActionKey(Url.URL_PRODUCT_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -50,7 +51,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_UPDATE)
+	@ActionKey(Url.URL_PRODUCT_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -60,7 +61,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_DELETE)
+	@ActionKey(Url.URL_PRODUCT_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -70,7 +71,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_LIST)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST)
 	public void listCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -80,7 +81,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_FIND)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_FIND)
 	public void findCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -90,7 +91,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_SAVE)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_SAVE)
 	public void saveCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -100,7 +101,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORYT_UPDATE)
+	@ActionKey(Url.URL_PRODUCT_CATEGORYT_UPDATE)
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -110,7 +111,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORYT_DELETE)
+	@ActionKey(Url.URL_PRODUCT_CATEGORYT_DELETE)
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -120,7 +121,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST)
 	public void listCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -130,7 +131,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND)
 	public void findCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -140,7 +141,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE)
 	public void saveCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -150,7 +151,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE)
+	@ActionKey(Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE)
 	public void updateCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -160,7 +161,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE)
+	@ActionKey(Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE)
 	public void deleteCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -170,7 +171,7 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_CATEGORY_LIST_GET)
+	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST_GET)
 	public void getCategoryList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -180,7 +181,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_LIST_GET)
+	@ActionKey(Url.URL_PRODUCT_LIST_GET)
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -190,7 +191,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_BRAND_LIST_GET)
+	@ActionKey(Url.URL_PRODUCT_BRAND_LIST_GET)
 	public void getBrandList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -200,7 +201,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_MARKET_LIST_GET)
+	@ActionKey(Url.URL_PRODUCT_MARKET_LIST_GET)
 	public void getMarketList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -210,7 +211,7 @@ public class ProductController extends BaseController {
     }
 
 	@Before(ProductValidator.class)
-	@ActionKey(Const.URL_PRODUCT_GET)
+	@ActionKey(Url.URL_PRODUCT_GET)
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

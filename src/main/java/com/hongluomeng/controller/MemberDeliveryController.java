@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -19,7 +20,7 @@ public class MemberDeliveryController extends BaseController {
 	//private CategoryService categoryService = new CategoryService();
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_LIST)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -29,7 +30,7 @@ public class MemberDeliveryController extends BaseController {
     }
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_FIND)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -39,7 +40,7 @@ public class MemberDeliveryController extends BaseController {
     }
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_SAVE)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -49,7 +50,7 @@ public class MemberDeliveryController extends BaseController {
 	}
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_UPDATE)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -59,7 +60,7 @@ public class MemberDeliveryController extends BaseController {
 	}
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_DELETE)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -69,7 +70,7 @@ public class MemberDeliveryController extends BaseController {
 	}
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_LIST_GET)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_LIST_GET)
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -129,7 +130,7 @@ public class MemberDeliveryController extends BaseController {
     }
 
 	@Before(MemberDeliveryValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELIVERY_GET)
+	@ActionKey(Url.URL_MEMBER_DELIVERY_GET)
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

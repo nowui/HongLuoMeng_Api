@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -18,7 +19,7 @@ public class AdminController extends BaseController {
     private AdminService adminService = new AdminService();
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_LIST)
+    @ActionKey(Url.URL_ADMIN_LIST)
     public void list() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -28,7 +29,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_FIND)
+    @ActionKey(Url.URL_ADMIN_FIND)
     public void find() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -38,7 +39,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_SAVE)
+    @ActionKey(Url.URL_ADMIN_SAVE)
     public void save() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -48,7 +49,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_UPDATE)
+    @ActionKey(Url.URL_ADMIN_UPDATE)
     public void update() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -58,7 +59,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_DELETE)
+    @ActionKey(Url.URL_ADMIN_DELETE)
     public void delete() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -68,7 +69,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_OPERATION_LIST)
+    @ActionKey(Url.URL_ADMIN_OPERATION_LIST)
     public void listOperation() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -78,7 +79,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_OPERATION_UPDATE)
+    @ActionKey(Url.URL_ADMIN_OPERATION_UPDATE)
     public void updateOperation() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -88,7 +89,7 @@ public class AdminController extends BaseController {
     }
 
     @Before(AdminValidator.class)
-    @ActionKey(Const.URL_ADMIN_LOGIN)
+    @ActionKey(Url.URL_ADMIN_LOGIN)
     public void login() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

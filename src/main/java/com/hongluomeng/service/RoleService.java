@@ -96,37 +96,37 @@ public class RoleService {
 		return resultList;
 	}
 
-	/*private List<Map<String, Object>> getRoleChildrenList(List<Category> categoryList, String parent_id, List<Role> roleList, List<UserRole> userRoleList) {
-		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-
-		for (Category category : categoryList) {
-			if (category.getParent_id().equals(parent_id)) {
-				Map<String, Object> resultMap = new HashMap<String, Object>();
-				resultMap.put(Const.KEY_ID, "parent_" + category.getCategory_id());
-				resultMap.put(Const.KEY_NAME, category.getCategory_name());
-
-				boolean isAdd = true;
-
-				List<Map<String, Object>> childrenList = getRoleChildrenList(categoryList, category.getCategory_id(), roleList, userRoleList);
-				if (childrenList.size() > 0) {
-					resultMap.put(Const.KEY_CHILDREN, childrenList);
-				} else {
-					List<Map<String, Object>> userRoleChildrenList = getUserRoleChildrenList(roleList, category.getCategory_id(), userRoleList);
-
-					if(userRoleChildrenList.size() == 0) {
-						isAdd = false;
-					}
-
-					resultMap.put(Const.KEY_CHILDREN, userRoleChildrenList);
-				}
-
-				if (isAdd) {
-					resultList.add(resultMap);
-				}
-			}
-		}
-		return resultList;
-	}*/
+//	private List<Map<String, Object>> getRoleChildrenList(List<Category> categoryList, String parent_id, List<Role> roleList, List<UserRole> userRoleList) {
+//		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+//
+//		for (Category category : categoryList) {
+//			if (category.getParent_id().equals(parent_id)) {
+//				Map<String, Object> resultMap = new HashMap<String, Object>();
+//				resultMap.put(Const.KEY_ID, "parent_" + category.getCategory_id());
+//				resultMap.put(Const.KEY_NAME, category.getCategory_name());
+//
+//				boolean isAdd = true;
+//
+//				List<Map<String, Object>> childrenList = getRoleChildrenList(categoryList, category.getCategory_id(), roleList, userRoleList);
+//				if (childrenList.size() > 0) {
+//					resultMap.put(Const.KEY_CHILDREN, childrenList);
+//				} else {
+//					List<Map<String, Object>> userRoleChildrenList = getUserRoleChildrenList(roleList, category.getCategory_id(), userRoleList);
+//
+//					if(userRoleChildrenList.size() == 0) {
+//						isAdd = false;
+//					}
+//
+//					resultMap.put(Const.KEY_CHILDREN, userRoleChildrenList);
+//				}
+//
+//				if (isAdd) {
+//					resultList.add(resultMap);
+//				}
+//			}
+//		}
+//		return resultList;
+//	}
 
 	private List<Map<String, Object>> getOperationChildrenList(List<Category> categoryList, String parent_id, List<Operation> operationList, List<RoleOperation> roleOperationList) {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -160,29 +160,29 @@ public class RoleService {
 		return resultList;
 	}
 
-	/*private List<Map<String, Object>> getUserRoleChildrenList(List<Role> roleList, String group_id, List<UserRole> userRoleList) {
-		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-
-		for(Role role : roleList) {
-			if(role.getGroup_id().equals(group_id)) {
-				Map<String, Object> resultMap = new HashMap<String, Object>();
-				resultMap.put(Const.KEY_ID, role.getRole_id());
-				resultMap.put(Const.KEY_NAME, role.getRole_name());
-
-				resultMap.put(Const.KEY_SELECTED, false);
-
-				for(UserRole userRole : userRoleList) {
-					if(role.getRole_id().equals(userRole.getRole_id())) {
-						resultMap.put(Const.KEY_SELECTED, true);
-					}
-				}
-
-				resultList.add(resultMap);
-			}
-		}
-
-		return resultList;
-	}*/
+//	private List<Map<String, Object>> getUserRoleChildrenList(List<Role> roleList, String group_id, List<UserRole> userRoleList) {
+//		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+//
+//		for(Role role : roleList) {
+//			if(role.getGroup_id().equals(group_id)) {
+//				Map<String, Object> resultMap = new HashMap<String, Object>();
+//				resultMap.put(Const.KEY_ID, role.getRole_id());
+//				resultMap.put(Const.KEY_NAME, role.getRole_name());
+//
+//				resultMap.put(Const.KEY_SELECTED, false);
+//
+//				for(UserRole userRole : userRoleList) {
+//					if(role.getRole_id().equals(userRole.getRole_id())) {
+//						resultMap.put(Const.KEY_SELECTED, true);
+//					}
+//				}
+//
+//				resultList.add(resultMap);
+//			}
+//		}
+//
+//		return resultList;
+//	}
 
 	private List<Map<String, Object>> getRoleOperationChildrenList(List<Operation> operationList, String menu_id, List<RoleOperation> roleOperationList) {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -223,25 +223,25 @@ public class RoleService {
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(roleMap.getRole_key())) {
-			count = roleDao.countByRole_idAndRole_key("", roleMap.getRole_key());
+			count = roleDao.countByRole_keyNotEqualRole_id("", roleMap.getRole_key());
 		}
 
 		if(count == 0) {
 			roleDao.save(roleMap, request_user_id);
 
-			/*JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
-
-			List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
-
-			for(int i = 0; i < jsonArray.size(); i++) {
-				JSONObject object = jsonArray.getJSONObject(i);
-				RoleOperation roleOperation = object.toJavaObject(RoleOperation.class);
-				roleOperation.setRole_id(roleMap.getRole_id());
-
-				roleOperationList.add(roleOperation);
-			}
-
-			roleOperationService.save(roleOperationList);*/
+//			JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
+//
+//			List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
+//
+//			for(int i = 0; i < jsonArray.size(); i++) {
+//				JSONObject object = jsonArray.getJSONObject(i);
+//				RoleOperation roleOperation = object.toJavaObject(RoleOperation.class);
+//				roleOperation.setRole_id(roleMap.getRole_id());
+//
+//				roleOperationList.add(roleOperation);
+//			}
+//
+//			roleOperationService.save(roleOperationList);
 		} else {
 			throw new RuntimeException("键已经存在");
 		}
@@ -255,30 +255,30 @@ public class RoleService {
 		Integer count = 0;
 
 		if (! Utility.isNullOrEmpty(roleMap.getRole_key())) {
-			count = roleDao.countByRole_idAndRole_key(roleMap.getRole_id(), roleMap.getRole_key());
+			count = roleDao.countByRole_keyNotEqualRole_id(roleMap.getRole_id(), roleMap.getRole_key());
 		}
 
 		if(count == 0) {
 			roleDao.update(roleMap, request_user_id);
 
-			/*JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
-
-			List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
-
-			for(int i = 0; i < jsonArray.size(); i++) {
-				JSONObject object = jsonArray.getJSONObject(i);
-
-				RoleOperation roleOperation = object.toJavaObject(RoleOperation.class);
-				roleOperation.setRole_id(roleMap.getRole_id());
-
-				roleOperationList.add(roleOperation);
-			}
-
-			roleOperationService.deleteByRole_id(roleOperationList, roleMap.getRole_id());
-
-			roleOperationService.save(roleOperationList);
-
-			cacheService.removeOperationList();*/
+//			JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
+//
+//			List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
+//
+//			for(int i = 0; i < jsonArray.size(); i++) {
+//				JSONObject object = jsonArray.getJSONObject(i);
+//
+//				RoleOperation roleOperation = object.toJavaObject(RoleOperation.class);
+//				roleOperation.setRole_id(roleMap.getRole_id());
+//
+//				roleOperationList.add(roleOperation);
+//			}
+//
+//			roleOperationService.deleteByRole_id(roleOperationList, roleMap.getRole_id());
+//
+//			roleOperationService.save(roleOperationList);
+//
+//			cacheService.removeOperationList();
 		} else {
 			throw new RuntimeException("键已经存在");
 		}

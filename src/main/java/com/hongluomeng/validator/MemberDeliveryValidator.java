@@ -1,12 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.MemberDelivery;
+import com.jfinal.validate.Validator;
 
-public class MemberDeliveryValidator extends BaseValidator {
+public class MemberDeliveryValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,12 +23,12 @@ public class MemberDeliveryValidator extends BaseValidator {
 		MemberDelivery memberDelivery = jsonObject.toJavaObject(MemberDelivery.class);
 
 		switch (actionKey) {
-			case Const.URL_MEMBER_DELIVERY_LIST:
+			case Url.URL_MEMBER_DELIVERY_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_MEMBER_DELIVERY_FIND:
+			case Url.URL_MEMBER_DELIVERY_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
@@ -33,11 +36,11 @@ public class MemberDeliveryValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_MEMBER_DELIVERY_SAVE:
-			case Const.URL_MEMBER_DELIVERY_UPDATE:
+			case Url.URL_MEMBER_DELIVERY_SAVE:
+			case Url.URL_MEMBER_DELIVERY_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Const.URL_MEMBER_DELIVERY_UPDATE) && Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
+				if (actionKey.equals(Url.URL_MEMBER_DELIVERY_UPDATE) && Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -82,7 +85,7 @@ public class MemberDeliveryValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_MEMBER_DELIVERY_DELETE:
+			case Url.URL_MEMBER_DELIVERY_DELETE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
@@ -90,11 +93,11 @@ public class MemberDeliveryValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_MEMBER_DELIVERY_LIST_GET:
+			case Url.URL_MEMBER_DELIVERY_LIST_GET:
 				isExit = true;
 
 				break;
-			case Const.URL_MEMBER_DELIVERY_GET:
+			case Url.URL_MEMBER_DELIVERY_GET:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
@@ -111,6 +114,10 @@ public class MemberDeliveryValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

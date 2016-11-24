@@ -1,12 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Sms;
+import com.jfinal.validate.Validator;
 
-public class SmsValidator extends BaseValidator {
+public class SmsValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -18,8 +21,8 @@ public class SmsValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_SMS_REGISTER:
-			case Const.URL_SMS_PASSWORD:
+			case Url.URL_SMS_REGISTER:
+			case Url.URL_SMS_PASSWORD:
 				isExit = true;
 
 				Sms sms = jsonObject.toJavaObject(Sms.class);
@@ -43,6 +46,10 @@ public class SmsValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

@@ -1,13 +1,16 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Activity;
 import com.hongluomeng.model.Category;
+import com.jfinal.validate.Validator;
 
-public class ActivityValidator extends BaseValidator {
+public class ActivityValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -19,22 +22,22 @@ public class ActivityValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_ACTIVITY_LIST:
+			case Url.URL_ACTIVITY_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_ACTIVITY_FIND:
+			case Url.URL_ACTIVITY_FIND:
 				isExit = true;
 
 				break;
-			case Const.URL_ACTIVITY_SAVE:
-			case Const.URL_ACTIVITY_UPDATE: {
+			case Url.URL_ACTIVITY_SAVE:
+			case Url.URL_ACTIVITY_UPDATE: {
 				isExit = true;
 
 				Activity brand = jsonObject.toJavaObject(Activity.class);
 
-				if (actionKey.equals(Const.URL_ACTIVITY_UPDATE) && Utility.isNullOrEmpty(brand.getActivity_id())) {
+				if (actionKey.equals(Url.URL_ACTIVITY_UPDATE) && Utility.isNullOrEmpty(brand.getActivity_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -50,7 +53,7 @@ public class ActivityValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ACTIVITY_DELETE: {
+			case Url.URL_ACTIVITY_DELETE: {
 				isExit = true;
 
 				Activity brand = jsonObject.toJavaObject(Activity.class);
@@ -61,7 +64,7 @@ public class ActivityValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ACTIVITY_LIST_GET: {
+			case Url.URL_ACTIVITY_LIST_GET: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
@@ -71,10 +74,10 @@ public class ActivityValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
-			case Const.URL_ACTIVITY_GET: {
+			case Url.URL_ACTIVITY_GET: {
 				isExit = true;
 
 				Activity brand = jsonObject.toJavaObject(Activity.class);
@@ -94,6 +97,10 @@ public class ActivityValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

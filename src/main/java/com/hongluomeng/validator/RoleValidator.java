@@ -1,12 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Role;
+import com.jfinal.validate.Validator;
 
-public class RoleValidator extends BaseValidator {
+public class RoleValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,17 +23,17 @@ public class RoleValidator extends BaseValidator {
 		Role role = jsonObject.toJavaObject(Role.class);
 
 		switch (actionKey) {
-			case Const.URL_ROLE_LIST:
+			case Url.URL_ROLE_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 
 				if (Utility.isNullOrEmpty(role.getGroup_id())) {
 					message += "分组编号为空";
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ROLE_FIND:
+			case Url.URL_ROLE_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(role.getRole_id())) {
@@ -38,16 +41,16 @@ public class RoleValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ROLE_SAVE:
-			case Const.URL_ROLE_UPDATE:
+			case Url.URL_ROLE_SAVE:
+			case Url.URL_ROLE_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Const.URL_ROLE_SAVE) && Utility.isNullOrEmpty(role.getGroup_id())) {
+				if (actionKey.equals(Url.URL_ROLE_SAVE) && Utility.isNullOrEmpty(role.getGroup_id())) {
 					message += "分组编号为空";
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_ROLE_UPDATE) && Utility.isNullOrEmpty(role.getRole_id())) {
+				if (actionKey.equals(Url.URL_ROLE_UPDATE) && Utility.isNullOrEmpty(role.getRole_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -62,7 +65,7 @@ public class RoleValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ROLE_DELETE:
+			case Url.URL_ROLE_DELETE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(role.getRole_id())) {
@@ -70,7 +73,7 @@ public class RoleValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ROLE_OPERATION_LIST:
+			case Url.URL_ROLE_OPERATION_LIST:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(role.getRole_id())) {
@@ -78,7 +81,7 @@ public class RoleValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ROLE_OPERATION_UPDATE:
+			case Url.URL_ROLE_OPERATION_UPDATE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(role.getRole_id())) {
@@ -100,6 +103,10 @@ public class RoleValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

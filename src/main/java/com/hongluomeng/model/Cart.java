@@ -16,12 +16,7 @@ public class Cart extends Model<Cart> {
 	public static final String KEY_CART_ID = "cart_id";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
-	public static final String KEY_PRODUCT_ID = "product_id";
-	public static final String KEY_PRODUCT_NAME = "product_name";
 	public static final String KEY_PRODUCT_AMOUNT = "product_amount";
-	public static final String KEY_PRODUCT_IMAGE = "product_image";
-	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
-	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_CART_CREATE_USER_ID = "cart_create_user_id";
 	public static final String KEY_CART_CREATE_TIME = "cart_create_time";
 	public static final String KEY_CART_UPDATE_USER_ID = "cart_update_user_id";
@@ -55,11 +50,11 @@ public class Cart extends Model<Cart> {
 	}
 
 	public String getProduct_id() {
-		return getStr(KEY_PRODUCT_ID);
+		return getStr(Product.KEY_PRODUCT_ID);
 	}
 
 	public String getProduct_name() {
-		return getStr(KEY_PRODUCT_NAME);
+		return getStr(Product.KEY_PRODUCT_NAME);
 	}
 
 	public Integer getProduct_amount() {
@@ -71,15 +66,15 @@ public class Cart extends Model<Cart> {
 	}
 
 	public JSONArray getProduct_image() {
-		return JSONArray.parseArray(getStr(KEY_PRODUCT_IMAGE));
+		return JSONArray.parseArray(getStr(Product.KEY_PRODUCT_IMAGE));
 	}
 
 	public JSONArray getProduct_attribute_value() {
-		return JSONArray.parseArray(getStr(KEY_PRODUCT_ATTRIBUTE_VALUE));
+		return JSONArray.parseArray(getStr(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE));
 	}
 
 	public BigDecimal getProduct_price() {
-		return getBigDecimal(KEY_PRODUCT_PRICE);
+		return getBigDecimal(ProductSku.KEY_PRODUCT_PRICE);
 	}
 
 	public void setCart_create_user_id(String cart_create_user_id) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.MemberLevel;
@@ -11,20 +12,12 @@ import com.hongluomeng.model.MemberLevel;
 public class MemberLevelDao {
 
 	private Integer count(MemberLevel memberLevel) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
+		dynamicSQL.append("WHERE " + MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -35,29 +28,14 @@ public class MemberLevelDao {
 	}
 
 	private List<MemberLevel> list(MemberLevel memberLevel, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
+		dynamicSQL.append("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
+		dynamicSQL.append("WHERE " + MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_SORT + " ASC ");
+		dynamicSQL.appendPagination(m, n);
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_SORT + " ASC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<MemberLevel> memberLevelList = memberLevel.find(sql.toString(), parameterList.toArray());
-		return memberLevelList;
+		return memberLevel.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<MemberLevel> list(Integer m, Integer n) {
@@ -67,37 +45,14 @@ public class MemberLevelDao {
 	}
 
 	private MemberLevel find(MemberLevel memberLevel) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
+		dynamicSQL.append("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
+		dynamicSQL.append("WHERE " + MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + MemberLevel.KEY_MEMBER_LEVEL_ID + " = ? ", memberLevel.getMember_level_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(memberLevel.getMember_level_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(MemberLevel.KEY_MEMBER_LEVEL_ID + " = ? ");
-			parameterList.add(memberLevel.getMember_level_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<MemberLevel> memberLevelList = memberLevel.find(sql.toString(), parameterList.toArray());
-		if(memberLevelList.size() == 0) {
+		List<MemberLevel> memberLevelList = new MemberLevel().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if(memberLevelList == null) {
 			return null;
 		} else {
 			return memberLevelList.get(0);

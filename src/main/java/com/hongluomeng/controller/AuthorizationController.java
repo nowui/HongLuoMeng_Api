@@ -3,6 +3,7 @@ package com.hongluomeng.controller;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -17,7 +18,7 @@ public class AuthorizationController extends BaseController {
 	private AuthorizationService authorizationService = new AuthorizationService();
 
 	@Before(AuthorizationValidator.class)
-	@ActionKey(Const.URL_AUTHORIZATION_LIST)
+	@ActionKey(Url.URL_AUTHORIZATION_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -27,7 +28,7 @@ public class AuthorizationController extends BaseController {
     }
 
 	@Before(AuthorizationValidator.class)
-	@ActionKey(Const.URL_AUTHORIZATION_FIND)
+	@ActionKey(Url.URL_AUTHORIZATION_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

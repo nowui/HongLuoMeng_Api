@@ -1,13 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Authorization;
 import com.hongluomeng.type.CodeEnum;
+import com.jfinal.validate.Validator;
 
-public class AuthorizationValidator extends BaseValidator {
+public class AuthorizationValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -21,12 +23,12 @@ public class AuthorizationValidator extends BaseValidator {
 		Authorization authorization = jsonObject.toJavaObject(Authorization.class);
 
 		switch (actionKey) {
-			case Const.URL_AUTHORIZATION_LIST:
+			case Url.URL_AUTHORIZATION_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_AUTHORIZATION_FIND:
+			case Url.URL_AUTHORIZATION_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(authorization.getAuthorization_id())) {
@@ -43,6 +45,10 @@ public class AuthorizationValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

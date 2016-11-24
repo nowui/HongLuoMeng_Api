@@ -2,6 +2,7 @@ package com.hongluomeng.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
+import com.hongluomeng.common.Url;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.service.SmsService;
 import com.hongluomeng.type.CodeEnum;
@@ -16,7 +17,7 @@ public class SmsController extends BaseController {
 	private SmsService smsService = new SmsService();
 
 	@Before(SmsValidator.class)
-	@ActionKey(Const.URL_SMS_REGISTER)
+	@ActionKey(Url.URL_SMS_REGISTER)
 	public void smsRegister() throws ApiException {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -28,7 +29,7 @@ public class SmsController extends BaseController {
 	}
 
 	@Before(SmsValidator.class)
-	@ActionKey(Const.URL_SMS_PASSWORD)
+	@ActionKey(Url.URL_SMS_PASSWORD)
 	public void smsPassword() throws ApiException {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

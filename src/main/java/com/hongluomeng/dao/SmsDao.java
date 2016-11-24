@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Sms;
@@ -11,76 +12,17 @@ import com.hongluomeng.model.Sms;
 public class SmsDao {
 
 	private Integer count(Sms sms, Integer minute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_TYPE + " = ? ", sms.getSms_type());
+		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms.getSms_phone());
+		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CODE + " = ? ", sms.getSms_code());
+		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_STATUS + " = ? ", sms.getSms_status());
+		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ", minute);
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(sms.getSms_type())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Sms.KEY_SMS_TYPE + " = ? ");
-			parameterList.add(sms.getSms_type());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(sms.getSms_phone())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Sms.KEY_SMS_PHONE + " = ? ");
-			parameterList.add(sms.getSms_phone());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(sms.getSms_code())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Sms.KEY_SMS_CODE + " = ? ");
-			parameterList.add(sms.getSms_code());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(sms.getSms_status())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Sms.KEY_SMS_STATUS + " = ? ");
-			if (sms.getSms_status()) {
-				parameterList.add(1);
-			} else {
-				parameterList.add(0);
-			}
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(minute)) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Sms.KEY_SMS_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
-
-			isExit = true;
-		}
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -103,19 +45,13 @@ public class SmsDao {
 	}
 
 	private List<Sms> list(Sms sms, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
-		sql.append("ORDER BY " + Sms.KEY_SMS_CREATE_TIME + " DESC ");
+		dynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
+		dynamicSQL.append("ORDER BY " + Sms.KEY_SMS_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Sms> smsList = sms.find(sql.toString(), parameterList.toArray());
-		return smsList;
+		return new Sms().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Sms> list(Integer m, Integer n) {
@@ -125,29 +61,13 @@ public class SmsDao {
 	}
 
 	private Sms find(Sms sms) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
+		dynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_ID + " = ? ", sms.getSms_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(sms.getSms_id())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Sms.KEY_SMS_ID + " = ? ");
-			parameterList.add(sms.getSms_id());
-
-			isExit = true;
-		}
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Sms> smsList = sms.find(sql.toString(), parameterList.toArray());
+		List<Sms> smsList = new Sms().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		if(smsList.size() == 0) {
 			return null;
 		} else {
@@ -171,24 +91,15 @@ public class SmsDao {
 	}
 
 	public void updateSms_statusBySms_phone(Boolean sms_status, String sms_type, String sms_phone, String sms_code) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Sms.KEY_TABLE_SMS + " ");
-		sql.append("SET " + Sms.KEY_SMS_STATUS + " = ? ");
-		sql.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ");
-		sql.append("AND " + Sms.KEY_SMS_PHONE + " = ? ");
-		sql.append("AND " + Sms.KEY_SMS_CODE + " = ? ");
+		dynamicSQL.append("UPDATE " + Sms.KEY_TABLE_SMS + " ");
+		dynamicSQL.append("SET " + Sms.KEY_SMS_STATUS + " = ? ", sms_status ? 1 : 0);
+		dynamicSQL.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ", sms_type);
+		dynamicSQL.append("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms_phone);
+		dynamicSQL.append("AND " + Sms.KEY_SMS_CODE + " = ? ", sms_code);
 
-		if (sms_status) {
-			parameterList.add(1);
-		} else {
-			parameterList.add(0);
-		}
-		parameterList.add(sms_type);
-		parameterList.add(sms_phone);
-		parameterList.add(sms_code);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 }

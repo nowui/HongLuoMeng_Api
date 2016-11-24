@@ -3,13 +3,16 @@ package com.hongluomeng.validator;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Cart;
 import com.hongluomeng.model.Order;
+import com.jfinal.validate.Validator;
 
-public class OrderValidator extends BaseValidator {
+public class OrderValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -21,12 +24,12 @@ public class OrderValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_ORDER_LIST:
+			case Url.URL_ORDER_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_ORDER_FIND: {
+			case Url.URL_ORDER_FIND: {
 				isExit = true;
 
 				Order order = jsonObject.toJavaObject(Order.class);
@@ -37,14 +40,14 @@ public class OrderValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ORDER_SAVE:
-			case Const.URL_ORDER_CART_SAVE:
-			case Const.URL_ORDER_UPDATE: {
+			case Url.URL_ORDER_SAVE:
+			case Url.URL_ORDER_CART_SAVE:
+			case Url.URL_ORDER_UPDATE: {
 				isExit = true;
 
 				Order order = jsonObject.toJavaObject(Order.class);
 
-				if (actionKey.equals(Const.URL_ORDER_UPDATE) && Utility.isNullOrEmpty(order.getOrder_id())) {
+				if (actionKey.equals(Url.URL_ORDER_UPDATE) && Utility.isNullOrEmpty(order.getOrder_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -59,7 +62,7 @@ public class OrderValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_ORDER_SAVE)) {
+				if (actionKey.equals(Url.URL_ORDER_SAVE)) {
 					Cart cart = jsonObject.toJavaObject(Cart.class);
 
 					if (Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
@@ -73,7 +76,7 @@ public class OrderValidator extends BaseValidator {
 					}
 				}
 
-				if (actionKey.equals(Const.URL_ORDER_CART_SAVE)) {
+				if (actionKey.equals(Url.URL_ORDER_CART_SAVE)) {
 					if (Utility.isNullOrEmpty(order.getCartList())) {
 						message += "商品为空";
 						message += Const.LINE_FEED;
@@ -106,7 +109,7 @@ public class OrderValidator extends BaseValidator {
 
 				break;
 			}
-			case Const.URL_ORDER_DELETE: {
+			case Url.URL_ORDER_DELETE: {
 				isExit = true;
 
 				Order order = jsonObject.toJavaObject(Order.class);
@@ -117,7 +120,7 @@ public class OrderValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ORDER_LIST_GET: {
+			case Url.URL_ORDER_LIST_GET: {
 				isExit = true;
 
 				Order order = jsonObject.toJavaObject(Order.class);
@@ -127,10 +130,10 @@ public class OrderValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
-			case Const.URL_ORDER_PAYED: {
+			case Url.URL_ORDER_PAYED: {
 				isExit = true;
 
 				Order order = jsonObject.toJavaObject(Order.class);
@@ -141,7 +144,7 @@ public class OrderValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_ORDER_NOTIFY:
+			case Url.URL_ORDER_NOTIFY:
 				isExit = true;
 				break;
 		}
@@ -153,6 +156,10 @@ public class OrderValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

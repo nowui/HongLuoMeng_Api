@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -12,20 +13,12 @@ import com.hongluomeng.model.OrderProduct;
 public class OrderProductDao {
 
 	private Integer count(OrderProduct orderProduct) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -36,29 +29,14 @@ public class OrderProductDao {
 	}
 
 	private List<OrderProduct> list(OrderProduct orderProduct, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + OrderProduct.KEY_ORDER_PRODUCT_CREATE_TIME + " ASC ");
+		dynamicSQL.appendPagination(m, n);
 
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + OrderProduct.KEY_ORDER_PRODUCT_CREATE_TIME + " ASC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<OrderProduct> orderProductList = orderProduct.find(sql.toString(), parameterList.toArray());
-		return orderProductList;
+		return new OrderProduct().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<OrderProduct> listByOrder_id(String order_id) {
@@ -69,37 +47,14 @@ public class OrderProductDao {
 	}
 
 	private OrderProduct find(OrderProduct orderProduct) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + OrderProduct.KEY_ORDER_ID + " = ? ", orderProduct.getOrder_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(orderProduct.getOrder_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(OrderProduct.KEY_ORDER_ID + " = ? ");
-			parameterList.add(orderProduct.getOrder_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<OrderProduct> orderProductList = orderProduct.find(sql.toString(), parameterList.toArray());
-		if(orderProductList.size() == 0) {
+		List<OrderProduct> orderProductList = new OrderProduct().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if(orderProductList == null) {
 			return null;
 		} else {
 			return orderProductList.get(0);
@@ -109,6 +64,8 @@ public class OrderProductDao {
 	public OrderProduct findByOrder_id(String order_id) {
 		OrderProduct orderProduct = new OrderProduct();
 		orderProduct.setOrder_id(order_id);
+
+		Utility.checkIsNullOrEmpty(order_id);
 
 		return find(orderProduct);
 	}
@@ -231,15 +188,15 @@ public class OrderProductDao {
 	}
 
 	public void delete(String order_id, String request_user_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " SET " + OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 0, " + OrderProduct.KEY_ORDER_PRODUCT_UPDATE_USER_ID + " = ?, " + OrderProduct.KEY_ORDER_PRODUCT_UPDATE_TIME + " = ? WHERE " + OrderProduct.KEY_ORDER_ID + " = ? ");
+		dynamicSQL.append("UPDATE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		dynamicSQL.append("SET " + OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 0, ");
+		dynamicSQL.append(OrderProduct.KEY_ORDER_PRODUCT_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(OrderProduct.KEY_ORDER_PRODUCT_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
 
-		parameterList.add(request_user_id);
-		parameterList.add(new Date());
-		parameterList.add(order_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 }

@@ -3,6 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -11,38 +12,14 @@ import com.hongluomeng.model.UserRole;
 public class UserRoleDao {
 
 	private List<UserRole> list(UserRole userRole) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + UserRole.KEY_TABLE_USER_ROLE + " ");
+		dynamicSQL.append("SELECT * FROM " + UserRole.KEY_TABLE_USER_ROLE + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + UserRole.KEY_USER_ID + " = ? ", userRole.getUser_id());
+		dynamicSQL.isNullOrEmpty("AND " + UserRole.KEY_USER_TYPE + " = ? ", userRole.getUser_type());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(userRole.getUser_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(UserRole.KEY_USER_ID + " = ? ");
-			parameterList.add(userRole.getUser_id());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(userRole.getUser_type())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(UserRole.KEY_USER_TYPE + " = ? ");
-			parameterList.add(userRole.getUser_type());
-
-			isExit = true;
-		}
-
-		List<UserRole> userRoleList = userRole.find(sql.toString(), parameterList.toArray());
-		return userRoleList;
+		return userRole.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<UserRole> listByUser_idAndUser_type(String user_id, String user_type) {
@@ -75,35 +52,29 @@ public class UserRoleDao {
 	}
 
 	public void delete(List<UserRole> userRoleList, String user_id, String user_type) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
+		dynamicSQL.append("DELETE FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
 
 		if (userRoleList.size() > 0) {
-			sql.append(UserRole.KEY_ROLE_ID + " NOT IN (SELECT A." + UserRole.KEY_ROLE_ID + " FROM (SELECT " + UserRole.KEY_ROLE_ID + " FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
+			dynamicSQL.append(UserRole.KEY_ROLE_ID + " NOT IN (SELECT A." + UserRole.KEY_ROLE_ID + " FROM (SELECT " + UserRole.KEY_ROLE_ID + " FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
 
-			int i = 0;
-			for(UserRole userRole : userRoleList) {
+			for(int i = 0; i < userRoleList.size(); i++) {
+				UserRole userRole = userRoleList.get(i);
 				if(i > 0) {
-					sql.append("OR ");
+					dynamicSQL.append("OR ");
 				}
-				i++;
 
-				sql.append("(" + UserRole.KEY_USER_ID + " = ? ");
-				sql.append("AND " + UserRole.KEY_USER_TYPE + " = ? ");
-				sql.append("AND " + UserRole.KEY_ROLE_ID + " = ?) ");
-				parameterList.add(userRole.getUser_id());
-				parameterList.add(userRole.getUser_type());
-				parameterList.add(userRole.getRole_id());
+				dynamicSQL.append("(" + UserRole.KEY_USER_ID + " = ? ", userRole.getUser_id());
+				dynamicSQL.append("AND " + UserRole.KEY_USER_TYPE + " = ? ", userRole.getUser_type());
+				dynamicSQL.append("AND " + UserRole.KEY_ROLE_ID + " = ?) ", userRole.getRole_id());
 			}
-			sql.append(") AS A) AND ");
+			dynamicSQL.append(") AS A) AND ");
 		}
-		sql.append(UserRole.KEY_USER_ID + " = ? ");
-		sql.append("AND " + UserRole.KEY_USER_TYPE + " = ? ");
-		parameterList.add(user_id);
-		parameterList.add(user_type);
+		dynamicSQL.append(UserRole.KEY_USER_ID + " = ? ", user_id);
+		dynamicSQL.append("AND " + UserRole.KEY_USER_TYPE + " = ? ", user_type);
 
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 }

@@ -36,12 +36,20 @@ public class DynamicSQL {
         }
     }
 
-    public void isNullOrEmptyForLike(String string, Object object) {
-        if (! Utility.isNullOrEmpty(object)) {
-            this.sql.append(string);
+	public void isNullOrEmptyForLike(String string, Object object) {
+		if (! Utility.isNullOrEmpty(object)) {
+			this.sql.append(string);
 
-            this.parameterList.add("%" + object + "%");
-        }
-    }
+			this.parameterList.add("%" + object + "%");
+		}
+	}
+
+	public void isNullOrEmptyForOther(String string, Object object1, Object object2) {
+		if (! Utility.isNullOrEmpty(object1)) {
+			this.sql.append(string);
+
+			this.parameterList.add(object2);
+		}
+	}
 
 }

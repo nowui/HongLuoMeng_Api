@@ -3,6 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Authorization;
@@ -10,11 +11,10 @@ import com.hongluomeng.model.Authorization;
 public class AuthorizationDao {
 
 	private Integer count(Authorization authorization) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -25,19 +25,12 @@ public class AuthorizationDao {
 	}
 
 	private List<Authorization> list(Authorization authorization, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		dynamicSQL.append("ORDER BY " + Authorization.KEY_AUTHORIZATION_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
-		sql.append("ORDER BY " + Authorization.KEY_AUTHORIZATION_CREATE_TIME + " DESC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Authorization> authorizationList = authorization.find(sql.toString(), parameterList.toArray());
-		return authorizationList;
+		return new Authorization().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Authorization> list(Integer m, Integer n) {
@@ -47,30 +40,13 @@ public class AuthorizationDao {
 	}
 
 	private Authorization find(Authorization authorization) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Authorization.KEY_AUTHORIZATION_ID + " = ? ", authorization.getAuthorization_id());
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
-
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(authorization.getAuthorization_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(Authorization.KEY_AUTHORIZATION_ID + " = ? ");
-			parameterList.add(authorization.getAuthorization_id());
-
-			isExit = true;
-		}
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Authorization> authorizationList = authorization.find(sql.toString(), parameterList.toArray());
-		if(authorizationList.size() == 0) {
+		List<Authorization> authorizationList = new Authorization().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if(authorizationList == null) {
 			return null;
 		} else {
 			return authorizationList.get(0);
@@ -80,6 +56,8 @@ public class AuthorizationDao {
 	public Authorization findByAuthorization_id(String authorization_id) {
 		Authorization authorization = new Authorization();
 		authorization.setAuthorization_id(authorization_id);
+
+		Utility.checkIsNullOrEmpty(authorization_id);
 
 		return find(authorization);
 	}

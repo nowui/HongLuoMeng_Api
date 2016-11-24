@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import java.util.Date;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class Admin extends Model<Admin> {
@@ -28,6 +29,10 @@ public class Admin extends Model<Admin> {
 		set(KEY_ADMIN_ID, admin_id);
 	}
 
+	public void checkAdmin_id() {
+		Utility.checkLength(getAdmin_id(), 32, 32, "编号长度应该为32位");
+	}
+
 	public String getAdmin_name() {
 		return getStr(KEY_ADMIN_NAME);
 	}
@@ -36,12 +41,20 @@ public class Admin extends Model<Admin> {
 		set(KEY_ADMIN_NAME, admin_name);
 	}
 
+	public void checkAdmin_name() {
+		Utility.checkLength(getAdmin_name(), 3, 20, "编号长度应该为3至20位之间");
+	}
+
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
+	}
+
+	public void checkUser_id() {
+		Utility.checkLength(getUser_id(), 32, 32, "编号长度应该为32位");
 	}
 
 	public String getUser_account() {

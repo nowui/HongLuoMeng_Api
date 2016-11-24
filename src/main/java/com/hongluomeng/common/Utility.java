@@ -25,6 +25,7 @@ public class Utility {
 
 	/**
 	 * 获取客户端IP地址
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -55,9 +56,9 @@ public class Utility {
 	public static String isLength(String str, int minLength, int maxLength, String message) {
 		int length = str.length();
 
-		if(length < minLength) {
+		if (length < minLength) {
 			return message + "长度小于" + minLength;
-		} else if(length >= minLength || length <= maxLength) {
+		} else if (length >= minLength || length <= maxLength) {
 			return "";
 		} else {
 			return message + "长度大于" + maxLength;
@@ -65,112 +66,104 @@ public class Utility {
 	}
 
 	public static boolean isNullOrEmpty(Object obj) {
-        if (obj == null)
-            return true;
+		if (obj == null)
+			return true;
 
-        if (obj instanceof CharSequence)
-            return ((CharSequence) obj).length() == 0;
+		if (obj instanceof CharSequence)
+			return ((CharSequence) obj).length() == 0;
 
-        if (obj instanceof Collection)
-            return ((Collection<?>) obj).isEmpty();
+		if (obj instanceof Collection)
+			return ((Collection<?>) obj).isEmpty();
 
-        if (obj instanceof Map)
-            return ((Map<?, ?>) obj).isEmpty();
+		if (obj instanceof Map)
+			return ((Map<?, ?>) obj).isEmpty();
 
-        if (obj instanceof Object[]) {
-            Object[] object = (Object[]) obj;
-            if (object.length == 0) {
-                return true;
-            }
-            boolean empty = true;
-            for (int i = 0; i < object.length; i++) {
-                if (!isNullOrEmpty(object[i])) {
-                    empty = false;
-                    break;
-                }
-            }
-            return empty;
-        }
-        return false;
-    }
+		if (obj instanceof Object[]) {
+			Object[] object = (Object[]) obj;
+			if (object.length == 0) {
+				return true;
+			}
+			boolean empty = true;
+			for (int i = 0; i < object.length; i++) {
+				if (!isNullOrEmpty(object[i])) {
+					empty = false;
+					break;
+				}
+			}
+			return empty;
+		}
+		return false;
+	}
 
 	public static boolean isNull(Object obj) {
 		return obj == null;
 	}
 
 	public static boolean isEmail(String str) {
-        Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+		Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 		Matcher matcher = emailPattern.matcher(str);
-		if(matcher.find()) {
+		if (matcher.find()) {
 			return true;
 		}
 		return false;
-    }
+	}
 
 	public static boolean isPhone(String str) {
-        Pattern p = null;
-        Matcher m = null;
-        boolean b = false;
-        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$");
-        m = p.matcher(str);
-        b = m.matches();
-        return b;
-    }
+		Pattern p = null;
+		Matcher m = null;
+		boolean b = false;
+		p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$");
+		m = p.matcher(str);
+		b = m.matches();
+		return b;
+	}
 
 	public static boolean isPasswLength(String str) {
-        String regex = "^//d{6,18}$";
-        return match(regex, str);
-    }
+		String regex = "^//d{6,18}$";
+		return match(regex, str);
+	}
 
 	public static boolean isLength(String str) {
-        String regex = "^.{8,}$";
-        return match(regex, str);
-    }
+		String regex = "^.{8,}$";
+		return match(regex, str);
+	}
 
 	public static boolean isDate(String str) {
-        String regex = "^((((1[6-9]|[2-9]//d)//d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]//d|3[01]))|(((1[6-9]|[2-9]//d)//d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]//d|30))|(((1[6-9]|[2-9]//d)//d{2})-0?2-(0?[1-9]|1//d|2[0-8]))|(((1[6-9]|[2-9]//d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?//d):[0-5]?//d:[0-5]?//d$";
-        return match(regex, str);
+		String regex = "^((((1[6-9]|[2-9]//d)//d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]//d|3[01]))|(((1[6-9]|[2-9]//d)//d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]//d|30))|(((1[6-9]|[2-9]//d)//d{2})-0?2-(0?[1-9]|1//d|2[0-8]))|(((1[6-9]|[2-9]//d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?//d):[0-5]?//d:[0-5]?//d$";
+		return match(regex, str);
 	}
 
 	public static boolean isNumber(String str) {
-        String regex = "^[0-9]*$";
-        return match(regex, str);
-    }
+		String regex = "^[0-9]*$";
+		return match(regex, str);
+	}
 
 	public static boolean isIntNumber(String str) {
-        String regex = "^//+?[1-9][0-9]*$";
-        return match(regex, str);
-    }
+		String regex = "^//+?[1-9][0-9]*$";
+		return match(regex, str);
+	}
 
 	public static boolean isDecimal(String str) {
-        String regex = "^[0-9]+(.[0-9]{2})?$";
-        return match(regex, str);
-    }
+		String regex = "^[0-9]+(.[0-9]{2})?$";
+		return match(regex, str);
+	}
 
 	private static boolean match(String regex, String str) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(str);
-        return matcher.matches();
-    }
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+		return matcher.matches();
+	}
 
 	public static Map<String, Object> setResponse(CodeEnum code, String message, Object data) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(Const.KEY_CODE, code.getKey());
-		if(code.equals(CodeEnum.CODE_200)) {
+		if (code.equals(CodeEnum.CODE_200)) {
 			map.put(Const.KEY_DATA, data);
 		} else {
 			map.put(Const.KEY_MESSAGE, message.replaceAll("java.lang.RuntimeException: ", ""));
 		}
 		return map;
 	}
-
-	/*public static Map<String, Object> setResponse(CodeEnum code, String message, Integer total, Object data) {
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put(Const.KEY_TOTAL, total);
-		dataMap.put(Const.KEY_LIST, data);
-
-		return setResponse(code, message, dataMap);
-	}*/
 
 	public static Map<String, Object> setResultMap(Integer total, Object data) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -213,22 +206,6 @@ public class Utility {
 		}
 	}
 
-	public static String checkPageAndLimit(Map<String, Object> map) {
-		String message = "";
-
-		if(! map.containsKey(Const.KEY_PAGE)) {
-			message += "没有page参数";
-			message += "<br />";
-		}
-
-		if(! map.containsKey(Const.KEY_LIMIT)) {
-			message += "没有limit参数";
-			message += "<br />";
-		}
-
-		return message;
-	}
-
 	public static Date getDateTime(String dateTime) {
 		try {
 			return dateTimeFormat.parse(dateTime);
@@ -254,7 +231,7 @@ public class Utility {
 	public static Object[][] getObjectArray(List<Object[]> parameterList) {
 		Object[][] parameterArray = new Object[parameterList.size()][];
 		int i = 0;
-		for(Object[] oo : parameterList) {
+		for (Object[] oo : parameterList) {
 			parameterArray[i++] = oo;
 		}
 
@@ -268,30 +245,30 @@ public class Utility {
 	public static boolean checkSql(String str) {
 		String inj_str = "'|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+|,";
 		String inj_stra[] = inj_str.split("|");
-		for (int i=0 ; i < inj_stra.length; i++ ) {
-			if (str.indexOf(inj_stra[i])>=0) {
+		for (int i = 0; i < inj_stra.length; i++) {
+			if (str.indexOf(inj_stra[i]) >= 0) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static void checkContent(String content) throws Exception {
-		/*Map<String, String> parameter = new HashMap<String, String>();
-		parameter.put("apikey", "297e48e88d49aa57c9f6f062c01cf138");
-		String result = HttpKit.post("http://apis.baidu.com/tutusoft/shajj/shajj", "content=" + content, parameter);
-
-		JSONObject jsonObject = JSONObject.parseObject(result);
-
-		if(jsonObject.getIntValue(Const.KEY_RESULT) > 0) {
-			throw new RuntimeException("包含不良信息");
-		}*/
-	}
+//	public static void checkContent(String content) throws Exception {
+//		Map<String, String> parameter = new HashMap<String, String>();
+//		parameter.put("apikey", "297e48e88d49aa57c9f6f062c01cf138");
+//		String result = HttpKit.post("http://apis.baidu.com/tutusoft/shajj/shajj", "content=" + content, parameter);
+//
+//		JSONObject jsonObject = JSONObject.parseObject(result);
+//
+//		if(jsonObject.getIntValue(Const.KEY_RESULT) > 0) {
+//			throw new RuntimeException("包含不良信息");
+//		}
+//	}
 
 	private static void createPath(String path) {
 		File file = new File(path);
 
-		if(!file .exists()  && !file .isDirectory()) {
+		if (!file.exists() && !file.isDirectory()) {
 			file.mkdirs();
 		}
 	}
@@ -300,7 +277,7 @@ public class Utility {
 		String path = PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + user_id;
 		File file = new File(path + "/" + Const.UPLOAD_SMALL);
 
-		if(!file .exists()  && !file .isDirectory()) {
+		if (!file.exists() && !file.isDirectory()) {
 			createPath(path + "/" + Const.UPLOAD_SMALL);
 			createPath(path + "/" + Const.UPLOAD_LARGE);
 		}
@@ -311,18 +288,48 @@ public class Utility {
 	}
 
 	public static String getFixLenthString(int strLength) {
-	    Random rm = new Random();
+		Random rm = new Random();
 
-	    double pross = (1 + rm.nextDouble()) * Math.pow(10, strLength);
+		double pross = (1 + rm.nextDouble()) * Math.pow(10, strLength);
 
-	    String fixLenthString = String.valueOf(pross);
+		String fixLenthString = String.valueOf(pross);
 
-	    return fixLenthString.substring(1, strLength + 1);
+		return fixLenthString.substring(1, strLength + 1);
 	}
 
 	public static void checkIsNullOrEmpty(Object object) {
 		if (isNullOrEmpty(object)) {
 			throw new RuntimeException("空值");
+		}
+	}
+
+	public static void checkPageAndLimit(Map<String, Object> map) {
+		if (!map.containsKey(Const.KEY_PAGE)) {
+			throw new RuntimeException("page为空");
+		} else {
+			if (!isIntNumber(map.get(Const.KEY_PAGE).toString())) {
+				throw new RuntimeException("page格式不对");
+			}
+		}
+
+		if (!map.containsKey(Const.KEY_LIMIT)) {
+			throw new RuntimeException("limit为空");
+		} else {
+			if (!isIntNumber(map.get(Const.KEY_LIMIT).toString())) {
+				throw new RuntimeException("limit格式不对");
+			}
+		}
+
+	}
+
+	public static void checkLength(String str, int start, int end, String message) {
+		if (isNullOrEmpty(str)) {
+			throw new RuntimeException(message);
+		}
+
+		String regex = "^//d{" + start + "," + end + "}$";
+		if (!match(regex, str)) {
+			throw new RuntimeException(message);
 		}
 	}
 

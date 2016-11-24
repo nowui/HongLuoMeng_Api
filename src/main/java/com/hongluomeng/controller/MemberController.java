@@ -3,6 +3,7 @@ package com.hongluomeng.controller;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.jfinal.upload.UploadFile;
@@ -18,7 +19,7 @@ public class MemberController extends BaseController {
 	private MemberService memberService = new MemberService();
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_LIST)
+	@ActionKey(Url.URL_MEMBER_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -28,7 +29,7 @@ public class MemberController extends BaseController {
     }
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_FIND)
+	@ActionKey(Url.URL_MEMBER_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -38,7 +39,7 @@ public class MemberController extends BaseController {
     }
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_DELETE)
+	@ActionKey(Url.URL_MEMBER_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -48,7 +49,7 @@ public class MemberController extends BaseController {
     }
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_LOGIN)
+	@ActionKey(Url.URL_MEMBER_LOGIN)
 	public void login() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -62,7 +63,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_WEIBO_OAUTH)
+	@ActionKey(Url.URL_MEMBER_WEIBO_OAUTH)
 	public void oauthWeibo() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -72,7 +73,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_WECHAT_OAUTH)
+	@ActionKey(Url.URL_MEMBER_WECHAT_OAUTH)
 	public void oauthWechat() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -82,7 +83,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_WEIBO_BIND)
+	@ActionKey(Url.URL_MEMBER_WEIBO_BIND)
 	public void bindWeibo() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -92,7 +93,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_WECHAT_BIND)
+	@ActionKey(Url.URL_MEMBER_WECHAT_BIND)
 	public void bindWechat() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -102,7 +103,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_REGISTER)
+	@ActionKey(Url.URL_MEMBER_REGISTER)
 	public void register() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -112,7 +113,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_NAME_UPDATE)
+	@ActionKey(Url.URL_MEMBER_NAME_UPDATE)
 	public void updatName() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -122,7 +123,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_PASSWORD_UPDATE)
+	@ActionKey(Url.URL_MEMBER_PASSWORD_UPDATE)
 	public void updatePassword() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -132,7 +133,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_AVATAR_UPLOAD)
+	@ActionKey(Url.URL_MEMBER_AVATAR_UPLOAD)
 	public void uploadAvatar() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -146,7 +147,7 @@ public class MemberController extends BaseController {
 	}
 
 	@Before(MemberValidator.class)
-	@ActionKey(Const.URL_MEMBER_WEIBO_UPDATE)
+	@ActionKey(Url.URL_MEMBER_WEIBO_UPDATE)
 	public void uploadWeibo() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

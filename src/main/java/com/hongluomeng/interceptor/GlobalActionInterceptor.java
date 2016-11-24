@@ -1,6 +1,7 @@
 package com.hongluomeng.interceptor;
 
 import com.hongluomeng.common.Private;
+import com.hongluomeng.common.Url;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,29 +44,29 @@ public class GlobalActionInterceptor implements Interceptor {
 
 		//不检查token的url列表
 		Set<String> uncheckTokenSet = new HashSet<String>();
-		uncheckTokenSet.add(Const.URL_MEMBER_LOGIN);
-		uncheckTokenSet.add(Const.URL_MEMBER_REGISTER);
-		uncheckTokenSet.add(Const.URL_MEMBER_PASSWORD_UPDATE);
-		uncheckTokenSet.add(Const.URL_ADMIN_LOGIN);
-		uncheckTokenSet.add(Const.URL_SMS_REGISTER);
-		uncheckTokenSet.add(Const.URL_SMS_PASSWORD);
-		uncheckTokenSet.add(Const.URL_MEMBER_WEIBO_OAUTH);
-		uncheckTokenSet.add(Const.URL_MEMBER_WECHAT_OAUTH);
-		uncheckTokenSet.add(Const.URL_ORDER_NOTIFY);
+		uncheckTokenSet.add(Url.URL_MEMBER_LOGIN);
+		uncheckTokenSet.add(Url.URL_MEMBER_REGISTER);
+		uncheckTokenSet.add(Url.URL_MEMBER_PASSWORD_UPDATE);
+		uncheckTokenSet.add(Url.URL_ADMIN_LOGIN);
+		uncheckTokenSet.add(Url.URL_SMS_REGISTER);
+		uncheckTokenSet.add(Url.URL_SMS_PASSWORD);
+		uncheckTokenSet.add(Url.URL_MEMBER_WEIBO_OAUTH);
+		uncheckTokenSet.add(Url.URL_MEMBER_WECHAT_OAUTH);
+		uncheckTokenSet.add(Url.URL_ORDER_NOTIFY);
 
 		//不检查request的url列表
 		Set<String> uncheckRequestSet = new HashSet<String>();
-		uncheckRequestSet.add(Const.URL_UPLOAD_IMAGE);
-		uncheckRequestSet.add(Const.URL_MEMBER_AVATAR_UPLOAD);
-		uncheckRequestSet.add(Const.URL_ORDER_NOTIFY);
+		uncheckRequestSet.add(Url.URL_UPLOAD_IMAGE);
+		uncheckRequestSet.add(Url.URL_MEMBER_AVATAR_UPLOAD);
+		uncheckRequestSet.add(Url.URL_ORDER_NOTIFY);
 
 		//不保存request到log的url列表
 		Set<String> unSaveLogSet = new HashSet<String>();
-		unSaveLogSet.add(Const.URL_UPLOAD_BASE64);
+		unSaveLogSet.add(Url.URL_UPLOAD_BASE64);
 
 		//不检查请求头的url列表
 		Set<String> uncheckRequestHeaderSet = new HashSet<String>();
-		uncheckRequestHeaderSet.add(Const.URL_ORDER_NOTIFY);
+		uncheckRequestHeaderSet.add(Url.URL_ORDER_NOTIFY);
 
 		Connection connection = null;
 

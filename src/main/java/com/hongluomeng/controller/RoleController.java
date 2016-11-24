@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -18,7 +19,7 @@ public class RoleController extends BaseController {
 	private RoleService roleService = new RoleService();
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_LIST)
+	@ActionKey(Url.URL_ROLE_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -28,7 +29,7 @@ public class RoleController extends BaseController {
     }
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_FIND)
+	@ActionKey(Url.URL_ROLE_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -38,7 +39,7 @@ public class RoleController extends BaseController {
     }
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_SAVE)
+	@ActionKey(Url.URL_ROLE_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -48,7 +49,7 @@ public class RoleController extends BaseController {
 	}
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_UPDATE)
+	@ActionKey(Url.URL_ROLE_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -58,7 +59,7 @@ public class RoleController extends BaseController {
 	}
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_DELETE)
+	@ActionKey(Url.URL_ROLE_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -68,7 +69,7 @@ public class RoleController extends BaseController {
 	}
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_OPERATION_LIST)
+	@ActionKey(Url.URL_ROLE_OPERATION_LIST)
 	public void listOperatio() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -78,7 +79,7 @@ public class RoleController extends BaseController {
 	}
 
 	@Before(RoleValidator.class)
-	@ActionKey(Const.URL_ROLE_OPERATION_UPDATE)
+	@ActionKey(Url.URL_ROLE_OPERATION_UPDATE)
 	public void updateOperation() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

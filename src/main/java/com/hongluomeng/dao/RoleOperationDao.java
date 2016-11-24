@@ -3,6 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -11,26 +12,13 @@ import com.hongluomeng.model.RoleOperation;
 public class RoleOperationDao {
 
 	private List<RoleOperation> list(RoleOperation roleOperation) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ");
+		dynamicSQL.append("SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(roleOperation.getRole_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(RoleOperation.KEY_ROLE_ID + " = ? ");
-			parameterList.add(roleOperation.getRole_id());
-
-			isExit = true;
-		}
-
-		List<RoleOperation> roleOperationList = roleOperation.find(sql.toString(), parameterList.toArray());
-		return roleOperationList;
+		return roleOperation.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<RoleOperation> listByRole_id(String role_id) {
@@ -60,41 +48,35 @@ public class RoleOperationDao {
 	}
 
 	public void deleteByRole_id(List<RoleOperation> roleOperationList, String role_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
+		dynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
 
 		if (roleOperationList.size() > 0) {
-			sql.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
+			dynamicSQL.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
 
-			int i = 0;
-			for(RoleOperation roleOperation : roleOperationList) {
+			for(int i = 0; i < roleOperationList.size(); i++) {
+				RoleOperation roleOperation = roleOperationList.get(i);
 				if(i > 0) {
-					sql.append("OR ");
+					dynamicSQL.append("OR ");
 				}
-				i++;
 
-				sql.append("(" + RoleOperation.KEY_ROLE_ID + " = ? ");
-				sql.append("AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ");
-				parameterList.add(roleOperation.getRole_id());
-				parameterList.add(roleOperation.getOperation_id());
+				dynamicSQL.append("(" + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
+				dynamicSQL.append("AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ", roleOperation.getOperation_id());
 			}
-			sql.append(") AS A) AND ");
+			dynamicSQL.append(") AS A) AND ");
 		}
-		sql.append(RoleOperation.KEY_ROLE_ID + " = ? ");
-		parameterList.add(role_id);
+		dynamicSQL.append(RoleOperation.KEY_ROLE_ID + " = ? ", role_id);
 
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void deleteByOperation_id(String operation_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ");
+		dynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ", operation_id);
 
-		parameterList.add(operation_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 }

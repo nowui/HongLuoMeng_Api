@@ -1,14 +1,17 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Product;
+import com.jfinal.validate.Validator;
 
-public class ProductValidator extends BaseValidator {
+public class ProductValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,7 +23,7 @@ public class ProductValidator extends BaseValidator {
 		String message = "";
 
 		switch (actionKey) {
-			case Const.URL_PRODUCT_LIST: {
+			case Url.URL_PRODUCT_LIST: {
 				isExit = true;
 
 				Product product = jsonObject.toJavaObject(Product.class);
@@ -30,10 +33,10 @@ public class ProductValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
-			case Const.URL_PRODUCT_FIND:
+			case Url.URL_PRODUCT_FIND:
 				isExit = true;
 
 			/*if(Utility.isNullOrEmpty(product.getProduct_id())) {
@@ -41,13 +44,13 @@ public class ProductValidator extends BaseValidator {
 				message += Const.LINE_FEED;
 			}*/
 				break;
-			case Const.URL_PRODUCT_SAVE:
-			case Const.URL_PRODUCT_UPDATE: {
+			case Url.URL_PRODUCT_SAVE:
+			case Url.URL_PRODUCT_UPDATE: {
 				isExit = true;
 
 				Product product = jsonObject.toJavaObject(Product.class);
 
-				if (actionKey.equals(Const.URL_PRODUCT_UPDATE) && Utility.isNullOrEmpty(product.getProduct_id())) {
+				if (actionKey.equals(Url.URL_PRODUCT_UPDATE) && Utility.isNullOrEmpty(product.getProduct_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -103,7 +106,7 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_DELETE: {
+			case Url.URL_PRODUCT_DELETE: {
 				isExit = true;
 
 				Product product = jsonObject.toJavaObject(Product.class);
@@ -114,11 +117,11 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORY_LIST:
+			case Url.URL_PRODUCT_CATEGORY_LIST:
 				isExit = true;
 
 				break;
-			case Const.URL_PRODUCT_CATEGORY_FIND: {
+			case Url.URL_PRODUCT_CATEGORY_FIND: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
@@ -129,18 +132,18 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORY_SAVE:
-			case Const.URL_PRODUCT_CATEGORYT_UPDATE: {
+			case Url.URL_PRODUCT_CATEGORY_SAVE:
+			case Url.URL_PRODUCT_CATEGORYT_UPDATE: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
 
-				if (actionKey.equals(Const.URL_PRODUCT_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
+				if (actionKey.equals(Url.URL_PRODUCT_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
 					message += "父编号为空";
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_PRODUCT_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
+				if (actionKey.equals(Url.URL_PRODUCT_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -156,7 +159,7 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORYT_DELETE: {
+			case Url.URL_PRODUCT_CATEGORYT_DELETE: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
@@ -167,7 +170,7 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST: {
+			case Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST: {
 				isExit = true;
 
 				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -179,7 +182,7 @@ public class ProductValidator extends BaseValidator {
 
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND: {
+			case Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND: {
 				isExit = true;
 
 				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -190,8 +193,8 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE:
-			case Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE: {
+			case Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE:
+			case Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE: {
 				isExit = true;
 
 				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -212,7 +215,7 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE: {
+			case Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE: {
 				isExit = true;
 
 				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
@@ -228,11 +231,11 @@ public class ProductValidator extends BaseValidator {
 				}
 				break;
 			}
-			case Const.URL_PRODUCT_CATEGORY_LIST_GET:
+			case Url.URL_PRODUCT_CATEGORY_LIST_GET:
 				isExit = true;
 
 				break;
-			case Const.URL_PRODUCT_LIST_GET: {
+			case Url.URL_PRODUCT_LIST_GET: {
 				isExit = true;
 
 				Category category = jsonObject.toJavaObject(Category.class);
@@ -242,10 +245,10 @@ public class ProductValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
-			case Const.URL_PRODUCT_BRAND_LIST_GET: {
+			case Url.URL_PRODUCT_BRAND_LIST_GET: {
 				isExit = true;
 
 				Product product = jsonObject.toJavaObject(Product.class);
@@ -255,15 +258,15 @@ public class ProductValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
-			case Const.URL_PRODUCT_MARKET_LIST_GET:
+			case Url.URL_PRODUCT_MARKET_LIST_GET:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_PRODUCT_GET: {
+			case Url.URL_PRODUCT_GET: {
 				isExit = true;
 
 				Product product = jsonObject.toJavaObject(Product.class);
@@ -283,6 +286,10 @@ public class ProductValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

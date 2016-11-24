@@ -374,6 +374,10 @@ public class OrderService {
     }
 
     private String sign(Order order, String order_pay_type) {
+        if(order.getOrder_price().compareTo(BigDecimal.ZERO) == 0) {
+            throw new RuntimeException("价格不能为零");
+        }
+
         if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
             try {
                 String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";

@@ -1,12 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Operation;
+import com.jfinal.validate.Validator;
 
-public class OperationValidator extends BaseValidator {
+public class OperationValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,17 +23,17 @@ public class OperationValidator extends BaseValidator {
 		Operation operation = jsonObject.toJavaObject(Operation.class);
 
 		switch (actionKey) {
-			case Const.URL_OPERATION_LIST:
+			case Url.URL_OPERATION_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 
 				if (Utility.isNullOrEmpty(operation.getMenu_id())) {
 					message += "菜单编号为空";
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_OPERATION_FIND:
+			case Url.URL_OPERATION_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(operation.getOperation_id())) {
@@ -38,16 +41,16 @@ public class OperationValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_OPERATION_SAVE:
-			case Const.URL_OPERATION_UPDATE:
+			case Url.URL_OPERATION_SAVE:
+			case Url.URL_OPERATION_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Const.URL_OPERATION_SAVE) && Utility.isNullOrEmpty(operation.getMenu_id())) {
+				if (actionKey.equals(Url.URL_OPERATION_SAVE) && Utility.isNullOrEmpty(operation.getMenu_id())) {
 					message += "菜单编号为空";
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_OPERATION_UPDATE) && Utility.isNullOrEmpty(operation.getOperation_id())) {
+				if (actionKey.equals(Url.URL_OPERATION_UPDATE) && Utility.isNullOrEmpty(operation.getOperation_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -62,7 +65,7 @@ public class OperationValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_OPERATION_DELETE:
+			case Url.URL_OPERATION_DELETE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(operation.getOperation_id())) {
@@ -79,6 +82,10 @@ public class OperationValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

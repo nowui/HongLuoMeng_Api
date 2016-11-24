@@ -1,12 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
+import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Cart;
+import com.jfinal.validate.Validator;
 
-public class CartValidator extends BaseValidator {
+public class CartValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -20,12 +23,12 @@ public class CartValidator extends BaseValidator {
 		Cart cart = jsonObject.toJavaObject(Cart.class);
 
 		switch (actionKey) {
-			case Const.URL_CART_LIST:
+			case Url.URL_CART_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_CART_FIND:
+			case Url.URL_CART_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(cart.getCart_id())) {
@@ -33,16 +36,16 @@ public class CartValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_CART_SAVE:
-			case Const.URL_CART_UPDATE:
+			case Url.URL_CART_SAVE:
+			case Url.URL_CART_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Const.URL_CART_UPDATE) && Utility.isNullOrEmpty(cart.getCart_id())) {
+				if (actionKey.equals(Url.URL_CART_UPDATE) && Utility.isNullOrEmpty(cart.getCart_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
 
-				if (actionKey.equals(Const.URL_CART_SAVE) && Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
+				if (actionKey.equals(Url.URL_CART_SAVE) && Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
 					message += "商品SKU编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -52,7 +55,7 @@ public class CartValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_CART_DELETE:
+			case Url.URL_CART_DELETE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(cart.getCart_id())) {
@@ -60,7 +63,7 @@ public class CartValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_CART_LIST_GET:
+			case Url.URL_CART_LIST_GET:
 				isExit = true;
 				break;
 		}
@@ -72,6 +75,10 @@ public class CartValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

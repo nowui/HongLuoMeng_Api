@@ -8,10 +8,11 @@ import static org.ehcache.config.builders.UserManagedCacheBuilder.newUserManaged
 
 public class BaseCache {
 
-	public static UserManagedCache<String, List> ehcacheList = newUserManagedCacheBuilder(String.class, List.class).identifier("data-cache-list").build(true);
-	public static Map<String, Set<String>> map = new HashMap<String, Set<String>>();
+	protected static UserManagedCache<String, List> ehcacheList = newUserManagedCacheBuilder(String.class, List.class).identifier("data-cache-list").build(true);
+	protected static UserManagedCache<String, Object> ehcacheObject = newUserManagedCacheBuilder(String.class, Object.class).identifier("data-cache-object").build(true);
+	protected static Map<String, Set<String>> map = new HashMap<String, Set<String>>();
 
-	public Set<String> getMapByKey(String key) {
+	protected Set<String> getMapByKey(String key) {
 		Set<String> set;
 
 		if (map.containsKey(key)) {
@@ -23,7 +24,7 @@ public class BaseCache {
 		return set;
 	}
 
-	public void setMapByKeyAndId(String key, String id) {
+	protected void setMapByKeyAndId(String key, String id) {
 		Set<String> set;
 
 		if (map.containsKey(key)) {
@@ -37,7 +38,7 @@ public class BaseCache {
 		map.put(key, set);
 	}
 
-	public void removeMapByKeyAndId(String key, String id) {
+	protected void removeMapByKeyAndId(String key, String id) {
 		Set<String> set;
 
 		if (map.containsKey(key)) {
@@ -51,7 +52,7 @@ public class BaseCache {
 		map.put(key, set);
 	}
 
-	public void removeMapByKey(String key) {
+	protected void removeMapByKey(String key) {
 		Set<String> set = new HashSet<String>();
 
 		map.put(key, set);

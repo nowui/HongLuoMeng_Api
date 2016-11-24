@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -17,7 +18,7 @@ public class UserController extends BaseController {
 	private UserService userService = new UserService();
 
 	@Before(UserValidator.class)
-	@ActionKey(Const.URL_USER_MENU_LIST)
+	@ActionKey(Url.URL_USER_MENU_LIST)
 	public void listMenu() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

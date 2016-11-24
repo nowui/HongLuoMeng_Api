@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
@@ -22,7 +23,7 @@ public class UploadController extends BaseController {
 
 	private UploadService uploadService = new UploadService();
 
-	@ActionKey(Const.URL_UPLOAD_LIST)
+	@ActionKey(Url.URL_UPLOAD_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -67,7 +68,7 @@ public class UploadController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@ActionKey(Const.URL_UPLOAD_IMAGE)
+	@ActionKey(Url.URL_UPLOAD_IMAGE)
 	public void uploadImage() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -106,7 +107,7 @@ public class UploadController extends BaseController {
 	    }
 	}
 
-	@ActionKey(Const.URL_UPLOAD_BASE64)
+	@ActionKey(Url.URL_UPLOAD_BASE64)
 	public void uploadBase64() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 

@@ -47,7 +47,7 @@ public class CategoryAttributeDao {
 
 			c.setCategory_id(record.getStr(CategoryAttribute.KEY_CATEGORY_ID));
 			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
-			c.setAttribute_name(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_NAME));
+			c.setAttribute_name(record.getStr(Attribute.KEY_ATTRIBUTE_NAME));
 			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
 			c.setAttribute_type(record.getStr(Attribute.KEY_ATTRIBUTE_TYPE));
 			c.setAttribute_default_value(record.getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
@@ -99,7 +99,7 @@ public class CategoryAttributeDao {
 
 			c.setCategory_id(record.getStr(CategoryAttribute.KEY_CATEGORY_ID));
 			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
-			c.setAttribute_name(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_NAME));
+			c.setAttribute_name(record.getStr(Attribute.KEY_ATTRIBUTE_NAME));
 			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
 			c.setAttribute_value(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_VALUE));
 			c.setAttribute_type(record.getStr(Attribute.KEY_ATTRIBUTE_TYPE));
@@ -175,7 +175,7 @@ public class CategoryAttributeDao {
 
 			c.setCategory_id(record.getStr(CategoryAttribute.KEY_CATEGORY_ID));
 			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
-			c.setAttribute_name(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_NAME));
+			c.setAttribute_name(record.getStr(Attribute.KEY_ATTRIBUTE_NAME));
 			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
 
 			return c;

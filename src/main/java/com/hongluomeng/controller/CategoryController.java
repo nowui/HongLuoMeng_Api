@@ -3,6 +3,7 @@ package com.hongluomeng.controller;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -18,7 +19,7 @@ public class CategoryController extends BaseController {
 	private CategoryService categoryService = new CategoryService();
 
 	@Before(CategoryValidator.class)
-	@ActionKey(Const.URL_CATEGORY_LIST)
+	@ActionKey(Url.URL_CATEGORY_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -28,7 +29,7 @@ public class CategoryController extends BaseController {
     }
 
 	@Before(CategoryValidator.class)
-	@ActionKey(Const.URL_CATEGORY_FIND)
+	@ActionKey(Url.URL_CATEGORY_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -38,7 +39,7 @@ public class CategoryController extends BaseController {
     }
 
 	@Before(CategoryValidator.class)
-	@ActionKey(Const.URL_CATEGORY_SAVE)
+	@ActionKey(Url.URL_CATEGORY_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -48,7 +49,7 @@ public class CategoryController extends BaseController {
 	}
 
 	@Before(CategoryValidator.class)
-	@ActionKey(Const.URL_CATEGORY_UPDATE)
+	@ActionKey(Url.URL_CATEGORY_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -58,7 +59,7 @@ public class CategoryController extends BaseController {
 	}
 
 	@Before(CategoryValidator.class)
-	@ActionKey(Const.URL_CATEGORY_DELETE)
+	@ActionKey(Url.URL_CATEGORY_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -68,7 +69,7 @@ public class CategoryController extends BaseController {
 	}
 
 	@Before(CategoryValidator.class)
-	@ActionKey(Const.URL_CATEGORY_CHINA)
+	@ActionKey(Url.URL_CATEGORY_CHINA)
 	public void china() {
 		Map<String, Object> map = categoryService.treeByCategory_key(CatetoryEnum.CHINA.getKey());
 

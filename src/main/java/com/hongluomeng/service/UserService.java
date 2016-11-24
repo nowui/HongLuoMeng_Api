@@ -23,19 +23,19 @@ public class UserService {
 	public Integer count(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
 
-		return userDao.countByUser_idAndUser_account("", userMap.getUser_account());
+		return userDao.countByUser_accountNotEqualUser_id("", userMap.getUser_account());
 	}
 
 	public Integer countByUser_phone(String user_phone) {
-		return userDao.countByUser_idAndUser_phone("", user_phone);
+		return userDao.countByUser_phoneNotEqualUser_id("", user_phone);
 	}
 
 	public Integer countByWeiboOauth(String weibo_uid, String weibo_access_token) {
-		return userDao.countByWeibo(weibo_uid, weibo_access_token);
+		return userDao.countByWeibo_uidNotEqualUser_id(weibo_uid, weibo_access_token);
 	}
 
 	public Integer countByWechatOauth(String wechat_uid, String wechat_access_token) {
-		return userDao.countByWechat(wechat_uid, wechat_access_token);
+		return userDao.countByWechat_uidNotEqualUser_id(wechat_uid, wechat_access_token);
 	}
 
 	public List<User> list(JSONObject jsonObject) {
@@ -128,7 +128,7 @@ public class UserService {
 	}
 
 	public String saveByAccount(String user_account, String user_password, String user_type, String request_user_id) {
-		Integer count = userDao.countByUser_idAndUser_account("", user_account);
+		Integer count = userDao.countByUser_accountNotEqualUser_id("", user_account);
 
 		if (count == 0) {
 			return userDao.saveByAccount(user_account, user_password, user_type, request_user_id);
@@ -138,7 +138,7 @@ public class UserService {
 	}
 
 	public String saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
-		Integer count = userDao.countByUser_idAndUser_phone("", user_phone);
+		Integer count = userDao.countByUser_phoneNotEqualUser_id("", user_phone);
 
 		if (count == 0) {
 			return userDao.saveByPhone(user_phone, user_password, user_type, request_user_id);
@@ -149,7 +149,7 @@ public class UserService {
 
 	public String saveByEmail(String user_email, String user_password, String user_type, String request_user_id) {
 
-		Integer count = userDao.countByUser_idAndUser_email("", user_email);
+		Integer count = userDao.countByUser_emailNotEqualUser_id("", user_email);
 
 		if (count == 0) {
 			return userDao.saveByEmail(user_email, user_password, user_type, request_user_id);
@@ -159,7 +159,7 @@ public class UserService {
 	}
 
 	public String saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
-		Integer count = userDao.countByWeibo("", weibo_uid);
+		Integer count = userDao.countByWeibo_uidNotEqualUser_id("", weibo_uid);
 
 		if(count == 0) {
 			return userDao.saveWeibo(weibo_uid, weibo_access_token, user_type, request_user_id);
@@ -169,7 +169,7 @@ public class UserService {
 	}
 
 	public String saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
-		Integer count = userDao.countByWechat("", wechat_uid);
+		Integer count = userDao.countByWechat_uidNotEqualUser_id("", wechat_uid);
 
 		if(count == 0) {
 			return userDao.saveWechat(wechat_uid, wechat_access_token, user_type, request_user_id);
@@ -179,7 +179,7 @@ public class UserService {
 	}
 
 	public void updateWeibo(String weibo_uid, String weibo_access_token, String request_user_id) {
-		Integer count = userDao.countByWeibo(request_user_id, weibo_uid);
+		Integer count = userDao.countByWeibo_uidNotEqualUser_id(request_user_id, weibo_uid);
 
 		if(count == 0) {
 			userDao.updateWeibo(weibo_uid, weibo_access_token, request_user_id);
@@ -189,7 +189,7 @@ public class UserService {
 	}
 
 	public void updateWechat(String wechat_uid, String wechat_access_token, String request_user_id) {
-		Integer count = userDao.countByWechat(request_user_id, wechat_uid);
+		Integer count = userDao.countByWechat_uidNotEqualUser_id(request_user_id, wechat_uid);
 
 		if(count == 0) {
 			userDao.updateWechat(wechat_uid, wechat_access_token, request_user_id);
@@ -203,7 +203,7 @@ public class UserService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		Integer count = userDao.countByUser_idAndUser_account(userMap.getUser_id(), userMap.getUser_account());
+		Integer count = userDao.countByUser_accountNotEqualUser_id(userMap.getUser_id(), userMap.getUser_account());
 
 		if (count == 0) {
 			userDao.updateUser_account(userMap, request_user_id);

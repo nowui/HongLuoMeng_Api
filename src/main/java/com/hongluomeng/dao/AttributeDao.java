@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Attribute;
@@ -11,20 +12,11 @@ import com.hongluomeng.model.Attribute;
 public class AttributeDao {
 
 	private Integer count(Attribute attribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		dynamicSQL.append("WHERE " + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
 
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-
-		Number count = Db.queryFirst(sql.toString(), parameterList.toArray());
+		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -35,29 +27,13 @@ public class AttributeDao {
 	}
 
 	private List<Attribute> list(Attribute attribute, Integer m, Integer n) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		dynamicSQL.append("WHERE " + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Attribute.KEY_ATTRIBUTE_TYPE + ", " + Attribute.KEY_ATTRIBUTE_SORT + " ASC ");
+		dynamicSQL.appendPagination(m, n);
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-
-		Boolean isExit = false;
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + Attribute.KEY_ATTRIBUTE_TYPE + ", " + Attribute.KEY_ATTRIBUTE_SORT + " ASC ");
-
-		if (n > 0) {
-			sql.append("LIMIT ?, ? ");
-			parameterList.add(m);
-			parameterList.add(n);
-		}
-
-		List<Attribute> attributeList = attribute.find(sql.toString(), parameterList.toArray());
-		return attributeList;
+		return new Attribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Attribute> list(Integer m, Integer n) {
@@ -67,36 +43,12 @@ public class AttributeDao {
 	}
 
 	private Attribute find(Attribute attribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
+		dynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		dynamicSQL.append("WHERE " + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Attribute.KEY_ATTRIBUTE_ID + " = ? ", attribute.getAttribute_id());
 
-		StringBuffer sql = new StringBuffer("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(attribute.getAttribute_id())) {
-			if(isExit) {
-				sql.append("AND ");
-			} else {
-				sql.append("WHERE ");
-			}
-			sql.append(Attribute.KEY_ATTRIBUTE_ID + " = ? ");
-			parameterList.add(attribute.getAttribute_id());
-
-			isExit = true;
-		}
-
-		if(isExit) {
-			sql.append("AND ");
-		} else {
-			sql.append("WHERE ");
-		}
-		sql.append(Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Attribute> attributeList = attribute.find(sql.toString(), parameterList.toArray());
+		List<Attribute> attributeList = attribute.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		if(attributeList.size() == 0) {
 			return null;
 		} else {
@@ -107,6 +59,8 @@ public class AttributeDao {
 	public Attribute findByAttribute_id(String attribute_id) {
 		Attribute attribute = new Attribute();
 		attribute.setAttribute_id(attribute_id);
+
+		Utility.checkIsNullOrEmpty(attribute_id);
 
 		return find(attribute);
 	}

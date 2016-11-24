@@ -1,13 +1,15 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Attribute;
 import com.hongluomeng.type.CodeEnum;
+import com.jfinal.validate.Validator;
 
-public class AttributeValidator extends BaseValidator {
+public class AttributeValidator extends Validator {
 
 	protected void validate(Controller controller) {
 		String actionKey = getActionKey();
@@ -21,12 +23,12 @@ public class AttributeValidator extends BaseValidator {
 		Attribute attribute = jsonObject.toJavaObject(Attribute.class);
 
 		switch (actionKey) {
-			case Const.URL_ATTRIBUTE_LIST:
+			case Url.URL_ATTRIBUTE_LIST:
 				isExit = true;
 
-				message += Utility.checkPageAndLimit(jsonObject);
+				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case Const.URL_ATTRIBUTE_FIND:
+			case Url.URL_ATTRIBUTE_FIND:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(attribute.getAttribute_id())) {
@@ -34,11 +36,11 @@ public class AttributeValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ATTRIBUTE_SAVE:
-			case Const.URL_ATTRIBUTE_UPDATE:
+			case Url.URL_ATTRIBUTE_SAVE:
+			case Url.URL_ATTRIBUTE_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Const.URL_ATTRIBUTE_UPDATE) && Utility.isNullOrEmpty(attribute.getAttribute_id())) {
+				if (actionKey.equals(Url.URL_ATTRIBUTE_UPDATE) && Utility.isNullOrEmpty(attribute.getAttribute_id())) {
 					message += "编号为空";
 					message += Const.LINE_FEED;
 				}
@@ -63,7 +65,7 @@ public class AttributeValidator extends BaseValidator {
 					message += Const.LINE_FEED;
 				}
 				break;
-			case Const.URL_ATTRIBUTE_DELETE:
+			case Url.URL_ATTRIBUTE_DELETE:
 				isExit = true;
 
 				if (Utility.isNullOrEmpty(attribute.getAttribute_id())) {
@@ -80,6 +82,10 @@ public class AttributeValidator extends BaseValidator {
 		if (! Utility.isNullOrEmpty(message)) {
 	        addError(Const.KEY_MESSAGE, message);
 		}
+	}
+
+	protected void handleError(Controller controller) {
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
 	}
 
 }

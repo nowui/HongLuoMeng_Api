@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.StringCodec;
+import com.hongluomeng.common.Url;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
@@ -20,7 +21,7 @@ public class OrderController extends BaseController {
     private OrderService orderService = new OrderService();
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_LIST)
+    @ActionKey(Url.URL_ORDER_LIST)
     public void list() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -30,7 +31,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_FIND)
+    @ActionKey(Url.URL_ORDER_FIND)
     public void find() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -40,7 +41,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_SAVE)
+    @ActionKey(Url.URL_ORDER_SAVE)
     public void save() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -50,7 +51,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_CART_SAVE)
+    @ActionKey(Url.URL_ORDER_CART_SAVE)
     public void saveCart() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -60,7 +61,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_UPDATE)
+    @ActionKey(Url.URL_ORDER_UPDATE)
     public void update() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -70,7 +71,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_DELETE)
+    @ActionKey(Url.URL_ORDER_DELETE)
     public void delete() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -80,7 +81,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_LIST_GET)
+    @ActionKey(Url.URL_ORDER_LIST_GET)
     public void getList() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -90,7 +91,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_PAYED)
+    @ActionKey(Url.URL_ORDER_PAYED)
     public void payed() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
@@ -100,7 +101,7 @@ public class OrderController extends BaseController {
     }
 
     @Before(OrderValidator.class)
-    @ActionKey(Const.URL_ORDER_NOTIFY)
+    @ActionKey(Url.URL_ORDER_NOTIFY)
     public void notifyUrl() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
