@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.Private;
 import com.jfinal.kit.HashKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
@@ -285,7 +286,7 @@ public class UserDao {
 				sql.append(" WHERE ");
 			}
 			sql.append(User.KEY_USER_PASSWORD + " = ? ");
-			parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user.getUser_password()));
+			parameterList.add(HashKit.md5(Private.PRIVATE_KEY + user.getUser_password()));
 
 			isExit = true;
 		}
@@ -410,7 +411,7 @@ public class UserDao {
 		User user = getUser(request_user_id);
 
 		user.setUser_account(user_account);
-		user.setUser_password(HashKit.md5(Const.PRIVATE_KEY + user_password));
+		user.setUser_password(HashKit.md5(Private.PRIVATE_KEY + user_password));
 		user.setUser_type(user_type);
 
 		user.save();
@@ -422,7 +423,7 @@ public class UserDao {
 		User user = getUser(request_user_id);
 
 		user.setUser_phone(user_phone);
-		user.setUser_password(HashKit.md5(Const.PRIVATE_KEY + user_password));
+		user.setUser_password(HashKit.md5(Private.PRIVATE_KEY + user_password));
 		user.setUser_type(user_type);
 
 		user.save();
@@ -434,7 +435,7 @@ public class UserDao {
 		User user = getUser(request_user_id);
 
 		user.setUser_email(user_email);
-		user.setUser_password(HashKit.md5(Const.PRIVATE_KEY + user_password));
+		user.setUser_password(HashKit.md5(Private.PRIVATE_KEY + user_password));
 		user.setUser_type(user_type);
 
 		user.save();
@@ -511,7 +512,7 @@ public class UserDao {
 
 		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_ID + " = ? ");
 
-		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user_password));
+		parameterList.add(HashKit.md5(Private.PRIVATE_KEY + user_password));
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());
 		parameterList.add(user_id);
@@ -524,7 +525,7 @@ public class UserDao {
 
 		StringBuffer sql = new StringBuffer("UPDATE " + User.KEY_TABLE_USER + " SET " + User.KEY_USER_PASSWORD + " = ?, " + User.KEY_USER_UPDATE_USER_ID + " = ?, " + User.KEY_USER_UPDATE_TIME + " = ? WHERE " + User.KEY_USER_PHONE + " = ? ");
 
-		parameterList.add(HashKit.md5(Const.PRIVATE_KEY + user_password));
+		parameterList.add(HashKit.md5(Private.PRIVATE_KEY + user_password));
 		parameterList.add(request_user_id);
 		parameterList.add(new Date());
 		parameterList.add(user_phone);

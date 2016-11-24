@@ -1,5 +1,6 @@
 package com.hongluomeng.interceptor;
 
+import com.hongluomeng.common.Private;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -89,7 +90,7 @@ public class GlobalActionInterceptor implements Interceptor {
 			DbKit.getConfig().setThreadLocalConnection(connection);
 			connection.setAutoCommit(false);
 
-			Key key = new SecretKeySpec(Const.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+			Key key = new SecretKeySpec(Private.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
 			Boolean isAuthorization = true;
 

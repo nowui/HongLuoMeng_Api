@@ -1,5 +1,6 @@
 package com.hongluomeng.service;
 
+import com.hongluomeng.common.Private;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -39,7 +40,7 @@ public class AuthorizationService {
 	}
 
 	public String saveByUser_id(String user_id) {
-		Key key = new SecretKeySpec(Const.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+		Key key = new SecretKeySpec(Private.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);

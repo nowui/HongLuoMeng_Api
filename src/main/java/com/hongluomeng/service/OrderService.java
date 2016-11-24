@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.hongluomeng.common.Const;
+import com.hongluomeng.common.Private;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OrderDao;
 import com.hongluomeng.model.*;
@@ -376,11 +377,11 @@ public class OrderService {
         if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
             try {
                 String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
-                String data = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Const.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Const.ALIPAY_NOTIFY_URL + "&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
-                String sign = AlipaySignature.rsaSign(data, Const.ALIPAY_PRIVATE_KEY, Const.ALIPAY_INPUT_CHARSET, Const.ALIPAY_SIGN_TYPE);
+                String data = "app_id=" + Private.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Private.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Private.ALIPAY_NOTIFY_URL + "&sign_type=" + Private.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
+                String sign = AlipaySignature.rsaSign(data, Private.ALIPAY_PRIVATE_KEY, Private.ALIPAY_INPUT_CHARSET, Private.ALIPAY_SIGN_TYPE);
 
-                String orderInfo = "app_id=" + Const.ALIPAY_APP_ID + "&biz_content=" + encode(content, Const.ALIPAY_INPUT_CHARSET) + "&charset=" + Const.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + encode(Const.ALIPAY_NOTIFY_URL, Const.ALIPAY_INPUT_CHARSET) + "&sign_type=" + Const.ALIPAY_SIGN_TYPE + "&timestamp=" + encode(Utility.getDateTimeString(new Date()), Const.ALIPAY_INPUT_CHARSET) + "&version=1.0";
-                orderInfo += "&sign=" + encode(sign, Const.ALIPAY_INPUT_CHARSET);
+                String orderInfo = "app_id=" + Private.ALIPAY_APP_ID + "&biz_content=" + encode(content, Private.ALIPAY_INPUT_CHARSET) + "&charset=" + Private.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + encode(Private.ALIPAY_NOTIFY_URL, Private.ALIPAY_INPUT_CHARSET) + "&sign_type=" + Private.ALIPAY_SIGN_TYPE + "&timestamp=" + encode(Utility.getDateTimeString(new Date()), Private.ALIPAY_INPUT_CHARSET) + "&version=1.0";
+                orderInfo += "&sign=" + encode(sign, Private.ALIPAY_INPUT_CHARSET);
 
                 return orderInfo;
             } catch (AlipayApiException e) {
@@ -395,7 +396,7 @@ public class OrderService {
 
     public String notify(Map<String, String> parameterMap, String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String request_user_id) {
         try {
-            boolean signVerified = AlipaySignature.rsaCheckV1(parameterMap, Const.ALIPAY_PUBLIC_KEY, Const.ALIPAY_INPUT_CHARSET);
+            boolean signVerified = AlipaySignature.rsaCheckV1(parameterMap, Private.ALIPAY_PUBLIC_KEY, Private.ALIPAY_INPUT_CHARSET);
 
             if (signVerified) {
                 int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
