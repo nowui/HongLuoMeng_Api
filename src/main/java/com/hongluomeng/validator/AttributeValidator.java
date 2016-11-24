@@ -18,8 +18,6 @@ public class AttributeValidator extends Validator {
 
 		Boolean isExit = false;
 
-		String message = "";
-
 		Attribute attribute = jsonObject.toJavaObject(Attribute.class);
 
 		switch (actionKey) {
@@ -31,61 +29,47 @@ public class AttributeValidator extends Validator {
 			case Url.URL_ATTRIBUTE_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(attribute.getAttribute_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_id();
+
 				break;
-			case Url.URL_ATTRIBUTE_SAVE:
+			case Url.URL_ATTRIBUTE_SAVE: {
+				attribute.checkAttribute_name();
+
+				attribute.checkAttribute_input_type();
+
+				attribute.checkAttribute_type();
+
+				attribute.checkAttribute_sort();
+			}
 			case Url.URL_ATTRIBUTE_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Url.URL_ATTRIBUTE_UPDATE) && Utility.isNullOrEmpty(attribute.getAttribute_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_id();
 
-				if (Utility.isNullOrEmpty(attribute.getAttribute_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_name();
 
-				if (Utility.isNullOrEmpty(attribute.getAttribute_input_type())) {
-					message += "输入框为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_input_type();
 
-				if (Utility.isNullOrEmpty(attribute.getAttribute_type())) {
-					message += "类型为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_type();
 
-				if (Utility.isNullOrEmpty(attribute.getAttribute_sort())) {
-					message += "排序为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_sort();
+
 				break;
 			case Url.URL_ATTRIBUTE_DELETE:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(attribute.getAttribute_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				attribute.checkAttribute_id();
+
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

@@ -319,10 +319,35 @@ public class Utility {
 				throw new RuntimeException("limit格式不对");
 			}
 		}
-
 	}
 
-	public static void checkLength(String str, int start, int end, String message) {
+	public static void checkList(Map<String, Object> map) {
+		if (!map.containsKey(Const.KEY_LIST)) {
+			throw new RuntimeException("list为空");
+		}
+	}
+
+	public static void checkIntegerLength(Integer integer, int start, String message) {
+		checkIntegerLength(integer, start, start, message);
+	}
+
+	public static void checkIntegerLength(Integer integer, int start, int end, String message) {
+		if (isNullOrEmpty(integer)) {
+			throw new RuntimeException(message);
+		}
+	}
+
+	public static void checkStringLength(String str, int start, String message) {
+		checkStringLength(str, start, start, message);
+	}
+
+	public static void checkStringLength(String str, int start, int end, String message) {
+		if(start != end) {
+			message += "长度应该为" + start + "至" + end;
+		} else {
+			message += "长度应该为" + start;
+		}
+
 		if (isNullOrEmpty(str)) {
 			throw new RuntimeException(message);
 		}

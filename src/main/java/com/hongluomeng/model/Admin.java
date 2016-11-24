@@ -30,7 +30,7 @@ public class Admin extends Model<Admin> {
 	}
 
 	public void checkAdmin_id() {
-		Utility.checkLength(getAdmin_id(), 32, 32, "编号长度应该为32位");
+		Utility.checkStringLength(getAdmin_id(), 32, "管理员编号");
 	}
 
 	public String getAdmin_name() {
@@ -42,7 +42,7 @@ public class Admin extends Model<Admin> {
 	}
 
 	public void checkAdmin_name() {
-		Utility.checkLength(getAdmin_name(), 3, 20, "编号长度应该为3至20位之间");
+		Utility.checkStringLength(getAdmin_name(), 3, 20, "管理员名称");
 	}
 
 	public String getUser_id() {
@@ -51,10 +51,6 @@ public class Admin extends Model<Admin> {
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
-	}
-
-	public void checkUser_id() {
-		Utility.checkLength(getUser_id(), 32, 32, "编号长度应该为32位");
 	}
 
 	public String getUser_account() {

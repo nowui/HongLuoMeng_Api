@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import java.util.Date;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class User extends Model<User> {
@@ -34,12 +35,20 @@ public class User extends Model<User> {
 		set(KEY_USER_ID, user_id);
 	}
 
+	public void checkUser_id() {
+		Utility.checkStringLength(getUser_id(), 32, "用户编号");
+	}
+
 	public String getUser_account() {
 		return getStr(KEY_USER_ACCOUNT);
 	}
 
 	public void setUser_account(String user_account) {
 		set(KEY_USER_ACCOUNT, user_account);
+	}
+
+	public void checkUser_account() {
+		Utility.checkStringLength(getUser_account(), 3, 20, "用户帐号");
 	}
 
 	public String getUser_phone() {
@@ -64,6 +73,10 @@ public class User extends Model<User> {
 
 	public void setUser_password(String user_password) {
 		set(KEY_USER_PASSWORD, user_password);
+	}
+
+	public void checkUser_password() {
+		Utility.checkStringLength(getUser_password(), 3, 20, "用户密码");
 	}
 
 	public String getWeibo_uid() {

@@ -42,7 +42,7 @@ public class ActivityService {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
 			map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
-			map.put(Activity.KEY_ACTIVITY_LOGO, activity.getActivity_logo());
+			map.put(Activity.KEY_ACTIVITY_URL, activity.getActivity_url());
 
 			list.add(map);
 		}
@@ -81,7 +81,7 @@ public class ActivityService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
 		map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
-		map.put(Activity.KEY_ACTIVITY_LOGO, activity.getActivity_logo());
+		map.put(Activity.KEY_ACTIVITY_URL, activity.getActivity_url());
 
 		return map;
 	}

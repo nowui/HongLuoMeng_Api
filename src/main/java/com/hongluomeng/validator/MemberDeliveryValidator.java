@@ -117,7 +117,7 @@ public class MemberDeliveryValidator extends Validator {
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
 	}
 
 }

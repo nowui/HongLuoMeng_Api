@@ -7,7 +7,6 @@ import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Activity;
-import com.hongluomeng.model.Category;
 import com.jfinal.validate.Validator;
 
 public class ActivityValidator extends Validator {
@@ -17,9 +16,9 @@ public class ActivityValidator extends Validator {
 
 		JSONObject jsonObject = controller.getAttr(Const.KEY_REQUEST);
 
-		Boolean isExit = false;
+		Activity activity = jsonObject.toJavaObject(Activity.class);
 
-		String message = "";
+		Boolean isExit = false;
 
 		switch (actionKey) {
 			case Url.URL_ACTIVITY_LIST:
@@ -31,76 +30,51 @@ public class ActivityValidator extends Validator {
 				isExit = true;
 
 				break;
-			case Url.URL_ACTIVITY_SAVE:
+			case Url.URL_ACTIVITY_SAVE: {
+				isExit = true;
+
+
+				activity.checkActivity_name();
+
+				break;
+			}
 			case Url.URL_ACTIVITY_UPDATE: {
 				isExit = true;
 
-				Activity brand = jsonObject.toJavaObject(Activity.class);
+				activity.checkActivity_id();
 
-				if (actionKey.equals(Url.URL_ACTIVITY_UPDATE) && Utility.isNullOrEmpty(brand.getActivity_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				activity.checkActivity_name();
 
-				if (Utility.isNullOrEmpty(brand.getActivity_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNull(brand.getActivity_logo())) {
-					message += "logo为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_ACTIVITY_DELETE: {
 				isExit = true;
 
-				Activity brand = jsonObject.toJavaObject(Activity.class);
+				activity.checkActivity_id();
 
-				if (Utility.isNullOrEmpty(brand.getActivity_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_ACTIVITY_LIST_GET: {
-				isExit = true;
-
-				Category category = jsonObject.toJavaObject(Category.class);
-
-				if (Utility.isNull(category.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
-
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			}
 			case Url.URL_ACTIVITY_GET: {
 				isExit = true;
 
-				Activity brand = jsonObject.toJavaObject(Activity.class);
+				activity.checkActivity_id();
 
-				if (Utility.isNullOrEmpty(brand.getActivity_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

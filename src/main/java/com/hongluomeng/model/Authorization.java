@@ -40,7 +40,7 @@ public class Authorization extends Model<Authorization> {
 		set(KEY_USER_ID, user_id);
 	}
 
-	@JSONField (format="yyyy-MM-dd HH:mm:ss")
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getAuthorization_create_time() {
 		return getDate(KEY_AUTHORIZATION_CREATE_TIME);
 	}
@@ -49,7 +49,7 @@ public class Authorization extends Model<Authorization> {
 		set(KEY_AUTHORIZATION_CREATE_TIME, authorization_create_time);
 	}
 
-	@JSONField (format="yyyy-MM-dd HH:mm:ss")
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getAuthorization_expire_time() {
 		return getDate(KEY_AUTHORIZATION_EXPIRE_TIME);
 	}
