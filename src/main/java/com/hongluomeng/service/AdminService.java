@@ -87,9 +87,9 @@ public class AdminService {
 	public List<Map<String, Object>> listRole(JSONObject jsonObject) {
 		Admin adminMap = jsonObject.toJavaObject(Admin.class);
 
-		List<Map<String, Object>> list  = roleService.listByUser_idAndUser_type(adminMap.getUser_id(), UserEnum.ADMIN.getKey());
+		List<Map<String, Object>> list = roleService.listByUser_idAndUser_type(adminMap.getUser_id(), UserEnum.ADMIN.getKey());
 
-        return list;
+		return list;
 	}
 
 	public void updateRole(JSONObject jsonObject) {
@@ -98,7 +98,7 @@ public class AdminService {
 
 		List<UserRole> userRoleList = new ArrayList<UserRole>();
 
-		for(int i = 0; i < jsonArray.size(); i++) {
+		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject object = jsonArray.getJSONObject(i);
 
 			UserRole userRole = object.toJavaObject(UserRole.class);
@@ -117,7 +117,7 @@ public class AdminService {
 
 		User user = userService.loginByUser_accountAndUser_passwordAndUser_type(userMap.getUser_account(), userMap.getUser_password(), UserEnum.ADMIN.getKey());
 
-		if(user == null) {
+		if (user == null) {
 			return null;
 		} else {
 			Map<String, Object> resultMap = new HashMap<String, Object>();

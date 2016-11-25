@@ -46,7 +46,7 @@ public class CategoryService {
 		setChildren(list, categorieList, category.getCategory_id());
 
 		List<Category> categoryResultList = new ArrayList<Category>();
-		for(Category model : list) {
+		for (Category model : list) {
 			Category c = new Category();
 			c.setCategory_id(model.getCategory_id());
 			c.setCategory_name(model.getCategory_name());
@@ -92,7 +92,7 @@ public class CategoryService {
 	public Map<String, Object> treeByCategory_key(String ategory_key) {
 		Category category = categoryDao.findByCategory_key(ategory_key);
 
-		if(category == null) {
+		if (category == null) {
 			throw new RuntimeException("没有该分类");
 		}
 
@@ -150,14 +150,14 @@ public class CategoryService {
 
 		Integer count = 0;
 
-		if (! Utility.isNullOrEmpty(categoryMap.getCategory_key())) {
+		if (!Utility.isNullOrEmpty(categoryMap.getCategory_key())) {
 			count = categoryDao.countByCategory_keyNotEqualCategory_id(categoryMap.getCategory_id(), categoryMap.getCategory_key());
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			Category category = categoryDao.findByCategory_id(categoryMap.getParent_id());
 
-			if(category == null) {
+			if (category == null) {
 				categoryMap.setCategory_path("");
 			} else {
 				if (Utility.isNullOrEmpty(category.getCategory_path())) {
@@ -180,11 +180,11 @@ public class CategoryService {
 
 		Integer count = 0;
 
-		if (! Utility.isNullOrEmpty(categoryMap.getCategory_key())) {
+		if (!Utility.isNullOrEmpty(categoryMap.getCategory_key())) {
 			count = categoryDao.countByCategory_keyNotEqualCategory_id(categoryMap.getCategory_id(), categoryMap.getCategory_key());
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			categoryDao.update(categoryMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");

@@ -44,7 +44,7 @@ public class RoleService {
 
 		Category category = categoryService.findByCategory_key(CatetoryEnum.MENU.getKey());
 
-		if(category == null) {
+		if (category == null) {
 			throw new RuntimeException("没有该分类");
 		}
 
@@ -54,7 +54,7 @@ public class RoleService {
 
 		List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
 
-		if(! Utility.isNullOrEmpty(roleMap.getRole_id())) {
+		if (!Utility.isNullOrEmpty(roleMap.getRole_id())) {
 			roleOperationList = roleOperationService.listByRole_id(roleMap.getRole_id());
 		}
 
@@ -66,7 +66,7 @@ public class RoleService {
 	public List<Map<String, Object>> listByUser_idAndUser_type(String user_id, String user_type) {
 		Category category = categoryService.findByCategory_key(user_type);
 
-		if(category == null) {
+		if (category == null) {
 			throw new RuntimeException("没有该分类");
 		}
 
@@ -76,14 +76,14 @@ public class RoleService {
 
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
-		for(Role role : roleList) {
+		for (Role role : roleList) {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			resultMap.put(Const.KEY_ID, role.getRole_id());
 			resultMap.put(Const.KEY_NAME, role.getRole_name());
 			resultMap.put(Const.KEY_SELECTED, false);
 
-			for(UserRole userRole : userRoleList) {
-				if(userRole.getRole_id().equals(role.getRole_id())) {
+			for (UserRole userRole : userRoleList) {
+				if (userRole.getRole_id().equals(role.getRole_id())) {
 					resultMap.put(Const.KEY_SELECTED, true);
 
 					break;
@@ -145,7 +145,7 @@ public class RoleService {
 				} else {
 					List<Map<String, Object>> roleOperationChildrenList = getRoleOperationChildrenList(operationList, category.getCategory_id(), roleOperationList);
 
-					if(roleOperationChildrenList.size() == 0) {
+					if (roleOperationChildrenList.size() == 0) {
 						isAdd = false;
 					}
 
@@ -187,16 +187,16 @@ public class RoleService {
 	private List<Map<String, Object>> getRoleOperationChildrenList(List<Operation> operationList, String menu_id, List<RoleOperation> roleOperationList) {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
-		for(Operation operation : operationList) {
-			if(operation.getMenu_id().equals(menu_id)) {
+		for (Operation operation : operationList) {
+			if (operation.getMenu_id().equals(menu_id)) {
 				Map<String, Object> resultMap = new HashMap<String, Object>();
 				resultMap.put(Const.KEY_ID, operation.getOperation_id());
 				resultMap.put(Const.KEY_NAME, operation.getOperation_name());
 
 				resultMap.put(Const.KEY_SELECTED, false);
 
-				for(RoleOperation roleOperation : roleOperationList) {
-					if(operation.getOperation_id().equals(roleOperation.getOperation_id())) {
+				for (RoleOperation roleOperation : roleOperationList) {
+					if (operation.getOperation_id().equals(roleOperation.getOperation_id())) {
 						resultMap.put(Const.KEY_SELECTED, true);
 					}
 				}
@@ -222,11 +222,11 @@ public class RoleService {
 
 		Integer count = 0;
 
-		if (! Utility.isNullOrEmpty(roleMap.getRole_key())) {
+		if (!Utility.isNullOrEmpty(roleMap.getRole_key())) {
 			count = roleDao.countByRole_keyNotEqualRole_id("", roleMap.getRole_key());
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			roleDao.save(roleMap, request_user_id);
 
 //			JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
@@ -254,11 +254,11 @@ public class RoleService {
 
 		Integer count = 0;
 
-		if (! Utility.isNullOrEmpty(roleMap.getRole_key())) {
+		if (!Utility.isNullOrEmpty(roleMap.getRole_key())) {
 			count = roleDao.countByRole_keyNotEqualRole_id(roleMap.getRole_id(), roleMap.getRole_key());
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			roleDao.update(roleMap, request_user_id);
 
 //			JSONArray jsonArray = (JSONArray) jsonObject.get(RoleOperation.KEY_ROLE_OPERATION);
@@ -291,7 +291,7 @@ public class RoleService {
 
 		List<RoleOperation> roleOperationList = new ArrayList<RoleOperation>();
 
-		for(int i = 0; i < jsonArray.size(); i++) {
+		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject object = jsonArray.getJSONObject(i);
 
 			RoleOperation roleOperation = object.toJavaObject(RoleOperation.class);

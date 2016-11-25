@@ -1,6 +1,7 @@
 package com.hongluomeng.validator;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Url;
 import com.hongluomeng.type.CodeEnum;
 import com.jfinal.core.Controller;
 import com.hongluomeng.common.Const;
@@ -20,18 +21,18 @@ public class UserValidator extends Validator {
 		Boolean isExit = false;
 
 		switch (actionKey) {
-			case "/user/list":
+			case Url.URL_USER_LIST:
 				isExit = true;
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;
-			case "/user/find":
+			case Url.URL_USER_FIND:
 				isExit = true;
 
 				user.checkUser_id();
 
 				break;
-			case "/user/save":
+			case Url.URL_USER_SAVE:
 				isExit = true;
 
 				user.checkUser_account();
@@ -39,7 +40,7 @@ public class UserValidator extends Validator {
 				user.checkUser_password();
 
 				break;
-			case "/user/update":
+			case Url.URL_USERL_UPDATE:
 				isExit = true;
 
 				user.checkUser_id();
@@ -49,7 +50,7 @@ public class UserValidator extends Validator {
 				user.checkUser_password();
 
 				break;
-			case "/user/menu/list":
+			case Url.URL_USER_MENU_LIST:
 				isExit = true;
 
 				break;

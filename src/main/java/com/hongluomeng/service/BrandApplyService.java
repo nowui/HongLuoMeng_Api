@@ -22,7 +22,7 @@ public class BrandApplyService {
 		return brandApplyDao.list(m, n);
 	}
 
-	public BrandApply findByBrand_idAndUser_id(String brand_id, String user_id){
+	public BrandApply findByBrand_idAndUser_id(String brand_id, String user_id) {
 		return brandApplyDao.findByBrand_idAndUser_id(brand_id, user_id);
 	}
 

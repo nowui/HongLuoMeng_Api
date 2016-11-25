@@ -21,8 +21,4 @@ public class RoleOperationService {
 		roleOperationDao.deleteByRole_id(roleOperationList, role_id);
 	}
 
-	/*public void deleteByOperation_id(String operation_id) {
-		roleOperationDao.deleteByOperation_id(operation_id);
-	}*/
-
 }

@@ -43,7 +43,7 @@ public class CategoryAttributeService {
 	public List<CategoryAttribute> listByProduct_idAndCategory_id(String product_id, String category_id) {
 		List<CategoryAttribute> categoryAttributeList = categoryAttributeDao.listByProduct_idAndCategory_id(product_id, category_id);
 
-		for(CategoryAttribute categoryAttribute : categoryAttributeList) {
+		for (CategoryAttribute categoryAttribute : categoryAttributeList) {
 			categoryAttribute.setCategory_id(null);
 			categoryAttribute.setCategory_attribute_sort(null);
 		}
@@ -69,7 +69,7 @@ public class CategoryAttributeService {
 			resultMap.put("attribute_id", categoryAttribute.getAttribute_id());
 			resultMap.put("category_attribute_sort", categoryAttribute.getCategory_attribute_sort());
 
-			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Attribute.KEY_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());

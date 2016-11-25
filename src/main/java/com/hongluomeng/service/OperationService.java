@@ -44,7 +44,7 @@ public class OperationService {
 	}
 
 	public List<Operation> listAll() {
-		return operationDao.list(new Operation(), 0,0);
+		return operationDao.list(new Operation(), 0, 0);
 	}
 
 	public Operation find(JSONObject jsonObject) {
@@ -63,11 +63,11 @@ public class OperationService {
 
 		Integer count = 0;
 
-		if (! Utility.isNullOrEmpty(operationMap.getOperation_key())) {
+		if (!Utility.isNullOrEmpty(operationMap.getOperation_key())) {
 			count = operationDao.countByOperation_idAndOperation_key("", operationMap.getOperation_key());
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			operationDao.save(operationMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");
@@ -81,11 +81,11 @@ public class OperationService {
 
 		Integer count = 0;
 
-		if (! Utility.isNullOrEmpty(operationMap.getOperation_key())) {
+		if (!Utility.isNullOrEmpty(operationMap.getOperation_key())) {
 			count = operationDao.countByOperation_idAndOperation_key(operationMap.getOperation_id(), operationMap.getOperation_key());
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			operationDao.update(operationMap, request_user_id);
 		} else {
 			throw new RuntimeException("键已经存在");

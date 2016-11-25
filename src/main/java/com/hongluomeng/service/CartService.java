@@ -46,12 +46,12 @@ public class CartService {
 
 		Cart cart = cartDao.findByProduct_sku_id(cartMap.getProduct_sku_id());
 
-		if(cart == null) {
+		if (cart == null) {
 			cartDao.save(cartMap, request_user_id);
 		} else {
 			int count = cart.getProduct_amount() + cartMap.getProduct_amount();
 
-			if(count > 0) {
+			if (count > 0) {
 				cart.setProduct_amount(cart.getProduct_amount() + cartMap.getProduct_amount());
 
 				cartDao.update(cart, request_user_id);
@@ -94,7 +94,7 @@ public class CartService {
 
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
-		for(Cart cart : cartList) {
+		for (Cart cart : cartList) {
 			String product_attribute_value = "";
 			for (int i = 0; i < cart.getProduct_attribute_value().size(); i++) {
 				JSONObject object = cart.getProduct_attribute_value().getJSONObject(i);

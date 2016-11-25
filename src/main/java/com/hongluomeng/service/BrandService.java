@@ -44,7 +44,7 @@ public class BrandService {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-		for(Brand brand : brandList) {
+		for (Brand brand : brandList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
@@ -61,7 +61,7 @@ public class BrandService {
 		List<Brand> brandList = brandDao.list(0, 0);
 
 		List<Brand> brandResultList = new ArrayList<Brand>();
-		for(Brand brand : brandList) {
+		for (Brand brand : brandList) {
 			Brand b = new Brand();
 			b.setBrand_id(brand.getBrand_id());
 			b.setBrand_name(brand.getBrand_name());
@@ -79,7 +79,7 @@ public class BrandService {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-		for(Brand brand : brandList) {
+		for (Brand brand : brandList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
@@ -158,7 +158,7 @@ public class BrandService {
 
 		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.BRAND.getKey());
 
-		for(Category category : categoryList) {
+		for (Category category : categoryList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Category.KEY_CATEGORY_ID, category.getCategory_id());
 			map.put(Category.KEY_CATEGORY_NAME, category.getCategory_name());
@@ -213,7 +213,7 @@ public class BrandService {
 
 		BrandApply brandApply = brandApplyService.findByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
 
-		if(brandApply == null) {
+		if (brandApply == null) {
 			Member memberMap = jsonObject.toJavaObject(Member.class);
 
 			memberService.updateInfo(memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
@@ -221,7 +221,7 @@ public class BrandService {
 			brandApplyService.save(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
 		} else {
 			System.out.println(brandApply.getBrand_apply_review_status());
-			if(brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.WAIT.getKey()) || brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
+			if (brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.WAIT.getKey()) || brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
 				throw new RuntimeException("这品牌已经申请过,不能再申请!");
 			} else {
 				Member memberMap = jsonObject.toJavaObject(Member.class);

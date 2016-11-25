@@ -29,19 +29,19 @@ public class ProductSkuService {
 	}
 
 	public void save(List<ProductSku> productSkuList, String request_user_id) {
-		if(productSkuList.size() > 0) {
+		if (productSkuList.size() > 0) {
 			productSkuDao.save(productSkuList, request_user_id);
 		}
 	}
 
 	public void update(List<ProductSku> productSkuList, String request_user_id) {
-		if(productSkuList.size() > 0) {
+		if (productSkuList.size() > 0) {
 			productSkuDao.update(productSkuList, request_user_id);
 		}
 	}
 
 	public void delete(List<String> productSkuIdList, String request_user_id) {
-		if(productSkuIdList.size() > 0) {
+		if (productSkuIdList.size() > 0) {
 			productSkuDao.delete(productSkuIdList, request_user_id);
 		}
 	}

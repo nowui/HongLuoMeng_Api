@@ -40,7 +40,7 @@ public class UploadService {
 
 				if (image == null || width <= 0 || height <= 0) {
 					isImage = false;
-		        }
+				}
 			} catch (IOException e) {
 				isImage = false;
 			} finally {
@@ -86,16 +86,16 @@ public class UploadService {
 
 		File imageFile = new File(PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + Const.UPLOAD_LARGE + "/" + name + "." + suffix);
 
-        try {
-            FileImageOutputStream fos = new FileImageOutputStream (imageFile);
-            fos.write(imageByte);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		try {
+			FileImageOutputStream fos = new FileImageOutputStream(imageFile);
+			fos.write(imageByte);
+			fos.flush();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        try {
+		try {
 			resizeImage(imageFile, PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + Const.UPLOAD_SMALL + "/" + name + "." + suffix, 100);
 
 			resizeImage(imageFile, PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + request_user_id + "/" + name + "." + suffix, 320);
@@ -108,56 +108,56 @@ public class UploadService {
 		BufferedImage bufferedImage = ImageIO.read(imageFile);
 
 		int originalWidth = bufferedImage.getWidth();
-        int originalHeight = bufferedImage.getHeight();
+		int originalHeight = bufferedImage.getHeight();
 
-        int newWidth = 0;
-        int newHeight = 0;
+		int newWidth = 0;
+		int newHeight = 0;
 
 
-    	if(originalWidth > length) {
-    		if(originalWidth > originalHeight) {
-            	newWidth = length;
+		if (originalWidth > length) {
+			if (originalWidth > originalHeight) {
+				newWidth = length;
 
-            	double scale = (double)originalWidth / (double)newWidth;
-            	newHeight = (int)(originalHeight / scale);
-            } else {
-            	newHeight = length;
+				double scale = (double) originalWidth / (double) newWidth;
+				newHeight = (int) (originalHeight / scale);
+			} else {
+				newHeight = length;
 
-            	double scale = (double)originalHeight / (double)newHeight;
-            	newWidth = (int)(originalWidth / scale);
-            }
-    	} else {
-    		newWidth = originalWidth;
-    		newHeight = originalHeight;
-    	}
+				double scale = (double) originalHeight / (double) newHeight;
+				newWidth = (int) (originalWidth / scale);
+			}
+		} else {
+			newWidth = originalWidth;
+			newHeight = originalHeight;
+		}
 
-        zoomImageUtils(imageFile, newPath, bufferedImage, newWidth, newHeight);
+		zoomImageUtils(imageFile, newPath, bufferedImage, newWidth, newHeight);
 	}
 
-	private void zoomImageUtils(File imageFile, String newPath, BufferedImage bufferedImage, int width, int height) throws IOException{
+	private void zoomImageUtils(File imageFile, String newPath, BufferedImage bufferedImage, int width, int height) throws IOException {
 
-         String suffix = imageFile.getName().substring(imageFile.getName().lastIndexOf(".") + 1);
+		String suffix = imageFile.getName().substring(imageFile.getName().lastIndexOf(".") + 1);
 
-         // 处理 png 背景变黑的问题
-        if(suffix != null && (suffix.trim().toLowerCase().endsWith("png") || suffix.trim().toLowerCase().endsWith("gif"))){
-            BufferedImage to= new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = to.createGraphics();
-            to = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
-            g2d.dispose();
+		// 处理 png 背景变黑的问题
+		if (suffix != null && (suffix.trim().toLowerCase().endsWith("png") || suffix.trim().toLowerCase().endsWith("gif"))) {
+			BufferedImage to = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g2d = to.createGraphics();
+			to = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+			g2d.dispose();
 
-            g2d = to.createGraphics();
-            Image from = bufferedImage.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
-            g2d.drawImage(from, 0, 0, null);
-            g2d.dispose();
+			g2d = to.createGraphics();
+			Image from = bufferedImage.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
+			g2d.drawImage(from, 0, 0, null);
+			g2d.dispose();
 
-            ImageIO.write(to, suffix, new File(newPath));
-        }else{
-            BufferedImage newImage = new BufferedImage(width, height, bufferedImage.getType());
-            Graphics g = newImage.getGraphics();
-            g.drawImage(bufferedImage, 0, 0, width, height, null);
-            g.dispose();
-            ImageIO.write(newImage, suffix, new File(newPath));
-        }
-    }
+			ImageIO.write(to, suffix, new File(newPath));
+		} else {
+			BufferedImage newImage = new BufferedImage(width, height, bufferedImage.getType());
+			Graphics g = newImage.getGraphics();
+			g.drawImage(bufferedImage, 0, 0, width, height, null);
+			g.dispose();
+			ImageIO.write(newImage, suffix, new File(newPath));
+		}
+	}
 
 }

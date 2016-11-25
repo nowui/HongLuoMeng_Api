@@ -18,7 +18,7 @@ public class UserService {
 
 	private UserDao userDao = new UserDao();
 	private CategoryService categoryService = new CategoryService();
-	private OperationService operationService= new OperationService();
+	private OperationService operationService = new OperationService();
 
 	public Integer count(JSONObject jsonObject) {
 		User userMap = jsonObject.toJavaObject(User.class);
@@ -67,7 +67,7 @@ public class UserService {
 	public List<Map<String, Object>> menu(JSONObject jsonObject) {
 		Category category = categoryService.findByCategory_key(CatetoryEnum.MENU.getKey());
 
-		if(category == null) {
+		if (category == null) {
 			throw new RuntimeException("没有该分类");
 		}
 
@@ -161,7 +161,7 @@ public class UserService {
 	public String saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
 		Integer count = userDao.countByWeibo_uidNotEqualUser_id("", weibo_uid);
 
-		if(count == 0) {
+		if (count == 0) {
 			return userDao.saveWeibo(weibo_uid, weibo_access_token, user_type, request_user_id);
 		} else {
 			return "";
@@ -171,7 +171,7 @@ public class UserService {
 	public String saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
 		Integer count = userDao.countByWechat_uidNotEqualUser_id("", wechat_uid);
 
-		if(count == 0) {
+		if (count == 0) {
 			return userDao.saveWechat(wechat_uid, wechat_access_token, user_type, request_user_id);
 		} else {
 			return "";
@@ -181,7 +181,7 @@ public class UserService {
 	public void updateWeibo(String weibo_uid, String weibo_access_token, String request_user_id) {
 		Integer count = userDao.countByWeibo_uidNotEqualUser_id(request_user_id, weibo_uid);
 
-		if(count == 0) {
+		if (count == 0) {
 			userDao.updateWeibo(weibo_uid, weibo_access_token, request_user_id);
 		} else {
 			throw new RuntimeException("该微博帐号已经绑定过");
@@ -191,7 +191,7 @@ public class UserService {
 	public void updateWechat(String wechat_uid, String wechat_access_token, String request_user_id) {
 		Integer count = userDao.countByWechat_uidNotEqualUser_id(request_user_id, wechat_uid);
 
-		if(count == 0) {
+		if (count == 0) {
 			userDao.updateWechat(wechat_uid, wechat_access_token, request_user_id);
 		} else {
 			throw new RuntimeException("该微信帐号已经绑定过");
@@ -213,7 +213,7 @@ public class UserService {
 	}
 
 	public void updateUser_passwordByUser_id(String user_id, String user_password, String request_user_id) {
-		if (! Utility.isNullOrEmpty(user_password)) {
+		if (!Utility.isNullOrEmpty(user_password)) {
 			userDao.updateUser_passwordByUser_id(user_id, user_password, request_user_id);
 		}
 	}

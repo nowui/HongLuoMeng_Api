@@ -109,7 +109,7 @@ public class GlobalActionInterceptor implements Interceptor {
 			if (isCheckToken) {
 				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
 
-				if(Utility.isNullOrEmpty(token)) {
+				if (Utility.isNullOrEmpty(token)) {
 					isAuthorization = false;
 				} else {
 					try {
@@ -141,7 +141,7 @@ public class GlobalActionInterceptor implements Interceptor {
 					request = HttpKit.readData(controller.getRequest());
 				}
 
-				if(Utility.isNullOrEmpty(request)) {
+				if (Utility.isNullOrEmpty(request)) {
 					request = "{}";
 				}
 
@@ -161,7 +161,7 @@ public class GlobalActionInterceptor implements Interceptor {
 				}
 
 				//验证是否有权限
-				if(isCheckToken) {
+				if (isCheckToken) {
 					isAuthorization = false;
 
 					List<Operation> operationList = operationService.listByUser_id(user_id);
@@ -182,12 +182,12 @@ public class GlobalActionInterceptor implements Interceptor {
 
 				String message = "";
 
-				if(Utility.isNullOrEmpty(platform)) {
+				if (Utility.isNullOrEmpty(platform)) {
 					message += "没有platform参数";
 					message += "<br />";
 				}
 
-				if(Utility.isNullOrEmpty(version)) {
+				if (Utility.isNullOrEmpty(version)) {
 					message += "没有version参数";
 					message += "<br />";
 				}
@@ -219,12 +219,12 @@ public class GlobalActionInterceptor implements Interceptor {
 			e.printStackTrace();
 
 			try {
-                if (null != connection) {
-                	connection.rollback();
-                }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+				if (null != connection) {
+					connection.rollback();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 
 			code = CodeEnum.CODE_500;
 
@@ -240,14 +240,14 @@ public class GlobalActionInterceptor implements Interceptor {
 			controller.renderJson(Utility.setResponse(code, message, null));
 		} finally {
 			try {
-                if (null != connection){
-                	connection.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            } finally {
-                DbKit.getConfig().removeThreadLocalConnection();
-            }
+				if (null != connection) {
+					connection.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			} finally {
+				DbKit.getConfig().removeThreadLocalConnection();
+			}
 
 			ThreadContext.put(Log.KEY_LOG_ID, Utility.getUUID());
 

@@ -115,6 +115,11 @@ public class Url {
 	public static final String URL_UPLOAD_IMAGE = "/upload/image";
 	public static final String URL_UPLOAD_BASE64 = "/upload/base64";
 
+	public static final String URL_USER_LIST = "/user/list";
+	public static final String URL_USER_FIND = "/user/find";
+	public static final String URL_USER_SAVE = "/user/save";
+	public static final String URL_USERL_UPDATE = "/user/update";
+	public static final String URL_USER_DELETE = "/user/delete";
 	public static final String URL_USER_MENU_LIST = "/user/menu/list";
 
 	public static final String URL_SMS_REGISTER = "/sms/register";

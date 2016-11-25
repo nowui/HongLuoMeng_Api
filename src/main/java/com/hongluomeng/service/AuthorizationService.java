@@ -46,7 +46,7 @@ public class AuthorizationService {
 		Date now = new Date(nowMillis);
 
 		long expMillis = nowMillis + 1000 * 60 * 60 * 24 * 360;
-	    Date exp = new Date(expMillis);
+		Date exp = new Date(expMillis);
 
 		Authorization authorizationParameter = new Authorization();
 		authorizationParameter.setAuthorization_token("");

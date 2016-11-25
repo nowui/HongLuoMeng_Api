@@ -38,7 +38,7 @@ public class ActivityService {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-		for(Activity activity : activityList) {
+		for (Activity activity : activityList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
 			map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
@@ -54,7 +54,7 @@ public class ActivityService {
 		List<Activity> activityList = activityDao.list(0, 0);
 
 		List<Activity> activityResultList = new ArrayList<Activity>();
-		for(Activity activity : activityList) {
+		for (Activity activity : activityList) {
 			Activity b = new Activity();
 			b.setActivity_id(activity.getActivity_id());
 			b.setActivity_name(activity.getActivity_name());

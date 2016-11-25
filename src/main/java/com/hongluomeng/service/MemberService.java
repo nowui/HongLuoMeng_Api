@@ -62,7 +62,7 @@ public class MemberService {
 
 		User user = userService.loginByUser_phoneAndUser_passwordAndUser_type(userMap.getUser_phone(), userMap.getUser_password(), UserEnum.MEMBER.getKey());
 
-		if(user == null) {
+		if (user == null) {
 			return null;
 		} else {
 			String user_id = user.getUser_id();
@@ -149,7 +149,7 @@ public class MemberService {
 
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		if(Utility.isNullOrEmpty(user_id)) {
+		if (Utility.isNullOrEmpty(user_id)) {
 			User user = userService.findByWeibo_uid(userMap.getWeibo_uid());
 
 			user_id = user.getUser_id();
@@ -184,7 +184,7 @@ public class MemberService {
 
 		Member memberMap;
 
-		if(Utility.isNullOrEmpty(user_id)) {
+		if (Utility.isNullOrEmpty(user_id)) {
 			User user = userService.findByWechat_uid(userMap.getWechat_uid());
 
 			user_id = user.getUser_id();
@@ -267,7 +267,7 @@ public class MemberService {
 		resultMap.put(Const.KEY_TOKEN, token);
 		resultMap.put(Member.KEY_MEMBER_NAME, member.getMember_name());
 
-		if(Utility.isNullOrEmpty(member.getMember_avatar())) {
+		if (Utility.isNullOrEmpty(member.getMember_avatar())) {
 			resultMap.put(Member.KEY_MEMBER_AVATAR, "");
 			resultMap.put(Member.KEY_MEMBER_AVATAR_SMALL, "");
 			resultMap.put(Member.KEY_MEMBER_AVATAR_LARGE, "");
