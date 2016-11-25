@@ -52,12 +52,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_ID, order_id);
 	}
 
+	public void checkOrder_id() {
+		Utility.checkStringLength(getOrder_id(), 32, "订单编号");
+	}
+
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
+	}
+
+	public void checkUser_id() {
+		Utility.checkStringLength(getUser_id(), 32, "用户编号");
 	}
 
 	public String getOrder_no() {
@@ -68,12 +76,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_NO, order_no);
 	}
 
+	public void checkOrder_no() {
+		Utility.checkStringLength(getOrder_no(), 15, "订单号");
+	}
+
 	public BigDecimal getOrder_price() {
 		return getBigDecimal(KEY_ORDER_PRICE);
 	}
 
 	public void setOrder_price(BigDecimal order_price) {
 		set(KEY_ORDER_PRICE, order_price);
+	}
+
+	public void checkOrder_price() {
+		Utility.checkDecimalLength(getOrder_price(), 11, 2, "订单价格");
 	}
 
 	public String getOrder_message() {
@@ -84,12 +100,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_MESSAGE, order_message);
 	}
 
+	public void checkOrder_message() {
+		Utility.checkStringLength(getOrder_message(), 0, 150, "买家留言");
+	}
+
 	public String getOrder_delivery_name() {
 		return getStr(KEY_ORDER_DELIVERY_NAME);
 	}
 
 	public void setOrder_delivery_name(String order_delivery_name) {
 		set(KEY_ORDER_DELIVERY_NAME, order_delivery_name);
+	}
+
+	public void checkOrder_delivery_name() {
+		Utility.checkStringLength(getOrder_delivery_name(), 0, 20, "收货人姓名");
 	}
 
 	public String getOrder_delivery_phone() {
@@ -100,12 +124,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_DELIVERY_PHONE, order_delivery_phone);
 	}
 
+	public void checkOrder_delivery_phone() {
+		Utility.checkStringLength(getOrder_delivery_phone(), 0, 20, "收货人电话");
+	}
+
 	public String getOrder_delivery_province() {
 		return getStr(KEY_ORDER_DELIVERY_PROVINCE);
 	}
 
 	public void setOrder_delivery_province(String order_delivery_province) {
 		set(KEY_ORDER_DELIVERY_PROVINCE, order_delivery_province);
+	}
+
+	public void checkOrder_delivery_province() {
+		Utility.checkStringLength(getOrder_delivery_province(), 0, 32, "收货省份");
 	}
 
 	public String getOrder_delivery_city() {
@@ -116,12 +148,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_DELIVERY_CITY, order_delivery_city);
 	}
 
+	public void checkOrder_delivery_city() {
+		Utility.checkStringLength(getOrder_delivery_city(), 0, 32, "收货城市");
+	}
+
 	public String getOrder_delivery_area() {
 		return getStr(KEY_ORDER_DELIVERY_AREA);
 	}
 
 	public void setOrder_delivery_area(String order_delivery_area) {
 		set(KEY_ORDER_DELIVERY_AREA, order_delivery_area);
+	}
+
+	public void checkOrder_delivery_area() {
+		Utility.checkStringLength(getOrder_delivery_area(), 0, 32, "收货地区");
 	}
 
 	public String getOrder_delivery_address() {
@@ -132,12 +172,8 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_DELIVERY_ADDRESS, order_delivery_address);
 	}
 
-	public String getOrder_pay_type() {
-		return getStr(KEY_ORDER_PAY_TYPE);
-	}
-
-	public void setOrder_pay_type(String order_pay_type) {
-		set(KEY_ORDER_PAY_TYPE, order_pay_type);
+	public void checkOrder_delivery_address() {
+		Utility.checkStringLength(getOrder_delivery_address(), 0, 150, "收货详细地址");
 	}
 
 	public String getOrder_delivery_zip() {
@@ -146,6 +182,22 @@ public class Order extends Model<Order> {
 
 	public void setOrder_delivery_zip(String order_delivery_zip) {
 		set(KEY_ORDER_DELIVERY_ZIP, order_delivery_zip);
+	}
+
+	public void checkOrder_delivery_zip() {
+		Utility.checkStringLength(getOrder_delivery_zip(), 0, 6, "收货邮编");
+	}
+
+	public String getOrder_pay_type() {
+		return getStr(KEY_ORDER_PAY_TYPE);
+	}
+
+	public void setOrder_pay_type(String order_pay_type) {
+		set(KEY_ORDER_PAY_TYPE, order_pay_type);
+	}
+
+	public void checkOrder_pay_type() {
+		Utility.checkStringLength(getOrder_pay_type(), 0, 10, "支付类型");
 	}
 
 	public Boolean getOrder_is_pay() {
@@ -164,12 +216,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_TRADE_NO, order_trade_no);
 	}
 
+	public void checkOrder_trade_no() {
+		Utility.checkStringLength(getOrder_trade_no(), 0, 20, "支付交易号");
+	}
+
 	public String getOrder_trade_account() {
 		return getStr(KEY_ORDER_TRADE_ACCOUNT);
 	}
 
 	public void setOrder_trade_account(String order_trade_account) {
 		set(KEY_ORDER_TRADE_ACCOUNT, order_trade_account);
+	}
+
+	public void checkOrder_trade_account() {
+		Utility.checkStringLength(getOrder_trade_account(), 0, 20, "支付帐号");
 	}
 
 	public BigDecimal getOrder_trade_price() {
@@ -180,12 +240,20 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_TRADE_PRICE, order_trade_price);
 	}
 
+	public void checkOrder_trade_price() {
+		Utility.checkDecimalLength(getOrder_trade_price(), 11, 2, "支付价格");
+	}
+
 	public String getOrder_trade_time() {
 		return getStr(KEY_ORDER_TRADE_TIME);
 	}
 
 	public void setOrder_trade_time(String order_trade_time) {
 		set(KEY_ORDER_TRADE_TIME, order_trade_time);
+	}
+
+	public void checkOrder_trade_time() {
+		Utility.checkStringLength(getOrder_trade_time(), 0, 19, "支付时间");
 	}
 
 	public String getMember_level_id() {
@@ -196,6 +264,10 @@ public class Order extends Model<Order> {
 		set(KEY_MEMBER_LEVEL_ID, member_level_id);
 	}
 
+	public void checkMember_level_id() {
+		Utility.checkStringLength(getMember_level_id(), 32, "会员等级编号");
+	}
+
 	public String getMember_level_name() {
 		return getStr(KEY_MEMBER_LEVEL_NAME);
 	}
@@ -204,12 +276,20 @@ public class Order extends Model<Order> {
 		set(KEY_MEMBER_LEVEL_NAME, member_level_name);
 	}
 
+	public void checkMember_level_name() {
+		Utility.checkStringLength(getMember_level_name(), 0, 20, "会员等级名称");
+	}
+
 	public Integer getMember_level_value() {
 		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
 	}
 
 	public void setMember_level_value(Integer member_level_value) {
 		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
+	}
+
+	public void checkMember_level_value() {
+		Utility.checkIntegerLength(getMember_level_value(), 1, 11, "会员等级粉丝数");
 	}
 
 	public void setOrder_create_user_id(String order_create_user_id) {
@@ -236,6 +316,10 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_FLOW_STATUS, order_flow_status);
 	}
 
+	public void checkOrder_flow_status() {
+		Utility.checkStringLength(getOrder_flow_status(), 1, 10, "订单流程状态");
+	}
+
 	public Boolean getOrder_status() {
 		return getBoolean(KEY_ORDER_STATUS);
 	}
@@ -252,11 +336,43 @@ public class Order extends Model<Order> {
 		this.cartList = cartList;
 	}
 
+	public void checkCartList() {
+		if (Utility.isNullOrEmpty(getCartList())) {
+			throw new RuntimeException("购物车不能为空");
+		} else {
+			List<Cart> cartList = getCartList();
+
+			if (cartList.size() == 0) {
+				throw new RuntimeException("购物车不能为空");
+			}
+
+			Boolean isError = false;
+
+			for (Cart cart : cartList) {
+				if (Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
+					isError = true;
+				}
+
+				if (Utility.isNullOrEmpty(cart.getProduct_amount())) {
+					isError = true;
+				}
+			}
+
+			if (isError) {
+				throw new RuntimeException("商品参数格式错误");
+			}
+		}
+	}
+
 	public String getMember_delivery_id() {
 		return member_delivery_id;
 	}
 
 	public void setMember_delivery_id(String member_delivery_id) {
 		this.member_delivery_id = member_delivery_id;
+	}
+
+	public void checkMember_delivery_id() {
+		Utility.checkStringLength(getMember_delivery_id(), 32, "会员快递信息编号");
 	}
 }

@@ -39,12 +39,20 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_ID, member_id);
 	}
 
+	public void checkMember_id() {
+		Utility.checkStringLength(getMember_id(), 32, "会员编号");
+	}
+
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
+	}
+
+	public void checkUser_id() {
+		Utility.checkStringLength(getUser_id(), 32, "用户编号");
 	}
 
 	public String getMember_level_id() {
@@ -55,20 +63,16 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_LEVEL_ID, member_level_id);
 	}
 
+	public void checkMember_level_id() {
+		Utility.checkStringLength(getMember_level_id(), 32, "会员等级编号");
+	}
+
 	public String getMember_level_name() {
 		return getStr(KEY_MEMBER_LEVEL_NAME);
 	}
 
 	public Integer getMember_level_value() {
 		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
-	}
-
-	public String getMember_avatar() {
-		return getStr(KEY_MEMBER_AVATAR);
-	}
-
-	public void setMember_avatar(String member_avatar) {
-		set(KEY_MEMBER_AVATAR, member_avatar);
 	}
 
 	public String getMember_name() {
@@ -79,12 +83,40 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_NAME, member_name);
 	}
 
+	public void checkMember_name() {
+		Utility.checkStringLength(getMember_name(), 3, 20, "会员名称");
+	}
+
+	public String getMember_avatar() {
+		return getStr(KEY_MEMBER_AVATAR);
+	}
+
+	public void setMember_avatar(String member_avatar) {
+		set(KEY_MEMBER_AVATAR, member_avatar);
+	}
+
+	public void checkMember_avatar() {
+		Utility.checkStringLength(getMember_avatar(), 0, 300, "会员头像");
+	}
+
+	public void checkMember_avatar_small(String member_avatar_small) {
+		Utility.checkStringLength(member_avatar_small, 0, 300, "会员小头像");
+	}
+
+	public void checkMember_avatar_large(String member_avatar_large) {
+		Utility.checkStringLength(member_avatar_large, 0, 300, "会员大头像");
+	}
+
 	public String getMember_real_name() {
 		return getStr(KEY_MEMBER_REAL_NAME);
 	}
 
 	public void setMember_real_name(String member_real_name) {
 		set(KEY_MEMBER_REAL_NAME, member_real_name);
+	}
+
+	public void checkMember_real_name() {
+		Utility.checkStringLength(getMember_real_name(), 3, 300, "真实姓名");
 	}
 
 	public String getMember_identity_card() {
@@ -95,12 +127,20 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_IDENTITY_CARD, member_identity_card);
 	}
 
+	public void checkMember_identity_card() {
+		Utility.checkStringLength(getMember_identity_card(), 0, 18, "身份证号码");
+	}
+
 	public String getMember_identity_card_front_image() {
 		return getStr(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
 	}
 
 	public void setMember_identity_card_front_image(String member_identity_card_front_image) {
 		set(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
+	}
+
+	public void checkMember_identity_card_front_image() {
+		Utility.checkStringLength(getMember_identity_card_front_image(), 0, 100, "身份证照片正面");
 	}
 
 	public String getMember_identity_card_back_image() {
@@ -111,6 +151,10 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
 	}
 
+	public void checkMember_identity_card_back_image() {
+		Utility.checkStringLength(getMember_identity_card_back_image(), 0, 100, "身份证照片反面");
+	}
+
 	public Integer getMember_weibo_fans() {
 		return Utility.getIntegerValue(get(KEY_MEMBER_WEIBO_FANS));
 	}
@@ -119,12 +163,20 @@ public class Member extends Model<Member> {
 		set(KEY_MEMBER_WEIBO_FANS, member_weibo_fans);
 	}
 
+	public void checkMember_weibo_fans() {
+		Utility.checkIntegerLength(getMember_weibo_fans(), 0, 11, "微博粉丝数");
+	}
+
 	public Integer getMember_weibo_friend() {
 		return Utility.getIntegerValue(get(KEY_MEMBER_WEIBO_FRIEND));
 	}
 
 	public void setMember_weibo_friend(Integer member_weibo_friend) {
 		set(KEY_MEMBER_WEIBO_FRIEND, member_weibo_friend);
+	}
+
+	public void checkMember_weibo_friend() {
+		Utility.checkIntegerLength(getMember_weibo_friend(), 0, 11, "微博好友数");
 	}
 
 	public void setMember_create_user_id(String member_create_user_id) {

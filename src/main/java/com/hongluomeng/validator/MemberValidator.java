@@ -18,169 +18,94 @@ public class MemberValidator extends Validator {
 
 		JSONObject jsonObject = controller.getAttr(Const.KEY_REQUEST);
 
-		Boolean isExit = false;
+		Member member = jsonObject.toJavaObject(Member.class);
 
-		String message = "";
+		User user = jsonObject.toJavaObject(User.class);
+
+		Boolean isExit = false;
 
 		switch (actionKey) {
 			case Url.URL_MEMBER_LIST:
 				isExit = true;
 
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			case Url.URL_MEMBER_FIND: {
 				isExit = true;
 
-				Member member = jsonObject.toJavaObject(Member.class);
+				member.checkMember_id();
 
-				if (Utility.isNullOrEmpty(member.getMember_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_MEMBER_DELETE: {
 				isExit = true;
 
-				Member member = jsonObject.toJavaObject(Member.class);
+				member.checkMember_id();
 
-				if (Utility.isNullOrEmpty(member.getMember_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_MEMBER_LOGIN: {
 				isExit = true;
 
-				User user = jsonObject.toJavaObject(User.class);
+				user.checkUser_phone();
 
-				if (Utility.isNullOrEmpty(user.getUser_phone())) {
-					message += "帐号为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkUser_password();
 
-				if (Utility.isNullOrEmpty(user.getUser_password())) {
-					message += "密码为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_MEMBER_REGISTER:
 			case Url.URL_MEMBER_PASSWORD_UPDATE: {
 				isExit = true;
 
-				User user = jsonObject.toJavaObject(User.class);
+				user.checkUser_phone();
 
-				if (Utility.isNullOrEmpty(user.getUser_phone())) {
-					message += "帐号为空";
-					message += Const.LINE_FEED;
-				} else {
-					if (!Utility.isPhone(user.getUser_phone())) {
-						message += "帐号不是手机号";
-						message += Const.LINE_FEED;
-					}
-				}
-
-				if (Utility.isNullOrEmpty(user.getUser_password())) {
-					message += "密码为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkUser_password();
 
 				Sms sms = jsonObject.toJavaObject(Sms.class);
 
-				if (Utility.isNullOrEmpty(sms.getSms_code())) {
-					message += "验证码为空";
-					message += Const.LINE_FEED;
-				}
+				sms.checkSms_code();
+
 				break;
 			}
 			case Url.URL_MEMBER_WEIBO_OAUTH:
 			case Url.URL_MEMBER_WEIBO_BIND: {
 				isExit = true;
 
-				Member member = jsonObject.toJavaObject(Member.class);
+				member.checkMember_name();
 
-				User user = jsonObject.toJavaObject(User.class);
+				member.checkMember_avatar();
 
-				if (Utility.isNullOrEmpty(member.getMember_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
 
-				if (Utility.isNullOrEmpty(member.getMember_avatar())) {
-					message += "头像为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
 
-				if (Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL))) {
-					message += "小头像为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkWeibo_uid();
 
-				if (Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE))) {
-					message += "大头像为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkWeibo_access_token();
 
-				if (Utility.isNullOrEmpty(user.getWeibo_uid())) {
-					message += "微博UID为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_weibo_fans();
 
-				if (Utility.isNullOrEmpty(user.getWeibo_access_token())) {
-					message += "微博Access_Token为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_weibo_friend();
 
-				if (Utility.isNullOrEmpty(member.getMember_weibo_fans())) {
-					message += "微博粉丝数为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(member.getMember_weibo_friend())) {
-					message += "微博好友数为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_MEMBER_WECHAT_OAUTH:
 			case Url.URL_MEMBER_WECHAT_BIND: {
 				isExit = true;
 
-				Member member = jsonObject.toJavaObject(Member.class);
+				member.checkMember_name();
 
-				User user = jsonObject.toJavaObject(User.class);
+				member.checkMember_avatar();
 
-				if (Utility.isNullOrEmpty(member.getMember_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
 
-				if (Utility.isNullOrEmpty(member.getMember_avatar())) {
-					message += "头像为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
 
-				if (Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL))) {
-					message += "小头像为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkWechat_uid();
 
-				if (Utility.isNullOrEmpty(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE))) {
-					message += "大头像为空";
-					message += Const.LINE_FEED;
-				}
+				user.checKWechat_access_token();
 
-				if (Utility.isNullOrEmpty(user.getWechat_uid())) {
-					message += "微信UID为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(user.getWechat_access_token())) {
-					message += "微信Access_Token为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_MEMBER_AVATAR_UPLOAD:
@@ -190,27 +115,19 @@ public class MemberValidator extends Validator {
 			case Url.URL_MEMBER_NAME_UPDATE: {
 				isExit = true;
 
-				Member member = jsonObject.toJavaObject(Member.class);
+				member.checkMember_name();
 
-				if (Utility.isNullOrEmpty(member.getMember_name())) {
-					message += "姓名为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

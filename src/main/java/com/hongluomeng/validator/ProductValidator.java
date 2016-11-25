@@ -18,20 +18,19 @@ public class ProductValidator extends Validator {
 
 		JSONObject jsonObject = controller.getAttr(Const.KEY_REQUEST);
 
-		Boolean isExit = false;
+		Product product = jsonObject.toJavaObject(Product.class);
 
-		String message = "";
+		Category category = jsonObject.toJavaObject(Category.class);
+
+		CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
+
+		Boolean isExit = false;
 
 		switch (actionKey) {
 			case Url.URL_PRODUCT_LIST: {
 				isExit = true;
 
-				Product product = jsonObject.toJavaObject(Product.class);
-
-				if (Utility.isNull(product.getProduct_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_name();
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;
@@ -39,82 +38,64 @@ public class ProductValidator extends Validator {
 			case Url.URL_PRODUCT_FIND:
 				isExit = true;
 
-			/*if(Utility.isNullOrEmpty(product.getProduct_id())) {
-				message += "编号为空";
-				message += Const.LINE_FEED;
-			}*/
 				break;
-			case Url.URL_PRODUCT_SAVE:
+			case Url.URL_PRODUCT_SAVE: {
+				isExit = true;
+
+				product.checkCategory_id();
+
+				product.checkBrand_id();
+
+				product.checkProduct_name();
+
+				product.checkProduct_is_new();
+
+				product.checkProduct_is_recommend();
+
+				product.checkProduct_is_bargain();
+
+				product.checkProduct_is_hot();
+
+				product.checkProduct_is_sell_out();
+
+				product.checkProduct_is_sale();
+
+				product.checkProduct_content();
+
+				break;
+			}
 			case Url.URL_PRODUCT_UPDATE: {
 				isExit = true;
 
-				Product product = jsonObject.toJavaObject(Product.class);
+				product.checkProduct_id();
 
-				if (actionKey.equals(Url.URL_PRODUCT_UPDATE) && Utility.isNullOrEmpty(product.getProduct_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(product.getCategory_id())) {
-					message += "分类为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkBrand_id();
 
-				if (Utility.isNullOrEmpty(product.getBrand_id())) {
-					message += "品牌为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_name();
 
-				if (Utility.isNullOrEmpty(product.getProduct_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_is_new();
 
-				if (Utility.isNullOrEmpty(product.getProduct_is_new())) {
-					message += "是否新品参数为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_is_recommend();
 
-				if (Utility.isNullOrEmpty(product.getProduct_is_recommend())) {
-					message += "是否推荐参数为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_is_bargain();
 
-				if (Utility.isNullOrEmpty(product.getProduct_is_bargain())) {
-					message += "是否特价参数为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_is_hot();
 
-				if (Utility.isNullOrEmpty(product.getProduct_is_hot())) {
-					message += "是否热卖参数为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_is_sell_out();
 
-				if (Utility.isNullOrEmpty(product.getProduct_is_sell_out())) {
-					message += "是否买完参数为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_is_sale();
 
-				if (Utility.isNullOrEmpty(product.getProduct_is_sale())) {
-					message += "是否上下架为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkProduct_content();
 
-				if (Utility.isNull(product.getProduct_content())) {
-					message += "介绍为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_DELETE: {
 				isExit = true;
 
-				Product product = jsonObject.toJavaObject(Product.class);
+				product.checkProduct_id();
 
-				if (Utility.isNullOrEmpty(product.getProduct_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORY_LIST:
@@ -124,111 +105,72 @@ public class ProductValidator extends Validator {
 			case Url.URL_PRODUCT_CATEGORY_FIND: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
+				category.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
-			case Url.URL_PRODUCT_CATEGORY_SAVE:
+			case Url.URL_PRODUCT_CATEGORY_SAVE: {
+				isExit = true;
+
+				category.checkParent_id();
+
+				category.checkCategory_name();
+
+				category.checkCategory_sort();
+
+				break;
+			}
 			case Url.URL_PRODUCT_CATEGORYT_UPDATE: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
+				category.checkCategory_id();
 
-				if (actionKey.equals(Url.URL_PRODUCT_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
-					message += "父编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_name();
 
-				if (actionKey.equals(Url.URL_PRODUCT_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_sort();
 
-				if (Utility.isNullOrEmpty(category.getCategory_name())) {
-					message += "用户名为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(category.getCategory_sort())) {
-					message += "排序为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORYT_DELETE: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
+				category.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST: {
 				isExit = true;
 
-				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
-
-				if (Utility.isNullOrEmpty(categoryAttribute.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
+				categoryAttribute.checkCategory_id();
 
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND: {
 				isExit = true;
 
-				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
+				categoryAttribute.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(categoryAttribute.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE:
 			case Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE: {
 				isExit = true;
 
-				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
+				categoryAttribute.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(categoryAttribute.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
+				categoryAttribute.checkAttribute_id();
 
-				if (Utility.isNullOrEmpty(categoryAttribute.getAttribute_id())) {
-					message += "属性编号为空";
-					message += Const.LINE_FEED;
-				}
+				categoryAttribute.checkCategory_attribute_sort();
 
-				if (Utility.isNullOrEmpty(categoryAttribute.getCategory_attribute_sort())) {
-					message += "排序为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE: {
 				isExit = true;
 
-				CategoryAttribute categoryAttribute = jsonObject.toJavaObject(CategoryAttribute.class);
+				categoryAttribute.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(categoryAttribute.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
+				categoryAttribute.checkAttribute_id();
 
-				if (Utility.isNullOrEmpty(categoryAttribute.getAttribute_id())) {
-					message += "属性编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_PRODUCT_CATEGORY_LIST_GET:
@@ -238,12 +180,7 @@ public class ProductValidator extends Validator {
 			case Url.URL_PRODUCT_LIST_GET: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
-
-				if (Utility.isNull(category.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_id();
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;
@@ -251,12 +188,7 @@ public class ProductValidator extends Validator {
 			case Url.URL_PRODUCT_BRAND_LIST_GET: {
 				isExit = true;
 
-				Product product = jsonObject.toJavaObject(Product.class);
-
-				if (Utility.isNullOrEmpty(product.getBrand_id())) {
-					message += "品牌为空";
-					message += Const.LINE_FEED;
-				}
+				product.checkBrand_id();
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;
@@ -265,31 +197,24 @@ public class ProductValidator extends Validator {
 				isExit = true;
 
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			case Url.URL_PRODUCT_GET: {
 				isExit = true;
 
-				Product product = jsonObject.toJavaObject(Product.class);
+				product.checkProduct_id();
 
-				if (Utility.isNullOrEmpty(product.getProduct_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

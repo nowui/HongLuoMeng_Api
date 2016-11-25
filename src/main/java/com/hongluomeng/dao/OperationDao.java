@@ -100,7 +100,7 @@ public class OperationDao {
 		Operation operation = new Operation();
 		operation.setOperation_id(operation_id);
 
-		Utility.checkIsNullOrEmpty(operation_id);
+		operation.checkOperation_id();
 
 		return find(operation);
 	}

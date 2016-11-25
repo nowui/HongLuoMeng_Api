@@ -57,7 +57,7 @@ public class AuthorizationDao {
 		Authorization authorization = new Authorization();
 		authorization.setAuthorization_id(authorization_id);
 
-		Utility.checkIsNullOrEmpty(authorization_id);
+		authorization.checkAuthorization_id();
 
 		return find(authorization);
 	}

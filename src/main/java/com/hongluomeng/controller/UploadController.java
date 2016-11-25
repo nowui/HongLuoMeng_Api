@@ -31,13 +31,13 @@ public class UploadController extends BaseController {
 
 		List<File> fileList = new ArrayList<File>();
 
-		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
 		Utility.createUserUploadPath(user_id);
 
 		File pathFile = new File(PathKit.getWebRootPath() + "/" + Const.UPLOAD_FILE + "/" + user_id);
 
-		File [] files = pathFile.listFiles();
+		File[] files = pathFile.listFiles();
 
 		if (files.length > 0) {
 			Arrays.sort(files, new CompratorByLastModified());
@@ -81,12 +81,12 @@ public class UploadController extends BaseController {
 		for (UploadFile uploadFile : uploadFileList) {
 			String path = uploadService.uploadImage(uploadFile, request_user_id);
 
-			if(! Utility.isNullOrEmpty(path)) {
+			if (!Utility.isNullOrEmpty(path)) {
 				jsonArray.add(path);
 			}
 		}
 
-		if(jsonArray.size() == 0) {
+		if (jsonArray.size() == 0) {
 			throw new RuntimeException("上传出错了");
 		} else {
 			renderJson(Utility.setResponse(CodeEnum.CODE_200, "", jsonArray));
@@ -95,16 +95,16 @@ public class UploadController extends BaseController {
 
 	public class CompratorByLastModified implements Comparator<File> {
 
-	    public int compare(File f1, File f2) {
-	        long diff = f1.lastModified() - f2.lastModified();
-	        if (diff > 0) {
-	               return -1;
-	        } else if (diff == 0) {
-	               return 0;
-	        } else {
-	              return 1;
-	        }
-	    }
+		public int compare(File f1, File f2) {
+			long diff = f1.lastModified() - f2.lastModified();
+			if (diff > 0) {
+				return -1;
+			} else if (diff == 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
 	}
 
 	@ActionKey(Url.URL_UPLOAD_BASE64)

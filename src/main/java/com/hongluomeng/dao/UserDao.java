@@ -128,7 +128,7 @@ public class UserDao {
 		User user = new User();
 		user.setUser_id(user_id);
 
-		Utility.checkIsNullOrEmpty(user_id);
+		user.checkUser_id();
 
 		return find(user);
 	}
@@ -139,9 +139,9 @@ public class UserDao {
 		user.setUser_password(user_password);
 		user.setUser_type(user_type);
 
-		Utility.checkIsNullOrEmpty(user_account);
-		Utility.checkIsNullOrEmpty(user_password);
-		Utility.checkIsNullOrEmpty(user_type);
+		user.checkUser_account();
+		user.checkUser_password();
+		user.checkUser_type();
 
 		return find(user);
 	}
@@ -152,9 +152,9 @@ public class UserDao {
 		user.setUser_password(user_password);
 		user.setUser_type(user_type);
 
-		Utility.checkIsNullOrEmpty(user_phone);
-		Utility.checkIsNullOrEmpty(user_password);
-		Utility.checkIsNullOrEmpty(user_type);
+		user.checkUser_phone();
+		user.checkUser_password();
+		user.checkUser_type();
 
 		return find(user);
 	}
@@ -163,7 +163,7 @@ public class UserDao {
 		User user = new User();
 		user.setWeibo_uid(weibo_uid);
 
-		Utility.checkIsNullOrEmpty(weibo_uid);
+		user.checkWeibo_uid();
 
 		return find(user);
 	}
@@ -172,7 +172,7 @@ public class UserDao {
 		User user = new User();
 		user.setWechat_uid(wechat_uid);
 
-		Utility.checkIsNullOrEmpty(wechat_uid);
+		user.checkWechat_uid();
 
 		return find(user);
 	}

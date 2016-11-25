@@ -25,8 +25,8 @@ public class ActivityController extends BaseController {
 
 		Map<String, Object> resultMap = activityService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(ActivityValidator.class)
 	@ActionKey(Url.URL_ACTIVITY_FIND)
@@ -35,8 +35,8 @@ public class ActivityController extends BaseController {
 
 		Activity activity = activityService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", activity));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", activity));
+	}
 
 	@Before(ActivityValidator.class)
 	@ActionKey(Url.URL_ACTIVITY_SAVE)
@@ -45,7 +45,7 @@ public class ActivityController extends BaseController {
 
 		activityService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ActivityValidator.class)
@@ -55,7 +55,7 @@ public class ActivityController extends BaseController {
 
 		activityService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ActivityValidator.class)
@@ -65,7 +65,7 @@ public class ActivityController extends BaseController {
 
 		activityService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ActivityValidator.class)
@@ -75,8 +75,8 @@ public class ActivityController extends BaseController {
 
 		List<Map<String, Object>> resultList = activityService.getList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(ActivityValidator.class)
 	@ActionKey(Url.URL_ACTIVITY_GET)
@@ -85,7 +85,7 @@ public class ActivityController extends BaseController {
 
 		Map<String, Object> resultMap = activityService.get(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 }

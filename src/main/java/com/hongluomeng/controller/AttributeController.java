@@ -24,8 +24,8 @@ public class AttributeController extends BaseController {
 
 		Map<String, Object> resultMap = attributeService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(AttributeValidator.class)
 	@ActionKey(Url.URL_ATTRIBUTE_FIND)
@@ -34,8 +34,8 @@ public class AttributeController extends BaseController {
 
 		Attribute attribute = attributeService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", attribute));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", attribute));
+	}
 
 	@Before(AttributeValidator.class)
 	@ActionKey(Url.URL_ATTRIBUTE_SAVE)
@@ -44,7 +44,7 @@ public class AttributeController extends BaseController {
 
 		attributeService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(AttributeValidator.class)
@@ -54,7 +54,7 @@ public class AttributeController extends BaseController {
 
 		attributeService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(AttributeValidator.class)
@@ -64,7 +64,7 @@ public class AttributeController extends BaseController {
 
 		attributeService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

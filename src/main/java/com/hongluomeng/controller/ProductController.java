@@ -27,8 +27,8 @@ public class ProductController extends BaseController {
 
 		Map<String, Object> resultMap = productService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_FIND)
@@ -37,8 +37,8 @@ public class ProductController extends BaseController {
 
 		Product product = productService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", product));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", product));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_SAVE)
@@ -47,7 +47,7 @@ public class ProductController extends BaseController {
 
 		productService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -57,7 +57,7 @@ public class ProductController extends BaseController {
 
 		productService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -67,7 +67,7 @@ public class ProductController extends BaseController {
 
 		productService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -77,8 +77,8 @@ public class ProductController extends BaseController {
 
 		Map<String, Object> resultMap = productService.listCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_FIND)
@@ -87,8 +87,8 @@ public class ProductController extends BaseController {
 
 		Category category = productService.findCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_SAVE)
@@ -97,7 +97,7 @@ public class ProductController extends BaseController {
 
 		productService.saveCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -107,7 +107,7 @@ public class ProductController extends BaseController {
 
 		productService.updateCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -117,7 +117,7 @@ public class ProductController extends BaseController {
 
 		productService.deleteCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -127,8 +127,8 @@ public class ProductController extends BaseController {
 
 		List<CategoryAttribute> categoryAttributeList = productService.listCategoryAttribute(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", categoryAttributeList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", categoryAttributeList));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND)
@@ -137,8 +137,8 @@ public class ProductController extends BaseController {
 
 		Map<String, Object> resultMap = productService.findCategoryAttribute(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE)
@@ -147,7 +147,7 @@ public class ProductController extends BaseController {
 
 		productService.saveCategoryAttribute(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -157,7 +157,7 @@ public class ProductController extends BaseController {
 
 		productService.updateCategoryAttribute(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -167,7 +167,7 @@ public class ProductController extends BaseController {
 
 		productService.deleteCategoryAttribute(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(ProductValidator.class)
@@ -177,8 +177,8 @@ public class ProductController extends BaseController {
 
 		List<Map<String, Object>> resultList = productService.getCategoryList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_LIST_GET)
@@ -187,8 +187,8 @@ public class ProductController extends BaseController {
 
 		List<Map<String, Object>> resultList = productService.getList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_BRAND_LIST_GET)
@@ -197,8 +197,8 @@ public class ProductController extends BaseController {
 
 		List<Map<String, Object>> resultList = productService.getBrandList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_MARKET_LIST_GET)
@@ -207,8 +207,8 @@ public class ProductController extends BaseController {
 
 		List<Map<String, Object>> resultList = productService.getMarketList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_GET)
@@ -217,7 +217,7 @@ public class ProductController extends BaseController {
 
 		Map<String, Object> resultMap = productService.get(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 }

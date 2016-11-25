@@ -3,8 +3,8 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Record;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Attribute;
@@ -13,49 +13,19 @@ import com.hongluomeng.model.ProductAttribute;
 public class CategoryAttributeDao {
 
 	private List<CategoryAttribute> list(CategoryAttribute categoryAttribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
-		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
-		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
-		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
-		sql.append("FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
-		sql.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		dynamicSQL.append("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
+		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
+		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
+		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
+		dynamicSQL.append("FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
+		dynamicSQL.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", categoryAttribute.getCategory_id());
+		dynamicSQL.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
-		Boolean isExit = false;
-
-		if (! Utility.isNullOrEmpty(categoryAttribute.getCategory_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
-			parameterList.add(categoryAttribute.getCategory_id());
-
-			isExit = true;
-		}
-
-		sql.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
-
-		List<Record> recordList = Db.find(sql.toString(), parameterList.toArray());
-
-		List<CategoryAttribute> categoryAttributeList = new ArrayList<CategoryAttribute>();
-
-		for (Record record : recordList) {
-			CategoryAttribute c = new CategoryAttribute();
-
-			c.setCategory_id(record.getStr(CategoryAttribute.KEY_CATEGORY_ID));
-			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
-			c.setAttribute_name(record.getStr(Attribute.KEY_ATTRIBUTE_NAME));
-			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
-			c.setAttribute_type(record.getStr(Attribute.KEY_ATTRIBUTE_TYPE));
-			c.setAttribute_default_value(record.getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
-
-			categoryAttributeList.add(c);
-		}
-
-		return categoryAttributeList;
+		return new CategoryAttribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<CategoryAttribute> listByCategory_id(String category_id) {
@@ -70,115 +40,50 @@ public class CategoryAttributeDao {
 	}
 
 	public List<CategoryAttribute> listByProduct_idAndCategory_id(String product_id, String category_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
-		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
-		sql.append(", IFNULL(" + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " ");
-		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
-		sql.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
-		sql.append("FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		sql.append("LEFT JOIN " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		dynamicSQL.append("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
+		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
+		dynamicSQL.append(", IFNULL(" + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " ");
+		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
+		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
+		dynamicSQL.append("FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		dynamicSQL.append("LEFT JOIN " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_PRODUCT_ID + " = ?) AS " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_ID + " ", product_id);
+		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", category_id);
+		dynamicSQL.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
-		sql.append("LEFT JOIN (SELECT * FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_PRODUCT_ID + " = ?) AS " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_ID + " ");
-		parameterList.add(product_id);
-
-		sql.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
-		parameterList.add(category_id);
-
-		sql.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-
-		sql.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
-
-		List<Record> recordList = Db.find(sql.toString(), parameterList.toArray());
-
-		List<CategoryAttribute> categoryAttributeList = new ArrayList<CategoryAttribute>();
-
-		for (Record record : recordList) {
-			CategoryAttribute c = new CategoryAttribute();
-
-			c.setCategory_id(record.getStr(CategoryAttribute.KEY_CATEGORY_ID));
-			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
-			c.setAttribute_name(record.getStr(Attribute.KEY_ATTRIBUTE_NAME));
-			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
-			c.setAttribute_value(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_VALUE));
-			c.setAttribute_type(record.getStr(Attribute.KEY_ATTRIBUTE_TYPE));
-			c.setAttribute_default_value(record.getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
-
-			categoryAttributeList.add(c);
-		}
-
-		return categoryAttributeList;
+		return new CategoryAttribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Attribute> listNotUsedAttributeByCategory_id(String category_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + Attribute.KEY_TABLE_ATTRIBUTE + ".* FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		dynamicSQL.append("SELECT " + Attribute.KEY_TABLE_ATTRIBUTE + ".* FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ", category_id);
+		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
+		dynamicSQL.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
-		sql.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ");
-		sql.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
-		sql.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-		sql.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
-
-		parameterList.add(category_id);
-
-		List<Attribute> attributeList = new Attribute().find(sql.toString(), parameterList.toArray());
-
-		return attributeList;
+		return new Attribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	private CategoryAttribute find(CategoryAttribute categoryAttribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".*, " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
-		sql.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		dynamicSQL.append("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".*, " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
+		dynamicSQL.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", categoryAttribute.getCategory_id());
+		dynamicSQL.isNullOrEmpty("AND " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ", categoryAttribute.getAttribute_id());
 
-		Boolean isExit = false;
+		List<CategoryAttribute> categoryAttributeList = new CategoryAttribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		if (! Utility.isNullOrEmpty(categoryAttribute.getCategory_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
-			parameterList.add(categoryAttribute.getCategory_id());
-
-			isExit = true;
-		}
-
-		if (! Utility.isNullOrEmpty(categoryAttribute.getAttribute_id())) {
-			if(isExit) {
-				sql.append(" AND ");
-			} else {
-				sql.append(" WHERE ");
-			}
-			sql.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
-			parameterList.add(categoryAttribute.getAttribute_id());
-
-			isExit = true;
-		}
-
-		if(! isExit) {
-			return null;
-		}
-
-		List<Record> recordList = Db.find(sql.toString(), parameterList.toArray());
-
-		if(recordList.size() == 0) {
+		if (categoryAttributeList == null) {
 			return null;
 		} else {
-			Record record = recordList.get(0);
-
-			CategoryAttribute c = new CategoryAttribute();
-
-			c.setCategory_id(record.getStr(CategoryAttribute.KEY_CATEGORY_ID));
-			c.setAttribute_id(record.getStr(CategoryAttribute.KEY_ATTRIBUTE_ID));
-			c.setAttribute_name(record.getStr(Attribute.KEY_ATTRIBUTE_NAME));
-			c.setCategory_attribute_sort(record.getInt(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT));
-
-			return c;
+			return categoryAttributeList.get(0);
 		}
 	}
 
@@ -191,62 +96,58 @@ public class CategoryAttributeDao {
 	}
 
 	public void save(CategoryAttribute categoryAttribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " (" + CategoryAttribute.KEY_CATEGORY_ID + ", " + CategoryAttribute.KEY_ATTRIBUTE_ID + ", " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ?) ");
+		dynamicSQL.append("INSERT INTO " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " (");
+		dynamicSQL.append(CategoryAttribute.KEY_CATEGORY_ID + ", ");
+		dynamicSQL.append(CategoryAttribute.KEY_ATTRIBUTE_ID + ", ");
+		dynamicSQL.append(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT);
+		dynamicSQL.append(") SELECT ");
+		dynamicSQL.append("?, ", categoryAttribute.getCategory_id());
+		dynamicSQL.append("?, ", categoryAttribute.getAttribute_id());
+		dynamicSQL.append("? ", categoryAttribute.getCategory_attribute_sort());
+		dynamicSQL.append("FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ?) ", categoryAttribute.getCategory_id(), categoryAttribute.getAttribute_id());
 
-		parameterList.add(categoryAttribute.getCategory_id());
-		parameterList.add(categoryAttribute.getAttribute_id());
-		parameterList.add(categoryAttribute.getCategory_attribute_sort());
-		parameterList.add(categoryAttribute.getCategory_id());
-		parameterList.add(categoryAttribute.getAttribute_id());
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void update(CategoryAttribute categoryAttribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " SET " + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " = ? WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		dynamicSQL.append("UPDATE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " SET ");
+		dynamicSQL.append(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " = ? ", categoryAttribute.getCategory_attribute_sort());
+		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", categoryAttribute.getCategory_id());
+		dynamicSQL.append("AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ", categoryAttribute.getAttribute_id());
 
-		parameterList.add(categoryAttribute.getCategory_attribute_sort());
-		parameterList.add(categoryAttribute.getCategory_id());
-		parameterList.add(categoryAttribute.getAttribute_id());
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void delete(CategoryAttribute categoryAttribute) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		dynamicSQL.append("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
+		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", categoryAttribute.getCategory_id());
+		dynamicSQL.append("AND " + CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ", categoryAttribute.getAttribute_id());
 
-		parameterList.add(categoryAttribute.getCategory_id());
-		parameterList.add(categoryAttribute.getAttribute_id());
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void deleteByCategory_id(String category_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE ");
-		sql.append(CategoryAttribute.KEY_CATEGORY_ID + " = ? ");
+		dynamicSQL.append("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE ");
+		dynamicSQL.append(CategoryAttribute.KEY_CATEGORY_ID + " = ? ", category_id);
 
-		parameterList.add(category_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public void deleteByAttribute_id(String attribute_id) {
-		List<Object> parameterList = new ArrayList<Object>();
+		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		StringBuffer sql = new StringBuffer("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE ");
-		sql.append(CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ");
+		dynamicSQL.append("DELETE FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE ");
+		dynamicSQL.append(CategoryAttribute.KEY_ATTRIBUTE_ID + " = ? ", attribute_id);
 
-		parameterList.add(attribute_id);
-
-		Db.update(sql.toString(), parameterList.toArray());
+		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 }

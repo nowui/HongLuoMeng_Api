@@ -9,10 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.CartDao;
-import com.hongluomeng.model.Attribute;
-import com.hongluomeng.model.Cart;
-import com.hongluomeng.model.Product;
-import com.hongluomeng.model.ProductSku;
+import com.hongluomeng.model.*;
 
 public class CartService {
 
@@ -106,7 +103,7 @@ public class CartService {
 					product_attribute_value += " ";
 				}
 
-				product_attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_VALUE);
+				product_attribute_value += object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
 			}
 
 

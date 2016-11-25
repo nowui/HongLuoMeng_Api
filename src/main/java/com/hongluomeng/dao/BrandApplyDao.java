@@ -74,7 +74,7 @@ public class BrandApplyDao {
 		dynamicSQL.append("ORDER BY " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " DESC ");
 
 		List<BrandApply> brandApplyList = brandApply.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(brandApplyList == null) {
+		if (brandApplyList == null) {
 			return null;
 		} else {
 			return brandApplyList.get(0);

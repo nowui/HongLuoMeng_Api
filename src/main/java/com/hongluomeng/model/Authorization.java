@@ -3,6 +3,7 @@ package com.hongluomeng.model;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class Authorization extends Model<Authorization> {
@@ -24,6 +25,10 @@ public class Authorization extends Model<Authorization> {
 		set(KEY_AUTHORIZATION_ID, authorization_id);
 	}
 
+	public void checkAuthorization_id() {
+		Utility.checkStringLength(getAuthorization_id(), 32, "授权编号");
+	}
+
 	public String getAuthorization_token() {
 		return getStr(KEY_AUTHORIZATION_TOKEN);
 	}
@@ -32,12 +37,20 @@ public class Authorization extends Model<Authorization> {
 		set(KEY_AUTHORIZATION_TOKEN, authorization_token);
 	}
 
+	public void checkAuthorization_token() {
+		Utility.checkStringLength(getAuthorization_token(), 3, 300, "授权token");
+	}
+
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
+	}
+
+	public void checkUser_id() {
+		Utility.checkStringLength(getUser_id(), 32, "用户编号");
 	}
 
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")

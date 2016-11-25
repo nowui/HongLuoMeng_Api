@@ -59,12 +59,20 @@ public class User extends Model<User> {
 		set(KEY_USER_PHONE, user_phone);
 	}
 
+	public void checkUser_phone() {
+		Utility.checkStringLength(getUser_phone(), 3, 11, "用户电话");
+	}
+
 	public String getUser_email() {
 		return getStr(KEY_USER_EMAIL);
 	}
 
 	public void setUser_email(String user_email) {
 		set(KEY_USER_EMAIL, user_email);
+	}
+
+	public void checkUser_email() {
+		Utility.checkStringLength(getUser_email(), 3, 20, "用户邮箱");
 	}
 
 	public String getUser_password() {
@@ -87,12 +95,20 @@ public class User extends Model<User> {
 		set(KEY_WEIBO_UID, weibo_uid);
 	}
 
+	public void checkWeibo_uid() {
+		Utility.checkStringLength(getWeibo_uid(), 0, 50, "微博uid");
+	}
+
 	public String getWeibo_access_token() {
 		return getStr(KEY_WEIBO_ACCESS_TOKEN);
 	}
 
 	public void setWeibo_access_token(String weibo_access_token) {
 		set(KEY_WEIBO_ACCESS_TOKEN, weibo_access_token);
+	}
+
+	public void checkWeibo_access_token() {
+		Utility.checkStringLength(getWeibo_access_token(), 0, 200, "微博token");
 	}
 
 	public String getWechat_uid() {
@@ -103,12 +119,20 @@ public class User extends Model<User> {
 		set(KEY_WECHAT_UID, wechat_uid);
 	}
 
+	public void checkWechat_uid() {
+		Utility.checkStringLength(getWechat_uid(), 0, 50, "微信uid");
+	}
+
 	public String getWechat_access_token() {
 		return getStr(KEY_WECHAT_ACCESS_TOKEN);
 	}
 
 	public void setWechat_access_token(String wechat_access_token) {
 		set(KEY_WECHAT_ACCESS_TOKEN, wechat_access_token);
+	}
+
+	public void checKWechat_access_token() {
+		Utility.checkStringLength(getWechat_access_token(), 0, 200, "微信token");
 	}
 
 	public String getObject_id() {
@@ -119,12 +143,20 @@ public class User extends Model<User> {
 		set(KEY_OBJECT_ID, object_id);
 	}
 
+	public void checkObject_id() {
+		Utility.checkStringLength(getObject_id(), 32, "外键编号");
+	}
+
 	public String getUser_type() {
 		return getStr(KEY_USER_TYPE);
 	}
 
 	public void setUser_type(String user_type) {
 		set(KEY_USER_TYPE, user_type);
+	}
+
+	public void checkUser_type() {
+		Utility.checkStringLength(getUser_type(), 0, 20, "用户类型");
 	}
 
 	public void setUser_create_user_id(String user_create_user_id) {

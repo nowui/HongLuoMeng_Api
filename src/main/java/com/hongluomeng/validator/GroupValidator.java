@@ -16,9 +16,9 @@ public class GroupValidator extends Validator {
 
 		JSONObject jsonObject = controller.getAttr(Const.KEY_REQUEST);
 
-		Boolean isExit = false;
+		Category category = jsonObject.toJavaObject(Category.class);
 
-		String message = "";
+		Boolean isExit = false;
 
 		switch (actionKey) {
 			case Url.URL_GROUP_LIST:
@@ -29,31 +29,26 @@ public class GroupValidator extends Validator {
 				isExit = true;
 
 				break;
-			case Url.URL_GROUP_SAVE:
+			case Url.URL_GROUP_SAVE: {
+				isExit = true;
+
+				category.checkParent_id();
+
+				category.checkCategory_name();
+
+				category.checkCategory_sort();
+
+				break;
+			}
 			case Url.URL_GROUP_UPDATE:
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
+				category.checkCategory_id();
 
-				if (actionKey.equals(Url.URL_GROUP_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
-					message += "父编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_name();
 
-				if (actionKey.equals(Url.URL_GROUP_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_sort();
 
-				if (Utility.isNullOrEmpty(category.getCategory_name())) {
-					message += "用户名为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(category.getCategory_sort())) {
-					message += "排序为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			case Url.URL_GROUP_DELETE:
 				isExit = true;
@@ -61,17 +56,13 @@ public class GroupValidator extends Validator {
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

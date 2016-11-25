@@ -17,27 +17,27 @@ import com.jfinal.kit.PropKit;
 public class MyConnectionFactory {
 
 	private static interface Singleton {
-        final MyConnectionFactory INSTANCE = new MyConnectionFactory();
-    }
+		final MyConnectionFactory INSTANCE = new MyConnectionFactory();
+	}
 
-    private final DataSource dataSource;
+	private final DataSource dataSource;
 
-    private MyConnectionFactory() {
-    	PropKit.use("Jdbc.properties");
+	private MyConnectionFactory() {
+		PropKit.use("Jdbc.properties");
 
-        Properties properties = new Properties();
-        properties.setProperty("user", PropKit.get("user"));
-        properties.setProperty("password", PropKit.get("password"));
+		Properties properties = new Properties();
+		properties.setProperty("user", PropKit.get("user"));
+		properties.setProperty("password", PropKit.get("password"));
 
-        GenericObjectPool<PoolableConnection> pool = new GenericObjectPool<PoolableConnection>();
-        DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory(PropKit.get("jdbcUrl"), properties);
-        new PoolableConnectionFactory(connectionFactory, pool, null, "SELECT 1", 3, false, false, Connection.TRANSACTION_READ_COMMITTED);
+		GenericObjectPool<PoolableConnection> pool = new GenericObjectPool<PoolableConnection>();
+		DriverManagerConnectionFactory connectionFactory = new DriverManagerConnectionFactory(PropKit.get("jdbcUrl"), properties);
+		new PoolableConnectionFactory(connectionFactory, pool, null, "SELECT 1", 3, false, false, Connection.TRANSACTION_READ_COMMITTED);
 
-        this.dataSource = new PoolingDataSource(pool);
-    }
+		this.dataSource = new PoolingDataSource(pool);
+	}
 
-    public static Connection getDatabaseConnection() throws SQLException {
-        return Singleton.INSTANCE.dataSource.getConnection();
-    }
+	public static Connection getDatabaseConnection() throws SQLException {
+		return Singleton.INSTANCE.dataSource.getConnection();
+	}
 
 }

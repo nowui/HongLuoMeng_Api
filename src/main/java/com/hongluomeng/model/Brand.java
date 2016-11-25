@@ -37,12 +37,20 @@ public class Brand extends Model<Brand> {
 		set(KEY_BRAND_ID, brand_id);
 	}
 
+	public void checkBrand_id() {
+		Utility.checkStringLength(getBrand_id(), 32, "品牌编号");
+	}
+
 	public String getCategory_id() {
 		return getStr(KEY_CATEGORY_ID);
 	}
 
 	public void setCategory_id(String category_id) {
 		set(KEY_CATEGORY_ID, category_id);
+	}
+
+	public void checkCategory_id() {
+		Utility.checkStringLength(getCategory_id(), 32, "分类编号");
 	}
 
 	public String getBrand_name() {
@@ -53,12 +61,20 @@ public class Brand extends Model<Brand> {
 		set(KEY_BRAND_NAME, brand_name);
 	}
 
+	public void checkBrand_name() {
+		Utility.checkStringLength(getBrand_name(), 3, 20, "品牌名称");
+	}
+
 	public String getBrand_logo() {
 		return getStr(KEY_BRAND_LOGO);
 	}
 
 	public void setBrand_logo(String brand_logo) {
 		set(KEY_BRAND_LOGO, brand_logo);
+	}
+
+	public void checkBrand_logo() {
+		Utility.checkStringLength(getBrand_logo(), 1, 100, "品牌logo");
 	}
 
 	public String getBrand_introduce() {
@@ -69,12 +85,20 @@ public class Brand extends Model<Brand> {
 		set(KEY_BRAND_INTRODUCE, brand_introduce);
 	}
 
+	public void checkBrand_introduce() {
+		Utility.checkStringLength(getBrand_introduce(), 0, 500, "品牌介绍");
+	}
+
 	public String getBrand_agreement() {
 		return getStr(KEY_BRAND_AGREEMENT);
 	}
 
 	public void setBrand_agreement(String brand_agreement) {
 		set(KEY_BRAND_AGREEMENT, brand_agreement);
+	}
+
+	public void checkBrand_agreement() {
+		Utility.checkStringLength(getBrand_agreement(), 0, 0, "品牌协议书");
 	}
 
 	public void setBrand_create_user_id(String brand_create_user_id) {

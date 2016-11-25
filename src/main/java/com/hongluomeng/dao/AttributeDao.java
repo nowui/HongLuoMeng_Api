@@ -49,7 +49,7 @@ public class AttributeDao {
 		dynamicSQL.isNullOrEmpty("AND " + Attribute.KEY_ATTRIBUTE_ID + " = ? ", attribute.getAttribute_id());
 
 		List<Attribute> attributeList = attribute.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(attributeList.size() == 0) {
+		if (attributeList.size() == 0) {
 			return null;
 		} else {
 			return attributeList.get(0);
@@ -60,7 +60,7 @@ public class AttributeDao {
 		Attribute attribute = new Attribute();
 		attribute.setAttribute_id(attribute_id);
 
-		Utility.checkIsNullOrEmpty(attribute_id);
+		attribute.checkAttribute_id();
 
 		return find(attribute);
 	}

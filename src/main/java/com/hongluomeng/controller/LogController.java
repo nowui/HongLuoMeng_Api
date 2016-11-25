@@ -24,8 +24,8 @@ public class LogController extends BaseController {
 
 		Map<String, Object> resultMap = logService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(LogValidator.class)
 	@ActionKey(Url.URL_LOG_FIND)
@@ -34,7 +34,7 @@ public class LogController extends BaseController {
 
 		Log log = logService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", log));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", log));
+	}
 
 }

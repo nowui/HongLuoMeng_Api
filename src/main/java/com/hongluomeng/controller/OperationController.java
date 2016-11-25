@@ -24,8 +24,8 @@ public class OperationController extends BaseController {
 
 		Map<String, Object> resultMap = operationService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(OperationValidator.class)
 	@ActionKey(Url.URL_OPERATION_FIND)
@@ -34,8 +34,8 @@ public class OperationController extends BaseController {
 
 		Operation operation = operationService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", operation));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", operation));
+	}
 
 	@Before(OperationValidator.class)
 	@ActionKey(Url.URL_OPERATION_SAVE)
@@ -44,7 +44,7 @@ public class OperationController extends BaseController {
 
 		operationService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(OperationValidator.class)
@@ -54,7 +54,7 @@ public class OperationController extends BaseController {
 
 		operationService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(OperationValidator.class)
@@ -64,7 +64,7 @@ public class OperationController extends BaseController {
 
 		operationService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

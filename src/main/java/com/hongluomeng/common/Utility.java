@@ -1,6 +1,7 @@
 package com.hongluomeng.common;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -297,12 +298,6 @@ public class Utility {
 		return fixLenthString.substring(1, strLength + 1);
 	}
 
-	public static void checkIsNullOrEmpty(Object object) {
-		if (isNullOrEmpty(object)) {
-			throw new RuntimeException("空值");
-		}
-	}
-
 	public static void checkPageAndLimit(Map<String, Object> map) {
 		if (!map.containsKey(Const.KEY_PAGE)) {
 			throw new RuntimeException("page为空");
@@ -323,7 +318,13 @@ public class Utility {
 
 	public static void checkList(Map<String, Object> map) {
 		if (!map.containsKey(Const.KEY_LIST)) {
-			throw new RuntimeException("list为空");
+			throw new RuntimeException(Const.KEY_LIST + "为空");
+		}
+	}
+
+	public static void checkDecimalLength(BigDecimal bigDecimal, int start, int end, String message) {
+		if (isNullOrEmpty(bigDecimal)) {
+			throw new RuntimeException(message + "不能为空");
 		}
 	}
 
@@ -335,6 +336,8 @@ public class Utility {
 		if (isNullOrEmpty(integer)) {
 			throw new RuntimeException(message);
 		}
+
+		checkStringLength(integer.toString(), start, start, message);
 	}
 
 	public static void checkStringLength(String str, int start, String message) {
@@ -342,10 +345,18 @@ public class Utility {
 	}
 
 	public static void checkStringLength(String str, int start, int end, String message) {
-		if(start != end) {
-			message += "长度应该为" + start + "至" + end;
+		if (start != end) {
+			if (start == 0) {
+				message += "长度应该少于" + end;
+			} else {
+				message += "长度应该为" + start + "至" + end;
+			}
 		} else {
-			message += "长度应该为" + start;
+			if (start == 0) {
+				message += "不能为空";
+			} else {
+				message += "长度应该为" + start;
+			}
 		}
 
 		if (isNullOrEmpty(str)) {
@@ -355,6 +366,12 @@ public class Utility {
 		String regex = "^//d{" + start + "," + end + "}$";
 		if (!match(regex, str)) {
 			throw new RuntimeException(message);
+		}
+	}
+
+	public static void checkNullOrEmpty(Object object, String message) {
+		if (isNullOrEmpty(object)) {
+			throw new RuntimeException(message + "不能为空");
 		}
 	}
 

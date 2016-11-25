@@ -105,7 +105,7 @@ public class ProductSkuDao {
 		ProductSku productSku = new ProductSku();
 		productSku.setProduct_sku_id(product_sku_id);
 
-		Utility.checkIsNullOrEmpty(product_sku_id);
+		productSku.checkProduct_sku_id();
 
 		return find(productSku);
 	}

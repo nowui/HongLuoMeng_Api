@@ -29,12 +29,20 @@ public class Role extends Model<Role> {
 		set(KEY_ROLE_ID, role_id);
 	}
 
+	public void checkRole_id() {
+		Utility.checkStringLength(getRole_id(), 32, "角色编号");
+	}
+
 	public String getGroup_id() {
 		return getStr(KEY_GROUP_ID);
 	}
 
 	public void setGroup_id(String group_id) {
 		set(KEY_GROUP_ID, group_id);
+	}
+
+	public void checkGroup_id() {
+		Utility.checkStringLength(getGroup_id(), 32, "角色编号");
 	}
 
 	public String getRole_name() {
@@ -45,6 +53,10 @@ public class Role extends Model<Role> {
 		set(KEY_ROLE_NAME, role_name);
 	}
 
+	public void checkRole_name() {
+		Utility.checkStringLength(getRole_name(), 3, 20, "角色名称");
+	}
+
 	public String getRole_key() {
 		return getStr(KEY_ROLE_KEY);
 	}
@@ -53,12 +65,20 @@ public class Role extends Model<Role> {
 		set(KEY_ROLE_KEY, role_key);
 	}
 
+	public void checkRole_key() {
+		Utility.checkStringLength(getRole_key(), 3, 20, "角色键值");
+	}
+
 	public Integer getRole_sort() {
 		return Utility.getIntegerValue(get(KEY_ROLE_SORT));
 	}
 
 	public void setRole_sort(Integer role_sort) {
 		set(KEY_ROLE_SORT, role_sort);
+	}
+
+	public void checkRole_sort() {
+		Utility.checkIntegerLength(getRole_sort(), 1, 3, "角色排序");
 	}
 
 	public void setRole_create_user_id(String role_create_user_id) {

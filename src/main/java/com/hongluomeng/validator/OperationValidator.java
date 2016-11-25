@@ -28,64 +28,59 @@ public class OperationValidator extends Validator {
 
 				Utility.checkPageAndLimit(jsonObject);
 
-				if (Utility.isNullOrEmpty(operation.getMenu_id())) {
-					message += "菜单编号为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkMenu_id();
+
 				break;
 			case Url.URL_OPERATION_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(operation.getOperation_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkOperation_id();
+
 				break;
-			case Url.URL_OPERATION_SAVE:
+			case Url.URL_OPERATION_SAVE: {
+				isExit = true;
+
+				operation.checkMenu_id();
+
+				operation.checkOperation_name();
+
+				operation.checkOperation_key();
+
+				operation.checkOperation_value();
+
+				operation.checkOperation_sort();
+
+				break;
+			}
 			case Url.URL_OPERATION_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Url.URL_OPERATION_SAVE) && Utility.isNullOrEmpty(operation.getMenu_id())) {
-					message += "菜单编号为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkOperation_id();
 
-				if (actionKey.equals(Url.URL_OPERATION_UPDATE) && Utility.isNullOrEmpty(operation.getOperation_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkOperation_name();
 
-				if (Utility.isNullOrEmpty(operation.getOperation_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkOperation_key();
 
-				if (Utility.isNullOrEmpty(operation.getOperation_sort())) {
-					message += "密码为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkOperation_value();
+
+				operation.checkOperation_sort();
+
 				break;
 			case Url.URL_OPERATION_DELETE:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(operation.getOperation_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				operation.checkOperation_id();
+
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

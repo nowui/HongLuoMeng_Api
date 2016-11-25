@@ -28,12 +28,20 @@ public class MemberLevel extends Model<MemberLevel> {
 		set(KEY_MEMBER_LEVEL_ID, member_level_id);
 	}
 
+	public void checkMember_level_id() {
+		Utility.checkStringLength(getMember_level_id(), 32, "会员等级编号");
+	}
+
 	public String getMember_level_name() {
 		return getStr(KEY_MEMBER_LEVEL_NAME);
 	}
 
 	public void setMember_level_name(String member_level_name) {
 		set(KEY_MEMBER_LEVEL_NAME, member_level_name);
+	}
+
+	public void checkMember_level_name() {
+		Utility.checkStringLength(getMember_level_name(), 3, 20, "会员等级名称");
 	}
 
 	public Integer getMember_level_value() {
@@ -44,12 +52,20 @@ public class MemberLevel extends Model<MemberLevel> {
 		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
 	}
 
+	public void checkMember_level_value() {
+		Utility.checkIntegerLength(getMember_level_value(), 1, 11, "会员等级粉丝数");
+	}
+
 	public Integer getMember_level_sort() {
 		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_SORT));
 	}
 
 	public void setMember_level_sort(Integer member_level_sort) {
 		set(KEY_MEMBER_LEVEL_SORT, member_level_sort);
+	}
+
+	public void checkMember_level_sort() {
+		Utility.checkIntegerLength(getMember_level_sort(), 1, 3, "会员等级排序");
 	}
 
 	public void setMember_level_create_user_id(String member_level_create_user_id) {

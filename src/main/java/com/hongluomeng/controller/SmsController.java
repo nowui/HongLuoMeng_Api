@@ -23,9 +23,9 @@ public class SmsController extends BaseController {
 
 		String ip_address = Utility.getIpAddress(getRequest());
 
-		smsService.save(SmsEnum.REGISTER.getKey() ,jsonObject, ip_address);
+		smsService.save(SmsEnum.REGISTER.getKey(), jsonObject, ip_address);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(SmsValidator.class)
@@ -35,9 +35,9 @@ public class SmsController extends BaseController {
 
 		String ip_address = Utility.getIpAddress(getRequest());
 
-		smsService.save(SmsEnum.PASSWORD.getKey() ,jsonObject, ip_address);
+		smsService.save(SmsEnum.PASSWORD.getKey(), jsonObject, ip_address);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

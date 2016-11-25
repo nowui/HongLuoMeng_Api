@@ -77,7 +77,7 @@ public class OrderDao {
 		Order order = new Order();
 		order.setOrder_id(order_id);
 
-		Utility.checkIsNullOrEmpty(order_id);
+		order.checkOrder_id();
 
 		return find(order);
 	}
@@ -86,7 +86,7 @@ public class OrderDao {
 		Order order = new Order();
 		order.setOrder_no(order_no);
 
-		Utility.checkIsNullOrEmpty(order_no);
+		order.checkOrder_no();
 
 		Integer count = count(order);
 

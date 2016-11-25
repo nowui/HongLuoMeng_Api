@@ -60,7 +60,7 @@ public class CategoryDao {
 		Category category = new Category();
 		category.setCategory_path(category_path);
 
-		Utility.checkIsNullOrEmpty(category_path);
+		category.checkCategory_path();
 
 		return list(category);
 	}
@@ -95,7 +95,7 @@ public class CategoryDao {
 		Category category = new Category();
 		category.setCategory_id(category_id);
 
-		Utility.checkIsNullOrEmpty(category_id);
+		category.checkCategory_id();
 
 		return find(category);
 	}
@@ -104,7 +104,7 @@ public class CategoryDao {
 		Category category = new Category();
 		category.setCategory_key(category_key);
 
-		Utility.checkIsNullOrEmpty(category_key);
+		category.checkCategory_key();
 
 		return find(category);
 	}

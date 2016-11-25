@@ -26,9 +26,9 @@ public class CategoryAttributeService {
 		if (Utility.isNullOrEmpty(product_id)) {
 			categoryAttributeList = categoryAttributeDao.listByCategory_id(categoryAttributeMap.getCategory_id());
 
-			for (CategoryAttribute categoryAttribute : categoryAttributeList) {
-				categoryAttribute.setAttribute_value("");
-			}
+//			for (CategoryAttribute categoryAttribute : categoryAttributeList) {
+//				categoryAttribute.setAttribute_value("");
+//			}
 		} else {
 			categoryAttributeList = categoryAttributeDao.listByProduct_idAndCategory_id(product_id, categoryAttributeMap.getCategory_id());
 		}

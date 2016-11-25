@@ -24,7 +24,7 @@ public class UserController extends BaseController {
 
 		List<Map<String, Object>> list = userService.menu(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
 	}
 
 }

@@ -85,7 +85,7 @@ public class BrandDao {
 		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_BRAND_ID + " = ? ", brand.getBrand_id());
 
 		List<Brand> brandList = new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(brandList == null) {
+		if (brandList == null) {
 			return null;
 		} else {
 			return brandList.get(0);
@@ -96,7 +96,7 @@ public class BrandDao {
 		Brand brand = new Brand();
 		brand.setBrand_id(brand_id);
 
-		Utility.checkIsNullOrEmpty(brand_id);
+		brand.checkBrand_id();
 
 		return find(brand);
 	}
@@ -111,7 +111,7 @@ public class BrandDao {
 		dynamicSQL.append("GROUP BY " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " ");
 
 		List<Brand> brandList = new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(brandList == null) {
+		if (brandList == null) {
 			return null;
 		} else {
 			return brandList.get(0);

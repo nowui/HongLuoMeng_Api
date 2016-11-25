@@ -62,7 +62,7 @@ public class MemberDeliveryDao {
 		MemberDelivery memberDelivery = new MemberDelivery();
 		memberDelivery.setUser_id(user_id);
 
-		Utility.checkIsNullOrEmpty(user_id);
+		memberDelivery.checkUser_id();
 
 		return list(memberDelivery, 0, 0);
 	}
@@ -86,7 +86,7 @@ public class MemberDeliveryDao {
 		MemberDelivery memberDelivery = new MemberDelivery();
 		memberDelivery.setMember_delivery_id(memberDelivery_id);
 
-		Utility.checkIsNullOrEmpty(memberDelivery_id);
+		memberDelivery.checkMember_delivery_id();
 
 		return find(memberDelivery);
 	}

@@ -23,8 +23,8 @@ public class MenuController extends BaseController {
 	public void list() {
 		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.MENU.getKey());
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_FIND)
@@ -33,8 +33,8 @@ public class MenuController extends BaseController {
 
 		Category category = categoryService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+	}
 
 	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_SAVE)
@@ -43,7 +43,7 @@ public class MenuController extends BaseController {
 
 		categoryService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MenuValidator.class)
@@ -53,7 +53,7 @@ public class MenuController extends BaseController {
 
 		categoryService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MenuValidator.class)
@@ -63,7 +63,7 @@ public class MenuController extends BaseController {
 
 		categoryService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

@@ -33,12 +33,20 @@ public class Cart extends Model<Cart> {
 		set(KEY_CART_ID, cart_id);
 	}
 
+	public void checkCart_id() {
+		Utility.checkStringLength(getCart_id(), 32, "购物车编号");
+	}
+
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
 		set(KEY_USER_ID, user_id);
+	}
+
+	public void checkUser_id() {
+		Utility.checkStringLength(getUser_id(), 32, "用户编号");
 	}
 
 	public String getProduct_sku_id() {
@@ -49,8 +57,16 @@ public class Cart extends Model<Cart> {
 		set(KEY_PRODUCT_SKU_ID, product_sku_id);
 	}
 
+	public void checkProduct_sku_id() {
+		Utility.checkStringLength(getProduct_sku_id(), 32, "商品SKU编号");
+	}
+
 	public String getProduct_id() {
 		return getStr(Product.KEY_PRODUCT_ID);
+	}
+
+	public void checkProduct_id() {
+		Utility.checkStringLength(getProduct_id(), 32, "商品编号");
 	}
 
 	public String getProduct_name() {
@@ -63,6 +79,10 @@ public class Cart extends Model<Cart> {
 
 	public void setProduct_amount(Integer product_amount) {
 		set(KEY_PRODUCT_AMOUNT, product_amount);
+	}
+
+	public void checkProduct_amount() {
+		Utility.checkIntegerLength(getProduct_amount(), 1, 7, "购物车商品数量");
 	}
 
 	public JSONArray getProduct_image() {

@@ -27,8 +27,8 @@ public class BrandController extends BaseController {
 
 		Map<String, Object> resultMap = brandService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_FIND)
@@ -37,8 +37,8 @@ public class BrandController extends BaseController {
 
 		Brand brand = brandService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brand));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brand));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_SAVE)
@@ -47,7 +47,7 @@ public class BrandController extends BaseController {
 
 		brandService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(BrandValidator.class)
@@ -57,7 +57,7 @@ public class BrandController extends BaseController {
 
 		brandService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(BrandValidator.class)
@@ -67,7 +67,7 @@ public class BrandController extends BaseController {
 
 		brandService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(BrandValidator.class)
@@ -77,8 +77,8 @@ public class BrandController extends BaseController {
 
 		Map<String, Object> resultMap = brandService.listCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_CATEGORY_FIND)
@@ -87,8 +87,8 @@ public class BrandController extends BaseController {
 
 		Category category = brandService.findCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_CATEGORY_SAVE)
@@ -97,7 +97,7 @@ public class BrandController extends BaseController {
 
 		brandService.saveCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(BrandValidator.class)
@@ -107,7 +107,7 @@ public class BrandController extends BaseController {
 
 		brandService.updateCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(BrandValidator.class)
@@ -117,7 +117,7 @@ public class BrandController extends BaseController {
 
 		brandService.deleteCategory(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(BrandValidator.class)
@@ -127,8 +127,8 @@ public class BrandController extends BaseController {
 
 		List<Map<String, Object>> resultList = brandService.getCategoryList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_LIST_GET)
@@ -137,8 +137,8 @@ public class BrandController extends BaseController {
 
 		List<Map<String, Object>> resultList = brandService.getList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_GET)
@@ -147,8 +147,8 @@ public class BrandController extends BaseController {
 
 		Map<String, Object> resultMap = brandService.get(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_APPLY_SAVE)
@@ -157,8 +157,8 @@ public class BrandController extends BaseController {
 
 		brandService.apply(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_MY_LIST_GET)
@@ -167,8 +167,8 @@ public class BrandController extends BaseController {
 
 		List<Map<String, Object>> resultList = brandService.getMyList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_APPLY_LIST)
@@ -177,8 +177,8 @@ public class BrandController extends BaseController {
 
 		Map<String, Object> resultMap = brandService.listApply(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_APPLYY_FIND)
@@ -187,8 +187,8 @@ public class BrandController extends BaseController {
 
 		BrandApply brandApply = brandService.findApply(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brandApply));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", brandApply));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_APPLYY_PASS)
@@ -197,8 +197,8 @@ public class BrandController extends BaseController {
 
 		brandService.reviewPass(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_APPLYY_REFUSE)
@@ -207,8 +207,8 @@ public class BrandController extends BaseController {
 
 		brandService.reviewRefuse(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
 
 	@Before(BrandValidator.class)
 	@ActionKey(Url.URL_BRAND_APPLYY_CANCEL)
@@ -217,7 +217,7 @@ public class BrandController extends BaseController {
 
 		brandService.reviewCancel(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
 
 }

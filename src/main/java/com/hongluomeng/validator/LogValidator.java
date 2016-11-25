@@ -18,8 +18,6 @@ public class LogValidator extends Validator {
 
 		Boolean isExit = false;
 
-		String message = "";
-
 		Log log = jsonObject.toJavaObject(Log.class);
 
 		switch (actionKey) {
@@ -27,28 +25,23 @@ public class LogValidator extends Validator {
 				isExit = true;
 
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			case Url.URL_LOG_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(log.getLog_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				log.checkLog_id();
+
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

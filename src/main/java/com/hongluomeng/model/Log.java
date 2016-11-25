@@ -30,6 +30,10 @@ public class Log extends Model<Log> {
 		set(KEY_LOG_ID, log_id);
 	}
 
+	public void checkLog_id() {
+		Utility.checkStringLength(getLog_id(), 32, "日志编号");
+	}
+
 	public String getLog_url() {
 		return getStr(KEY_LOG_URL);
 	}

@@ -25,8 +25,8 @@ public class MemberController extends BaseController {
 
 		Map<String, Object> resultMap = memberService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(MemberValidator.class)
 	@ActionKey(Url.URL_MEMBER_FIND)
@@ -35,8 +35,8 @@ public class MemberController extends BaseController {
 
 		Member member = memberService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", member));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", member));
+	}
 
 	@Before(MemberValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELETE)
@@ -45,8 +45,8 @@ public class MemberController extends BaseController {
 
 		memberService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
 
 	@Before(MemberValidator.class)
 	@ActionKey(Url.URL_MEMBER_LOGIN)
@@ -56,9 +56,9 @@ public class MemberController extends BaseController {
 		Map<String, Object> map = memberService.login(jsonObject);
 
 		if (map == null) {
-	        renderJson(Utility.setResponse(CodeEnum.CODE_400, "用户名或者密码不正确", null));
+			renderJson(Utility.setResponse(CodeEnum.CODE_400, "用户名或者密码不正确", null));
 		} else {
-	        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+			renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 		}
 	}
 
@@ -69,7 +69,7 @@ public class MemberController extends BaseController {
 
 		Map<String, Object> map = memberService.oauthWeibo(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 	}
 
 	@Before(MemberValidator.class)
@@ -79,7 +79,7 @@ public class MemberController extends BaseController {
 
 		Map<String, Object> map = memberService.oauthWechat(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 	}
 
 	@Before(MemberValidator.class)
@@ -89,7 +89,7 @@ public class MemberController extends BaseController {
 
 		memberService.bindWeibo(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberValidator.class)
@@ -99,7 +99,7 @@ public class MemberController extends BaseController {
 
 		memberService.bindWechat(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberValidator.class)
@@ -109,7 +109,7 @@ public class MemberController extends BaseController {
 
 		Map<String, Object> map = memberService.register(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 	}
 
 	@Before(MemberValidator.class)
@@ -119,7 +119,7 @@ public class MemberController extends BaseController {
 
 		memberService.updateName(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberValidator.class)
@@ -129,7 +129,7 @@ public class MemberController extends BaseController {
 
 		memberService.updatePassword(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberValidator.class)
@@ -143,7 +143,7 @@ public class MemberController extends BaseController {
 
 		JSONObject avatarObject = memberService.uploadAvatar(uploadFile, request_user_id);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", avatarObject));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", avatarObject));
 	}
 
 	@Before(MemberValidator.class)
@@ -153,7 +153,7 @@ public class MemberController extends BaseController {
 
 		memberService.updateWeibo(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

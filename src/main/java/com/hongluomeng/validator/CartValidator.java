@@ -18,8 +18,6 @@ public class CartValidator extends Validator {
 
 		Boolean isExit = false;
 
-		String message = "";
-
 		Cart cart = jsonObject.toJavaObject(Cart.class);
 
 		switch (actionKey) {
@@ -31,54 +29,46 @@ public class CartValidator extends Validator {
 			case Url.URL_CART_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(cart.getCart_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				cart.checkCart_id();
+
 				break;
-			case Url.URL_CART_SAVE:
+			case Url.URL_CART_SAVE: {
+				isExit = true;
+
+				cart.checkCart_id();
+
+				cart.checkProduct_sku_id();
+
+				cart.checkProduct_amount();
+
+				break;
+			}
 			case Url.URL_CART_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Url.URL_CART_UPDATE) && Utility.isNullOrEmpty(cart.getCart_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				cart.checkCart_id();
 
-				if (actionKey.equals(Url.URL_CART_SAVE) && Utility.isNullOrEmpty(cart.getProduct_sku_id())) {
-					message += "商品SKU编号为空";
-					message += Const.LINE_FEED;
-				}
+				cart.checkProduct_amount();
 
-				if (Utility.isNullOrEmpty(cart.getProduct_amount())) {
-					message += "商品数量为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			case Url.URL_CART_DELETE:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(cart.getCart_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				cart.checkCart_id();
+
 				break;
 			case Url.URL_CART_LIST_GET:
 				isExit = true;
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

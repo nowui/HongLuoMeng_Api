@@ -25,8 +25,8 @@ public class RoleController extends BaseController {
 
 		Map<String, Object> resultMap = roleService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(RoleValidator.class)
 	@ActionKey(Url.URL_ROLE_FIND)
@@ -35,8 +35,8 @@ public class RoleController extends BaseController {
 
 		Role role = roleService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", role));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", role));
+	}
 
 	@Before(RoleValidator.class)
 	@ActionKey(Url.URL_ROLE_SAVE)
@@ -45,7 +45,7 @@ public class RoleController extends BaseController {
 
 		roleService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(RoleValidator.class)
@@ -55,7 +55,7 @@ public class RoleController extends BaseController {
 
 		roleService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(RoleValidator.class)
@@ -65,7 +65,7 @@ public class RoleController extends BaseController {
 
 		roleService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(RoleValidator.class)
@@ -73,9 +73,9 @@ public class RoleController extends BaseController {
 	public void listOperatio() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Map<String, Object>> list  = roleService.listOperation(jsonObject);
+		List<Map<String, Object>> list = roleService.listOperation(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
 	}
 
 	@Before(RoleValidator.class)
@@ -85,7 +85,7 @@ public class RoleController extends BaseController {
 
 		roleService.updateOperation(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

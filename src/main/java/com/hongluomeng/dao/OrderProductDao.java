@@ -65,7 +65,7 @@ public class OrderProductDao {
 		OrderProduct orderProduct = new OrderProduct();
 		orderProduct.setOrder_id(order_id);
 
-		Utility.checkIsNullOrEmpty(order_id);
+		orderProduct.checkOrder_id();
 
 		return find(orderProduct);
 	}

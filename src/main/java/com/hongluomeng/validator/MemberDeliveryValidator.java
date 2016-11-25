@@ -18,8 +18,6 @@ public class MemberDeliveryValidator extends Validator {
 
 		Boolean isExit = false;
 
-		String message = "";
-
 		MemberDelivery memberDelivery = jsonObject.toJavaObject(MemberDelivery.class);
 
 		switch (actionKey) {
@@ -27,71 +25,58 @@ public class MemberDeliveryValidator extends Validator {
 				isExit = true;
 
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			case Url.URL_MEMBER_DELIVERY_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_id();
+
 				break;
-			case Url.URL_MEMBER_DELIVERY_SAVE:
+			case Url.URL_MEMBER_DELIVERY_SAVE: {
+				isExit = true;
+
+				memberDelivery.checkMember_delivery_name();
+
+				memberDelivery.checkMember_delivery_phone();
+
+				memberDelivery.checkMember_delivery_province();
+
+				memberDelivery.checkMember_delivery_city();
+
+				memberDelivery.checkMember_delivery_area();
+
+				memberDelivery.checkMember_delivery_address();
+
+				memberDelivery.checkMember_delivery_zip();
+
+				break;
+			}
 			case Url.URL_MEMBER_DELIVERY_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Url.URL_MEMBER_DELIVERY_UPDATE) && Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_id();
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_name();
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_phone())) {
-					message += "电话为空";
-					message += Const.LINE_FEED;
-				} else {
-					if (!Utility.isPhone(memberDelivery.getMember_delivery_phone())) {
-						message += "电话格式不对";
-						message += Const.LINE_FEED;
-					}
-				}
+				memberDelivery.checkMember_delivery_phone();
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_province())) {
-					message += "省份为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_province();
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_city())) {
-					message += "城市为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_city();
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_area())) {
-					message += "地区为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_area();
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_address())) {
-					message += "详细地址为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_address();
 
-				if (memberDelivery.getMember_delivery_zip().length() > 6) {
-					message += "邮政编码过长";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_zip();
+
 				break;
 			case Url.URL_MEMBER_DELIVERY_DELETE:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_id();
+
 				break;
 			case Url.URL_MEMBER_DELIVERY_LIST_GET:
 				isExit = true;
@@ -100,24 +85,18 @@ public class MemberDeliveryValidator extends Validator {
 			case Url.URL_MEMBER_DELIVERY_GET:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(memberDelivery.getMember_delivery_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				memberDelivery.checkMember_delivery_id();
+
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

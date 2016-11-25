@@ -18,8 +18,6 @@ public class CategoryValidator extends Validator {
 
 		Boolean isExit = false;
 
-		String message = "";
-
 		Category category = jsonObject.toJavaObject(Category.class);
 
 		switch (actionKey) {
@@ -30,54 +28,46 @@ public class CategoryValidator extends Validator {
 			case Url.URL_CATEGORY_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_id();
+
 				break;
-			case Url.URL_CATEGORY_SAVE:
+			case Url.URL_CATEGORY_SAVE: {
+				isExit = true;
+
+				category.checkCategory_name();
+
+				category.checkCategory_sort();
+
+				break;
+			}
 			case Url.URL_CATEGORY_UPDATE:
 				isExit = true;
 
-				if (actionKey.equals(Url.URL_CATEGORY_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(category.getCategory_name())) {
-					message += "用户名为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_name();
 
-				if (Utility.isNullOrEmpty(category.getCategory_sort())) {
-					message += "排序为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_sort();
+
 				break;
 			case Url.URL_CATEGORY_DELETE:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_id();
+
 				break;
 			case Url.URL_CATEGORY_CHINA:
 				isExit = true;
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

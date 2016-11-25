@@ -12,12 +12,7 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 	public static final String KEY_CATEGORY_ATTRIBUTE_SORT = "category_attribute_sort";
-	public static final String KEY_ATTRIBUTE_VALUE = "attribute_value";
-
-	private String attribute_name;
-	private String attribute_value;
-	private String attribute_type;
-	private String attribute_default_value;
+	//public static final String KEY_ATTRIBUTE_VALUE = "attribute_value";
 
 	public String getCategory_id() {
 		return getStr(KEY_CATEGORY_ID);
@@ -25,6 +20,10 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 
 	public void setCategory_id(String category_id) {
 		set(KEY_CATEGORY_ID, category_id);
+	}
+
+	public void checkCategory_id() {
+		Utility.checkStringLength(getCategory_id(), 32, "分类编号");
 	}
 
 	public String getAttribute_id() {
@@ -35,6 +34,10 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 		set(KEY_ATTRIBUTE_ID, attribute_id);
 	}
 
+	public void checkAttribute_id() {
+		Utility.checkStringLength(getAttribute_id(), 32, "属性编号");
+	}
+
 	public Integer getCategory_attribute_sort() {
 		return Utility.getIntegerValue(get(KEY_CATEGORY_ATTRIBUTE_SORT));
 	}
@@ -43,36 +46,24 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 		set(KEY_CATEGORY_ATTRIBUTE_SORT, category_attribute_sort);
 	}
 
+	public void checkCategory_attribute_sort() {
+		Utility.checkIntegerLength(getCategory_attribute_sort(), 1, 3, "分类属性排序");
+	}
+
 	public String getAttribute_name() {
-		return attribute_name;
-	}
-
-	public void setAttribute_name(String attribute_name) {
-		this.attribute_name = attribute_name;
-	}
-
-	public String getAttribute_value() {
-		return attribute_value;
-	}
-
-	public void setAttribute_value(String attribute_value) {
-		this.attribute_value = attribute_value;
+		return getStr(Attribute.KEY_ATTRIBUTE_NAME);
 	}
 
 	public String getAttribute_type() {
-		return attribute_type;
+		return getStr(Attribute.KEY_ATTRIBUTE_TYPE);
 	}
 
-	public void setAttribute_type(String attribute_type) {
-		this.attribute_type = attribute_type;
+	public String getAttribute_default_value() {
+		return getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE);
 	}
 
-	public JSONArray getAttribute_default_value() {
-		return JSONArray.parseArray(attribute_default_value);
-	}
-
-	public void setAttribute_default_value(String attribute_default_value) {
-		this.attribute_default_value = attribute_default_value;
+	public String getAttribute_value() {
+		return getStr(ProductAttribute.KEY_ATTRIBUTE_VALUE);
 	}
 
 }

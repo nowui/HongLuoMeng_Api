@@ -19,9 +19,15 @@ public class BrandValidator extends Validator {
 
 		JSONObject jsonObject = controller.getAttr(Const.KEY_REQUEST);
 
-		Boolean isExit = false;
+		Brand brand = jsonObject.toJavaObject(Brand.class);
 
-		String message = "";
+		Category category = jsonObject.toJavaObject(Category.class);
+
+		Member member = jsonObject.toJavaObject(Member.class);
+
+		BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+
+		Boolean isExit = false;
 
 		switch (actionKey) {
 			case Url.URL_BRAND_LIST:
@@ -33,52 +39,39 @@ public class BrandValidator extends Validator {
 				isExit = true;
 
 				break;
-			case Url.URL_BRAND_SAVE:
+			case Url.URL_BRAND_SAVE: {
+				brand.checkBrand_name();
+
+				brand.checkBrand_logo();
+
+				brand.checkBrand_introduce();
+
+				brand.checkBrand_agreement();
+
+				break;
+			}
 			case Url.URL_BRAND_UPDATE: {
 				isExit = true;
 
-				Brand brand = jsonObject.toJavaObject(Brand.class);
+				brand.checkBrand_id();
 
-				if (actionKey.equals(Url.URL_BRAND_UPDATE) && Utility.isNullOrEmpty(brand.getBrand_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				brand.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(brand.getCategory_id())) {
-					message += "分类为空";
-					message += Const.LINE_FEED;
-				}
+				brand.checkBrand_name();
 
-				if (Utility.isNullOrEmpty(brand.getBrand_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				brand.checkBrand_logo();
 
-				if (Utility.isNull(brand.getBrand_logo())) {
-					message += "logo为空";
-					message += Const.LINE_FEED;
-				}
+				brand.checkBrand_introduce();
 
-				if (Utility.isNull(brand.getBrand_introduce())) {
-					message += "介绍为空";
-					message += Const.LINE_FEED;
-				}
+				brand.checkBrand_agreement();
 
-				if (Utility.isNull(brand.getBrand_agreement())) {
-					message += "协议书为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_BRAND_DELETE: {
 				isExit = true;
 
-				Brand brand = jsonObject.toJavaObject(Brand.class);
+				brand.checkBrand_id();
 
-				if (Utility.isNullOrEmpty(brand.getBrand_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_BRAND_CATEGORY_LIST:
@@ -88,111 +81,88 @@ public class BrandValidator extends Validator {
 			case Url.URL_BRAND_CATEGORY_FIND:
 				isExit = true;
 
-			/*Category category = jsonObject.toJavaObject(Category.class);
-
-			if(Utility.isNullOrEmpty(category.getCategory_id())) {
-				message += "编号为空";
-				message += Const.LINE_FEED;
-			}*/
 				break;
-			case Url.URL_BRAND_CATEGORY_SAVE:
+			case Url.URL_BRAND_CATEGORY_SAVE: {
+				category.checkParent_id();
+
+				category.checkCategory_name();
+
+				category.checkCategory_key();
+
+				category.checkCategory_value();
+
+				category.checkCategory_sort();
+
+				category.checkCategory_description();
+
+				break;
+			}
 			case Url.URL_BRAND_CATEGORYT_UPDATE: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
+				category.checkCategory_id();
 
-				if (actionKey.equals(Url.URL_BRAND_CATEGORY_SAVE) && Utility.isNullOrEmpty(category.getParent_id())) {
-					message += "父编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_name();
 
-				if (actionKey.equals(Url.URL_BRAND_CATEGORYT_UPDATE) && Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_key();
 
-				if (Utility.isNullOrEmpty(category.getCategory_name())) {
-					message += "名称为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_value();
 
-				if (Utility.isNullOrEmpty(category.getCategory_sort())) {
-					message += "排序为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_sort();
+
+				category.checkCategory_description();
+
 				break;
 			}
 			case Url.URL_BRAND_CATEGORYT_DELETE: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
+				category.checkCategory_id();
 
-				if (Utility.isNullOrEmpty(category.getCategory_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_BRAND_CATEGORY_LIST_GET:
 				isExit = true;
 
 				break;
-			case Url.URL_BRAND_LIST_GET:
+			case Url.URL_BRAND_LIST_GET: {
+				isExit = true;
+
+				category.checkCategory_id();
+
+				Utility.checkPageAndLimit(jsonObject);
+
+				break;
+			}
 			case Url.URL_BRAND_MY_LIST_GET: {
 				isExit = true;
 
-				Category category = jsonObject.toJavaObject(Category.class);
-
-				if (Utility.isNull(category.getCategory_id())) {
-					message += "分类编号为空";
-					message += Const.LINE_FEED;
-				}
+				category.checkCategory_id();
 
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			}
 			case Url.URL_BRAND_GET: {
 				isExit = true;
 
-				Brand brand = jsonObject.toJavaObject(Brand.class);
+				brand.checkBrand_id();
 
-				if (Utility.isNullOrEmpty(brand.getBrand_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_BRAND_APPLY_SAVE: {
 				isExit = true;
 
-				Brand brand = jsonObject.toJavaObject(Brand.class);
+				brand.checkBrand_id();
 
-				if (Utility.isNullOrEmpty(brand.getBrand_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_real_name();
 
-				Member member = jsonObject.toJavaObject(Member.class);
+				member.checkMember_identity_card();
 
-				if (Utility.isNullOrEmpty(member.getMember_real_name())) {
-					message += "真实姓名为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_identity_card_front_image();
 
-				if (Utility.isNullOrEmpty(member.getMember_identity_card())) {
-					message += "生份证为空";
-					message += Const.LINE_FEED;
-				}
+				member.checkMember_identity_card_back_image();
 
-				if (Utility.isNullOrEmpty(member.getMember_identity_card_front_image())) {
-					message += "生份证照片正面为空";
-					message += Const.LINE_FEED;
-				}
-
-				if (Utility.isNullOrEmpty(member.getMember_identity_card_back_image())) {
-					message += "生份证照片反面为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_BRAND_APPLY_LIST:
@@ -205,43 +175,28 @@ public class BrandValidator extends Validator {
 			case Url.URL_BRAND_APPLYY_REFUSE: {
 				isExit = true;
 
-				BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+				brandApply.checkBrand_id();
 
-				if (Utility.isNullOrEmpty(brandApply.getBrand_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				brandApply.checkUser_id();
 
-				if (Utility.isNullOrEmpty(brandApply.getUser_id())) {
-					message += "用户编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 			case Url.URL_BRAND_APPLYY_CANCEL: {
 				isExit = true;
 
-				BrandApply brandApply = jsonObject.toJavaObject(BrandApply.class);
+				brandApply.checkBrand_id();
 
-				if (Utility.isNullOrEmpty(brandApply.getBrand_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
 				break;
 			}
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

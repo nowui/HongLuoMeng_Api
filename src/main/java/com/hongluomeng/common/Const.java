@@ -20,7 +20,7 @@ public class Const {
 	public static final String KEY_SELECTED = "selected";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_REQUEST_USER_ID = "request_user_id";
-	public static final String KEY_TOKEN  = "token";
+	public static final String KEY_TOKEN = "token";
 	public static final String KEY_PLATFORM = "platform";
 	public static final String KEY_VERSION = "version";
 	public static final String KEY_AUTHORIZATION_ID = "authorization_id";

@@ -15,11 +15,9 @@ public class UserValidator extends Validator {
 
 		JSONObject jsonObject = controller.getAttr(Const.KEY_REQUEST);
 
-		Boolean isExit = false;
-
-		String message = "";
-
 		User user = jsonObject.toJavaObject(User.class);
+
+		Boolean isExit = false;
 
 		switch (actionKey) {
 			case "/user/list":
@@ -30,29 +28,26 @@ public class UserValidator extends Validator {
 			case "/user/find":
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(user.getUser_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkUser_id();
+
 				break;
 			case "/user/save":
+				isExit = true;
+
+				user.checkUser_account();
+
+				user.checkUser_password();
+
+				break;
 			case "/user/update":
 				isExit = true;
 
-				if (actionKey.equals("/user/update") && Utility.isNullOrEmpty(user.getUser_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkUser_id();
 
-				if (Utility.isNullOrEmpty(user.getUser_account())) {
-					message += "帐号为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkUser_account();
 
-				if (Utility.isNullOrEmpty(user.getUser_password())) {
-					message += "密码为空";
-					message += Const.LINE_FEED;
-				}
+				user.checkUser_password();
+
 				break;
 			case "/user/menu/list":
 				isExit = true;
@@ -60,17 +55,13 @@ public class UserValidator extends Validator {
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+
 	}
 
 }

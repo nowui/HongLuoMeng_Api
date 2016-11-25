@@ -40,7 +40,7 @@ public class SmsService {
 			String sms_code = "";
 			Random random=new Random();
 
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 6; i++) {
 				sms_code += String.valueOf(random.nextInt(10));
 			}
 

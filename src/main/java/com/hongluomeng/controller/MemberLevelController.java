@@ -24,8 +24,8 @@ public class MemberLevelController extends BaseController {
 
 		Map<String, Object> resultMap = memberLevelService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_FIND)
@@ -34,8 +34,8 @@ public class MemberLevelController extends BaseController {
 
 		MemberLevel memberLevel = memberLevelService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberLevel));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberLevel));
+	}
 
 	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_SAVE)
@@ -44,7 +44,7 @@ public class MemberLevelController extends BaseController {
 
 		memberLevelService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberLevelValidator.class)
@@ -54,7 +54,7 @@ public class MemberLevelController extends BaseController {
 
 		memberLevelService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(MemberLevelValidator.class)
@@ -64,7 +64,7 @@ public class MemberLevelController extends BaseController {
 
 		memberLevelService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 }

@@ -36,6 +36,10 @@ public class ProductSku extends Model<ProductSku> {
 		set(KEY_PRODUCT_SKU_ID, product_sku_id);
 	}
 
+	public void checkProduct_sku_id() {
+		Utility.checkStringLength(getProduct_sku_id(), 32, "商品SKU编号");
+	}
+
 	public String getCategory_id() {
 		return getStr(Category.KEY_CATEGORY_ID);
 	}

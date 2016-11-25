@@ -25,8 +25,8 @@ public class CategoryController extends BaseController {
 
 		Map<String, Object> map = categoryService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+	}
 
 	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_FIND)
@@ -35,8 +35,8 @@ public class CategoryController extends BaseController {
 
 		Category category = categoryService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+	}
 
 	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_SAVE)
@@ -45,7 +45,7 @@ public class CategoryController extends BaseController {
 
 		categoryService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(CategoryValidator.class)
@@ -55,7 +55,7 @@ public class CategoryController extends BaseController {
 
 		categoryService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(CategoryValidator.class)
@@ -65,7 +65,7 @@ public class CategoryController extends BaseController {
 
 		categoryService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
 	@Before(CategoryValidator.class)
@@ -73,7 +73,7 @@ public class CategoryController extends BaseController {
 	public void china() {
 		Map<String, Object> map = categoryService.treeByCategory_key(CatetoryEnum.CHINA.getKey());
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+	}
 
 }

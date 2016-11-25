@@ -99,7 +99,7 @@ public class ProductDao {
 		Product product = new Product();
 		product.setProduct_id(product_id);
 
-		Utility.checkIsNullOrEmpty(product_id);
+		product.checkProduct_id();
 
 		return find(product);
 	}

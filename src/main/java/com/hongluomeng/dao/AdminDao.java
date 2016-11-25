@@ -48,7 +48,7 @@ public class AdminDao {
 		dynamicSQL.isNullOrEmpty("AND " + Admin.KEY_ADMIN_ID + " = ? ", admin.getAdmin_id());
 
 		List<Admin> adminList = new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(adminList == null) {
+		if (adminList == null) {
 			return null;
 		} else {
 			return adminList.get(0);

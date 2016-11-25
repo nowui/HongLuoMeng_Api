@@ -49,6 +49,10 @@ public class OrderProduct extends Model<OrderProduct> {
 		set(KEY_ORDER_ID, order_id);
 	}
 
+	public void checkOrder_id() {
+		Utility.checkStringLength(getOrder_id(), 32, "订单编号");
+	}
+
 	public String getProduct_id() {
 		return getStr(KEY_PRODUCT_ID);
 	}

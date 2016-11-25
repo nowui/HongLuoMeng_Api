@@ -347,7 +347,7 @@ public class ProductService {
 
                 String attribute_id = object.getString(Attribute.KEY_ATTRIBUTE_ID);
                 String attribute_name = object.getString(Attribute.KEY_ATTRIBUTE_NAME);
-                String attribute_value = object.getString(Attribute.KEY_ATTRIBUTE_VALUE);
+                String attribute_value = object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
 
                 int index = -1;
                 for (int j = 0; j < productAllSkuList.size(); j++) {
@@ -364,7 +364,7 @@ public class ProductService {
                     Map<String, Object> map = productAllSkuList.get(index);
 
                     @SuppressWarnings("unchecked")
-                    List<String> array = (List<String>) map.get(Attribute.KEY_ATTRIBUTE_VALUE);
+                    List<String> array = (List<String>) map.get(ProductAttribute.KEY_ATTRIBUTE_VALUE);
 
                     if (!array.contains(attribute_value)) {
                         array.add(attribute_value);
@@ -377,7 +377,7 @@ public class ProductService {
                     List<String> array = new ArrayList<String>();
                     array.add(attribute_value);
 
-                    map.put(Attribute.KEY_ATTRIBUTE_VALUE, array);
+                    map.put(ProductAttribute.KEY_ATTRIBUTE_VALUE, array);
 
                     productAllSkuList.add(map);
                 }
@@ -411,7 +411,7 @@ public class ProductService {
                     attribute_value += "_";
                 }
 
-                attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_ID) + "_" + object.getString(Attribute.KEY_ATTRIBUTE_VALUE);
+                attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_ID) + "_" + object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
             }
 
             map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);

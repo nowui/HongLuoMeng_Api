@@ -24,8 +24,8 @@ public class AuthorizationController extends BaseController {
 
 		Map<String, Object> resultMap = authorizationService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
 
 	@Before(AuthorizationValidator.class)
 	@ActionKey(Url.URL_AUTHORIZATION_FIND)
@@ -34,7 +34,7 @@ public class AuthorizationController extends BaseController {
 
 		Authorization authorization = authorizationService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", authorization));
-    }
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", authorization));
+	}
 
 }
