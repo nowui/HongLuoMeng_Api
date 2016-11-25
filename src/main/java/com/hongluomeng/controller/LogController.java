@@ -22,6 +22,8 @@ public class LogController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		System.out.println(jsonObject.toString());
+
 		Map<String, Object> resultMap = logService.list(jsonObject);
 
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));

@@ -104,6 +104,11 @@
             <version>1.7.21</version>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+        </dependency>
+        <dependency>
             <groupId>com.taobao.api</groupId>
             <artifactId>taobao-sdk-java-auto</artifactId>
             <version>20160607</version>

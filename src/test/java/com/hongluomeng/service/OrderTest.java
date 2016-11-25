@@ -4,13 +4,20 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.model.Log;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.druid.DruidPlugin;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class OrderTest {
 
-	private LogService orderService = new LogService();
+//	private HttpServletRequest request;
+//	private HttpServletResponse response;
+
 
 	@Before
 	public void init() {
@@ -31,14 +38,55 @@ public class OrderTest {
 		ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(druidPlugin);
 		activeRecordPlugin.addMapping("table_log", "log_id", Log.class);
 		activeRecordPlugin.start();
+
+//		request = mock(HttpServletRequest.class);
+//		response = mock(HttpServletResponse.class);
 	}
 
 	@Test
 	public void testSign() {
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("page", "1");
-		jsonObject.put("limit", "20");
+		Connection connection = null;
+		try {
+			connection = DbKit.getConfig().getDataSource().getConnection();
+			DbKit.getConfig().setThreadLocalConnection(connection);
+			connection.setAutoCommit(false);
 
-		System.out.println(orderService.list(jsonObject));
+
+
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("page", "1");
+			jsonObject.put("limit", "20");
+			new LogService().list(jsonObject);
+
+
+
+			connection.commit();
+		} catch (RuntimeException | SQLException e) {
+			Assert.fail(e.toString());
+		} finally {
+			try {
+				if (null != connection) {
+					connection.rollback();
+				}
+			} catch (SQLException e1) {
+				Assert.fail(e1.toString());
+			}
+
+			try {
+				if (null != connection) {
+					connection.close();
+				}
+			} catch (Exception e2) {
+				Assert.fail(e2.toString());
+			} finally {
+				DbKit.getConfig().removeThreadLocalConnection();
+			}
+		}
+
+//		when(request.getAttribute("request")).thenReturn(JSON.parse("{\"page\":\"1\",\"limit\":\"20\"}"));
+//		logController = new LogController();
+//		logController.setHttpServletRequest(request);
+//		logController.setHttpServletResponse(response);
+//		logController.list();
 	}
 }
