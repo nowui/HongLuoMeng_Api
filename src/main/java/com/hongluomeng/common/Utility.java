@@ -24,7 +24,7 @@ public class Utility {
 	private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	/**
+	/*
 	 * 获取客户端IP地址
 	 *
 	 * @param request
