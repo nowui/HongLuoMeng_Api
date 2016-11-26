@@ -2,6 +2,8 @@ package com.hongluomeng.common;
 
 public class Const {
 
+	public static final Boolean isTest = true;
+
 	public static final String KEY_PAGE = "page";
 	public static final String KEY_LIMIT = "limit";
 	public static final String KEY_CODE = "code";

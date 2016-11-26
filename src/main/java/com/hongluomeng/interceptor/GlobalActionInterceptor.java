@@ -35,251 +35,272 @@ import com.hongluomeng.type.CodeEnum;
 
 public class GlobalActionInterceptor implements Interceptor {
 
-	private Logger logger = LogManager.getLogger(GlobalActionInterceptor.class.getName());
-	private OperationService operationService = new OperationService();
+    private Logger logger = LogManager.getLogger(GlobalActionInterceptor.class.getName());
+    private OperationService operationService = new OperationService();
 
-	@Override
-	public void intercept(Invocation inv) {
-		Date start = new Date();
+    @Override
+    public void intercept(Invocation inv) {
+        Date start = new Date();
 
-		//不检查token的url列表
-		Set<String> uncheckTokenSet = new HashSet<String>();
-		uncheckTokenSet.add(Url.URL_MEMBER_LOGIN);
-		uncheckTokenSet.add(Url.URL_MEMBER_REGISTER);
-		uncheckTokenSet.add(Url.URL_MEMBER_PASSWORD_UPDATE);
-		uncheckTokenSet.add(Url.URL_ADMIN_LOGIN);
-		uncheckTokenSet.add(Url.URL_SMS_REGISTER);
-		uncheckTokenSet.add(Url.URL_SMS_PASSWORD);
-		uncheckTokenSet.add(Url.URL_MEMBER_WEIBO_OAUTH);
-		uncheckTokenSet.add(Url.URL_MEMBER_WECHAT_OAUTH);
-		uncheckTokenSet.add(Url.URL_ORDER_NOTIFY);
+        //不检查token的url列表
+        Set<String> uncheckTokenSet = new HashSet<String>();
+        uncheckTokenSet.add(Url.URL_MEMBER_LOGIN);
+        uncheckTokenSet.add(Url.URL_MEMBER_REGISTER);
+        uncheckTokenSet.add(Url.URL_MEMBER_PASSWORD_UPDATE);
+        uncheckTokenSet.add(Url.URL_ADMIN_LOGIN);
+        uncheckTokenSet.add(Url.URL_SMS_REGISTER);
+        uncheckTokenSet.add(Url.URL_SMS_PASSWORD);
+        uncheckTokenSet.add(Url.URL_MEMBER_WEIBO_OAUTH);
+        uncheckTokenSet.add(Url.URL_MEMBER_WECHAT_OAUTH);
+        uncheckTokenSet.add(Url.URL_ORDER_NOTIFY);
 
-		//不检查request的url列表
-		Set<String> uncheckRequestSet = new HashSet<String>();
-		uncheckRequestSet.add(Url.URL_UPLOAD_IMAGE);
-		uncheckRequestSet.add(Url.URL_MEMBER_AVATAR_UPLOAD);
-		uncheckRequestSet.add(Url.URL_ORDER_NOTIFY);
+        //不检查request的url列表
+        Set<String> uncheckRequestSet = new HashSet<String>();
+        uncheckRequestSet.add(Url.URL_UPLOAD_IMAGE);
+        uncheckRequestSet.add(Url.URL_MEMBER_AVATAR_UPLOAD);
+        uncheckRequestSet.add(Url.URL_ORDER_NOTIFY);
 
-		//不保存request到log的url列表
-		Set<String> unSaveLogSet = new HashSet<String>();
-		unSaveLogSet.add(Url.URL_UPLOAD_BASE64);
+        //不保存request到log的url列表
+        Set<String> unSaveLogSet = new HashSet<String>();
+        unSaveLogSet.add(Url.URL_UPLOAD_BASE64);
 
-		//不检查请求头的url列表
-		Set<String> uncheckRequestHeaderSet = new HashSet<String>();
-		uncheckRequestHeaderSet.add(Url.URL_ORDER_NOTIFY);
+        //不检查请求头的url列表
+        Set<String> uncheckRequestHeaderSet = new HashSet<String>();
+        uncheckRequestHeaderSet.add(Url.URL_ORDER_NOTIFY);
 
-		Connection connection = null;
+        Connection connection = null;
 
-		Controller controller = inv.getController();
+        Controller controller = inv.getController();
 
-		String url = controller.getRequest().getRequestURI();
+        String url = controller.getRequest().getRequestURI();
 
-		CodeEnum code = CodeEnum.CODE_200;
+        CodeEnum code = CodeEnum.CODE_200;
 
-		String platform = "";
+        String platform = "";
 
-		String version = "";
+        String version = "";
 
-		String user_id = "";
+        String user_id = "";
 
-		String authorization_id = "";
+        String authorization_id = "";
 
-		String request = "";
+        String request = "";
 
-		try {
-			connection = DbKit.getConfig().getDataSource().getConnection();
-			DbKit.getConfig().setThreadLocalConnection(connection);
-			connection.setAutoCommit(false);
+        try {
+            connection = DbKit.getConfig().getDataSource().getConnection();
+            DbKit.getConfig().setThreadLocalConnection(connection);
+            connection.setAutoCommit(false);
 
-			Key key = new SecretKeySpec(Private.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+            Key key = new SecretKeySpec(Private.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
-			Boolean isAuthorization = true;
+            Boolean isAuthorization = true;
 
-			Boolean isCheckToken = true;
+            Boolean isCheckToken = true;
 
-			for (String value : uncheckTokenSet) {
-				if (value.equals(url)) {
-					isCheckToken = false;
+            for (String value : uncheckTokenSet) {
+                if (value.equals(url)) {
+                    isCheckToken = false;
 
-					break;
-				}
-			}
+                    break;
+                }
+            }
 
-			//验证token
-			if (isCheckToken) {
-				String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
+            //验证token
+            if (isCheckToken) {
+                String token = controller.getRequest().getHeader(Const.KEY_TOKEN);
 
-				if (Utility.isNullOrEmpty(token)) {
-					isAuthorization = false;
-				} else {
-					try {
-						Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+                if (Utility.isNullOrEmpty(token)) {
+                    isAuthorization = false;
+                } else {
+                    try {
+                        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 
-						user_id = claims.get(Const.KEY_USER_ID).toString();
+                        user_id = claims.get(Const.KEY_USER_ID).toString();
 
-						authorization_id = claims.get(Const.KEY_AUTHORIZATION_ID).toString();
-					} catch (Exception e) {
-						isAuthorization = false;
-					}
-				}
-			}
+                        authorization_id = claims.get(Const.KEY_AUTHORIZATION_ID).toString();
+                    } catch (Exception e) {
+                        isAuthorization = false;
+                    }
+                }
+            }
 
-			if (isAuthorization) {
-				Boolean isChecRequest = true;
+            if (isAuthorization) {
+                Boolean isChecRequest = true;
 
-				for (String value : uncheckRequestSet) {
-					if (value.equals(url)) {
-						request = "{}";
+                for (String value : uncheckRequestSet) {
+                    if (value.equals(url)) {
+                        request = "{}";
 
-						isChecRequest = false;
+                        isChecRequest = false;
 
-						break;
-					}
-				}
+                        break;
+                    }
+                }
 
-				if (isChecRequest) {
-					request = HttpKit.readData(controller.getRequest());
-				}
+                if (isChecRequest) {
+                    request = HttpKit.readData(controller.getRequest());
+                }
 
-				if (Utility.isNullOrEmpty(request)) {
-					request = "{}";
-				}
-
-				JSONObject jsonObject = JSONObject.parseObject(request);
-
-				controller.setAttr(Const.KEY_REQUEST, jsonObject);
-
-				jsonObject.put(Const.KEY_REQUEST_USER_ID, user_id);
-
-				//request内容不要保存到log里面
-				for (String value : unSaveLogSet) {
-					if (value.equals(url)) {
-						request = "{}";
+                if (Utility.isNullOrEmpty(request)) {
+                    request = "{}";
+                }
 
-						break;
-					}
-				}
+                JSONObject jsonObject = JSONObject.parseObject(request);
 
-				//验证是否有权限
-				if (isCheckToken) {
-					isAuthorization = false;
+                controller.setAttr(Const.KEY_REQUEST, jsonObject);
 
-					List<Operation> operationList = operationService.listByUser_id(user_id);
+                jsonObject.put(Const.KEY_REQUEST_USER_ID, user_id);
 
-					for (Operation operation : operationList) {
-						if (url.equals(operation.getOperation_value())) {
-							isAuthorization = true;
+                //request内容不要保存到log里面
+                for (String value : unSaveLogSet) {
+                    if (value.equals(url)) {
+                        request = "{}";
 
-							break;
-						}
-					}
-				}
-			}
+                        break;
+                    }
+                }
 
-			if (isAuthorization) {
-				platform = controller.getRequest().getHeader(Const.KEY_PLATFORM);
-				version = controller.getRequest().getHeader(Const.KEY_VERSION);
+                //验证是否有权限
+                if (isCheckToken) {
+                    isAuthorization = false;
+
+                    List<Operation> operationList = operationService.listByUser_id(user_id);
+
+                    for (Operation operation : operationList) {
+                        if (url.equals(operation.getOperation_value())) {
+                            isAuthorization = true;
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (isAuthorization) {
+                platform = controller.getRequest().getHeader(Const.KEY_PLATFORM);
+                version = controller.getRequest().getHeader(Const.KEY_VERSION);
 
-				String message = "";
+                String message = "";
 
-				if (Utility.isNullOrEmpty(platform)) {
-					message += "没有platform参数";
-					message += "<br />";
-				}
+                if (Utility.isNullOrEmpty(platform)) {
+                    message += "没有platform参数";
+                    message += "<br />";
+                }
 
-				if (Utility.isNullOrEmpty(version)) {
-					message += "没有version参数";
-					message += "<br />";
-				}
+                if (Utility.isNullOrEmpty(version)) {
+                    message += "没有version参数";
+                    message += "<br />";
+                }
 
-				//不检查请求头
-				for (String value : uncheckRequestHeaderSet) {
-					if (value.equals(url)) {
-						message = "";
+                //不检查请求头
+                for (String value : uncheckRequestHeaderSet) {
+                    if (value.equals(url)) {
+                        message = "";
 
-						break;
-					}
-				}
+                        break;
+                    }
+                }
 
-				if (Utility.isNullOrEmpty(message)) {
-					inv.invoke();
-				} else {
-					code = CodeEnum.CODE_400;
+                if (Utility.isNullOrEmpty(message)) {
+                    inv.invoke();
 
-					controller.renderJson(Utility.setResponse(code, message, null));
-				}
-			} else {
-				code = CodeEnum.CODE_401;
+                    //如果测试，抛出异常，事务回滚
+                    if (Const.isTest) {
+                        throw new Exception(controller.getAttrForStr(Const.KEY_RESPONSE));
+                    }
+                } else {
+                    code = CodeEnum.CODE_400;
 
-				controller.renderJson(Utility.setResponse(code, Const.PERMISSION_DENIED, null));
-			}
+                    controller.renderJson(Utility.setResponse(code, message, null));
+                }
+            } else {
+                code = CodeEnum.CODE_401;
 
-			connection.commit();
-		} catch (RuntimeException | SQLException e) {
-			e.printStackTrace();
+                controller.renderJson(Utility.setResponse(code, Const.PERMISSION_DENIED, null));
+            }
 
-			try {
-				if (null != connection) {
-					connection.rollback();
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+            connection.commit();
+        } catch (RuntimeException | SQLException e) {
+            e.printStackTrace();
 
-			code = CodeEnum.CODE_500;
+            try {
+                if (null != connection) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
 
-			String message = e.toString();
-			String value = "java.lang.RuntimeException: ";
+            code = CodeEnum.CODE_500;
 
-			if (message.contains(value)) {
-				code = CodeEnum.CODE_400;
+            String message = e.toString();
+            String value = "java.lang.RuntimeException: ";
 
-				message.replace(value, "");
-			}
+            if (message.contains(value)) {
+                code = CodeEnum.CODE_400;
 
-			controller.renderJson(Utility.setResponse(code, message, null));
-		} finally {
-			try {
-				if (null != connection) {
-					connection.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			} finally {
-				DbKit.getConfig().removeThreadLocalConnection();
-			}
+                message = message.replace(value, "");
+            }
 
-			ThreadContext.put(Log.KEY_LOG_ID, Utility.getUUID());
+            controller.renderJson(Utility.setResponse(code, message, null));
+        } catch (Exception e) {
+            e.printStackTrace();
 
-			ThreadContext.put(Log.KEY_LOG_URL, url);
+            try {
+                if (null != connection) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
 
-			ThreadContext.put(Log.KEY_LOG_REQUEST, request);
+            String message = e.toString();
+            String value = "java.lang.Exception: ";
+            message = message.replace(value, "");
 
-			ThreadContext.put(Log.KEY_LOG_RESPONSE, controller.getAttrForStr(Const.KEY_RESPONSE));
+            controller.renderJson(message);
+        } finally {
+            try {
+                if (null != connection) {
+                    connection.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            } finally {
+                DbKit.getConfig().removeThreadLocalConnection();
+            }
 
-			ThreadContext.put(Log.KEY_AUTHORIZATION_ID, authorization_id);
+            ThreadContext.put(Log.KEY_LOG_ID, Utility.getUUID());
 
-			ThreadContext.put(Log.KEY_USER_ID, user_id);
+            ThreadContext.put(Log.KEY_LOG_URL, url);
 
-			ThreadContext.put(Log.KEY_LOG_CODE, code.getKey() + "");
+            ThreadContext.put(Log.KEY_LOG_REQUEST, request);
 
-			ThreadContext.put(Log.KEY_LOG_PLATFORM, platform);
+            ThreadContext.put(Log.KEY_LOG_RESPONSE, controller.getAttrForStr(Const.KEY_RESPONSE));
 
-			ThreadContext.put(Log.KEY_LOG_VERSION, version);
+            ThreadContext.put(Log.KEY_AUTHORIZATION_ID, authorization_id);
 
-			ThreadContext.put(Log.KEY_LOG_IP_ADDRESS, Utility.getIpAddress(controller.getRequest()));
+            ThreadContext.put(Log.KEY_USER_ID, user_id);
 
-			ThreadContext.put(Log.KEY_LOG_CREATE_TIME, Utility.getDateTimeString(start));
+            ThreadContext.put(Log.KEY_LOG_CODE, code.getKey() + "");
 
-			ThreadContext.put(Log.KEY_LOG_RUN_TIME, (new Date().getTime() - start.getTime()) + "");
+            ThreadContext.put(Log.KEY_LOG_PLATFORM, platform);
 
-			if (url.contains("/log/")) {
+            ThreadContext.put(Log.KEY_LOG_VERSION, version);
 
-			} else {
-				logger.error("");
-			}
-		}
+            ThreadContext.put(Log.KEY_LOG_IP_ADDRESS, Utility.getIpAddress(controller.getRequest()));
 
-	}
+            ThreadContext.put(Log.KEY_LOG_CREATE_TIME, Utility.getDateTimeString(start));
+
+            ThreadContext.put(Log.KEY_LOG_RUN_TIME, (new Date().getTime() - start.getTime()) + "");
+
+            if (url.contains("/log/") || Const.isTest) {
+
+            } else {
+                logger.error("");
+            }
+        }
+
+    }
 
 }
