@@ -48,7 +48,7 @@ public class LogDao {
 		dynamicSQL.isNullOrEmpty("WHERE " + Log.KEY_LOG_ID + " = ? ", log.getLog_id());
 
 		List<Log> logList = log.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(logList == null) {
+		if(logList.size() == 0) {
 			return null;
 		} else {
 			return logList.get(0);

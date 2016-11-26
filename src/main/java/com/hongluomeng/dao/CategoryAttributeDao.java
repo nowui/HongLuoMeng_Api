@@ -80,7 +80,7 @@ public class CategoryAttributeDao {
 
 		List<CategoryAttribute> categoryAttributeList = new CategoryAttribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 
-		if (categoryAttributeList == null) {
+		if (categoryAttributeList.size() == 0) {
 			return null;
 		} else {
 			return categoryAttributeList.get(0);

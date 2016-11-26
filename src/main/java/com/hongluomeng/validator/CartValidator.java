@@ -35,8 +35,6 @@ public class CartValidator extends Validator {
 			case Url.URL_CART_SAVE: {
 				isExit = true;
 
-				cart.checkCart_id();
-
 				cart.checkProduct_sku_id();
 
 				cart.checkProduct_amount();

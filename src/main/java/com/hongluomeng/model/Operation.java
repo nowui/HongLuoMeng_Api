@@ -67,7 +67,7 @@ public class Operation extends Model<Operation> {
 	}
 
 	public void checkOperation_key() {
-		Utility.checkStringLength(getOperation_key(), 3, 20, "操作键值");
+		Utility.checkStringLength(getOperation_key(), 0, 200, "操作键值");
 	}
 
 	public String getOperation_value() {
@@ -79,7 +79,7 @@ public class Operation extends Model<Operation> {
 	}
 
 	public void checkOperation_value() {
-		Utility.checkStringLength(getOperation_value(), 3, 20, "操作数值");
+		Utility.checkStringLength(getOperation_value(), 3, 200, "操作数值");
 	}
 
 	public Integer getOperation_sort() {

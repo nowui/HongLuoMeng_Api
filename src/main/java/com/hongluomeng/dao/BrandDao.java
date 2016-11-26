@@ -85,7 +85,7 @@ public class BrandDao {
 		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_BRAND_ID + " = ? ", brand.getBrand_id());
 
 		List<Brand> brandList = new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (brandList == null) {
+		if (brandList.size() == 0) {
 			return null;
 		} else {
 			return brandList.get(0);

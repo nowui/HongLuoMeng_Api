@@ -52,7 +52,7 @@ public class MemberLevelDao {
 		dynamicSQL.isNullOrEmpty("AND " + MemberLevel.KEY_MEMBER_LEVEL_ID + " = ? ", memberLevel.getMember_level_id());
 
 		List<MemberLevel> memberLevelList = new MemberLevel().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(memberLevelList == null) {
+		if(memberLevelList.size() == 0) {
 			return null;
 		} else {
 			return memberLevelList.get(0);

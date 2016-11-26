@@ -66,7 +66,11 @@ public class CartService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		cartDao.update(cartMap, request_user_id);
+		if(cartMap.getProduct_amount() > 0) {
+			cartDao.update(cartMap, request_user_id);
+		} else {
+			cartDao.delete(cartMap.getCart_id(), request_user_id);
+		}
 	}
 
 	public void updateProduct_amount(List<Cart> cartList, String request_user_id) {

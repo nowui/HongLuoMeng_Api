@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
@@ -15,12 +16,13 @@ public class SmsDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("WHERE 1 = 1 ");
+		dynamicSQL.append("WHERE " + Sms.KEY_SMS_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
 		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_TYPE + " = ? ", sms.getSms_type());
 		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms.getSms_phone());
 		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CODE + " = ? ", sms.getSms_code());
-		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_STATUS + " = ? ", sms.getSms_status());
-		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ", minute);
+		dynamicSQL.append("AND " + Sms.KEY_SMS_STATUS + " = 1 ");
+
+		System.out.println(dynamicSQL.sql.toString());
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -34,12 +36,11 @@ public class SmsDao {
 		return count(sms, minute);
 	}
 
-	public Integer countBySms_phoneAndSms_codeAndSms_statusAndMinute(String sms_type, String sms_phone, String sms_code, Boolean sms_status, Integer minute) {
+	public Integer countBySms_phoneAndSms_codeAndSms_statusAndMinute(String sms_type, String sms_phone, String sms_code, Integer minute) {
 		Sms sms = new Sms();
 		sms.setSms_type(sms_type);
 		sms.setSms_phone(sms_phone);
 		sms.setSms_code(sms_code);
-		sms.setSms_status(sms_status);
 
 		return count(sms, minute);
 	}
@@ -85,16 +86,16 @@ public class SmsDao {
 	public void save(Sms sms) {
 		sms.setSms_id(Utility.getUUID());
 		sms.setSms_create_time(new Date());
-		sms.setSms_status(false);
+		sms.setSms_status(true);
 
 		sms.save();
 	}
 
-	public void updateSms_statusBySms_phone(Boolean sms_status, String sms_type, String sms_phone, String sms_code) {
+	public void updateSms_statusBySms_phone(String sms_type, String sms_phone, String sms_code) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("SET " + Sms.KEY_SMS_STATUS + " = ? ", sms_status ? 1 : 0);
+		dynamicSQL.append("SET " + Sms.KEY_SMS_STATUS + " = ? ", 0);
 		dynamicSQL.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ", sms_type);
 		dynamicSQL.append("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms_phone);
 		dynamicSQL.append("AND " + Sms.KEY_SMS_CODE + " = ? ", sms_code);

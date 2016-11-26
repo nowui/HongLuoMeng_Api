@@ -180,7 +180,7 @@ public class ProductValidator extends Validator {
 			case Url.URL_PRODUCT_LIST_GET: {
 				isExit = true;
 
-				category.checkCategory_id();
+				Utility.checkNull(category.getCategory_id(), "分类编号");
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;

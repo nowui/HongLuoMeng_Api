@@ -81,8 +81,6 @@ public class OrderValidator extends Validator {
 			case Url.URL_ORDER_LIST_GET: {
 				isExit = true;
 
-				order.checkOrder_flow_status();
-
 				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}

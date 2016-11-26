@@ -86,7 +86,7 @@ public class MemberService {
 
 		String sms_type = SmsEnum.REGISTER.getKey();
 
-		Integer count = smsService.countBySms_phoneAndSms_codeAndMinute(sms_type, userMap.getUser_phone(), sms.getSms_code(), 30);
+		Integer count = smsService.countBySms_phoneAndSms_codeAndMinute(sms_type, userMap.getUser_phone(), sms.getSms_code(), Const.SMS_TIMEOUT_EXPRESS);
 
 		if (count == 0) {
 			throw new RuntimeException("验证码已经过期");
@@ -129,7 +129,7 @@ public class MemberService {
 
 		String sms_type = SmsEnum.PASSWORD.getKey();
 
-		Integer count = smsService.countBySms_phoneAndSms_codeAndMinute(sms_type, userMap.getUser_phone(), sms.getSms_code(), 30);
+		Integer count = smsService.countBySms_phoneAndSms_codeAndMinute(sms_type, userMap.getUser_phone(), sms.getSms_code(), Const.SMS_TIMEOUT_EXPRESS);
 
 		if (count == 0) {
 			throw new RuntimeException("验证码已经过期");

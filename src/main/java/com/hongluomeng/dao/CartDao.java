@@ -86,7 +86,7 @@ public class CartDao {
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
 
 		List<Cart> cartList = cart.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (cartList == null) {
+		if (cartList.size() == 0) {
 			return null;
 		} else {
 			return cartList.get(0);

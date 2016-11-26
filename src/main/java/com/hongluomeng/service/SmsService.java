@@ -18,7 +18,7 @@ public class SmsService {
 	private UserService userService = new UserService();
 
 	public Integer countBySms_phoneAndSms_codeAndMinute(String sms_type, String sms_phone, String sms_code, Integer minute) {
-		return smsDao.countBySms_phoneAndSms_codeAndSms_statusAndMinute(sms_type, sms_phone, sms_code, false, minute);
+		return smsDao.countBySms_phoneAndSms_codeAndSms_statusAndMinute(sms_type, sms_phone, sms_code, minute);
 	}
 
 	public void save(String sms_type, JSONObject jsonObject, String ip_address) throws ApiException {
@@ -74,7 +74,7 @@ public class SmsService {
 	}
 
 	public void updateSms_statusBySms_phone(String sms_type, String sms_phone, String sms_code) {
-		smsDao.updateSms_statusBySms_phone(true, sms_type, sms_phone, sms_code);
+		smsDao.updateSms_statusBySms_phone(sms_type, sms_phone, sms_code);
 	}
 
 }

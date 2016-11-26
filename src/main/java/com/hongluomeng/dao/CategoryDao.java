@@ -84,7 +84,7 @@ public class CategoryDao {
 		dynamicSQL.isNullOrEmpty("AND " + Category.KEY_CATEGORY_KEY + " = ? ", category.getCategory_key());
 
 		List<Category> categoryList = new Category().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(categoryList == null) {
+		if(categoryList.size() == 0) {
 			return null;
 		} else {
 			return categoryList.get(0);

@@ -66,7 +66,7 @@ public class OrderDao {
 		dynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_ID + " = ? ", order.getOrder_id());
 
 		List<Order> orderList = new Order().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (orderList == null) {
+		if (orderList.size() == 0) {
 			return null;
 		} else {
 			return orderList.get(0);
@@ -90,11 +90,7 @@ public class OrderDao {
 
 		Integer count = count(order);
 
-		if (count == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return count == 0;
 	}
 
 	private String getOrder_no() {

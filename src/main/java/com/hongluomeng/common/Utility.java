@@ -119,11 +119,6 @@ public class Utility {
 		return b;
 	}
 
-	public static boolean isPasswLength(String str) {
-		String regex = "^//d{6,18}$";
-		return match(regex, str);
-	}
-
 	public static boolean isLength(String str) {
 		String regex = "^.{8,}$";
 		return match(regex, str);
@@ -302,7 +297,7 @@ public class Utility {
 		if (!map.containsKey(Const.KEY_PAGE)) {
 			throw new RuntimeException("page为空");
 		} else {
-			if (!isIntNumber(map.get(Const.KEY_PAGE).toString())) {
+			if (!isNumber(map.get(Const.KEY_PAGE).toString())) {
 				throw new RuntimeException("page格式不对");
 			}
 		}
@@ -310,7 +305,7 @@ public class Utility {
 		if (!map.containsKey(Const.KEY_LIMIT)) {
 			throw new RuntimeException("limit为空");
 		} else {
-			if (!isIntNumber(map.get(Const.KEY_LIMIT).toString())) {
+			if (!isNumber(map.get(Const.KEY_LIMIT).toString())) {
 				throw new RuntimeException("limit格式不对");
 			}
 		}
@@ -363,7 +358,7 @@ public class Utility {
 			throw new RuntimeException(message);
 		}
 
-		String regex = "^//d{" + start + "," + end + "}$";
+		String regex = "^.{" + start + "," + end + "}$";
 		if (!match(regex, str)) {
 			throw new RuntimeException(message);
 		}
@@ -371,6 +366,12 @@ public class Utility {
 
 	public static void checkNullOrEmpty(Object object, String message) {
 		if (isNullOrEmpty(object)) {
+			throw new RuntimeException(message + "不能为空");
+		}
+	}
+
+	public static void checkNull(Object object, String message) {
+		if (isNull(object)) {
 			throw new RuntimeException(message + "不能为空");
 		}
 	}

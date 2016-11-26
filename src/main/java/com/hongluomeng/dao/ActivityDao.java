@@ -49,7 +49,7 @@ public class ActivityDao {
 		dynamicSQL.isNullOrEmpty("AND " + Activity.KEY_ACTIVITY_ID + " = ? ", activity.getActivity_id());
 
 		List<Activity> activityList = activity.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (activityList == null) {
+		if (activityList.size() == 0) {
 			return null;
 		} else {
 			return activityList.get(0);

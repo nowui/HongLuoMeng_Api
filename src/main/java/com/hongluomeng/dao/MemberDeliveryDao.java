@@ -75,7 +75,7 @@ public class MemberDeliveryDao {
 		dynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_MEMBER_DELIVERY_ID + " = ? ", memberDelivery.getMember_delivery_id());
 
 		List<MemberDelivery> memberDeliveryList = new MemberDelivery().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(memberDeliveryList == null) {
+		if(memberDeliveryList.size() == 0) {
 			return null;
 		} else {
 			return memberDeliveryList.get(0);

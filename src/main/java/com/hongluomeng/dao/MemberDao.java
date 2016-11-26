@@ -58,7 +58,7 @@ public class MemberDao {
 		dynamicSQL.isNullOrEmpty("AND " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_USER_ID + " = ? ", member.getUser_id());
 
 		List<Member> memberList = new Member().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (memberList == null) {
+		if (memberList.size() == 0) {
 			return null;
 		} else {
 			return memberList.get(0);

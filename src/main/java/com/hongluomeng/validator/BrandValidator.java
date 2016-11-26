@@ -128,7 +128,7 @@ public class BrandValidator extends Validator {
 			case Url.URL_BRAND_LIST_GET: {
 				isExit = true;
 
-				category.checkCategory_id();
+				Utility.checkNull(category.getCategory_id(), "分类编号");
 
 				Utility.checkPageAndLimit(jsonObject);
 
@@ -137,7 +137,7 @@ public class BrandValidator extends Validator {
 			case Url.URL_BRAND_MY_LIST_GET: {
 				isExit = true;
 
-				category.checkCategory_id();
+				Utility.checkNull(category.getCategory_id(), "分类编号");
 
 				Utility.checkPageAndLimit(jsonObject);
 

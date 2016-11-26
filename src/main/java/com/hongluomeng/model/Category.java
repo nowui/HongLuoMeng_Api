@@ -69,7 +69,7 @@ public class Category extends Model<Category> {
 	}
 
 	public void checkCategory_key() {
-		Utility.checkStringLength(getCategory_key(), 3, 20, "分类键值");
+		Utility.checkStringLength(getCategory_key(), 0, 200, "分类键值");
 	}
 
 	public String getCategory_value() {
@@ -81,7 +81,7 @@ public class Category extends Model<Category> {
 	}
 
 	public void checkCategory_value() {
-		Utility.checkStringLength(getCategory_value(), 3, 30, "分类数值");
+		Utility.checkStringLength(getCategory_value(), 0, 200, "分类数值");
 	}
 
 	public Integer getCategory_sort() {

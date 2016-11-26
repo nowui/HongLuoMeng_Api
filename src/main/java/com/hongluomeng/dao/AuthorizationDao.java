@@ -46,7 +46,7 @@ public class AuthorizationDao {
 		dynamicSQL.isNullOrEmpty("AND " + Authorization.KEY_AUTHORIZATION_ID + " = ? ", authorization.getAuthorization_id());
 
 		List<Authorization> authorizationList = new Authorization().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(authorizationList == null) {
+		if(authorizationList.size() == 0) {
 			return null;
 		} else {
 			return authorizationList.get(0);

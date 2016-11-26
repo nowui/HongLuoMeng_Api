@@ -33,7 +33,7 @@ public class ProductLockStockDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ");
-		dynamicSQL.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? ", new Date());
 
 		if(! Utility.isNullOrEmpty(productLockStock.getProductSkuIdList())) {

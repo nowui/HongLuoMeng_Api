@@ -42,7 +42,7 @@ public class UserDao {
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
-		dynamicSQL.append("(" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_PHONE + " = ? ) ", user_id, user_phone);
+		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_PHONE + " = ? ) ", user_id, user_phone);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -110,14 +110,20 @@ public class UserDao {
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_PHONE + " = ? ", user.getUser_phone());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_EMAIL + " = ? ", user.getUser_email());
-		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_EMAIL + " = ? ", user.getUser_email());
 		dynamicSQL.isNullOrEmptyForOther("AND " + User.KEY_USER_PASSWORD + " = ? ", user.getUser_password(), HashKit.md5(Private.PRIVATE_KEY + user.getUser_password()));
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_TYPE + " = ? ", user.getUser_type());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_WEIBO_UID + " = ? ", user.getWeibo_uid());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_WECHAT_UID + " = ? ", user.getWechat_uid());
 
+		System.out.println(user.getUser_account());
+		System.out.println(user.getUser_password());
+		System.out.println(HashKit.md5(Private.PRIVATE_KEY + user.getUser_password()));
+		System.out.println(user.getUser_type());
+
+		System.out.println(dynamicSQL.sql.toString());
+
 		List<User> userList = new User().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (userList == null) {
+		if (userList.size() == 0) {
 			return null;
 		} else {
 			return userList.get(0);

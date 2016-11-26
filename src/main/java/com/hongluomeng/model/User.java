@@ -60,7 +60,7 @@ public class User extends Model<User> {
 	}
 
 	public void checkUser_phone() {
-		Utility.checkStringLength(getUser_phone(), 3, 11, "用户电话");
+		Utility.checkStringLength(getUser_phone(), 11, 11, "用户电话");
 	}
 
 	public String getUser_email() {

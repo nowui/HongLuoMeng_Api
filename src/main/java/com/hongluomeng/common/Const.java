@@ -31,6 +31,7 @@ public class Const {
 	public static final int BATCH_SIZE = 100;
 
 	public static final int ORDER_TIMEOUT_EXPRESS = 30;
+	public static final int SMS_TIMEOUT_EXPRESS = 30;
 
 	public static final String LINE_FEED = "; ";
 

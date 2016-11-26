@@ -36,7 +36,7 @@ public class OperationDao {
 	public Integer countByOperation_idAndOperation_key(String operation_id, String operation_key) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Operation.KEY_OPERATION_KEY + " ");
+		dynamicSQL.append("SELECT COUNT(*) FROM " + Operation.KEY_TABLE_OPERATION + " ");
 		dynamicSQL.append("WHERE " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + Operation.KEY_OPERATION_ID + " != ? ", operation_id);
 		dynamicSQL.append("AND " + Operation.KEY_OPERATION_KEY + " = ? ", operation_key);
@@ -51,6 +51,7 @@ public class OperationDao {
 		dynamicSQL.append("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
 		dynamicSQL.append("WHERE " + Operation.KEY_OPERATION_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Operation.KEY_MENU_ID + " = ? ", operation.getMenu_id());
+		dynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return operation.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -64,6 +65,7 @@ public class OperationDao {
 		dynamicSQL.append("LEFT JOIN " + UserRole.KEY_TABLE_USER_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
 		dynamicSQL.append("WHERE " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ", user_id);
 		dynamicSQL.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
 
 		return new Operation().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -77,6 +79,7 @@ public class OperationDao {
 		dynamicSQL.append("LEFT JOIN " + User.KEY_TABLE_USER + " ON " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_KEY + " = " + User.KEY_TABLE_USER + "." + User.KEY_USER_TYPE + " ");
 		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_USER_ID + " = ? ", user_id);
 		dynamicSQL.append("AND " + Operation.KEY_OPERATION_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
 
 		return new Operation().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -89,7 +92,7 @@ public class OperationDao {
 		dynamicSQL.isNullOrEmpty("AND " + Operation.KEY_OPERATION_ID + " = ? ", operation.getOperation_id());
 
 		List<Operation> operationList = new Operation().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if(operationList == null) {
+		if(operationList.size() == 0) {
 			return null;
 		} else {
 			return operationList.get(0);

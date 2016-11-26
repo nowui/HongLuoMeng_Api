@@ -317,7 +317,7 @@ public class Order extends Model<Order> {
 	}
 
 	public void checkOrder_flow_status() {
-		Utility.checkStringLength(getOrder_flow_status(), 1, 10, "订单流程状态");
+		Utility.checkStringLength(getOrder_flow_status(), 0, 10, "订单流程状态");
 	}
 
 	public Boolean getOrder_status() {

@@ -1,10 +1,12 @@
 package com.hongluomeng.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.model.Cart;
 import com.hongluomeng.model.Log;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.DbKit;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinal.plugin.druid.DruidPlugin;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,7 +38,7 @@ public class OrderTest {
 		druidPlugin.start();
 
 		ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(druidPlugin);
-		activeRecordPlugin.addMapping("table_log", "log_id", Log.class);
+		activeRecordPlugin.addMapping("table_cart", "cart_id", Cart.class);
 		activeRecordPlugin.start();
 
 //		request = mock(HttpServletRequest.class);
@@ -54,9 +56,10 @@ public class OrderTest {
 
 
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("page", "1");
-			jsonObject.put("limit", "20");
-			new LogService().list(jsonObject);
+			jsonObject.put("cart_id", "ad724fd0c0494b80a8f8e9092e718d01");
+			jsonObject.put("product_amount", "5");
+			jsonObject.put("request_user_id", "5c126801327249a1a867ee466fab8a0b");
+			new CartService().update(jsonObject);
 
 
 
@@ -88,5 +91,7 @@ public class OrderTest {
 //		logController.setHttpServletRequest(request);
 //		logController.setHttpServletResponse(response);
 //		logController.list();
+
+
 	}
 }
