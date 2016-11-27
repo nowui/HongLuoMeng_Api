@@ -205,7 +205,7 @@ public class GlobalActionInterceptor implements Interceptor {
                     inv.invoke();
 
                     //如果测试，抛出异常，事务回滚
-                    if (Const.isTest) {
+                    if (Const.IS_TEST) {
                         throw new Exception(controller.getAttrForStr(Const.KEY_RESPONSE));
                     }
                 } else {
@@ -294,7 +294,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
             ThreadContext.put(Log.KEY_LOG_RUN_TIME, (new Date().getTime() - start.getTime()) + "");
 
-            if (url.contains("/log/") || Const.isTest) {
+            if (url.contains("/log/") || Const.IS_TEST) {
 
             } else {
                 logger.error("");

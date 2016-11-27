@@ -2,7 +2,8 @@ package com.hongluomeng.common;
 
 public class Const {
 
-    public static final Boolean isTest = true;
+    public static final Boolean IS_TEST = true;
+    public static final String HOST = "http://localhost:8080";
 
     public static final String KEY_PAGE = "page";
     public static final String KEY_LIMIT = "limit";

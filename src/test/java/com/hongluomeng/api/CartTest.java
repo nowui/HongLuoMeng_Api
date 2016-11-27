@@ -1,6 +1,7 @@
 package com.hongluomeng.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Url;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,7 +21,7 @@ public class CartTest {
 
     @Before
     public void init() {
-        httpRequst = new HttpPost("http://localhost:8080" + Url.URL_CART_UPDATE);
+        httpRequst = new HttpPost(Const.HOST + Url.URL_CART_UPDATE);
         httpRequst.addHeader("Accept", "application/json");
         httpRequst.addHeader("Content-Type", "application/json");
         httpRequst.addHeader("token", "eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE0ODAxODIyODYsImV4cCI6MTQ4MTIyMTUxNSwiYXV0aG9yaXphdGlvbl9pZCI6ImFjZDRiNDAwODU0MTQxMThiZDk4MmRkNmNjZjliZWE1IiwidXNlcl9pZCI6IjVjMTI2ODAxMzI3MjQ5YTFhODY3ZWU0NjZmYWI4YTBiIn0.J5pjwyb-lrlLGcqPltu75E-386VrqHbbeHlam72oucb5sCNJ3mq5UfVI8h7m78MQDFO79eFoRcT-5ZhPBTxE0g");
