@@ -31,19 +31,19 @@ public class CartTest {
 
     @Test
     public void Update() throws IOException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("cart_id", "ad724fd0c0494b80a8f8e9092e718d01");
-        jsonObject.put("product_amount", 5);
-
-        StringEntity stringEntity = new StringEntity(jsonObject.toJSONString());
-        stringEntity.setContentType("application/json");
-        stringEntity.setContentEncoding("UTF-8");
-
-        httpRequst.setEntity(stringEntity);
-        HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequst);
-
-        HttpEntity httpEntity = httpResponse.getEntity();
-        System.out.println(EntityUtils.toString(httpEntity));
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("cart_id", "ad724fd0c0494b80a8f8e9092e718d01");
+//        jsonObject.put("product_amount", 5);
+//
+//        StringEntity stringEntity = new StringEntity(jsonObject.toJSONString());
+//        stringEntity.setContentType("application/json");
+//        stringEntity.setContentEncoding("UTF-8");
+//
+//        httpRequst.setEntity(stringEntity);
+//        HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequst);
+//
+//        HttpEntity httpEntity = httpResponse.getEntity();
+//        System.out.println(EntityUtils.toString(httpEntity));
     }
 
 }

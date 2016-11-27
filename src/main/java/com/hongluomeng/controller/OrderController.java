@@ -113,14 +113,9 @@ public class OrderController extends BaseController {
 			parameterMap.put(entry.getKey(), entry.getValue()[0]);
 		}
 
-		String order_no = getPara("out_trade_no");
-		String order_trade_no = getPara("trade_no");
-		String order_trade_account = getPara("buyer_id");
-		String order_trade_price = getPara("receipt_amount");
-
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		String result = orderService.notify(parameterMap, order_no, order_trade_no, order_trade_account, order_trade_price, request_user_id);
+		String result = orderService.notify(parameterMap, request_user_id);
 
 		renderHtml(result);
 	}

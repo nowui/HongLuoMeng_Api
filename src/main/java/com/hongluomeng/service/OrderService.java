@@ -398,12 +398,18 @@ public class OrderService {
 		}
 	}
 
-	public String notify(Map<String, String> parameterMap, String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String request_user_id) {
+	public String notify(Map<String, String> parameterMap, String request_user_id) {
 		try {
 			boolean signVerified = AlipaySignature.rsaCheckV1(parameterMap, Private.ALIPAY_PUBLIC_KEY, Private.ALIPAY_INPUT_CHARSET);
 
 			if (signVerified) {
-				int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price);
+				String order_no = parameterMap.get("out_trade_no");
+				String order_trade_no = parameterMap.get("trade_no");
+				String order_trade_account = parameterMap.get("buyer_id");
+				String order_trade_price = parameterMap.get("receipt_amount");
+				String order_pay_result = JSONObject.toJSONString(parameterMap);
+
+				int result = orderDao.updateTrade(order_no, order_trade_no, order_trade_account, order_trade_price, order_pay_result);
 
 				//删除锁定库存
 				productLockStockService.delete(order_no, request_user_id);

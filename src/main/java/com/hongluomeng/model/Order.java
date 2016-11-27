@@ -30,6 +30,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_TRADE_ACCOUNT = "order_trade_account";
 	public static final String KEY_ORDER_TRADE_PRICE = "order_trade_price";
 	public static final String KEY_ORDER_TRADE_TIME = "order_trade_time";
+	public static final String KEY_ORDER_PAY_RESULT = "order_pay_result";
 	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
 	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
@@ -250,6 +251,14 @@ public class Order extends Model<Order> {
 
 	public void setOrder_trade_time(String order_trade_time) {
 		set(KEY_ORDER_TRADE_TIME, order_trade_time);
+	}
+
+	public String getOrder_pay_result() {
+		return getStr(KEY_ORDER_PAY_RESULT);
+	}
+
+	public void setOrder_pay_result(String order_pay_result) {
+		set(KEY_ORDER_PAY_RESULT, order_pay_result);
 	}
 
 	public void checkOrder_trade_time() {
