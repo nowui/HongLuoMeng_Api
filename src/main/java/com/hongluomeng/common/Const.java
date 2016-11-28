@@ -30,6 +30,7 @@ public class Const {
     public static final String KEY_URL = "url";
 
     public static final String CACHE_OPERATION = "cache_operation";
+    public static final String CACHE_BRAND = "cache_brand";
 
     public static final int BATCH_SIZE = 100;
 

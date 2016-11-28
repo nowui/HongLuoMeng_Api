@@ -30,7 +30,7 @@ public class ProductValidator extends Validator {
 			case Url.URL_PRODUCT_LIST: {
 				isExit = true;
 
-				product.checkProduct_name();
+				Utility.checkNull(product.getProduct_name(), "商品名称");
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;

@@ -55,7 +55,7 @@ public class Operation extends Model<Operation> {
 	}
 
 	public void checkOperation_name() {
-		Utility.checkStringLength(getOperation_name(), 3, 20, "操作名称");
+		Utility.checkStringLength(getOperation_name(), 1, 20, "操作名称");
 	}
 
 	public String getOperation_key() {

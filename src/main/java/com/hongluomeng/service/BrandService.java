@@ -40,7 +40,7 @@ public class BrandService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<Brand> brandList = brandDao.listByCategory_idForApply(brandMap.getCategory_id(), request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Brand> brandList = brandDao.listByCategory_idAndUser_idForAllList(brandMap.getCategory_id(), request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -57,17 +57,14 @@ public class BrandService {
 		return list;
 	}
 
-	public List<Brand> listByUser_id(String user_id) {
-		List<Brand> brandList = brandDao.list(0, 0);
+	public List<Brand> listAll() {
+		Brand brand = new Brand();
 
-		List<Brand> brandResultList = new ArrayList<Brand>();
-		for (Brand brand : brandList) {
-			Brand b = new Brand();
-			b.setBrand_id(brand.getBrand_id());
-			b.setBrand_name(brand.getBrand_name());
-			brandResultList.add(b);
-		}
-		return brandResultList;
+		return brandDao.list(0, 0);
+	}
+
+	public List<Brand> listByCategory_idAndUser_idForMyList(String category_id, String user_id, Integer m, Integer n) {
+		return brandDao.listByCategory_idAndUser_idForMyList(category_id, user_id, m, n);
 	}
 
 	public List<Map<String, Object>> getMyList(JSONObject jsonObject) {
@@ -75,7 +72,7 @@ public class BrandService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<Brand> brandList = brandDao.listByCategory_idForMy(brandMap.getCategory_id(), request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Brand> brandList = listByCategory_idAndUser_idForMyList(brandMap.getCategory_id(), request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 

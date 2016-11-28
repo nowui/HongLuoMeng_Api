@@ -36,6 +36,7 @@ public class Product extends Model<Product> {
 	public static final String KEY_MEMBER_LEVEL_LIST = "memberLevelList";
 	public static final String KEY_PRODUCT_SKU_LIST = "productSkuList";
 	public static final String KEY_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
+	public static final String KEY_PRODUCT_IS_APPLY = "product_is_apply";
 
 	private List<Category> categoryList;
 	private List<Brand> brandList;
@@ -204,7 +205,7 @@ public class Product extends Model<Product> {
 	}
 
 	public void checkProduct_content() {
-		Utility.checkNullOrEmpty(getProduct_content(), "商品介绍");
+		Utility.checkNull(getProduct_content(), "商品介绍");
 	}
 
 	public void setProduct_content(String product_content) {

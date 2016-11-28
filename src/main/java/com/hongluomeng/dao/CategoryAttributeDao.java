@@ -92,6 +92,9 @@ public class CategoryAttributeDao {
 		categoryAttribute.setCategory_id(category_id);
 		categoryAttribute.setAttribute_id(attribute_id);
 
+		categoryAttribute.checkCategory_id();
+		categoryAttribute.checkAttribute_id();
+
 		return find(categoryAttribute);
 	}
 

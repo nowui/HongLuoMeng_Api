@@ -327,7 +327,7 @@ public class Utility {
 			throw new RuntimeException(message);
 		}
 
-		checkStringLength(integer.toString(), start, start, message);
+		checkStringLength(integer.toString(), start, end, message);
 	}
 
 	public static void checkStringLength(String str, int start, String message) {
@@ -349,8 +349,14 @@ public class Utility {
 			}
 		}
 
-		if (isNullOrEmpty(str)) {
-			throw new RuntimeException(message);
+		if(start == 0) {
+			if (isNull(str)) {
+				throw new RuntimeException(message);
+			}
+		} else {
+			if (isNullOrEmpty(str)) {
+				throw new RuntimeException(message);
+			}
 		}
 
 		String regex = "^.{" + start + "," + end + "}$";

@@ -33,6 +33,20 @@ public class OrderProductDao {
 
 		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
 		dynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_PRODUCT_STATUS + " = 1 ");
+		if (!Utility.isNullOrEmpty(orderProduct.getOrderIdList())) {
+			for (int i = 0; i < orderProduct.getOrderIdList().size(); i++) {
+				String order_id = orderProduct.getOrderIdList().get(i);
+
+				if(i == 0) {
+					dynamicSQL.append("AND(");
+				} else {
+					dynamicSQL.append("OR ");
+				}
+
+				dynamicSQL.isNullOrEmpty(OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
+			}
+			dynamicSQL.append(") ");
+		}
 		dynamicSQL.append("ORDER BY " + OrderProduct.KEY_ORDER_PRODUCT_CREATE_TIME + " ASC ");
 		dynamicSQL.appendPagination(m, n);
 
@@ -42,6 +56,17 @@ public class OrderProductDao {
 	public List<OrderProduct> listByOrder_id(String order_id) {
 		OrderProduct orderProduct = new OrderProduct();
 		orderProduct.setOrder_id(order_id);
+
+		return list(orderProduct, 0, 0);
+	}
+
+	public List<OrderProduct> listByOrderIdList(List<String> orderIdList) {
+		OrderProduct orderProduct = new OrderProduct();
+		orderProduct.setOrderIdList(orderIdList);
+
+		if(orderIdList.size() == 0) {
+			return new ArrayList<OrderProduct>();
+		}
 
 		return list(orderProduct, 0, 0);
 	}
@@ -104,8 +129,8 @@ public class OrderProductDao {
 		sql.append(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
 		sql.append(OrderProduct.KEY_PRODUCT_PRICE + ", ");
 		sql.append(OrderProduct.KEY_MEMBER_LEVEL_PRICE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_TRADE_PRICE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_TRADE_AMOUNT + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_PAY_PRICE + ", ");
+		sql.append(OrderProduct.KEY_PRODUCT_PAY_AMOUNT + ", ");
 		sql.append(OrderProduct.KEY_ORDER_PRODUCT_CREATE_USER_ID + ", ");
 		sql.append(OrderProduct.KEY_ORDER_PRODUCT_CREATE_TIME + ", ");
 		sql.append(OrderProduct.KEY_ORDER_PRODUCT_UPDATE_USER_ID + ", ");
@@ -164,8 +189,8 @@ public class OrderProductDao {
 			objectList.add(orderProduct.getProduct_attribute_value().toJSONString());
 			objectList.add(orderProduct.getProduct_price());
 			objectList.add(orderProduct.getMember_level_price().toJSONString());
-			objectList.add(orderProduct.getProduct_trade_price());
-			objectList.add(orderProduct.getProduct_trade_amount());
+			objectList.add(orderProduct.getProduct_pay_price());
+			objectList.add(orderProduct.getProduct_pay_amount());
 			objectList.add(request_user_id);
 			objectList.add(new Date());
 			objectList.add(request_user_id);

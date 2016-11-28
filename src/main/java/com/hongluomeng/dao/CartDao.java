@@ -45,9 +45,18 @@ public class CartDao {
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ", cart.getUser_id());
 
 		if (!Utility.isNullOrEmpty(cart.getProductSkuIdList())) {
-			for (String product_sku_id : cart.getProductSkuIdList()) {
-				dynamicSQL.isNullOrEmpty("AND " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+			for (int i = 0; i < cart.getProductSkuIdList().size(); i++) {
+				String product_sku_id = cart.getProductSkuIdList().get(i);
+
+				if(i == 0) {
+					dynamicSQL.append("AND(");
+				} else {
+					dynamicSQL.append("OR ");
+				}
+
+				dynamicSQL.isNullOrEmpty(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
+			dynamicSQL.append(") ");
 		}
 
 		dynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
@@ -97,12 +106,16 @@ public class CartDao {
 		Cart cart = new Cart();
 		cart.setCart_id(cart_id);
 
+		cart.checkCart_id();
+
 		return find(cart);
 	}
 
 	public Cart findByProduct_sku_id(String product_sku_id) {
 		Cart cart = new Cart();
 		cart.setProduct_sku_id(product_sku_id);
+
+		cart.checkProduct_sku_id();
 
 		return find(cart);
 	}

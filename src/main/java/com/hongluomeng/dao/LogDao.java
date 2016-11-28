@@ -59,6 +59,8 @@ public class LogDao {
 		Log log = new Log();
 		log.setLog_id(Log_id);
 
+		log.checkLog_id();
+
 		return find(log);
 	}
 

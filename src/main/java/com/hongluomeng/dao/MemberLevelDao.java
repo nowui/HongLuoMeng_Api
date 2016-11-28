@@ -32,7 +32,7 @@ public class MemberLevelDao {
 
 		dynamicSQL.append("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
 		dynamicSQL.append("WHERE " + MemberLevel.KEY_MEMBER_LEVEL_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_SORT + " ASC ");
+		dynamicSQL.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ASC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return memberLevel.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -59,9 +59,11 @@ public class MemberLevelDao {
 		}
 	}
 
-	public MemberLevel findByMember_level_id(String memberLevel_id) {
+	public MemberLevel findByMember_level_id(String member_level_id) {
 		MemberLevel memberLevel = new MemberLevel();
-		memberLevel.setMember_level_id(memberLevel_id);
+		memberLevel.setMember_level_id(member_level_id);
+
+		memberLevel.checkMember_level_id();
 
 		return find(memberLevel);
 	}
@@ -86,9 +88,9 @@ public class MemberLevelDao {
 		memberLevel.update();
 	}
 
-	public void delete(String memberLevel_id, String request_user_id) {
+	public void delete(String member_level_id, String request_user_id) {
 		MemberLevel memberLevel = new MemberLevel();
-		memberLevel.setMember_level_id(memberLevel_id);
+		memberLevel.setMember_level_id(member_level_id);
 		memberLevel.setMember_level_update_user_id(request_user_id);
 		memberLevel.setMember_level_update_time(new Date());
 		memberLevel.setMember_level_status(false);

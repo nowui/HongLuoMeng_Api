@@ -67,12 +67,12 @@ public class OrderService {
 
 		Cart cartMap = jsonObject.toJavaObject(Cart.class);
 
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
 		List<Cart> cartList = new ArrayList<Cart>();
 		cartList.add(cartMap);
 
 		orderMap.setCartList(cartList);
-
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		Order order = save(orderMap, request_user_id, false);
 
@@ -204,7 +204,7 @@ public class OrderService {
 			cartService.delete(cartDeleteList, request_user_id);
 		}
 
-		//计算订单的总价格
+		//订单总价格
 		BigDecimal order_price = BigDecimal.valueOf(0);
 		for (ProductSku productSku : productSkuList) {
 			if (member.getMember_level_id().equals("")) {
@@ -233,7 +233,15 @@ public class OrderService {
 				}
 			}
 		}
-		order.setOrder_price(order_price);
+		order.setOrder_pay_price(order_price);
+
+
+		//订单商品数量
+		int order_product_pay_amount = 0;
+		for (Cart cart : order.getCartList()) {
+			order_product_pay_amount += cart.getProduct_amount();
+		}
+		order.setOrder_product_pay_amount(order_product_pay_amount);
 
 		//更新收货信息
 		MemberDelivery memberDelivery = memberDeliveryService.findByMember_delivery_id(order.getMember_delivery_id());
@@ -254,10 +262,10 @@ public class OrderService {
 		List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 		List<ProductLockStock> productLockStockList = new ArrayList<ProductLockStock>();
 		for (ProductSku productSku : productSkuList) {
-			BigDecimal product_trade_price = BigDecimal.valueOf(0);
+			BigDecimal product_pay_price = BigDecimal.valueOf(0);
 
 			if (member.getMember_level_id().equals("")) {
-				product_trade_price = productSku.getProduct_price();
+				product_pay_price = productSku.getProduct_price();
 			} else {
 				Boolean isExit = false;
 
@@ -269,14 +277,14 @@ public class OrderService {
 					String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
 
 					if (member.getMember_level_id().equals(member_level_id)) {
-						product_trade_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
+						product_pay_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
 
 						isExit = true;
 					}
 				}
 
 				if (!isExit) {
-					product_trade_price = productSku.getProduct_price();
+					product_pay_price = productSku.getProduct_price();
 				}
 			}
 
@@ -301,11 +309,11 @@ public class OrderService {
 			orderProduct.setProduct_attribute_value(productSku.getProduct_attribute_value().toJSONString());
 			orderProduct.setProduct_price(productSku.getProduct_price());
 			orderProduct.setMember_level_price(productSku.getMember_level_price().toJSONString());
-			orderProduct.setProduct_trade_price(product_trade_price);
-			orderProduct.setProduct_trade_amount(0);
+			orderProduct.setProduct_pay_price(product_pay_price);
+			orderProduct.setProduct_pay_amount(0);
 			for (Cart cart : order.getCartList()) {
 				if (cart.getProduct_sku_id().equals(productSku.getProduct_sku_id())) {
-					orderProduct.setProduct_trade_amount(cart.getProduct_amount());
+					orderProduct.setProduct_pay_amount(cart.getProduct_amount());
 				}
 			}
 			orderProductList.add(orderProduct);
@@ -352,14 +360,51 @@ public class OrderService {
 
 		List<Order> orderList = orderDao.listByUser_idAndOrder_flow_status(request_user_id, orderMap.getOrder_flow_status(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
+		List<String> orderIdList = new ArrayList<String>();
+
+		for(Order order : orderList) {
+			orderIdList.add(order.getOrder_id());
+		}
+
+		List<OrderProduct> orderProductList = orderProductService.listByOrderIdList(orderIdList);
+
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
 		for (Order order : orderList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Order.KEY_ORDER_ID, order.getOrder_id());
 			map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-			map.put(Order.KEY_ORDER_TRADE_PRICE, order.getOrder_trade_price());
+			map.put(Order.KEY_ORDER_PAY_PRICE, order.getOrder_pay_price());
+			map.put(Order.KEY_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
+			map.put(Order.KEY_ORDER_DELIVERY_NAME, order.getOrder_delivery_name());
 			map.put(Order.KEY_ORDER_FLOW_STATUS, order.getOrder_flow_status());
+
+			List<Map<String, Object>> orderProductRsultList = new ArrayList<Map<String, Object>>();
+
+			for(OrderProduct orderProduct : orderProductList) {
+				if(orderProduct.getOrder_id().equals(order.getOrder_id())) {
+					Map<String, Object> orderProductMap = new HashMap<String, Object>();
+					orderProductMap.put(OrderProduct.KEY_PRODUCT_ID, orderProduct.getProduct_id());
+					orderProductMap.put(OrderProduct.KEY_PRODUCT_NAME, orderProduct.getProduct_name());
+					orderProductMap.put(OrderProduct.KEY_PRODUCT_PAY_PRICE, orderProduct.getProduct_pay_price());
+					orderProductMap.put(OrderProduct.KEY_PRODUCT_PAY_AMOUNT, orderProduct.getProduct_pay_amount());
+
+					String attribute_value = "";
+					for (int i = 0; i < orderProduct.getProduct_attribute_value().size(); i++) {
+						JSONObject object = orderProduct.getProduct_attribute_value().getJSONObject(i);
+
+						if (i > 0) {
+							attribute_value += "_";
+						}
+
+						attribute_value += object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
+					}
+					orderProductMap.put(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
+
+					orderProductRsultList.add(orderProductMap);
+				}
+			}
+			map.put(Order.KEY_ORDER_LIST, orderProductRsultList);
 
 			resultList.add(map);
 		}
@@ -374,13 +419,13 @@ public class OrderService {
 	}
 
 	private String sign(Order order, String order_pay_type) {
-		if (order.getOrder_price().compareTo(BigDecimal.ZERO) == 0) {
+		if (order.getOrder_pay_price().compareTo(BigDecimal.ZERO) == 0) {
 			throw new RuntimeException("价格不能为零");
 		}
 
 		if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
 			try {
-				String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
+				String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_pay_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
 				String data = "app_id=" + Private.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Private.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Private.ALIPAY_NOTIFY_URL + "&sign_type=" + Private.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
 				String sign = AlipaySignature.rsaSign(data, Private.ALIPAY_PRIVATE_KEY, Private.ALIPAY_INPUT_CHARSET, Private.ALIPAY_SIGN_TYPE);
 

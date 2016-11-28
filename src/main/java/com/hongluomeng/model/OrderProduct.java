@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
@@ -33,13 +34,15 @@ public class OrderProduct extends Model<OrderProduct> {
 	public static final String KEY_PRODUCT_ATTRIBUTE_VALUE = "product_attribute_value";
 	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
-	public static final String KEY_PRODUCT_TRADE_PRICE = "product_trade_price";
-	public static final String KEY_PRODUCT_TRADE_AMOUNT = "product_trade_amount";
+	public static final String KEY_PRODUCT_PAY_PRICE = "product_pay_price";
+	public static final String KEY_PRODUCT_PAY_AMOUNT = "product_pay_amount";
 	public static final String KEY_ORDER_PRODUCT_CREATE_USER_ID = "order_product_create_user_id";
 	public static final String KEY_ORDER_PRODUCT_CREATE_TIME = "order_product_create_time";
 	public static final String KEY_ORDER_PRODUCT_UPDATE_USER_ID = "order_product_update_user_id";
 	public static final String KEY_ORDER_PRODUCT_UPDATE_TIME = "order_product_update_time";
 	public static final String KEY_ORDER_PRODUCT_STATUS = "order_product_status";
+
+	private List<String> orderIdList;
 
 	public String getOrder_id() {
 		return getStr(KEY_ORDER_ID);
@@ -216,20 +219,20 @@ public class OrderProduct extends Model<OrderProduct> {
 		set(KEY_MEMBER_LEVEL_PRICE, member_level_price);
 	}
 
-	public BigDecimal getProduct_trade_price() {
-		return getBigDecimal(KEY_PRODUCT_TRADE_PRICE);
+	public BigDecimal getProduct_pay_price() {
+		return getBigDecimal(KEY_PRODUCT_PAY_PRICE);
 	}
 
-	public void setProduct_trade_price(BigDecimal product_trade_price) {
-		set(KEY_PRODUCT_TRADE_PRICE, product_trade_price);
+	public void setProduct_pay_price(BigDecimal product_pay_price) {
+		set(KEY_PRODUCT_PAY_PRICE, product_pay_price);
 	}
 
-	public Integer getProduct_trade_amount() {
-		return Utility.getIntegerValue(get(KEY_PRODUCT_TRADE_AMOUNT));
+	public Integer getProduct_pay_amount() {
+		return Utility.getIntegerValue(get(KEY_PRODUCT_PAY_AMOUNT));
 	}
 
-	public void setProduct_trade_amount(Integer product_trade_amount) {
-		set(KEY_PRODUCT_TRADE_AMOUNT, product_trade_amount);
+	public void setProduct_pay_amount(Integer product_pay_amount) {
+		set(KEY_PRODUCT_PAY_AMOUNT, product_pay_amount);
 	}
 
 	public void setOrder_product_create_user_id(String order_product_create_user_id) {
@@ -256,4 +259,21 @@ public class OrderProduct extends Model<OrderProduct> {
 		set(KEY_ORDER_PRODUCT_STATUS, order_product_status);
 	}
 
+	public List<String> getOrderIdList() {
+		return orderIdList;
+	}
+
+	public void setOrderIdList(List<String> orderIdList) {
+		this.orderIdList = orderIdList;
+	}
+
+	public void checkOrderIdList() {
+		if (Utility.isNullOrEmpty(getOrderIdList())) {
+			throw new RuntimeException("OrderIdList不能为空");
+		} else {
+			if(getOrderIdList().size() == 0) {
+				throw new RuntimeException("OrderIdList不能为空");
+			}
+		}
+	}
 }

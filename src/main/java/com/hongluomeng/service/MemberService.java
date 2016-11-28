@@ -9,6 +9,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.MemberDao;
 import com.hongluomeng.model.Member;
+import com.hongluomeng.model.MemberLevel;
 import com.hongluomeng.model.Sms;
 import com.hongluomeng.model.User;
 import com.hongluomeng.type.SmsEnum;
@@ -22,6 +23,7 @@ public class MemberService {
 	private AuthorizationService authorizationService = new AuthorizationService();
 	private SmsService smsService = new SmsService();
 	private UploadService uploadService = new UploadService();
+	private MemberLevelService memberLevelService = new MemberLevelService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Member memberMap = jsonObject.toJavaObject(Member.class);
@@ -154,7 +156,9 @@ public class MemberService {
 
 			user_id = user.getUser_id();
 
-			memberDao.updateMember_weibo_fansAndMember_weibo_friend(memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), user_id);
+			String member_level_id = checkMemberLevel(memberMap.getMember_weibo_fans());
+
+			memberDao.updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(member_level_id, memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), user_id);
 
 			//更新会员头像并且返回会员信息
 			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user_id, false);
@@ -216,7 +220,9 @@ public class MemberService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		memberDao.updateMember_weibo_fansAndMember_weibo_friend(memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), request_user_id);
+		String member_level_id = checkMemberLevel(memberMap.getMember_weibo_fans());
+
+		memberDao.updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(member_level_id, memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), request_user_id);
 
 		//更新会员头像
 		memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), request_user_id, false);
@@ -266,6 +272,9 @@ public class MemberService {
 
 		resultMap.put(Const.KEY_TOKEN, token);
 		resultMap.put(Member.KEY_MEMBER_NAME, member.getMember_name());
+		resultMap.put(Member.KEY_MEMBER_LEVEL_ID, member.getMember_level_id());
+		resultMap.put(Member.KEY_MEMBER_LEVEL_NAME, member.getMember_level_name());
+		resultMap.put(Member.KEY_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
 
 		if (Utility.isNullOrEmpty(member.getMember_avatar())) {
 			resultMap.put(Member.KEY_MEMBER_AVATAR, "");
@@ -291,7 +300,31 @@ public class MemberService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		memberDao.updateMember_weibo_fansAndMember_weibo_friend(memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), request_user_id);
+		String member_level_id = checkMemberLevel(memberMap.getMember_weibo_fans());
+
+		memberDao.updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(member_level_id, memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), request_user_id);
+	}
+
+	public String checkMemberLevel(Integer member_weibo_fans) {
+		String member_level_id = "";
+
+		List<MemberLevel> memberLevelList = memberLevelService.listAll();
+
+		if(memberLevelList.size() == 0) {
+			return "";
+		}
+
+		for(int i = memberLevelList.size() - 1; i > 0; i--) {
+			MemberLevel memberLevel = memberLevelList.get(i);
+
+			if(memberLevel.getMember_level_value() < member_weibo_fans) {
+				member_level_id = memberLevel.getMember_level_id();
+
+				break;
+			}
+		}
+
+		return member_level_id;
 	}
 
 }

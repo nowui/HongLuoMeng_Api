@@ -99,6 +99,7 @@ public class Url {
 	public static final String URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE = "/product/category/attribute/delete";
 	public static final String URL_PRODUCT_CATEGORY_LIST_GET = "/product/category/list/get";
 	public static final String URL_PRODUCT_LIST_GET = "/product/list/get";
+	public static final String URL_PRODUCT_HOT_LIST_GET = "/product/hot/list/get";
 	public static final String URL_PRODUCT_BRAND_LIST_GET = "/product/brand/list/get";
 	public static final String URL_PRODUCT_MARKET_LIST_GET = "/product/market/list/get";
 	public static final String URL_PRODUCT_GET = "/product/get";
@@ -156,7 +157,7 @@ public class Url {
 	public static final String URL_ORDER_PAYED = "/order/payed";
 	public static final String URL_ORDER_NOTIFY = "/order/notify";
 
-	public static final String URL_ACTIVITY_LIST = "/shactivityop/list";
+	public static final String URL_ACTIVITY_LIST = "/activity/list";
 	public static final String URL_ACTIVITY_FIND = "/activity/find";
 	public static final String URL_ACTIVITY_SAVE = "/activity/save";
 	public static final String URL_ACTIVITY_UPDATE = "/activity/update";

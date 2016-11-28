@@ -13,6 +13,7 @@ import com.hongluomeng.model.Operation;
 public class OperationService {
 
 	private OperationDao operationDao = new OperationDao();
+
 	private OperationCache operationCache = new OperationCache();
 
 	public Map<String, Object> list(JSONObject jsonObject) {

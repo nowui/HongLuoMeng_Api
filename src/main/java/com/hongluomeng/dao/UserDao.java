@@ -31,7 +31,7 @@ public class UserDao {
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
-		dynamicSQL.append("(" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_ACCOUNT + " = ? ) ", user_id, user_account);
+		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_ACCOUNT + " = ? ) ", user_id, user_account);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -53,7 +53,7 @@ public class UserDao {
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
-		dynamicSQL.append("(" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_EMAIL + " = ? ) ", user_id, user_email);
+		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_EMAIL + " = ? ) ", user_id, user_email);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -64,7 +64,7 @@ public class UserDao {
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
-		dynamicSQL.append("(" + User.KEY_USER_ID + " != ? AND " + User.KEY_WEIBO_UID + " = ? ) ", user_id, weibo_uid);
+		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WEIBO_UID + " = ? ) ", user_id, weibo_uid);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -75,7 +75,7 @@ public class UserDao {
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
-		dynamicSQL.append("(" + User.KEY_USER_ID + " != ? AND " + User.KEY_WECHAT_UID + " = ? ) ", user_id, wechat_uid);
+		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WECHAT_UID + " = ? ) ", user_id, wechat_uid);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();

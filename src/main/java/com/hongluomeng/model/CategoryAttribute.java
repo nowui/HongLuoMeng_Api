@@ -58,8 +58,8 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 		return getStr(Attribute.KEY_ATTRIBUTE_TYPE);
 	}
 
-	public String getAttribute_default_value() {
-		return getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE);
+	public JSONArray getAttribute_default_value() {
+		return JSONArray.parseArray(getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
 	}
 
 	public String getAttribute_value() {

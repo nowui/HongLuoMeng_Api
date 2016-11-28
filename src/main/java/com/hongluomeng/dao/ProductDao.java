@@ -37,6 +37,7 @@ public class ProductDao {
 		dynamicSQL.isNullOrEmptyForLike("AND " + Product.KEY_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
 		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_CATEGORY_ID + " = ? ", product.getCategory_id());
 		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_BRAND_ID + " = ? ", product.getBrand_id());
+		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_PRODUCT_IS_HOT + " = ? ", product.getProduct_is_hot());
 		dynamicSQL.append("ORDER BY " + Product.KEY_PRODUCT_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
@@ -55,6 +56,15 @@ public class ProductDao {
 	public List<Product> listByCategory_id(String category_id, Integer m, Integer n) {
 		Product productMap = new Product();
 		productMap.setCategory_id(category_id);
+
+		Utility.checkNull(category_id, "分类编号");
+
+		return list(productMap, m, n);
+	}
+
+	public List<Product> listByHot(Integer m, Integer n) {
+		Product productMap = new Product();
+		productMap.setProduct_is_hot(true);
 
 		return list(productMap, m, n);
 	}

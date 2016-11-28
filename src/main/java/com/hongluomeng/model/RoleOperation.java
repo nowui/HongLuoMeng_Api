@@ -1,5 +1,6 @@
 package com.hongluomeng.model;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 public class RoleOperation extends Model<RoleOperation> {
@@ -16,6 +17,10 @@ public class RoleOperation extends Model<RoleOperation> {
 
 	public void setRole_id(String role_id) {
 		set(KEY_ROLE_ID, role_id);
+	}
+
+	public void checkRole_id() {
+		Utility.checkStringLength(getRole_id(), 32, "角色编号");
 	}
 
 	public String getOperation_id() {

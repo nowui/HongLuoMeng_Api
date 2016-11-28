@@ -1,11 +1,9 @@
 package com.hongluomeng.dao;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
@@ -35,10 +33,15 @@ public class OrderDao {
 	private List<Order> list(Order order, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
+		String order_flow_status = order.getOrder_flow_status();
+		if(order_flow_status.equals(OrderFlowEnum.WAIT.getKey())) {
+			order_flow_status += "," + OrderFlowEnum.CONFIRM.getKey();
+		}
+
 		dynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
 		dynamicSQL.append("WHERE " + Order.KEY_ORDER_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Order.KEY_USER_ID + " = ? ", order.getUser_id());
-		dynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_FLOW_STATUS + " = ? ", order.getOrder_flow_status());
+		dynamicSQL.isNullOrEmptyForSplit(Order.KEY_ORDER_FLOW_STATUS + " = ? ", order_flow_status);
 		dynamicSQL.append("ORDER BY " + Order.KEY_ORDER_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
@@ -125,7 +128,7 @@ public class OrderDao {
 		order.setOrder_trade_account("");
 		order.setOrder_trade_price(BigDecimal.ZERO);
 		order.setOrder_trade_time("");
-		order.setOrder_pay_result("");
+		order.setOrder_trade_result("");
 		order.setMember_level_id(member_level_id);
 		order.setMember_level_name(member_level_name);
 		order.setMember_level_value(member_level_value);
@@ -168,7 +171,7 @@ public class OrderDao {
 		dynamicSQL.append(Order.KEY_ORDER_TRADE_ACCOUNT + " = ?, ", order_trade_account);
 		dynamicSQL.append(Order.KEY_ORDER_TRADE_PRICE + " = ?, ", order_trade_price);
 		dynamicSQL.append(Order.KEY_ORDER_TRADE_TIME + " = ?, ", Utility.getDateTimeString(new Date()));
-		dynamicSQL.append(Order.KEY_ORDER_PAY_RESULT + " = ?, ", order_pay_result);
+		dynamicSQL.append(Order.KEY_ORDER_TRADE_RESULT + " = ?, ", order_pay_result);
 		dynamicSQL.append(Order.KEY_ORDER_FLOW_STATUS + " = ? ", OrderFlowEnum.PAYED.getKey());
 		dynamicSQL.append("WHERE " + Order.KEY_ORDER_NO + " = ? ", order_no);
 

@@ -86,6 +86,9 @@ public class BrandApplyDao {
 		brandApply.setBrand_id(brand_id);
 		brandApply.setUser_id(user_id);
 
+		brandApply.checkBrand_id();
+		brandApply.checkUser_id();
+
 		return find(brandApply);
 	}
 

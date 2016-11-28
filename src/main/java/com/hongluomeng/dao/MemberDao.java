@@ -69,12 +69,16 @@ public class MemberDao {
 		Member member = new Member();
 		member.setMember_id(member_id);
 
+		member.checkMember_id();
+
 		return find(member);
 	}
 
 	public Member findByUser_id(String user_id) {
 		Member member = new Member();
 		member.setUser_id(user_id);
+
+		member.checkUser_id();
 
 		return find(member);
 	}
@@ -122,10 +126,11 @@ public class MemberDao {
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
-	public void updateMember_weibo_fansAndMember_weibo_friend(int member_weibo_fans, int member_weibo_friend, String user_id) {
+	public void updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(String member_level_id, Integer member_weibo_fans, Integer member_weibo_friend, String user_id) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
+		dynamicSQL.append(Member.KEY_MEMBER_LEVEL_ID + " = ?, ", member_level_id);
 		dynamicSQL.append(Member.KEY_MEMBER_WEIBO_FANS + " = ?, ", member_weibo_fans);
 		dynamicSQL.append(Member.KEY_MEMBER_WEIBO_FRIEND + " = ?, ", member_weibo_friend);
 		dynamicSQL.append(Member.KEY_MEMBER_UPDATE_USER_ID + " = ?, ", user_id);

@@ -46,14 +46,7 @@ public class BrandDao {
 		return list(brand, m, n);
 	}
 
-	public List<Brand> listByCategory_id(String category_id, Integer m, Integer n) {
-		Brand brand = new Brand();
-		brand.setCategory_id(category_id);
-
-		return list(brand, m, n);
-	}
-
-	public List<Brand> listByCategory_idForApply(String category_id, String user_id, Integer m, Integer n) {
+	public List<Brand> listByCategory_idAndUser_idForAllList(String category_id, String user_id, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT " + Brand.KEY_TABLE_BRAND + ".*, IFNULL(" + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + ", '" + BrandApplyReviewEnum.NONE.getKey() + "') AS " + Brand.KEY_BRAND_APPLY_REVIEW_STATUS + " FROM " + Brand.KEY_TABLE_BRAND + " ");
@@ -65,7 +58,7 @@ public class BrandDao {
 		return new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
-	public List<Brand> listByCategory_idForMy(String category_id, String user_id, Integer m, Integer n) {
+	public List<Brand> listByCategory_idAndUser_idForMyList(String category_id, String user_id, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT " + Brand.KEY_TABLE_BRAND + ".*, " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_CREATE_TIME + " AS " + Brand.KEY_BRAND_APPLY_CREATE_TIME + " FROM " + Brand.KEY_TABLE_BRAND + " ");

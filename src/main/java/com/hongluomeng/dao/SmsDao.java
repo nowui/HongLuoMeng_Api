@@ -80,6 +80,8 @@ public class SmsDao {
 		Sms sms = new Sms();
 		sms.setSms_id(sms_id);
 
+		sms.checkSms_id();
+
 		return find(sms);
 	}
 

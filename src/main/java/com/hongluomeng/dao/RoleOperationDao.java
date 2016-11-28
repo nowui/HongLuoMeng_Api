@@ -25,6 +25,8 @@ public class RoleOperationDao {
 		RoleOperation roleOperation = new RoleOperation();
 		roleOperation.setRole_id(role_id);
 
+		roleOperation.checkRole_id();
+
 		return list(roleOperation);
 	}
 

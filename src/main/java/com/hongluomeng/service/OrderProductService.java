@@ -12,9 +12,11 @@ public class OrderProductService {
 	public List<OrderProduct> listByOrder_id(String order_id) {
 		List<OrderProduct> orderProductList = orderProductDao.listByOrder_id(order_id);
 
-		for (OrderProduct orderProduct : orderProductList) {
-			orderProduct.setOrder_product_status(null);
-		}
+		return orderProductList;
+	}
+
+	public List<OrderProduct> listByOrderIdList(List<String> orderIdList) {
+		List<OrderProduct> orderProductList = orderProductDao.listByOrderIdList(orderIdList);
 
 		return orderProductList;
 	}

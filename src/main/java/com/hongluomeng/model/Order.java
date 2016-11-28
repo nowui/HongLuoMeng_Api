@@ -15,7 +15,8 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_ID = "order_id";
 	public static final String KEY_USER_ID = "user_id";
 	public static final String KEY_ORDER_NO = "order_no";
-	public static final String KEY_ORDER_PRICE = "order_price";
+	public static final String KEY_ORDER_PAY_PRICE = "order_pay_price";
+	public static final String KEY_ORDER_PRODUCT_PAY_AMOUNT = "order_product_pay_amount";
 	public static final String KEY_ORDER_MESSAGE = "order_message";
 	public static final String KEY_ORDER_DELIVERY_NAME = "order_delivery_name";
 	public static final String KEY_ORDER_DELIVERY_PHONE = "order_delivery_phone";
@@ -30,7 +31,7 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_TRADE_ACCOUNT = "order_trade_account";
 	public static final String KEY_ORDER_TRADE_PRICE = "order_trade_price";
 	public static final String KEY_ORDER_TRADE_TIME = "order_trade_time";
-	public static final String KEY_ORDER_PAY_RESULT = "order_pay_result";
+	public static final String KEY_ORDER_TRADE_RESULT = "order_trade_result";
 	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
 	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
@@ -41,9 +42,12 @@ public class Order extends Model<Order> {
 	public static final String KEY_ORDER_FLOW_STATUS = "order_flow_status";
 	public static final String KEY_ORDER_STATUS = "order_status";
 	public static final String KEY_SIGN = "sign";
+	public static final String KEY_ORDER_LIST = "orderProductList";
 
 	private String member_delivery_id;
 	private List<Cart> cartList;
+
+	private List<OrderProduct> orderProductList;
 
 	public String getOrder_id() {
 		return getStr(KEY_ORDER_ID);
@@ -81,16 +85,24 @@ public class Order extends Model<Order> {
 		Utility.checkStringLength(getOrder_no(), 15, "订单号");
 	}
 
-	public BigDecimal getOrder_price() {
-		return getBigDecimal(KEY_ORDER_PRICE);
+	public BigDecimal getOrder_pay_price() {
+		return getBigDecimal(KEY_ORDER_PAY_PRICE);
 	}
 
-	public void setOrder_price(BigDecimal order_price) {
-		set(KEY_ORDER_PRICE, order_price);
+	public void setOrder_pay_price(BigDecimal order_pay_price) {
+		set(KEY_ORDER_PAY_PRICE, order_pay_price);
 	}
 
-	public void checkOrder_price() {
-		Utility.checkDecimalLength(getOrder_price(), 11, 2, "订单价格");
+	public void checkOrder_pay_price() {
+		Utility.checkDecimalLength(getOrder_pay_price(), 11, 2, "订单价格");
+	}
+
+	public Integer getOrder_product_pay_amount() {
+		return Utility.getIntegerValue(get(KEY_ORDER_PRODUCT_PAY_AMOUNT));
+	}
+
+	public void setOrder_product_pay_amount(Integer order_product_pay_amount) {
+		set(KEY_ORDER_PRODUCT_PAY_AMOUNT, order_product_pay_amount);
 	}
 
 	public String getOrder_message() {
@@ -253,12 +265,12 @@ public class Order extends Model<Order> {
 		set(KEY_ORDER_TRADE_TIME, order_trade_time);
 	}
 
-	public String getOrder_pay_result() {
-		return getStr(KEY_ORDER_PAY_RESULT);
+	public String getOrder_trade_result() {
+		return getStr(KEY_ORDER_TRADE_RESULT);
 	}
 
-	public void setOrder_pay_result(String order_pay_result) {
-		set(KEY_ORDER_PAY_RESULT, order_pay_result);
+	public void setOrder_trade_result(String order_trade_result) {
+		set(KEY_ORDER_TRADE_RESULT, order_trade_result);
 	}
 
 	public void checkOrder_trade_time() {
@@ -383,5 +395,13 @@ public class Order extends Model<Order> {
 
 	public void checkMember_delivery_id() {
 		Utility.checkStringLength(getMember_delivery_id(), 32, "会员快递信息编号");
+	}
+
+	public List<OrderProduct> getOrderProductList() {
+		return orderProductList;
+	}
+
+	public void setOrderProductList(List<OrderProduct> orderProductList) {
+		this.orderProductList = orderProductList;
 	}
 }

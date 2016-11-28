@@ -36,6 +36,14 @@ public class ActivityValidator extends Validator {
 
 				activity.checkActivity_name();
 
+				activity.checkActivity_url();
+
+				activity.checkActivity_logo();
+
+				activity.checkActivity_sort();
+
+				activity.checkActivity_content();
+
 				break;
 			}
 			case Url.URL_ACTIVITY_UPDATE: {
@@ -44,6 +52,14 @@ public class ActivityValidator extends Validator {
 				activity.checkActivity_id();
 
 				activity.checkActivity_name();
+
+				activity.checkActivity_url();
+
+				activity.checkActivity_logo();
+
+				activity.checkActivity_sort();
+
+				activity.checkActivity_content();
 
 				break;
 			}

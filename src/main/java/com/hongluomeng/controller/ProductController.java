@@ -191,6 +191,16 @@ public class ProductController extends BaseController {
 	}
 
 	@Before(ProductValidator.class)
+	@ActionKey(Url.URL_PRODUCT_HOT_LIST_GET)
+	public void getHotList() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		List<Map<String, Object>> resultList = productService.getHotList(jsonObject);
+
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
+	}
+
+	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_BRAND_LIST_GET)
 	public void getBrandList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

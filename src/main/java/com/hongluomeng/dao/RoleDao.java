@@ -79,6 +79,8 @@ public class RoleDao {
 		Role role = new Role();
 		role.setRole_id(role_id);
 
+		role.checkRole_id();
+
 		return find(role);
 	}
 

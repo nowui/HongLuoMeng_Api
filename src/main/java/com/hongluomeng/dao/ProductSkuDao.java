@@ -78,9 +78,18 @@ public class ProductSkuDao {
 		dynamicSQL.append("LEFT JOIN (SELECT " + ProductLockStock.KEY_PRODUCT_SKU_ID + ", SUM(" + ProductLockStock.KEY_PRODUCT_LOCK_STOCK + ") AS " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK + " FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " WHERE " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 1 AND " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? GROUP BY " + ProductLockStock.KEY_PRODUCT_SKU_ID + ") AS " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ON " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.KEY_PRODUCT_SKU_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " ", new Date());
 		dynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_STATUS + " = 1 ");
 		if (productSkuIdList.size() > 0) {
-			for(String product_sku_id : productSkuIdList) {
-				dynamicSQL.append("AND " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+			for(int i = 0; i < productSkuIdList.size(); i++) {
+				String product_sku_id = productSkuIdList.get(i);
+
+				if(i == 0) {
+					dynamicSQL.append("AND(");
+				} else {
+					dynamicSQL.append("OR ");
+				}
+
+				dynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
+			dynamicSQL.append(") ");
 		}
 
 		return new ProductSku().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

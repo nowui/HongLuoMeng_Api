@@ -52,4 +52,29 @@ public class DynamicSQL {
         }
     }
 
+    public void isNullOrEmptyForSplit(String string, String object) {
+        if (!Utility.isNullOrEmpty(object)) {
+            String[] array = object.split(",");
+
+            if(array.length == 1) {
+                this.sql.append("AND " + string);
+
+                this.parameterList.add(object);
+            } else {
+                for(int i = 0; i < array.length; i++) {
+                    if(i == 0) {
+                        this.sql.append("AND(");
+                    } else {
+                        this.sql.append("OR ");
+                    }
+                    this.sql.append(string);
+
+                    this.parameterList.add(array[i]);
+                }
+
+                this.sql.append(") ");
+            }
+        }
+    }
+
 }
