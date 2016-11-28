@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
@@ -33,6 +34,10 @@ public class BrandApply extends Model<BrandApply> {
 
 	public void checkBrand_id() {
 		Utility.checkStringLength(getBrand_id(), 32, "品牌编号");
+	}
+
+	public String getBrand_name() {
+		return getStr(Brand.KEY_BRAND_NAME);
 	}
 
 	public String getUser_id() {
@@ -105,6 +110,11 @@ public class BrandApply extends Model<BrandApply> {
 
 	public void setBrand_apply_create_user_id(String brand_apply_create_user_id) {
 		set(KEY_BRAND_APPLY_CREATE_USER_ID, brand_apply_create_user_id);
+	}
+
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getBrand_apply_create_time() {
+		return getDate(KEY_BRAND_APPLY_CREATE_TIME);
 	}
 
 	public void setBrand_apply_create_time(Date brand_apply_create_time) {

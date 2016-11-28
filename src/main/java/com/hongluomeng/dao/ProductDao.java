@@ -34,6 +34,7 @@ public class ProductDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
 		dynamicSQL.append("WHERE " + Product.KEY_PRODUCT_STATUS + " = 1 ");
+		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_PRODUCT_IS_SALE + " = ?, ", product.getProduct_is_sale());
 		dynamicSQL.isNullOrEmptyForLike("AND " + Product.KEY_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
 		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_CATEGORY_ID + " = ? ", product.getCategory_id());
 		dynamicSQL.isNullOrEmpty("AND " + Product.KEY_BRAND_ID + " = ? ", product.getBrand_id());

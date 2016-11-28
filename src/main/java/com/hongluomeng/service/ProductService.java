@@ -25,8 +25,6 @@ public class ProductService {
     private ProductSkuService productSkuService = new ProductSkuService();
     private ProductLockStockService productLockStockService = new ProductLockStockService();
 
-    private BrandCache brandCache = new BrandCache();
-
     public Map<String, Object> list(JSONObject jsonObject) {
         Product productMap = jsonObject.toJavaObject(Product.class);
 
@@ -457,13 +455,7 @@ public class ProductService {
     public Boolean checkIsApply(String brand_id, String request_user_id) {
         Boolean result = false;
 
-        List<Brand> brandList = brandCache.getBrandListByUser_id(request_user_id);
-
-        if (brandList == null) {
-            brandList = brandService.listByCategory_idAndUser_idForMyList("", request_user_id, 0, 0);
-
-            brandCache.setBrandListByUser_id(brandList, request_user_id);
-        }
+        List<Brand> brandList = brandService.listByUser_idForMyListFromCache(request_user_id);
 
         for (Brand brand : brandList) {
             if (brand.getBrand_id().equals(brand_id)) {

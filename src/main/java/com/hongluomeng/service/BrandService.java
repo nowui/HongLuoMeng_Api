@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.cache.BrandCache;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.BrandDao;
@@ -19,6 +20,9 @@ import com.hongluomeng.type.CatetoryEnum;
 public class BrandService {
 
 	private BrandDao brandDao = new BrandDao();
+
+	private BrandCache brandCache = new BrandCache();
+
 	private BrandApplyService brandApplyService = new BrandApplyService();
 	private CategoryService categoryService = new CategoryService();
 	private MemberService memberService = new MemberService();
@@ -65,6 +69,18 @@ public class BrandService {
 
 	public List<Brand> listByCategory_idAndUser_idForMyList(String category_id, String user_id, Integer m, Integer n) {
 		return brandDao.listByCategory_idAndUser_idForMyList(category_id, user_id, m, n);
+	}
+
+	public List<Brand> listByUser_idForMyListFromCache(String user_id) {
+		List<Brand> brandList = brandCache.getBrandListByUser_id(user_id);
+
+		if (brandList == null) {
+			brandList = listByCategory_idAndUser_idForMyList("", user_id, 0, 0);
+
+			brandCache.setBrandListByUser_id(brandList, user_id);
+		}
+
+		return brandList;
 	}
 
 	public List<Map<String, Object>> getMyList(JSONObject jsonObject) {
@@ -234,6 +250,8 @@ public class BrandService {
 		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		brandCache.removeBrandListByUser_id(request_user_id);
 
 		brandApplyService.reviewPass(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id(), request_user_id);
 	}

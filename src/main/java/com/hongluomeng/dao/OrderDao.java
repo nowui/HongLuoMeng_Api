@@ -50,6 +50,7 @@ public class OrderDao {
 
 	public List<Order> list(Integer m, Integer n) {
 		Order order = new Order();
+		order.setOrder_flow_status("");
 
 		return list(order, m, n);
 	}
