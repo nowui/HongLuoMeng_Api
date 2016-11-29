@@ -13,6 +13,7 @@ public class Base<M extends Base> extends Model  {
 	public static final String KEY_SYSTEM_UPDATE_USER_ID = "system_update_user_id";
 	public static final String KEY_SYSTEM_UPDATE_TIME = "system_update_time";
 	public static final String KEY_SYSTEM_STATUS = "system_status";
+    
 
 	public void setSystem_create_user_id(String system_create_user_id) {
 		set(KEY_SYSTEM_CREATE_USER_ID, system_create_user_id);
