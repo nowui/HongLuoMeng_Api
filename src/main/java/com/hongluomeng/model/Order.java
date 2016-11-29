@@ -1,13 +1,11 @@
 package com.hongluomeng.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class Order extends Model<Order> {
+public class Order extends Base<Order> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,11 +33,6 @@ public class Order extends Model<Order> {
 	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
 	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
-	public static final String KEY_ORDER_CREATE_USER_ID = "order_create_user_id";
-	public static final String KEY_ORDER_CREATE_TIME = "order_create_time";
-	public static final String KEY_ORDER_UPDATE_USER_ID = "order_update_user_id";
-	public static final String KEY_ORDER_UPDATE_TIME = "order_update_time";
-	public static final String KEY_ORDER_FLOW_STATUS = "order_flow_status";
 	public static final String KEY_ORDER_STATUS = "order_status";
 	public static final String KEY_SIGN = "sign";
 	public static final String KEY_ORDER_LIST = "orderProductList";
@@ -313,40 +306,16 @@ public class Order extends Model<Order> {
 		Utility.checkIntegerLength(getMember_level_value(), 1, 11, "会员等级粉丝数");
 	}
 
-	public void setOrder_create_user_id(String order_create_user_id) {
-		set(KEY_ORDER_CREATE_USER_ID, order_create_user_id);
+	public String getOrder_status() {
+		return getStr(KEY_ORDER_STATUS);
 	}
 
-	public void setOrder_create_time(Date order_create_time) {
-		set(KEY_ORDER_CREATE_TIME, order_create_time);
-	}
-
-	public void setOrder_update_user_id(String order_update_user_id) {
-		set(KEY_ORDER_UPDATE_USER_ID, order_update_user_id);
-	}
-
-	public void setOrder_update_time(Date order_update_time) {
-		set(KEY_ORDER_UPDATE_TIME, order_update_time);
-	}
-
-	public String getOrder_flow_status() {
-		return getStr(KEY_ORDER_FLOW_STATUS);
-	}
-
-	public void setOrder_flow_status(String order_flow_status) {
-		set(KEY_ORDER_FLOW_STATUS, order_flow_status);
-	}
-
-	public void checkOrder_flow_status() {
-		Utility.checkStringLength(getOrder_flow_status(), 0, 10, "订单流程状态");
-	}
-
-	public Boolean getOrder_status() {
-		return getBoolean(KEY_ORDER_STATUS);
-	}
-
-	public void setOrder_status(Boolean order_status) {
+	public void setOrder_status(String order_status) {
 		set(KEY_ORDER_STATUS, order_status);
+	}
+
+	public void checkOrder_status() {
+		Utility.checkStringLength(getOrder_status(), 0, 10, "订单流程状态");
 	}
 
 	public List<Cart> getCartList() {

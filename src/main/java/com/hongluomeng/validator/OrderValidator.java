@@ -81,7 +81,7 @@ public class OrderValidator extends Validator {
 			case Url.URL_ORDER_LIST_GET: {
 				isExit = true;
 
-				Utility.checkNull(order.getOrder_flow_status(), "订单流程状态");
+				Utility.checkNull(order.getOrder_status(), "订单流程状态");
 
 				Utility.checkPageAndLimit(jsonObject);
 				break;

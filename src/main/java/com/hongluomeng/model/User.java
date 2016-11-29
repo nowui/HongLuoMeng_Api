@@ -1,11 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class User extends Model<User> {
+public class User extends Base<User> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,11 +18,6 @@ public class User extends Model<User> {
 	public static final String KEY_WECHAT_ACCESS_TOKEN = "wechat_access_token";
 	public static final String KEY_OBJECT_ID = "object_id";
 	public static final String KEY_USER_TYPE = "user_type";
-	public static final String KEY_USER_CREATE_USER_ID = "user_create_user_id";
-	public static final String KEY_USER_CREATE_TIME = "user_create_time";
-	public static final String KEY_USER_UPDATE_USER_ID = "user_update_user_id";
-	public static final String KEY_USER_UPDATE_TIME = "user_update_time";
-	public static final String KEY_USER_STATUS = "user_status";
 
 	public String getUser_id() {
 		return getStr(KEY_USER_ID);
@@ -157,30 +149,6 @@ public class User extends Model<User> {
 
 	public void checkUser_type() {
 		Utility.checkStringLength(getUser_type(), 0, 20, "用户类型");
-	}
-
-	public void setUser_create_user_id(String user_create_user_id) {
-		set(KEY_USER_CREATE_USER_ID, user_create_user_id);
-	}
-
-	public void setUser_create_time(Date user_create_time) {
-		set(KEY_USER_CREATE_TIME, user_create_time);
-	}
-
-	public void setUser_update_user_id(String user_update_user_id) {
-		set(KEY_USER_UPDATE_USER_ID, user_update_user_id);
-	}
-
-	public void setUser_update_time(Date user_update_time) {
-		set(KEY_USER_UPDATE_TIME, user_update_time);
-	}
-
-	public Boolean getUser_status() {
-		return getBoolean(KEY_USER_STATUS);
-	}
-
-	public void setUser_status(Boolean user_status) {
-		set(KEY_USER_STATUS, user_status);
 	}
 
 }

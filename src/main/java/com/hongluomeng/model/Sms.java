@@ -1,11 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class Sms extends Model<Sms> {
+public class Sms extends Base<Sms> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -15,8 +12,6 @@ public class Sms extends Model<Sms> {
 	public static final String KEY_SMS_PHONE = "sms_phone";
 	public static final String KEY_SMS_CODE = "sms_code";
 	public static final String KEY_SMS_IP_ADDRESS = "sms_ip_address";
-	public static final String KEY_SMS_STATUS = "sms_status";
-	public static final String KEY_SMS_CREATE_TIME = "sms_create_time";
 
 	public String getSms_id() {
 		return getStr(KEY_SMS_ID);
@@ -76,22 +71,6 @@ public class Sms extends Model<Sms> {
 
 	public void checkSms_ip_address() {
 		Utility.checkStringLength(getSms_ip_address(), 0, 100, "短信ip地址");
-	}
-
-	public Boolean getSms_status() {
-		return getBoolean(KEY_SMS_STATUS);
-	}
-
-	public void setSms_status(Boolean sms_status) {
-		set(KEY_SMS_STATUS, sms_status);
-	}
-
-	public Date getSms_create_time() {
-		return getDate(KEY_SMS_CREATE_TIME);
-	}
-
-	public void setSms_create_time(Date sms_create_time) {
-		set(KEY_SMS_CREATE_TIME, sms_create_time);
 	}
 
 }

@@ -3,9 +3,8 @@ package com.hongluomeng.model;
 import java.util.Date;
 
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class MemberDelivery extends Model<MemberDelivery> {
+public class MemberDelivery extends Base<MemberDelivery> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,11 +18,6 @@ public class MemberDelivery extends Model<MemberDelivery> {
 	public static final String KEY_MEMBER_DELIVERY_AREA = "member_delivery_area";
 	public static final String KEY_MEMBER_DELIVERY_ADDRESS = "member_delivery_address";
 	public static final String KEY_MEMBER_DELIVERY_ZIP = "member_delivery_zip";
-	public static final String KEY_MEMBER_DELIVERY_CREATE_USER_ID = "member_delivery_create_user_id";
-	public static final String KEY_MEMBER_DELIVERY_CREATE_TIME = "member_delivery_create_time";
-	public static final String KEY_MEMBER_DELIVERY_UPDATE_USER_ID = "member_delivery_update_user_id";
-	public static final String KEY_MEMBER_DELIVERY_UPDATE_TIME = "member_delivery_update_time";
-	public static final String KEY_MEMBER_DELIVERY_STATUS = "member_delivery_status";
 
 	public String getMember_delivery_id() {
 		return getStr(KEY_MEMBER_DELIVERY_ID);
@@ -131,30 +125,6 @@ public class MemberDelivery extends Model<MemberDelivery> {
 
 	public void checkMember_delivery_zip() {
 		Utility.checkStringLength(getMember_delivery_zip(), 0, 6, "邮政编码");
-	}
-
-	public void setMember_delivery_create_user_id(String member_delivery_create_user_id) {
-		set(KEY_MEMBER_DELIVERY_CREATE_USER_ID, member_delivery_create_user_id);
-	}
-
-	public void setMember_delivery_create_time(Date member_delivery_create_time) {
-		set(KEY_MEMBER_DELIVERY_CREATE_TIME, member_delivery_create_time);
-	}
-
-	public void setMember_delivery_update_user_id(String member_delivery_update_user_id) {
-		set(KEY_MEMBER_DELIVERY_UPDATE_USER_ID, member_delivery_update_user_id);
-	}
-
-	public void setMember_delivery_update_time(Date member_delivery_update_time) {
-		set(KEY_MEMBER_DELIVERY_UPDATE_TIME, member_delivery_update_time);
-	}
-
-	public Boolean getMember_delivery_status() {
-		return getBoolean(KEY_MEMBER_DELIVERY_STATUS);
-	}
-
-	public void setMember_delivery_status(Boolean member_delivery_status) {
-		set(KEY_MEMBER_DELIVERY_STATUS, member_delivery_status);
 	}
 
 }

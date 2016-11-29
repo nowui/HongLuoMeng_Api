@@ -28,6 +28,14 @@ public class DynamicSQL {
         }
     }
 
+    public void isTrueOrFalse(String string, Boolean object) {
+        if (object) {
+            this.sql.append(string);
+
+            this.parameterList.add(object);
+        }
+    }
+
     public void isNullOrEmpty(String string, Object object) {
         if (!Utility.isNullOrEmpty(object)) {
             this.sql.append(string);

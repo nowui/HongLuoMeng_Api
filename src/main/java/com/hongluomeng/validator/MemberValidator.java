@@ -119,6 +119,19 @@ public class MemberValidator extends Validator {
 
 				break;
 			}
+			case Url.URL_MEMBER_STATUS_GET: {
+				isExit = true;
+
+
+				break;
+			}
+			case Url.URL_MEMBER_STATUS_UPDATE: {
+				isExit = true;
+
+				member.checkMember_id();
+
+				break;
+			}
 		}
 
 		if (!isExit) {

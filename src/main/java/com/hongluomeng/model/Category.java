@@ -1,11 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
-import com.jfinal.plugin.activerecord.Model;
 import com.hongluomeng.common.Utility;
 
-public class Category extends Model<Category> {
+public class Category extends Base<Category> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,11 +15,6 @@ public class Category extends Model<Category> {
 	public static final String KEY_CATEGORY_SORT = "category_sort";
 	public static final String KEY_CATEGORY_PATH = "category_path";
 	public static final String KEY_CATEGORY_DESCRIPTION = "category_description";
-	public static final String KEY_CATEGORY_CREATE_USER_ID = "category_create_user_id";
-	public static final String KEY_CATEGORY_CREATE_TIME = "category_create_time";
-	public static final String KEY_CATEGORY_UPDATE_USER_ID = "category_update_user_id";
-	public static final String KEY_CATEGORY_UPDATE_TIME = "category_update_time";
-	public static final String KEY_CATEGORY_STATUS = "category_status";
 
 	public String getCategory_id() {
 		return getStr(KEY_CATEGORY_ID);
@@ -57,7 +49,7 @@ public class Category extends Model<Category> {
 	}
 
 	public void checkCategory_name() {
-		Utility.checkStringLength(getCategory_name(), 3, 20, "分类名称");
+		Utility.checkStringLength(getCategory_name(), 1, 20, "分类名称");
 	}
 
 	public String getCategory_key() {
@@ -118,30 +110,6 @@ public class Category extends Model<Category> {
 
 	public void checkCategory_description() {
 		Utility.checkStringLength(getCategory_description(), 0, 255, "分类描述");
-	}
-
-	public void setCategory_create_user_id(String category_create_user_id) {
-		set(KEY_CATEGORY_CREATE_USER_ID, category_create_user_id);
-	}
-
-	public void setCategory_create_time(Date category_create_time) {
-		set(KEY_CATEGORY_CREATE_TIME, category_create_time);
-	}
-
-	public void setCategory_update_user_id(String category_update_user_id) {
-		set(KEY_CATEGORY_UPDATE_USER_ID, category_update_user_id);
-	}
-
-	public void setCategory_update_time(Date category_update_time) {
-		set(KEY_CATEGORY_UPDATE_TIME, category_update_time);
-	}
-
-	public Boolean getCategory_status() {
-		return getBoolean(KEY_CATEGORY_STATUS);
-	}
-
-	public void setCategory_status(Boolean category_status) {
-		set(KEY_CATEGORY_STATUS, category_status);
 	}
 
 }

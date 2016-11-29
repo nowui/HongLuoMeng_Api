@@ -40,7 +40,7 @@ public class CategoryAttributeDao {
 		dynamicSQL.append("SELECT " + Attribute.KEY_TABLE_ATTRIBUTE + ".* FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
 		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ?) AS " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " ", category_id);
 		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " IS NULL ");
-		dynamicSQL.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
+		dynamicSQL.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		return new Attribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

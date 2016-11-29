@@ -13,7 +13,7 @@ public class AdminDao {
 	private Integer count(Admin admin) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		dynamicSQL.append("WHERE " + Admin.KEY_ADMIN_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Admin.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -28,8 +28,8 @@ public class AdminDao {
 	private List<Admin> list(Admin admin, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		dynamicSQL.append("WHERE " + Admin.KEY_ADMIN_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Admin.KEY_ADMIN_CREATE_TIME + " DESC ");
+		dynamicSQL.append("WHERE " + Admin.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Admin.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -44,7 +44,7 @@ public class AdminDao {
 	private Admin find(Admin admin) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		dynamicSQL.append("WHERE " + Admin.KEY_ADMIN_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Admin.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Admin.KEY_ADMIN_ID + " = ? ", admin.getAdmin_id());
 
 		List<Admin> adminList = new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -66,21 +66,16 @@ public class AdminDao {
 
 	public void save(Admin admin, String request_user_id) {
 		admin.setAdmin_id(Utility.getUUID());
-		admin.setAdmin_create_user_id(request_user_id);
-		admin.setAdmin_create_time(new Date());
-		admin.setAdmin_update_user_id(request_user_id);
-		admin.setAdmin_update_time(new Date());
-		admin.setAdmin_status(true);
+
+		admin.initForSave(request_user_id);
 
 		admin.save();
 	}
 
 	public void update(Admin admin, String request_user_id) {
 		admin.remove(Admin.KEY_USER_ID);
-		admin.remove(Admin.KEY_ADMIN_CREATE_USER_ID);
-		admin.remove(Admin.KEY_ADMIN_CREATE_TIME);
-		admin.setAdmin_update_user_id(request_user_id);
-		admin.setAdmin_update_time(new Date());
+
+		admin.initForUpdate(request_user_id);
 
 		admin.update();
 	}
@@ -88,9 +83,8 @@ public class AdminDao {
 	public void delete(String admin_id, String request_user_id) {
 		Admin admin = new Admin();
 		admin.setAdmin_id(admin_id);
-		admin.setAdmin_update_user_id(request_user_id);
-		admin.setAdmin_update_time(new Date());
-		admin.setAdmin_status(false);
+
+		admin.initForDelete(request_user_id);
 
 		admin.update();
 	}

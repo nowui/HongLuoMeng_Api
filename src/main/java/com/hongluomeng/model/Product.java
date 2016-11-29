@@ -1,14 +1,12 @@
 package com.hongluomeng.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 import com.alibaba.fastjson.JSONArray;
 
-public class Product extends Model<Product> {
+public class Product extends Base<Product> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,12 +25,7 @@ public class Product extends Model<Product> {
 	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
 	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
 	public static final String KEY_PRODUCT_CONTENT = "product_content";
-	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";
-	public static final String KEY_PRODUCT_CREATE_USER_ID = "product_create_user_id";
-	public static final String KEY_PRODUCT_CREATE_TIME = "product_create_time";
-	public static final String KEY_PRODUCT_UPDATE_USER_ID = "product_update_user_id";
-	public static final String KEY_PRODUCT_UPDATE_TIME = "product_update_time";
-	public static final String KEY_PRODUCT_STATUS = "product_status";
+	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";;
 	public static final String KEY_MEMBER_LEVEL_LIST = "memberLevelList";
 	public static final String KEY_PRODUCT_SKU_LIST = "productSkuList";
 	public static final String KEY_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
@@ -225,30 +218,6 @@ public class Product extends Model<Product> {
 
 	public void checkProduct_sku_value() {
 		Utility.checkStringLength(getProduct_sku_value().toJSONString(), 0, 1000, "商品SKU值");
-	}
-
-	public void setProduct_create_user_id(String product_create_user_id) {
-		set(KEY_PRODUCT_CREATE_USER_ID, product_create_user_id);
-	}
-
-	public void setProduct_create_time(Date product_create_time) {
-		set(KEY_PRODUCT_CREATE_TIME, product_create_time);
-	}
-
-	public void setProduct_update_user_id(String product_update_user_id) {
-		set(KEY_PRODUCT_UPDATE_USER_ID, product_update_user_id);
-	}
-
-	public void setProduct_update_time(Date product_update_time) {
-		set(KEY_PRODUCT_UPDATE_TIME, product_update_time);
-	}
-
-	public Boolean getProduct_status() {
-		return getBoolean(KEY_PRODUCT_STATUS);
-	}
-
-	public void setProduct_status(Boolean product_status) {
-		set(KEY_PRODUCT_STATUS, product_status);
 	}
 
 	public List<Category> getCategoryList() {

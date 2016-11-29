@@ -17,7 +17,7 @@ public class ProductLockStockDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ");
-		dynamicSQL.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 1 ");
+		dynamicSQL.append(ProductLockStock.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -33,7 +33,7 @@ public class ProductLockStockDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ");
-		dynamicSQL.append("WHERE " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + ProductLockStock.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? ", new Date());
 
 		if(! Utility.isNullOrEmpty(productLockStock.getProductSkuIdList())) {
@@ -75,12 +75,12 @@ public class ProductLockStockDao {
 		sql.append(ProductLockStock.KEY_ORDER_NO + ", ");
 		sql.append(ProductLockStock.KEY_PRODUCT_SKU_ID + ", ");
 		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK + ", ");
-		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_CREATE_USER_ID + ", ");
-		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_CREATE_TIME + ", ");
-		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_USER_ID + ", ");
-		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_TIME + ", ");
+		sql.append(ProductLockStock.KEY_SYSTEM_CREATE_USER_ID + ", ");
+		sql.append(ProductLockStock.KEY_SYSTEM_CREATE_TIME + ", ");
+		sql.append(ProductLockStock.KEY_SYSTEM_UPDATE_USER_ID + ", ");
+		sql.append(ProductLockStock.KEY_SYSTEM_UPDATE_TIME + ", ");
 		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + ", ");
-		sql.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " ");
+		sql.append(ProductLockStock.KEY_SYSTEM_STATUS + " ");
 		sql.append(") VALUES ( ");
 		sql.append("?, ");
 		sql.append("?, ");
@@ -121,9 +121,9 @@ public class ProductLockStockDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ");
-		dynamicSQL.append("SET " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_STATUS + " = 0, ");
-		dynamicSQL.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(ProductLockStock.KEY_PRODUCT_LOCK_STOCK_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("SET " + ProductLockStock.KEY_SYSTEM_STATUS + " = 0, ");
+		dynamicSQL.append(ProductLockStock.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(ProductLockStock.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + ProductLockStock.KEY_ORDER_NO + " = ? ", order_no);
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

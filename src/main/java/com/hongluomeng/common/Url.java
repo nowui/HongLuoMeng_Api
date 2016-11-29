@@ -69,6 +69,8 @@ public class Url {
 	public static final String URL_MEMBER_PASSWORD_UPDATE = "/member/password/update";
 	public static final String URL_MEMBER_AVATAR_UPLOAD = "/member/avatar/upload";
 	public static final String URL_MEMBER_WEIBO_UPDATE = "/member/weibo/update";
+	public static final String URL_MEMBER_STATUS_GET = "/member/status/get";
+	public static final String URL_MEMBER_STATUS_UPDATE = "/member/status/update";
 
 	public static final String URL_MENU_LIST = "/menu/list";
 	public static final String URL_MENU_FIND = "/menu/find";

@@ -275,6 +275,7 @@ public class MemberService {
 		resultMap.put(Member.KEY_MEMBER_LEVEL_ID, member.getMember_level_id());
 		resultMap.put(Member.KEY_MEMBER_LEVEL_NAME, member.getMember_level_name());
 		resultMap.put(Member.KEY_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
+		resultMap.put(Member.KEY_MEMBER_STATUS, member.getMember_status());
 
 		if (Utility.isNullOrEmpty(member.getMember_avatar())) {
 			resultMap.put(Member.KEY_MEMBER_AVATAR, "");
@@ -325,6 +326,25 @@ public class MemberService {
 		}
 
 		return member_level_id;
+	}
+
+	public Map<String, Object> getStatus(JSONObject jsonObject) {
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		Member member = memberDao.findByUser_id(request_user_id);
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put(Member.KEY_MEMBER_STATUS, member.getMember_status());
+
+		return resultMap;
+	}
+
+	public void updateStatus(JSONObject jsonObject) {
+		Member memberMap = jsonObject.toJavaObject(Member.class);
+
+		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+		memberDao.updateMember_status(memberMap.getMember_id(), request_user_id);
 	}
 
 }

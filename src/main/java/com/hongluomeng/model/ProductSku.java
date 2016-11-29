@@ -1,14 +1,12 @@
 package com.hongluomeng.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class ProductSku extends Model<ProductSku> {
+public class ProductSku extends Base<ProductSku> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,11 +17,6 @@ public class ProductSku extends Model<ProductSku> {
 	public static final String KEY_PRODUCT_PRICE = "product_price";
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
 	public static final String KEY_PRODUCT_STOCK = "product_stock";
-	public static final String KEY_PRODUCT_SKU_CREATE_USER_ID = "product_sku_create_user_id";
-	public static final String KEY_PRODUCT_SKU_CREATE_TIME = "product_sku_create_time";
-	public static final String KEY_PRODUCT_SKU_UPDATE_USER_ID = "product_sku_update_user_id";
-	public static final String KEY_PRODUCT_SKU_UPDATE_TIME = "product_sku_update_time";
-	public static final String KEY_PRODUCT_SKU_STATUS = "product_sku_status";
 
 	private List<String> productSkuIdList;
 	private Integer product_amount;
@@ -138,30 +131,6 @@ public class ProductSku extends Model<ProductSku> {
 
 	public Integer getProduct_lock_stock() {
 		return Utility.getIntegerValue(get(ProductLockStock.KEY_PRODUCT_LOCK_STOCK));
-	}
-
-	public void setProduct_sku_create_user_id(String product_sku_create_user_id) {
-		set(KEY_PRODUCT_SKU_CREATE_USER_ID, product_sku_create_user_id);
-	}
-
-	public void setProduct_sku_create_time(Date product_sku_create_time) {
-		set(KEY_PRODUCT_SKU_CREATE_TIME, product_sku_create_time);
-	}
-
-	public void setProduct_sku_update_user_id(String product_sku_update_user_id) {
-		set(KEY_PRODUCT_SKU_UPDATE_USER_ID, product_sku_update_user_id);
-	}
-
-	public void setProduct_sku_update_time(Date product_sku_update_time) {
-		set(KEY_PRODUCT_SKU_UPDATE_TIME, product_sku_update_time);
-	}
-
-	public Boolean getProduct_sku_status() {
-		return getBoolean(KEY_PRODUCT_SKU_STATUS);
-	}
-
-	public void setProduct_sku_status(Boolean product_sku_status) {
-		set(KEY_PRODUCT_SKU_STATUS, product_sku_status);
 	}
 
 	public List<String> getProductSkuIdList() {

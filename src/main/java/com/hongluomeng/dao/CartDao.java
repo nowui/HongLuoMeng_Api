@@ -18,7 +18,7 @@ public class CartDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append(Cart.KEY_CART_STATUS + " = 1 ");
+		dynamicSQL.append(Cart.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -41,7 +41,7 @@ public class CartDao {
 		dynamicSQL.append("FROM " + Cart.KEY_TABLE_CART + " ");
 		dynamicSQL.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
 		dynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
-		dynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ", cart.getUser_id());
 
 		if (!Utility.isNullOrEmpty(cart.getProductSkuIdList())) {
@@ -59,7 +59,7 @@ public class CartDao {
 			dynamicSQL.append(") ");
 		}
 
-		dynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_CART_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return cart.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -90,7 +90,7 @@ public class CartDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append("WHERE " + Cart.KEY_CART_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Cart.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_CART_ID + " = ? ", cart.getCart_id());
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
 
@@ -122,11 +122,8 @@ public class CartDao {
 
 	public void save(Cart cart, String request_user_id) {
 		cart.setCart_id(Utility.getUUID());
-		cart.setCart_create_user_id(request_user_id);
-		cart.setCart_create_time(new Date());
-		cart.setCart_update_user_id(request_user_id);
-		cart.setCart_update_time(new Date());
-		cart.setCart_status(true);
+
+		cart.initForSave(request_user_id);
 
 		cart.save();
 	}
@@ -135,10 +132,7 @@ public class CartDao {
 		cart.remove(Cart.KEY_USER_ID);
 		cart.remove(Cart.KEY_PRODUCT_SKU_ID);
 
-		cart.remove(Cart.KEY_CART_CREATE_USER_ID);
-		cart.remove(Cart.KEY_CART_CREATE_TIME);
-		cart.setCart_update_user_id(request_user_id);
-		cart.setCart_update_time(new Date());
+		cart.initForUpdate(request_user_id);
 
 		cart.update();
 	}
@@ -148,8 +142,8 @@ public class CartDao {
 
 		StringBuffer sql = new StringBuffer("UPDATE " + Cart.KEY_TABLE_CART + " ");
 		sql.append("SET " + Cart.KEY_PRODUCT_AMOUNT + " = ?, ");
-		sql.append(Cart.KEY_CART_UPDATE_USER_ID + " = ?, ");
-		sql.append(Cart.KEY_CART_UPDATE_TIME + " = ? ");
+		sql.append(Cart.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ");
+		sql.append(Cart.KEY_SYSTEM_UPDATE_TIME + " = ? ");
 		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
 
 		for (Cart cart : cartList) {
@@ -170,9 +164,8 @@ public class CartDao {
 		Cart cart = new Cart();
 		cart.setCart_id(cart_id);
 		cart.setProduct_amount(0);
-		cart.setCart_update_user_id(request_user_id);
-		cart.setCart_update_time(new Date());
-		cart.setCart_status(false);
+
+		cart.initForDelete(request_user_id);
 
 		cart.update();
 	}
@@ -182,9 +175,9 @@ public class CartDao {
 
 		StringBuffer sql = new StringBuffer("UPDATE " + Cart.KEY_TABLE_CART + " ");
 		sql.append("SET " + Cart.KEY_PRODUCT_AMOUNT + " = 0, ");
-		sql.append(Cart.KEY_CART_UPDATE_USER_ID + " = ?, ");
-		sql.append(Cart.KEY_CART_UPDATE_TIME + " = ?, ");
-		sql.append(Cart.KEY_CART_STATUS + " = 0 ");
+		sql.append(Cart.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ");
+		sql.append(Cart.KEY_SYSTEM_UPDATE_TIME + " = ?, ");
+		sql.append(Cart.KEY_SYSTEM_STATUS + " = 0 ");
 		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
 
 		for (Cart cart : cartList) {

@@ -9,7 +9,7 @@ import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Order;
-import com.hongluomeng.type.OrderFlowEnum;
+import com.hongluomeng.type.OrderEnum;
 
 public class OrderDao {
 
@@ -17,7 +17,7 @@ public class OrderDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
-		dynamicSQL.append("WHERE " + Order.KEY_ORDER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Order.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_NO + " = ? ", order.getOrder_no());
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -33,16 +33,16 @@ public class OrderDao {
 	private List<Order> list(Order order, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		String order_flow_status = order.getOrder_flow_status();
-		if(order_flow_status.equals(OrderFlowEnum.WAIT.getKey())) {
-			order_flow_status += "," + OrderFlowEnum.CONFIRM.getKey();
+		String order_flow_status = order.getOrder_status();
+		if(order_flow_status.equals(OrderEnum.WAIT.getKey())) {
+			order_flow_status += "," + OrderEnum.CONFIRM.getKey();
 		}
 
 		dynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
-		dynamicSQL.append("WHERE " + Order.KEY_ORDER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Order.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Order.KEY_USER_ID + " = ? ", order.getUser_id());
-		dynamicSQL.isNullOrEmptyForSplit(Order.KEY_ORDER_FLOW_STATUS + " = ? ", order_flow_status);
-		dynamicSQL.append("ORDER BY " + Order.KEY_ORDER_CREATE_TIME + " DESC ");
+		dynamicSQL.isNullOrEmptyForSplit(Order.KEY_ORDER_STATUS + " = ? ", order_flow_status);
+		dynamicSQL.append("ORDER BY " + Order.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Order().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -50,7 +50,7 @@ public class OrderDao {
 
 	public List<Order> list(Integer m, Integer n) {
 		Order order = new Order();
-		order.setOrder_flow_status("");
+		order.setOrder_status("");
 
 		return list(order, m, n);
 	}
@@ -58,7 +58,7 @@ public class OrderDao {
 	public List<Order> listByUser_idAndOrder_flow_status(String user_id, String order_flow_status, Integer m, Integer n) {
 		Order order = new Order();
 		order.setUser_id(user_id);
-		order.setOrder_flow_status(order_flow_status);
+		order.setOrder_status(order_flow_status);
 
 		return list(order, m, n);
 	}
@@ -67,7 +67,7 @@ public class OrderDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
-		dynamicSQL.append("WHERE " + Order.KEY_ORDER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Order.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_ID + " = ? ", order.getOrder_id());
 
 		List<Order> orderList = new Order().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -133,21 +133,15 @@ public class OrderDao {
 		order.setMember_level_id(member_level_id);
 		order.setMember_level_name(member_level_name);
 		order.setMember_level_value(member_level_value);
-		order.setOrder_create_user_id(request_user_id);
-		order.setOrder_create_time(new Date());
-		order.setOrder_update_user_id(request_user_id);
-		order.setOrder_update_time(new Date());
-		order.setOrder_flow_status(OrderFlowEnum.WAIT.getKey());
-		order.setOrder_status(true);
+		order.setOrder_status(OrderEnum.WAIT.getKey());
+		
+		order.initForSave(request_user_id);
 
 		order.save();
 	}
 
 	public void update(Order order, String request_user_id) {
-		order.remove(Order.KEY_ORDER_CREATE_USER_ID);
-		order.remove(Order.KEY_ORDER_CREATE_TIME);
-		order.setOrder_update_user_id(request_user_id);
-		order.setOrder_update_time(new Date());
+		order.initForUpdate(request_user_id);
 
 		order.update();
 	}
@@ -156,9 +150,9 @@ public class OrderDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
-		dynamicSQL.append("SET " + Order.KEY_ORDER_FLOW_STATUS + " = ? ", OrderFlowEnum.CONFIRM.getKey());
+		dynamicSQL.append("SET " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.CONFIRM.getKey());
 		dynamicSQL.append("WHERE " + Order.KEY_ORDER_ID + " = ? ", order_id);
-		dynamicSQL.append("AND " + Order.KEY_ORDER_FLOW_STATUS + " = ? ", OrderFlowEnum.WAIT.getKey());
+		dynamicSQL.append("AND " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.WAIT.getKey());
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -173,7 +167,7 @@ public class OrderDao {
 		dynamicSQL.append(Order.KEY_ORDER_TRADE_PRICE + " = ?, ", order_trade_price);
 		dynamicSQL.append(Order.KEY_ORDER_TRADE_TIME + " = ?, ", Utility.getDateTimeString(new Date()));
 		dynamicSQL.append(Order.KEY_ORDER_TRADE_RESULT + " = ?, ", order_pay_result);
-		dynamicSQL.append(Order.KEY_ORDER_FLOW_STATUS + " = ? ", OrderFlowEnum.PAYED.getKey());
+		dynamicSQL.append(Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.PAYED.getKey());
 		dynamicSQL.append("WHERE " + Order.KEY_ORDER_NO + " = ? ", order_no);
 
 		return Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -182,9 +176,8 @@ public class OrderDao {
 	public void delete(String order_id, String request_user_id) {
 		Order order = new Order();
 		order.setOrder_id(order_id);
-		order.setOrder_update_user_id(request_user_id);
-		order.setOrder_update_time(new Date());
-		order.setOrder_status(false);
+
+		order.initForDelete(request_user_id);
 
 		order.update();
 	}

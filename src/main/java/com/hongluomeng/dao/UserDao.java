@@ -18,7 +18,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_TYPE + " = ? ", user.getUser_type());
 
@@ -30,7 +30,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_ACCOUNT + " = ? ) ", user_id, user_account);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -41,7 +41,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_PHONE + " = ? ) ", user_id, user_phone);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -52,7 +52,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_EMAIL + " = ? ) ", user_id, user_email);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -63,7 +63,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WEIBO_UID + " = ? ) ", user_id, weibo_uid);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -74,7 +74,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WECHAT_UID + " = ? ) ", user_id, wechat_uid);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -85,9 +85,9 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmptyForLike("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
-		dynamicSQL.append("ORDER BY " + User.KEY_USER_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + User.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		List<User> userList = new User().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -105,7 +105,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_USER_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ID + " = ? ", user.getUser_id());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_PHONE + " = ? ", user.getUser_phone());
@@ -183,7 +183,7 @@ public class UserDao {
 		return find(user);
 	}
 
-	private User getUser(String request_user_id) {
+	private User initUser(String request_user_id) {
 		User user = new User();
 		user.setUser_id(Utility.getUUID());
 		user.setUser_account("");
@@ -195,17 +195,14 @@ public class UserDao {
 		user.setWechat_uid("");
 		user.setWechat_access_token("");
 		user.setObject_id("");
-		user.setUser_create_user_id(request_user_id);
-		user.setUser_create_time(new Date());
-		user.setUser_update_user_id(request_user_id);
-		user.setUser_update_time(new Date());
-		user.setUser_status(true);
+
+		user.initForSave(request_user_id);
 
 		return user;
 	}
 
 	public String saveByAccount(String user_account, String user_password, String user_type, String request_user_id) {
-		User user = getUser(request_user_id);
+		User user = initUser(request_user_id);
 
 		user.setUser_account(user_account);
 		user.setUser_password(HashKit.md5(Private.PRIVATE_KEY + user_password));
@@ -217,7 +214,7 @@ public class UserDao {
 	}
 
 	public String saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
-		User user = getUser(request_user_id);
+		User user = initUser(request_user_id);
 
 		user.setUser_phone(user_phone);
 		user.setUser_password(HashKit.md5(Private.PRIVATE_KEY + user_password));
@@ -229,7 +226,7 @@ public class UserDao {
 	}
 
 	public String saveByEmail(String user_email, String user_password, String user_type, String request_user_id) {
-		User user = getUser(request_user_id);
+		User user = initUser(request_user_id);
 
 		user.setUser_email(user_email);
 		user.setUser_password(HashKit.md5(Private.PRIVATE_KEY + user_password));
@@ -241,7 +238,7 @@ public class UserDao {
 	}
 
 	public String saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
-		User user = getUser(request_user_id);
+		User user = initUser(request_user_id);
 
 		user.setWeibo_uid(weibo_uid);
 		user.setWeibo_access_token(weibo_access_token);
@@ -253,7 +250,7 @@ public class UserDao {
 	}
 
 	public String saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
-		User user = getUser(request_user_id);
+		User user = initUser(request_user_id);
 
 		user.setWechat_uid(wechat_uid);
 		user.setWechat_access_token(wechat_access_token);
@@ -270,8 +267,8 @@ public class UserDao {
 		user.setUser_id(request_user_id);
 		user.setWeibo_uid(weibo_uid);
 		user.setWeibo_access_token(weibo_access_token);
-		user.setUser_update_user_id(request_user_id);
-		user.setUser_update_time(new Date());
+
+		user.initForUpdate(request_user_id);
 
 		user.update();
 
@@ -284,8 +281,8 @@ public class UserDao {
 		user.setUser_id(request_user_id);
 		user.setWechat_uid(wechat_uid);
 		user.setWechat_access_token(wechat_access_token);
-		user.setUser_update_user_id(request_user_id);
-		user.setUser_update_time(new Date());
+
+		user.initForUpdate(request_user_id);
 
 		user.update();
 
@@ -296,8 +293,8 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("SET " + User.KEY_USER_ACCOUNT + " = ?, ", user.getUser_account());
-		dynamicSQL.append(User.KEY_USER_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(User.KEY_USER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + User.KEY_USER_ID + " = ? ", user.getUser_id());
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -308,8 +305,8 @@ public class UserDao {
 
 		dynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("SET " + User.KEY_USER_PASSWORD + " = ?, ", HashKit.md5(Private.PRIVATE_KEY + user_password));
-		dynamicSQL.append(User.KEY_USER_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(User.KEY_USER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + User.KEY_USER_ID + " = ? ", user_id);
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -320,8 +317,8 @@ public class UserDao {
 
 		dynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
 		dynamicSQL.append("SET " + User.KEY_USER_PASSWORD + " = ?, ", HashKit.md5(Private.PRIVATE_KEY + user_password));
-		dynamicSQL.append(User.KEY_USER_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(User.KEY_USER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + User.KEY_USER_PHONE + " = ? ", user_phone);
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -341,9 +338,9 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("SET " + User.KEY_USER_STATUS + " = 0, ");
-		dynamicSQL.append(User.KEY_USER_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(User.KEY_USER_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("SET " + User.KEY_SYSTEM_STATUS + " = 0, ");
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + User.KEY_OBJECT_ID + " = ? ", object_id);
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

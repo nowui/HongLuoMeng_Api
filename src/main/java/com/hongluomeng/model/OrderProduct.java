@@ -1,14 +1,12 @@
 package com.hongluomeng.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class OrderProduct extends Model<OrderProduct> {
+public class OrderProduct extends Base<OrderProduct> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,11 +34,6 @@ public class OrderProduct extends Model<OrderProduct> {
 	public static final String KEY_MEMBER_LEVEL_PRICE = "member_level_price";
 	public static final String KEY_PRODUCT_PAY_PRICE = "product_pay_price";
 	public static final String KEY_PRODUCT_PAY_AMOUNT = "product_pay_amount";
-	public static final String KEY_ORDER_PRODUCT_CREATE_USER_ID = "order_product_create_user_id";
-	public static final String KEY_ORDER_PRODUCT_CREATE_TIME = "order_product_create_time";
-	public static final String KEY_ORDER_PRODUCT_UPDATE_USER_ID = "order_product_update_user_id";
-	public static final String KEY_ORDER_PRODUCT_UPDATE_TIME = "order_product_update_time";
-	public static final String KEY_ORDER_PRODUCT_STATUS = "order_product_status";
 
 	private List<String> orderIdList;
 
@@ -233,30 +226,6 @@ public class OrderProduct extends Model<OrderProduct> {
 
 	public void setProduct_pay_amount(Integer product_pay_amount) {
 		set(KEY_PRODUCT_PAY_AMOUNT, product_pay_amount);
-	}
-
-	public void setOrder_product_create_user_id(String order_product_create_user_id) {
-		set(KEY_ORDER_PRODUCT_CREATE_USER_ID, order_product_create_user_id);
-	}
-
-	public void setOrder_product_create_time(Date order_product_create_time) {
-		set(KEY_ORDER_PRODUCT_CREATE_TIME, order_product_create_time);
-	}
-
-	public void setOrder_product_update_user_id(String order_product_update_user_id) {
-		set(KEY_ORDER_PRODUCT_UPDATE_USER_ID, order_product_update_user_id);
-	}
-
-	public void setOrder_product_update_time(Date order_product_update_time) {
-		set(KEY_ORDER_PRODUCT_UPDATE_TIME, order_product_update_time);
-	}
-
-	public Boolean getOrder_product_status() {
-		return getBoolean(KEY_ORDER_PRODUCT_STATUS);
-	}
-
-	public void setOrder_product_status(Boolean order_product_status) {
-		set(KEY_ORDER_PRODUCT_STATUS, order_product_status);
 	}
 
 	public List<String> getOrderIdList() {

@@ -4,9 +4,8 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class Authorization extends Model<Authorization> {
+public class Authorization extends Base<Authorization> {
 
 	private static final long serialVersionUID = 1L;
 

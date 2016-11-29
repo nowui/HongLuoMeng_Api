@@ -46,6 +46,8 @@ public class BrandValidator extends Validator {
 
 				brand.checkBrand_logo();
 
+				brand.checkBrand_background();
+
 				brand.checkBrand_introduce();
 
 				brand.checkBrand_agreement();
@@ -62,6 +64,8 @@ public class BrandValidator extends Validator {
 				brand.checkBrand_name();
 
 				brand.checkBrand_logo();
+
+				brand.checkBrand_background();
 
 				brand.checkBrand_introduce();
 

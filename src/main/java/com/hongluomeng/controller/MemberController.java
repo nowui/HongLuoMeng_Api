@@ -144,4 +144,22 @@ public class MemberController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
+	@ActionKey(Url.URL_MEMBER_STATUS_GET)
+	public void getStatus() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		Map<String, Object> resultMap = memberService.getStatus(jsonObject);
+
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+	}
+
+	@ActionKey(Url.URL_MEMBER_STATUS_UPDATE)
+	public void updateStatus() {
+		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+		memberService.updateStatus(jsonObject);
+
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+	}
+
 }

@@ -1,11 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class Member extends Model<Member> {
+public class Member extends Base<Member> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,10 +22,6 @@ public class Member extends Model<Member> {
 	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
 	public static final String KEY_MEMBER_WEIBO_FANS = "member_weibo_fans";
 	public static final String KEY_MEMBER_WEIBO_FRIEND = "member_weibo_friend";
-	public static final String KEY_MEMBER_CREATE_USER_ID = "member_create_user_id";
-	public static final String KEY_MEMBER_CREATE_TIME = "member_create_time";
-	public static final String KEY_MEMBER_UPDATE_USER_ID = "member_update_user_id";
-	public static final String KEY_MEMBER_UPDATE_TIME = "member_update_time";
 	public static final String KEY_MEMBER_STATUS = "member_status";
 
 	public String getMember_id() {
@@ -177,22 +170,6 @@ public class Member extends Model<Member> {
 
 	public void checkMember_weibo_friend() {
 		Utility.checkIntegerLength(getMember_weibo_friend(), 0, 11, "微博好友数");
-	}
-
-	public void setMember_create_user_id(String member_create_user_id) {
-		set(KEY_MEMBER_CREATE_USER_ID, member_create_user_id);
-	}
-
-	public void setMember_create_time(Date member_create_time) {
-		set(KEY_MEMBER_CREATE_TIME, member_create_time);
-	}
-
-	public void setMember_update_user_id(String member_update_user_id) {
-		set(KEY_MEMBER_UPDATE_USER_ID, member_update_user_id);
-	}
-
-	public void setMember_update_time(Date member_update_time) {
-		set(KEY_MEMBER_UPDATE_TIME, member_update_time);
 	}
 
 	public Boolean getMember_status() {

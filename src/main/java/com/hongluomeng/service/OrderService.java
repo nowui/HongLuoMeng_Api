@@ -17,7 +17,7 @@ import com.hongluomeng.common.Private;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OrderDao;
 import com.hongluomeng.model.*;
-import com.hongluomeng.type.OrderFlowEnum;
+import com.hongluomeng.type.OrderEnum;
 import com.hongluomeng.type.PayTypeEnum;
 
 import static java.net.URLEncoder.encode;
@@ -48,7 +48,7 @@ public class OrderService {
             map.put(Order.KEY_ORDER_NO, order.getOrder_no());
             map.put(Order.KEY_ORDER_PAY_PRICE, order.getOrder_pay_price());
             map.put(Order.KEY_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
-            map.put(Order.KEY_ORDER_FLOW_STATUS, order.getOrder_flow_status());
+            map.put(Order.KEY_ORDER_STATUS, order.getOrder_status());
 
             list.add(map);
         }
@@ -380,7 +380,7 @@ public class OrderService {
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-        List<Order> orderList = orderDao.listByUser_idAndOrder_flow_status(request_user_id, orderMap.getOrder_flow_status(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+        List<Order> orderList = orderDao.listByUser_idAndOrder_flow_status(request_user_id, orderMap.getOrder_status(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
         List<String> orderIdList = new ArrayList<String>();
 
@@ -399,7 +399,7 @@ public class OrderService {
             map.put(Order.KEY_ORDER_PAY_PRICE, order.getOrder_pay_price());
             map.put(Order.KEY_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
             map.put(Order.KEY_ORDER_DELIVERY_NAME, order.getOrder_delivery_name());
-            map.put(Order.KEY_ORDER_FLOW_STATUS, order.getOrder_flow_status());
+            map.put(Order.KEY_ORDER_STATUS, order.getOrder_status());
 
             List<Map<String, Object>> orderProductRsultList = new ArrayList<Map<String, Object>>();
 
@@ -439,7 +439,7 @@ public class OrderService {
 
         Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
 
-        if (!order.getOrder_flow_status().equals(OrderFlowEnum.WAIT.getKey())) {
+        if (!order.getOrder_status().equals(OrderEnum.WAIT.getKey())) {
             throw new RuntimeException("该订单已经支付过");
         }
 

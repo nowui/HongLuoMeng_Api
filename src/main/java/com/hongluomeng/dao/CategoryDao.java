@@ -15,7 +15,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_CATEGORY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -31,7 +31,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_CATEGORY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + Category.KEY_CATEGORY_ID + " != ? ", category_id);
 		dynamicSQL.append("AND " + Category.KEY_CATEGORY_KEY + " = ? ", category_key);
 
@@ -43,7 +43,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_CATEGORY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmptyForLike("AND " + Category.KEY_CATEGORY_PATH + " LIKE ? ", category.getCategory_path());
 		dynamicSQL.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
 
@@ -69,7 +69,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " WHERE " + Category.KEY_PARENT_ID + " = '' ");
-		dynamicSQL.append("AND " + Category.KEY_CATEGORY_STATUS + " = 1 ");
+		dynamicSQL.append("AND " + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
 
 		return new Category().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -79,7 +79,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_CATEGORY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Category.KEY_CATEGORY_ID + " = ? ", category.getCategory_id());
 		dynamicSQL.isNullOrEmpty("AND " + Category.KEY_CATEGORY_KEY + " = ? ", category.getCategory_key());
 
@@ -111,11 +111,8 @@ public class CategoryDao {
 
 	public Category save(Category category, String request_user_id) {
 		category.setCategory_id(Utility.getUUID());
-		category.setCategory_create_user_id(request_user_id);
-		category.setCategory_create_time(new Date());
-		category.setCategory_update_user_id(request_user_id);
-		category.setCategory_update_time(new Date());
-		category.setCategory_status(true);
+
+		category.initForSave(request_user_id);
 
 		category.save();
 
@@ -125,10 +122,8 @@ public class CategoryDao {
 	public void update(Category category, String request_user_id) {
 		category.remove(Category.KEY_PARENT_ID);
 		category.remove(Category.KEY_CATEGORY_PATH);
-		category.remove(Category.KEY_CATEGORY_CREATE_USER_ID);
-		category.remove(Category.KEY_CATEGORY_CREATE_TIME);
-		category.setCategory_update_user_id(request_user_id);
-		category.setCategory_update_time(new Date());
+
+		category.initForUpdate(request_user_id);
 
 		category.update();
 	}
@@ -137,9 +132,9 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("SET " + Category.KEY_CATEGORY_STATUS + " = 0, ");
-		dynamicSQL.append(Category.KEY_CATEGORY_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(Category.KEY_CATEGORY_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("SET " + Category.KEY_SYSTEM_STATUS + " = 0, ");
+		dynamicSQL.append(Category.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		dynamicSQL.append(Category.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + Category.KEY_CATEGORY_ID + " = ? ", category_id);
 		dynamicSQL.isNullOrEmptyForLike("OR " + Category.KEY_CATEGORY_PATH + " LIKE ? ", category_id);
 

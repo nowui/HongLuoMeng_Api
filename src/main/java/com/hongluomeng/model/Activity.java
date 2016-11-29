@@ -1,11 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class Activity extends Model<Activity> {
+public class Activity extends Base<Activity> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,11 +13,6 @@ public class Activity extends Model<Activity> {
 	public static final String KEY_ACTIVITY_IMAGE = "activity_image";
 	public static final String KEY_ACTIVITY_CONTENT = "activity_content";
 	public static final String KEY_ACTIVITY_SORT = "activity_sort";
-	public static final String KEY_ACTIVITY_CREATE_USER_ID = "activity_create_user_id";
-	public static final String KEY_ACTIVITY_CREATE_TIME = "activity_create_time";
-	public static final String KEY_ACTIVITY_UPDATE_USER_ID = "activity_update_user_id";
-	public static final String KEY_ACTIVITY_UPDATE_TIME = "activity_update_time";
-	public static final String KEY_ACTIVITY_STATUS = "activity_status";
 
 	public String getActivity_id() {
 		return getStr(KEY_ACTIVITY_ID);
@@ -79,7 +71,7 @@ public class Activity extends Model<Activity> {
 	}
 
 	public void checkActivity_content() {
-		Utility.checkStringLength(getActivity_content(), 0, 0, "活动内容");
+		Utility.checkNull(getActivity_content(), "活动内容");
 	}
 
 	public Integer getActivity_sort() {
@@ -92,30 +84,6 @@ public class Activity extends Model<Activity> {
 
 	public void checkActivity_sort() {
 		Utility.checkIntegerLength(getActivity_sort(), 1, 3, "活动排序");
-	}
-
-	public void setActivity_create_user_id(String activity_create_user_id) {
-		set(KEY_ACTIVITY_CREATE_USER_ID, activity_create_user_id);
-	}
-
-	public void setActivity_create_time(Date activity_create_time) {
-		set(KEY_ACTIVITY_CREATE_TIME, activity_create_time);
-	}
-
-	public void setActivity_update_user_id(String activity_update_user_id) {
-		set(KEY_ACTIVITY_UPDATE_USER_ID, activity_update_user_id);
-	}
-
-	public void setActivity_update_time(Date activity_update_time) {
-		set(KEY_ACTIVITY_UPDATE_TIME, activity_update_time);
-	}
-
-	public Boolean getActivity_status() {
-		return getBoolean(KEY_ACTIVITY_STATUS);
-	}
-
-	public void setActivity_status(Boolean activity_status) {
-		set(KEY_ACTIVITY_STATUS, activity_status);
 	}
 
 }

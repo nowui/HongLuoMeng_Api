@@ -135,6 +135,7 @@ public class BrandService {
 		map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 		map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
 		map.put(Brand.KEY_BRAND_LOGO, brand.getBrand_logo());
+		map.put(Brand.KEY_BRAND_BACKGROUND, brand.getBrand_background());
 		map.put(Brand.KEY_BRAND_INTRODUCE, brand.getBrand_introduce());
 		map.put(Brand.KEY_BRAND_AGREEMENT, brand.getBrand_agreement());
 		map.put(Brand.KEY_BRAND_APPLY_REVIEW_STATUS, brand.getBrand_apply_review_status());

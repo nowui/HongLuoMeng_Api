@@ -1,11 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
-import com.jfinal.plugin.activerecord.Model;
 import com.hongluomeng.common.Utility;
 
-public class Attribute extends Model<Attribute> {
+public class Attribute extends Base<Attribute> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,11 +13,6 @@ public class Attribute extends Model<Attribute> {
 	public static final String KEY_ATTRIBUTE_DEFAULT_VALUE = "attribute_default_value";
 	public static final String KEY_ATTRIBUTE_TYPE = "attribute_type";
 	public static final String KEY_ATTRIBUTE_SORT = "attribute_sort";
-	public static final String KEY_ATTRIBUTE_CREATE_USER_ID = "attribute_create_user_id";
-	public static final String KEY_ATTRIBUTE_CREATE_TIME = "attribute_create_time";
-	public static final String KEY_ATTRIBUTE_UPDATE_USER_ID = "attribute_update_user_id";
-	public static final String KEY_ATTRIBUTE_UPDATE_TIME = "attribute_update_time";
-	public static final String KEY_ATTRIBUTE_STATUS = "attribute_status";
 
 	public String getAttribute_id() {
 		return getStr(KEY_ATTRIBUTE_ID);
@@ -43,7 +35,7 @@ public class Attribute extends Model<Attribute> {
 	}
 
 	public void checkAttribute_name() {
-		Utility.checkStringLength(getAttribute_name(), 3, 20, "属性名称");
+		Utility.checkStringLength(getAttribute_name(), 1, 20, "属性名称");
 	}
 
 	public String getAttribute_input_type() {
@@ -92,30 +84,6 @@ public class Attribute extends Model<Attribute> {
 
 	public void checkAttribute_sort() {
 		Utility.checkIntegerLength(getAttribute_sort(), 1, 3, "属性排序");
-	}
-
-	public void setAttribute_create_user_id(String attribute_create_user_id) {
-		set(KEY_ATTRIBUTE_CREATE_USER_ID, attribute_create_user_id);
-	}
-
-	public void setAttribute_create_time(Date attribute_create_time) {
-		set(KEY_ATTRIBUTE_CREATE_TIME, attribute_create_time);
-	}
-
-	public void setAttribute_update_user_id(String attribute_update_user_id) {
-		set(KEY_ATTRIBUTE_UPDATE_USER_ID, attribute_update_user_id);
-	}
-
-	public void setAttribute_update_time(Date attribute_update_time) {
-		set(KEY_ATTRIBUTE_UPDATE_TIME, attribute_update_time);
-	}
-
-	public Boolean getAttribute_status() {
-		return getBoolean(KEY_ATTRIBUTE_STATUS);
-	}
-
-	public void setAttribute_status(Boolean attribute_status) {
-		set(KEY_ATTRIBUTE_STATUS, attribute_status);
 	}
 
 }

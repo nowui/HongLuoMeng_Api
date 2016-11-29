@@ -16,11 +16,11 @@ public class SmsDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("WHERE " + Sms.KEY_SMS_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
+		dynamicSQL.append("WHERE " + Sms.KEY_SYSTEM_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
 		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_TYPE + " = ? ", sms.getSms_type());
 		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms.getSms_phone());
 		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CODE + " = ? ", sms.getSms_code());
-		dynamicSQL.append("AND " + Sms.KEY_SMS_STATUS + " = 1 ");
+		dynamicSQL.append("AND " + Sms.KEY_SYSTEM_STATUS + " = 1 ");
 
 		System.out.println(dynamicSQL.sql.toString());
 
@@ -49,7 +49,7 @@ public class SmsDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("ORDER BY " + Sms.KEY_SMS_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + Sms.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Sms().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -76,19 +76,19 @@ public class SmsDao {
 		}
 	}
 
-	public Sms findBySms_id(String sms_id) {
-		Sms sms = new Sms();
-		sms.setSms_id(sms_id);
-
-		sms.checkSms_id();
-
-		return find(sms);
-	}
+//	public Sms findBySms_id(String sms_id) {
+//		Sms sms = new Sms();
+//		sms.setSms_id(sms_id);
+//
+//		sms.checkSms_id();
+//
+//		return find(sms);
+//	}
 
 	public void save(Sms sms) {
 		sms.setSms_id(Utility.getUUID());
-		sms.setSms_create_time(new Date());
-		sms.setSms_status(true);
+
+		sms.initForSave("");
 
 		sms.save();
 	}
@@ -97,7 +97,8 @@ public class SmsDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("UPDATE " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("SET " + Sms.KEY_SMS_STATUS + " = ? ", 0);
+		dynamicSQL.append("SET " + Sms.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		dynamicSQL.append("SET " + Sms.KEY_SYSTEM_STATUS + " = ? ", 0);
 		dynamicSQL.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ", sms_type);
 		dynamicSQL.append("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms_phone);
 		dynamicSQL.append("AND " + Sms.KEY_SMS_CODE + " = ? ", sms_code);

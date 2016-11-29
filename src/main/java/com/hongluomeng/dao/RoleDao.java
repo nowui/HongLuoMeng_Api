@@ -15,7 +15,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_ROLE_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Role.KEY_GROUP_ID + " = ? ", role.getGroup_id());
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -33,7 +33,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_ROLE_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + Role.KEY_ROLE_ID + " != ? ", role_id);
 		dynamicSQL.append("AND " + Role.KEY_ROLE_KEY + " = ? ", role_key);
 
@@ -45,7 +45,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_ROLE_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Role.KEY_GROUP_ID + " = ? ", role.getGroup_id());
 		dynamicSQL.append("ORDER BY " + Role.KEY_ROLE_SORT + " ASC ");
 		dynamicSQL.appendPagination(m, n);
@@ -64,7 +64,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_ROLE_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Role.KEY_ROLE_ID + " = ? ", role.getRole_id());
 
 		List<Role> roleList = new Role().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -86,21 +86,16 @@ public class RoleDao {
 
 	public void save(Role role, String request_user_id) {
 		role.setRole_id(Utility.getUUID());
-		role.setRole_create_user_id(request_user_id);
-		role.setRole_create_time(new Date());
-		role.setRole_update_user_id(request_user_id);
-		role.setRole_update_time(new Date());
-		role.setRole_status(true);
+
+		role.initForSave(request_user_id);
 
 		role.save();
 	}
 
 	public void update(Role role, String request_user_id) {
 		role.remove(Role.KEY_GROUP_ID);
-		role.remove(Role.KEY_ROLE_CREATE_USER_ID);
-		role.remove(Role.KEY_ROLE_CREATE_TIME);
-		role.setRole_update_user_id(request_user_id);
-		role.setRole_update_time(new Date());
+
+		role.initForUpdate(request_user_id);
 
 		role.update();
 	}
@@ -108,9 +103,8 @@ public class RoleDao {
 	public void delete(String role_id, String request_user_id) {
 		Role role = new Role();
 		role.setRole_id(role_id);
-		role.setRole_update_user_id(request_user_id);
-		role.setRole_update_time(new Date());
-		role.setRole_status(false);
+
+		role.initForDelete(request_user_id);
 
 		role.update();
 	}

@@ -1,12 +1,8 @@
 package com.hongluomeng.model;
 
-import java.util.Date;
-
-import com.alibaba.fastjson.annotation.JSONField;
 import com.hongluomeng.common.Utility;
-import com.jfinal.plugin.activerecord.Model;
 
-public class BrandApply extends Model<BrandApply> {
+public class BrandApply extends Base<BrandApply> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,11 +14,6 @@ public class BrandApply extends Model<BrandApply> {
 	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
 	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
 	public static final String KEY_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
-	public static final String KEY_BRAND_APPLY_CREATE_USER_ID = "brand_apply_create_user_id";
-	public static final String KEY_BRAND_APPLY_CREATE_TIME = "brand_apply_create_time";
-	public static final String KEY_BRAND_APPLY_UPDATE_USER_ID = "brand_apply_update_user_id";
-	public static final String KEY_BRAND_APPLY_UPDATE_TIME = "brand_apply_update_time";
-	public static final String KEY_BRAND_APPLY_STATUS = "brand_apply_status";
 
 	public String getBrand_id() {
 		return getStr(KEY_BRAND_ID);
@@ -106,35 +97,6 @@ public class BrandApply extends Model<BrandApply> {
 
 	public void setBrand_apply_review_status(String brand_apply_review_status) {
 		set(KEY_BRAND_APPLY_REVIEW_STATUS, brand_apply_review_status);
-	}
-
-	public void setBrand_apply_create_user_id(String brand_apply_create_user_id) {
-		set(KEY_BRAND_APPLY_CREATE_USER_ID, brand_apply_create_user_id);
-	}
-
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	public Date getBrand_apply_create_time() {
-		return getDate(KEY_BRAND_APPLY_CREATE_TIME);
-	}
-
-	public void setBrand_apply_create_time(Date brand_apply_create_time) {
-		set(KEY_BRAND_APPLY_CREATE_TIME, brand_apply_create_time);
-	}
-
-	public void setBrand_apply_update_user_id(String brand_apply_update_user_id) {
-		set(KEY_BRAND_APPLY_UPDATE_USER_ID, brand_apply_update_user_id);
-	}
-
-	public void setBrand_apply_update_time(Date brand_apply_update_time) {
-		set(KEY_BRAND_APPLY_UPDATE_TIME, brand_apply_update_time);
-	}
-
-	public Boolean getBrand_apply_status() {
-		return getBoolean(KEY_BRAND_APPLY_STATUS);
-	}
-
-	public void setBrand_apply_status(Boolean brand_apply_status) {
-		set(KEY_BRAND_APPLY_STATUS, brand_apply_status);
 	}
 
 }

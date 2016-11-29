@@ -16,7 +16,7 @@ public class MemberDeliveryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_MEMBER_DELIVERY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -44,9 +44,9 @@ public class MemberDeliveryDao {
 		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + " ");
 		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + " ");
 		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
-		dynamicSQL.append("ORDER BY " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new MemberDelivery().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -71,7 +71,7 @@ public class MemberDeliveryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_MEMBER_DELIVERY_ID + " = ? ", memberDelivery.getMember_delivery_id());
 
 		List<MemberDelivery> memberDeliveryList = new MemberDelivery().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -94,21 +94,16 @@ public class MemberDeliveryDao {
 	public void save(MemberDelivery memberDelivery, String request_user_id) {
 		memberDelivery.setMember_delivery_id(Utility.getUUID());
 		memberDelivery.setUser_id(request_user_id);
-		memberDelivery.setMember_delivery_create_user_id(request_user_id);
-		memberDelivery.setMember_delivery_create_time(new Date());
-		memberDelivery.setMember_delivery_update_user_id(request_user_id);
-		memberDelivery.setMember_delivery_update_time(new Date());
-		memberDelivery.setMember_delivery_status(true);
+
+		memberDelivery.initForSave(request_user_id);
 
 		memberDelivery.save();
 	}
 
 	public void update(MemberDelivery memberDelivery, String request_user_id) {
 		memberDelivery.remove(MemberDelivery.KEY_USER_ID);
-		memberDelivery.remove(MemberDelivery.KEY_MEMBER_DELIVERY_CREATE_USER_ID);
-		memberDelivery.remove(MemberDelivery.KEY_MEMBER_DELIVERY_CREATE_TIME);
-		memberDelivery.setMember_delivery_update_user_id(request_user_id);
-		memberDelivery.setMember_delivery_update_time(new Date());
+
+		memberDelivery.initForUpdate(request_user_id);
 
 		memberDelivery.update();
 	}
@@ -116,9 +111,8 @@ public class MemberDeliveryDao {
 	public void delete(String memberDelivery_id, String request_user_id) {
 		MemberDelivery memberDelivery = new MemberDelivery();
 		memberDelivery.setMember_delivery_id(memberDelivery_id);
-		memberDelivery.setMember_delivery_update_user_id(request_user_id);
-		memberDelivery.setMember_delivery_update_time(new Date());
-		memberDelivery.setMember_delivery_status(false);
+
+		memberDelivery.initForDelete(request_user_id);
 
 		memberDelivery.update();
 	}
