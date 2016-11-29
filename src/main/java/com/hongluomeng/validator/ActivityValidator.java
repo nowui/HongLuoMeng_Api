@@ -33,7 +33,6 @@ public class ActivityValidator extends Validator {
 			case Url.URL_ACTIVITY_SAVE: {
 				isExit = true;
 
-
 				activity.checkActivity_name();
 
 				activity.checkActivity_url();
@@ -71,6 +70,8 @@ public class ActivityValidator extends Validator {
 				break;
 			}
 			case Url.URL_ACTIVITY_LIST_GET: {
+				isExit = true;
+
 				Utility.checkPageAndLimit(jsonObject);
 
 				break;
@@ -85,12 +86,12 @@ public class ActivityValidator extends Validator {
 		}
 
 		if (!isExit) {
-			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
+			addError(Const.KEY_ERROR, Const.URL_DENIED);
 		}
 	}
 
 	protected void handleError(Controller controller) {
-
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_ERROR), null));
 	}
 
 }

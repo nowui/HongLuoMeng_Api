@@ -76,7 +76,7 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_brand", "brand_id", Brand.class);
         activeRecordPlugin.addMapping("table_product", "product_id", Product.class);
         activeRecordPlugin.addMapping("table_member", "member_id", Member.class);
-        activeRecordPlugin.addMapping("table_product_attribute", "product_attribute_id", ProductAttribute.class);
+        activeRecordPlugin.addMapping("table_category_attribute_value", "category_attribute_value_id", CategoryAttributeValue.class);
         activeRecordPlugin.addMapping("table_sms", "sms_id", Sms.class);
         activeRecordPlugin.addMapping("table_member_level", "member_level_id", MemberLevel.class);
         activeRecordPlugin.addMapping("table_brand_apply", "brand_apply_id", BrandApply.class);

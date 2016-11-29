@@ -14,11 +14,11 @@ import com.hongluomeng.type.CatetoryEnum;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.CategoryValidator;
 
+@Before(CategoryValidator.class)
 public class CategoryController extends BaseController {
 
 	private CategoryService categoryService = new CategoryService();
 
-	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -28,7 +28,6 @@ public class CategoryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
 	}
 
-	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -38,7 +37,6 @@ public class CategoryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
 	}
 
-	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -48,7 +46,6 @@ public class CategoryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -58,7 +55,6 @@ public class CategoryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -68,7 +64,6 @@ public class CategoryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(CategoryValidator.class)
 	@ActionKey(Url.URL_CATEGORY_CHINA)
 	public void china() {
 		Map<String, Object> map = categoryService.treeByCategory_key(CatetoryEnum.CHINA.getKey());

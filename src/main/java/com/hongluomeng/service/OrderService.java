@@ -17,6 +17,7 @@ import com.hongluomeng.common.Private;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OrderDao;
 import com.hongluomeng.model.*;
+import com.hongluomeng.type.OrderFlowEnum;
 import com.hongluomeng.type.PayTypeEnum;
 
 import static java.net.URLEncoder.encode;
@@ -418,7 +419,7 @@ public class OrderService {
                             attribute_value += "_";
                         }
 
-                        attribute_value += object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
+                        attribute_value += object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
                     }
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
 
@@ -431,6 +432,24 @@ public class OrderService {
         }
 
         return resultList;
+    }
+
+    public Map<String, Object> pay(JSONObject jsonObject) {
+        Order orderMap = jsonObject.toJavaObject(Order.class);
+
+        Order order = orderDao.findByOrder_id(orderMap.getOrder_id());
+
+        if (!order.getOrder_flow_status().equals(OrderFlowEnum.WAIT.getKey())) {
+            throw new RuntimeException("该订单已经支付过");
+        }
+
+        String sign = sign(order, order.getOrder_pay_type());
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put(Order.KEY_ORDER_ID, order.getOrder_id());
+        resultMap.put(Order.KEY_SIGN, sign);
+
+        return resultMap;
     }
 
     public void payed(JSONObject jsonObject) {
@@ -446,7 +465,7 @@ public class OrderService {
 
         if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
             try {
-                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_pay_price() + "\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
+                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_pay_price() + "\",\"subject\":\"Shanghai Star Channel IT Co.,LTD\",\"body\":\"Shanghai Star Channel IT Co.,LTD\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
                 String data = "app_id=" + Private.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Private.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Private.ALIPAY_NOTIFY_URL + "&sign_type=" + Private.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
                 String sign = AlipaySignature.rsaSign(data, Private.ALIPAY_PRIVATE_KEY, Private.ALIPAY_INPUT_CHARSET, Private.ALIPAY_SIGN_TYPE);
 

@@ -28,9 +28,9 @@ public class ProductSkuService {
 		return productSku;
 	}
 
-	public void save(List<ProductSku> productSkuList, String request_user_id) {
+	public void save(String product_id, List<ProductSku> productSkuList, String request_user_id) {
 		if (productSkuList.size() > 0) {
-			productSkuDao.save(productSkuList, request_user_id);
+			productSkuDao.save(product_id, productSkuList, request_user_id);
 		}
 	}
 

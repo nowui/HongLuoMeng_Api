@@ -14,11 +14,11 @@ import com.hongluomeng.validator.GroupValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 
+@Before(GroupValidator.class)
 public class GroupController extends BaseController {
 
 	private CategoryService categoryService = new CategoryService();
 
-	@Before(GroupValidator.class)
 	@ActionKey(Url.URL_GROUP_LIST)
 	public void list() {
 		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.GROUP.getKey());
@@ -26,7 +26,6 @@ public class GroupController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(GroupValidator.class)
 	@ActionKey(Url.URL_GROUP_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -36,7 +35,6 @@ public class GroupController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
 	}
 
-	@Before(GroupValidator.class)
 	@ActionKey(Url.URL_GROUP_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -46,7 +44,6 @@ public class GroupController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(GroupValidator.class)
 	@ActionKey(Url.URL_GROUP_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -56,7 +53,6 @@ public class GroupController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(GroupValidator.class)
 	@ActionKey(Url.URL_GROUP_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

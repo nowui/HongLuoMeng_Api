@@ -86,7 +86,7 @@ public class Brand extends Model<Brand> {
 	}
 
 	public void checkBrand_introduce() {
-		Utility.checkStringLength(getBrand_introduce(), 0, 500, "品牌介绍");
+		Utility.checkStringLength(getBrand_introduce(), 0, 1000, "品牌介绍");
 	}
 
 	public String getBrand_agreement() {

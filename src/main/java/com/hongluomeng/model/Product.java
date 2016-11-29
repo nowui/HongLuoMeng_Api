@@ -40,7 +40,7 @@ public class Product extends Model<Product> {
 
 	private List<Category> categoryList;
 	private List<Brand> brandList;
-	private List<CategoryAttribute> categoryAttributeList;
+	private List<CategoryAttributeValue> categoryAttributeValueList;
 	private List<MemberLevel> memberLevelList;
 	private List<ProductSku> productSkuList;
 
@@ -267,13 +267,12 @@ public class Product extends Model<Product> {
 		this.brandList = brandList;
 	}
 
-	public List<CategoryAttribute> getCategoryAttributeList() {
-		return categoryAttributeList;
+	public List<CategoryAttributeValue> getCategoryAttributeValueList() {
+		return categoryAttributeValueList;
 	}
 
-	public void setCategoryAttributeList(
-			List<CategoryAttribute> categoryAttributeList) {
-		this.categoryAttributeList = categoryAttributeList;
+	public void setCategoryAttributeValueList(List<CategoryAttributeValue> categoryAttributeValueList) {
+		this.categoryAttributeValueList = categoryAttributeValueList;
 	}
 
 	public List<MemberLevel> getMemberLevelList() {

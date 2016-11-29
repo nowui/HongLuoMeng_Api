@@ -12,11 +12,11 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.taobao.api.ApiException;
 
+@Before(SmsValidator.class)
 public class SmsController extends BaseController {
 
 	private SmsService smsService = new SmsService();
 
-	@Before(SmsValidator.class)
 	@ActionKey(Url.URL_SMS_REGISTER)
 	public void smsRegister() throws ApiException {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -28,7 +28,6 @@ public class SmsController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(SmsValidator.class)
 	@ActionKey(Url.URL_SMS_PASSWORD)
 	public void smsPassword() throws ApiException {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

@@ -13,11 +13,11 @@ import com.hongluomeng.service.UserService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.UserValidator;
 
+@Before(UserValidator.class)
 public class UserController extends BaseController {
 
 	private UserService userService = new UserService();
 
-	@Before(UserValidator.class)
 	@ActionKey(Url.URL_USER_MENU_LIST)
 	public void listMenu() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

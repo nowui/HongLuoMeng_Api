@@ -14,12 +14,11 @@ import com.hongluomeng.service.MemberDeliveryService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.MemberDeliveryValidator;
 
+@Before(MemberDeliveryValidator.class)
 public class MemberDeliveryController extends BaseController {
 
 	private MemberDeliveryService memberDeliveryService = new MemberDeliveryService();
-	//private CategoryService categoryService = new CategoryService();
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -29,7 +28,6 @@ public class MemberDeliveryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -39,7 +37,6 @@ public class MemberDeliveryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberDelivery));
 	}
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -49,7 +46,6 @@ public class MemberDeliveryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -59,7 +55,6 @@ public class MemberDeliveryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -69,7 +64,6 @@ public class MemberDeliveryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_LIST_GET)
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -129,7 +123,6 @@ public class MemberDeliveryController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberDeliveryList));
 	}
 
-	@Before(MemberDeliveryValidator.class)
 	@ActionKey(Url.URL_MEMBER_DELIVERY_GET)
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

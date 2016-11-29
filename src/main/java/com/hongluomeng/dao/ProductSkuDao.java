@@ -119,7 +119,7 @@ public class ProductSkuDao {
 		return find(productSku);
 	}
 
-	public void save(List<ProductSku> productSkuList, String request_user_id) {
+	public void save(String product_id, List<ProductSku> productSkuList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
 		StringBuffer sql = new StringBuffer("INSERT INTO " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ( ");
@@ -152,7 +152,7 @@ public class ProductSkuDao {
 			List<Object> objectList = new ArrayList<Object>();
 
 			objectList.add(Utility.getUUID());
-			objectList.add(productSku.getProduct_id());
+			objectList.add(product_id);
 			objectList.add(productSku.getProduct_attribute_value().toJSONString());
 			objectList.add(productSku.getProduct_price());
 			objectList.add(productSku.getMember_level_price().toJSONString());

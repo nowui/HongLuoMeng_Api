@@ -13,11 +13,11 @@ import com.hongluomeng.service.LogService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.LogValidator;
 
+@Before(LogValidator.class)
 public class LogController extends BaseController {
 
 	private LogService logService = new LogService();
 
-	@Before(LogValidator.class)
 	@ActionKey(Url.URL_LOG_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -29,7 +29,6 @@ public class LogController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(LogValidator.class)
 	@ActionKey(Url.URL_LOG_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

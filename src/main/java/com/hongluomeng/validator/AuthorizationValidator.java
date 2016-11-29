@@ -18,8 +18,6 @@ public class AuthorizationValidator extends Validator {
 
 		Boolean isExit = false;
 
-		String message = "";
-
 		Authorization authorization = jsonObject.toJavaObject(Authorization.class);
 
 		switch (actionKey) {
@@ -27,28 +25,23 @@ public class AuthorizationValidator extends Validator {
 				isExit = true;
 
 				Utility.checkPageAndLimit(jsonObject);
+
 				break;
 			case Url.URL_AUTHORIZATION_FIND:
 				isExit = true;
 
-				if (Utility.isNullOrEmpty(authorization.getAuthorization_id())) {
-					message += "编号为空";
-					message += Const.LINE_FEED;
-				}
+				authorization.checkAuthorization_id();
+
 				break;
 		}
 
-		if (! isExit) {
-	        addError(Const.KEY_MESSAGE, Const.URL_DENIED);
-		}
-
-		if (! Utility.isNullOrEmpty(message)) {
-	        addError(Const.KEY_MESSAGE, message);
+		if (!isExit) {
+			addError(Const.KEY_ERROR, Const.URL_DENIED);
 		}
 	}
 
 	protected void handleError(Controller controller) {
-		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttrForStr(Const.KEY_MESSAGE), null));
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_ERROR), null));
 	}
 
 }

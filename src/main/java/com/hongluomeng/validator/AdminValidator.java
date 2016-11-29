@@ -94,12 +94,12 @@ public class AdminValidator extends Validator {
 		}
 
 		if (!isExit) {
-			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
+			addError(Const.KEY_ERROR, Const.URL_DENIED);
 		}
 	}
 
 	protected void handleError(Controller controller) {
-
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_ERROR), null));
 	}
 
 }

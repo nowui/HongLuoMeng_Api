@@ -1,14 +1,11 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
-import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Attribute;
-import com.hongluomeng.model.ProductAttribute;
 
 public class CategoryAttributeDao {
 
@@ -23,7 +20,7 @@ public class CategoryAttributeDao {
 		dynamicSQL.append("LEFT JOIN " + Attribute.KEY_TABLE_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
 		dynamicSQL.append("WHERE 1 = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", categoryAttribute.getCategory_id());
-		dynamicSQL.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
+		dynamicSQL.append("ORDER BY " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
 
 		return new CategoryAttribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -32,29 +29,9 @@ public class CategoryAttributeDao {
 		CategoryAttribute categoryAttribute = new CategoryAttribute();
 		categoryAttribute.setCategory_id(category_id);
 
-		if (Utility.isNullOrEmpty(category_id)) {
-			return new ArrayList<CategoryAttribute>();
-		}
+		categoryAttribute.checkCategory_id();
 
 		return list(categoryAttribute);
-	}
-
-	public List<CategoryAttribute> listByProduct_idAndCategory_id(String product_id, String category_id) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-
-		dynamicSQL.append("SELECT " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + ".* ");
-		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + " ");
-		dynamicSQL.append(", IFNULL(" + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_VALUE + ", '') AS " + ProductAttribute.KEY_ATTRIBUTE_VALUE + " ");
-		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + " ");
-		dynamicSQL.append(", " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + " ");
-		dynamicSQL.append("FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		dynamicSQL.append("LEFT JOIN " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ON " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
-		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " WHERE " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_PRODUCT_ID + " = ?) AS " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + ProductAttribute.KEY_TABLE_PRODUCT_ATTRIBUTE + "." + ProductAttribute.KEY_ATTRIBUTE_ID + " ", product_id);
-		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", category_id);
-		dynamicSQL.append("AND " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ASC ");
-
-		return new CategoryAttribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Attribute> listNotUsedAttributeByCategory_id(String category_id) {

@@ -12,7 +12,7 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 	public static final String KEY_CATEGORY_ID = "category_id";
 	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 	public static final String KEY_CATEGORY_ATTRIBUTE_SORT = "category_attribute_sort";
-	//public static final String KEY_ATTRIBUTE_VALUE = "attribute_value";
+	public static final String KEY_ATTRIBUTE_LIST = "attributeList";
 
 	public String getCategory_id() {
 		return getStr(KEY_CATEGORY_ID);
@@ -62,8 +62,8 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 		return JSONArray.parseArray(getStr(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE));
 	}
 
-	public String getAttribute_value() {
-		return getStr(ProductAttribute.KEY_ATTRIBUTE_VALUE);
-	}
+//	public String getAttribute_value() {
+//		return getStr(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
+//	}
 
 }

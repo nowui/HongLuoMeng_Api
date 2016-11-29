@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hongluomeng.cache.BrandCache;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.ProductDao;
@@ -20,7 +19,7 @@ public class ProductService {
     private CategoryService categoryService = new CategoryService();
     private BrandService brandService = new BrandService();
     private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
-    private ProductAttributeService productAttributeService = new ProductAttributeService();
+    private CategoryAttributeValueService categoryAttributeValueService = new CategoryAttributeValueService();
     private MemberLevelService memberLevelService = new MemberLevelService();
     private ProductSkuService productSkuService = new ProductSkuService();
     private ProductLockStockService productLockStockService = new ProductLockStockService();
@@ -38,9 +37,9 @@ public class ProductService {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
             map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
+            map.put(Product.KEY_PRODUCT_IS_HOT, product.getProduct_is_hot());
             map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
             map.put(Product.KEY_PRODUCT_STOCK, product.getProduct_stock());
-            //map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
 
             list.add(map);
         }
@@ -68,9 +67,9 @@ public class ProductService {
         } else {
             product = productDao.findByProduct_id(productMap.getProduct_id());
 
-            List<CategoryAttribute> categoryAttributeList = categoryAttributeService.listByProduct_idAndCategory_id(product.getProduct_id(), product.getCategory_id());
+            List<CategoryAttributeValue> categoryAttributeValueList = categoryAttributeValueService.listByObject_idAndObject_typeAndCategory_id(product.getProduct_id(), CatetoryEnum.PRODUCT.getKey(), product.getCategory_id());
 
-            product.setCategoryAttributeList(categoryAttributeList);
+            product.setCategoryAttributeValueList(categoryAttributeValueList);
 
             productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
         }
@@ -106,9 +105,9 @@ public class ProductService {
 
         String product_id = productDao.save(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
-        productAttributeService.saveByProduct_idAndCategory_Attribute(product_id, productMap.getCategoryAttributeList());
+        categoryAttributeValueService.saveByObject_idAndObject_typeAndCategoryAttributeList(product_id, CatetoryEnum.PRODUCT.getKey(), productMap.getCategoryAttributeValueList());
 
-        productSkuService.save(productSkuSaveList, request_user_id);
+        productSkuService.save(product_id, productSkuSaveList, request_user_id);
     }
 
     public void update(JSONObject jsonObject) {
@@ -176,13 +175,13 @@ public class ProductService {
         //删除多余的SKU
         productSkuService.delete(productSkuIdDeleteList, request_user_id);
         //新增SKU
-        productSkuService.save(productSkuSaveList, request_user_id);
+        productSkuService.save(productMap.getProduct_id(), productSkuSaveList, request_user_id);
         //更新SKU的库存
         productSkuService.update(productSkuUpdateList, request_user_id);
 
         productDao.update(productMap, jsonObject.getString(Const.KEY_REQUEST_USER_ID));
 
-        productAttributeService.saveByProduct_idAndCategory_Attribute(productMap.getProduct_id(), productMap.getCategoryAttributeList());
+        categoryAttributeValueService.saveByObject_idAndObject_typeAndCategoryAttributeList(productMap.getProduct_id(), CatetoryEnum.PRODUCT.getKey(), productMap.getCategoryAttributeValueList());
     }
 
     public void delete(JSONObject jsonObject) {
@@ -327,7 +326,7 @@ public class ProductService {
 
                 String attribute_id = object.getString(Attribute.KEY_ATTRIBUTE_ID);
                 String attribute_name = object.getString(Attribute.KEY_ATTRIBUTE_NAME);
-                String attribute_value = object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
+                String attribute_value = object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
 
                 int index = -1;
                 for (int j = 0; j < productAllSkuList.size(); j++) {
@@ -344,7 +343,7 @@ public class ProductService {
                     Map<String, Object> map = productAllSkuList.get(index);
 
                     @SuppressWarnings("unchecked")
-                    List<String> array = (List<String>) map.get(ProductAttribute.KEY_ATTRIBUTE_VALUE);
+                    List<String> array = (List<String>) map.get(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
 
                     if (!array.contains(attribute_value)) {
                         array.add(attribute_value);
@@ -357,7 +356,7 @@ public class ProductService {
                     List<String> array = new ArrayList<String>();
                     array.add(attribute_value);
 
-                    map.put(ProductAttribute.KEY_ATTRIBUTE_VALUE, array);
+                    map.put(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE, array);
 
                     productAllSkuList.add(map);
                 }
@@ -391,7 +390,7 @@ public class ProductService {
                     attribute_value += "_";
                 }
 
-                attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_ID) + "_" + object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
+                attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_ID) + "_" + object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
             }
 
             map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);

@@ -86,6 +86,13 @@ public class OrderValidator extends Validator {
 				Utility.checkPageAndLimit(jsonObject);
 				break;
 			}
+			case Url.URL_ORDER_PAY: {
+				isExit = true;
+
+				order.checkOrder_id();
+
+				break;
+			}
 			case Url.URL_ORDER_PAYED: {
 				isExit = true;
 
@@ -99,12 +106,12 @@ public class OrderValidator extends Validator {
 		}
 
 		if (!isExit) {
-			controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, Const.URL_DENIED, null));
+			addError(Const.KEY_ERROR, Const.URL_DENIED);
 		}
 	}
 
 	protected void handleError(Controller controller) {
-
+		controller.renderJson(Utility.setResponse(CodeEnum.CODE_400, controller.getAttr(Const.KEY_ERROR), null));
 	}
 
 }

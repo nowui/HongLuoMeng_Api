@@ -14,11 +14,11 @@ import com.hongluomeng.validator.MenuValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 
+@Before(MenuValidator.class)
 public class MenuController extends BaseController {
 
 	private CategoryService categoryService = new CategoryService();
 
-	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_LIST)
 	public void list() {
 		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.MENU.getKey());
@@ -26,7 +26,6 @@ public class MenuController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -36,7 +35,6 @@ public class MenuController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
 	}
 
-	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -46,7 +44,6 @@ public class MenuController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -56,7 +53,6 @@ public class MenuController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MenuValidator.class)
 	@ActionKey(Url.URL_MENU_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

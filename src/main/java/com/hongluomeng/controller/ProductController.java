@@ -5,22 +5,22 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
+import com.hongluomeng.model.CategoryAttribute;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
-import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.service.ProductService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.ProductValidator;
 
+@Before(ProductValidator.class)
 public class ProductController extends BaseController {
 
 	private ProductService productService = new ProductService();
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -30,7 +30,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -40,7 +39,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", product));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -50,7 +48,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -60,7 +57,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -70,7 +66,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST)
 	public void listCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -80,7 +75,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_FIND)
 	public void findCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -90,7 +84,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_SAVE)
 	public void saveCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -100,7 +93,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORYT_UPDATE)
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -110,7 +102,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORYT_DELETE)
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -120,7 +111,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_LIST)
 	public void listCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -130,7 +120,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", categoryAttributeList));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND)
 	public void findCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -140,7 +129,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_SAVE)
 	public void saveCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -150,7 +138,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_UPDATE)
 	public void updateCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -160,7 +147,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORYT_ATTRIBUTE_DELETE)
 	public void deleteCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -170,7 +156,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST_GET)
 	public void getCategoryList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -180,7 +165,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_LIST_GET)
 	public void getList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -190,7 +174,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_HOT_LIST_GET)
 	public void getHotList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -200,7 +183,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_BRAND_LIST_GET)
 	public void getBrandList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -210,7 +192,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_MARKET_LIST_GET)
 	public void getMarketList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -220,7 +201,6 @@ public class ProductController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
 	}
 
-	@Before(ProductValidator.class)
 	@ActionKey(Url.URL_PRODUCT_GET)
 	public void get() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

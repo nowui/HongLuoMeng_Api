@@ -13,11 +13,11 @@ import com.hongluomeng.service.MemberLevelService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.MemberLevelValidator;
 
+@Before(MemberLevelValidator.class)
 public class MemberLevelController extends BaseController {
 
 	private MemberLevelService memberLevelService = new MemberLevelService();
 
-	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_LIST)
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -27,7 +27,6 @@ public class MemberLevelController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
 	}
 
-	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -37,7 +36,6 @@ public class MemberLevelController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberLevel));
 	}
 
-	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -47,7 +45,6 @@ public class MemberLevelController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -57,7 +54,6 @@ public class MemberLevelController extends BaseController {
 		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
 	}
 
-	@Before(MemberLevelValidator.class)
 	@ActionKey(Url.URL_MEMBER_LEVEL_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

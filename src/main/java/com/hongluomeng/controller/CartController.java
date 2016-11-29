@@ -14,11 +14,11 @@ import com.hongluomeng.service.CartService;
 import com.hongluomeng.type.CodeEnum;
 import com.hongluomeng.validator.CartValidator;
 
+@Before(CartValidator.class)
 public class CartController extends BaseController {
 
     private CartService cartService = new CartService();
 
-    @Before(CartValidator.class)
     @ActionKey(Url.URL_CART_LIST)
     public void list() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -28,7 +28,6 @@ public class CartController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
     }
 
-    @Before(CartValidator.class)
     @ActionKey(Url.URL_CART_FIND)
     public void find() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -38,7 +37,6 @@ public class CartController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", cart));
     }
 
-    @Before(CartValidator.class)
     @ActionKey(Url.URL_CART_SAVE)
     public void save() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -48,7 +46,6 @@ public class CartController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
     }
 
-    @Before(CartValidator.class)
     @ActionKey(Url.URL_CART_UPDATE)
     public void update() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -58,7 +55,6 @@ public class CartController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
     }
 
-    @Before(CartValidator.class)
     @ActionKey(Url.URL_CART_DELETE)
     public void delete() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -68,7 +64,6 @@ public class CartController extends BaseController {
         renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
     }
 
-    @Before(CartValidator.class)
     @ActionKey(Url.URL_CART_LIST_GET)
     public void getList() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

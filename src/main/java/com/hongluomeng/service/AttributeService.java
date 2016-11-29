@@ -13,7 +13,7 @@ public class AttributeService {
 
 	private AttributeDao attributeDao = new AttributeDao();
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
-	private ProductAttributeService productAttributeService = new ProductAttributeService();
+	private CategoryAttributeValueService categoryAttributeValueService = new CategoryAttributeValueService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		//Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
@@ -60,7 +60,7 @@ public class AttributeService {
 
 		categoryAttributeService.deleteByAttribute_id(attributeMap.getAttribute_id());
 
-		productAttributeService.deleteByAttribute_id(attributeMap.getAttribute_id());
+		categoryAttributeValueService.deleteByAttribute_id(attributeMap.getAttribute_id());
 	}
 
 }

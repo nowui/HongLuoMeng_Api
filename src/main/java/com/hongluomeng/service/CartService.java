@@ -107,7 +107,7 @@ public class CartService {
                     product_attribute_value += " ";
                 }
 
-                product_attribute_value += object.getString(ProductAttribute.KEY_ATTRIBUTE_VALUE);
+                product_attribute_value += object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
             }
 
 
