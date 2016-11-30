@@ -252,7 +252,7 @@ public class BrandService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		brandCache.removeBrandListByUser_id(request_user_id);
+		brandCache.removeBrandListByUser_id(brandApplyMap.getUser_id());
 
 		brandApplyService.reviewPass(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id(), request_user_id);
 	}

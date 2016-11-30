@@ -81,7 +81,7 @@ public class ProductDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT " + Product.KEY_TABLE_PRODUCT + ".* FROM " + Product.KEY_TABLE_PRODUCT + " ");
 		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "' AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_SYSTEM_STATUS + " = 1) " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ", user_id);
-		dynamicSQL.append("WHERE " + Product.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ", user_id);
 		dynamicSQL.append("ORDER BY " + Product.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);

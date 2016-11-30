@@ -408,6 +408,7 @@ public class OrderService {
                     Map<String, Object> orderProductMap = new HashMap<String, Object>();
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_ID, orderProduct.getProduct_id());
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_NAME, orderProduct.getProduct_name());
+                    orderProductMap.put(Product.KEY_PRODUCT_IMAGE, orderProduct.getProduct_image().get(0));
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_PAY_PRICE, orderProduct.getProduct_pay_price());
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_PAY_AMOUNT, orderProduct.getProduct_pay_amount());
 

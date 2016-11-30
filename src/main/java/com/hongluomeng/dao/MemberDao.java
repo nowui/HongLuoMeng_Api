@@ -130,9 +130,9 @@ public class MemberDao {
 		dynamicSQL.append(Member.KEY_MEMBER_LEVEL_ID + " = ?, ", member_level_id);
 		dynamicSQL.append(Member.KEY_MEMBER_WEIBO_FANS + " = ?, ", member_weibo_fans);
 		dynamicSQL.append(Member.KEY_MEMBER_WEIBO_FRIEND + " = ?, ", member_weibo_friend);
+		dynamicSQL.isTrueOrFalse(Member.KEY_MEMBER_STATUS + " = 1, ", member_weibo_fans > 300000);
 		dynamicSQL.append(Member.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", user_id);
-		dynamicSQL.append(Member.KEY_SYSTEM_UPDATE_TIME + " = ?, ", new Date());
-		dynamicSQL.isTrueOrFalse(Member.KEY_MEMBER_STATUS + " = 1 ", member_weibo_fans > 300000);
+		dynamicSQL.append(Member.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		dynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ?  ", member_weibo_fans);
 
 		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
