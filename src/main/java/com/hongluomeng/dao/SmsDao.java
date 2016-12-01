@@ -49,7 +49,7 @@ public class SmsDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("ORDER BY " + Sms.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + Sms.KEY_TABLE_SMS + "." + Sms.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Sms().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

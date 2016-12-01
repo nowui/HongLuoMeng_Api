@@ -16,7 +16,7 @@ public class BrandApplyDao {
 	private Integer count(BrandApply brandApply) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT COUNT(*) FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " ");
-		dynamicSQL.append("WHERE " + BrandApply.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + BrandApply.KEY_BRAND_ID + " = ? ", brandApply.getBrand_id());
 		dynamicSQL.isNullOrEmpty("AND " + BrandApply.KEY_USER_ID + " = ? ", brandApply.getUser_id());
 

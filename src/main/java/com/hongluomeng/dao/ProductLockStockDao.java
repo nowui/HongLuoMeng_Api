@@ -17,7 +17,7 @@ public class ProductLockStockDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ");
-		dynamicSQL.append(ProductLockStock.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("" + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -33,7 +33,7 @@ public class ProductLockStockDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ");
-		dynamicSQL.append("WHERE " + ProductLockStock.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? ", new Date());
 
 		if(! Utility.isNullOrEmpty(productLockStock.getProductSkuIdList())) {
@@ -50,7 +50,7 @@ public class ProductLockStockDao {
 			dynamicSQL.append(") ");
 		}
 
-		dynamicSQL.append("GROUP BY " + ProductLockStock.KEY_PRODUCT_SKU_ID + " ");
+		dynamicSQL.append("GROUP BY " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.KEY_PRODUCT_SKU_ID + " ");
 		dynamicSQL.appendPagination(m, n);
 
 		List<ProductLockStock> productLockStockList = new ProductLockStock().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

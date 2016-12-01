@@ -20,7 +20,7 @@ public class ProductSkuDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		dynamicSQL.append("WHERE " + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -36,14 +36,14 @@ public class ProductSkuDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		dynamicSQL.append("WHERE " + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + ProductSku.KEY_PRODUCT_ID + " = ? ", productSku.getProduct_id());
 		if (! Utility.isNullOrEmpty(productSku.getProductSkuIdList())) {
 			for(String product_sku_id : productSku.getProductSkuIdList()) {
 				dynamicSQL.append("AND " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
 		}
-		dynamicSQL.append("ORDER BY " + ProductSku.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new ProductSku().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

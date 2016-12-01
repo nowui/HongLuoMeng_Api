@@ -1,5 +1,6 @@
 package com.hongluomeng.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,19 @@ public class MemberService {
 
 		List<Member> memberList = memberDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, memberList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Member member : memberList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Member.KEY_MEMBER_ID, member.getMember_id());
+			map.put(Member.KEY_MEMBER_NAME, member.getMember_name());
+			map.put(Member.KEY_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
+			map.put(Member.KEY_MEMBER_STATUS, member.getMember_status());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

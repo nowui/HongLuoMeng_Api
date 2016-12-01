@@ -1,6 +1,7 @@
 package com.hongluomeng.model;
 
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.type.BrandApplyReviewEnum;
 
 public class BrandApply extends Base<BrandApply> {
 
@@ -97,6 +98,18 @@ public class BrandApply extends Base<BrandApply> {
 
 	public void setBrand_apply_review_status(String brand_apply_review_status) {
 		set(KEY_BRAND_APPLY_REVIEW_STATUS, brand_apply_review_status);
+	}
+
+	public String getBrand_apply_review_status_value() {
+		String apply_review_status = getBrand_apply_review_status();
+
+		for(BrandApplyReviewEnum brandApplyReviewEnum : BrandApplyReviewEnum.values()) {
+			if(apply_review_status.equals(brandApplyReviewEnum.getKey())) {
+				return brandApplyReviewEnum.getValue();
+			}
+		}
+
+		return "";
 	}
 
 }

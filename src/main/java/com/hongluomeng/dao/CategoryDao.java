@@ -15,7 +15,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -31,7 +31,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + Category.KEY_CATEGORY_ID + " != ? ", category_id);
 		dynamicSQL.append("AND " + Category.KEY_CATEGORY_KEY + " = ? ", category_key);
 
@@ -43,9 +43,9 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmptyForLike("AND " + Category.KEY_CATEGORY_PATH + " LIKE ? ", category.getCategory_path());
-		dynamicSQL.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
+		dynamicSQL.append("ORDER BY " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_SORT + " ASC ");
 
 		return new Category().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -69,8 +69,8 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " WHERE " + Category.KEY_PARENT_ID + " = '' ");
-		dynamicSQL.append("AND " + Category.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Category.KEY_CATEGORY_SORT + " ASC ");
+		dynamicSQL.append("AND " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_SORT + " ASC ");
 
 		return new Category().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -79,7 +79,7 @@ public class CategoryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Category.KEY_TABLE_CATEGORY + " ");
-		dynamicSQL.append("WHERE " + Category.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Category.KEY_CATEGORY_ID + " = ? ", category.getCategory_id());
 		dynamicSQL.isNullOrEmpty("AND " + Category.KEY_CATEGORY_KEY + " = ? ", category.getCategory_key());
 

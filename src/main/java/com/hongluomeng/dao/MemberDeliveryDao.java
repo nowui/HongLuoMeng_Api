@@ -16,7 +16,7 @@ public class MemberDeliveryDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

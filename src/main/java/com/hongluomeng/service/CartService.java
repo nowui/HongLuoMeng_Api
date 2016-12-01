@@ -20,7 +20,20 @@ public class CartService {
 
         List<Cart> cartList = cartDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-        Map<String, Object> resultMap = Utility.setResultMap(count, cartList);
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        for (Cart cart : cartList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(Cart.KEY_CART_ID, cart.getCart_id());
+            map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
+            map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getUser_id());
+            map.put(Cart.KEY_USER_ID, cart.getUser_id());
+            map.put(Cart.KEY_SYSTEM_CREATE_TIME, cart.getSystem_create_time());
+
+            list.add(map);
+        }
+
+        Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
         return resultMap;
     }

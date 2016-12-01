@@ -15,10 +15,22 @@ public class CategoryAttributeService {
 
 	private CategoryAttributeDao categoryAttributeDao = new CategoryAttributeDao();
 
-	public List<CategoryAttribute> list(JSONObject jsonObject) {
+	public List<Map<String, Object>> list(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
 
-		return categoryAttributeDao.listByCategory_id(categoryAttributeMap.getCategory_id());
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		List<CategoryAttribute> categoryAttributeList = categoryAttributeDao.listByCategory_id(categoryAttributeMap.getCategory_id());
+
+		for(CategoryAttribute categoryAttribute : categoryAttributeList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(CategoryAttribute.KEY_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
+			map.put(Attribute.KEY_ATTRIBUTE_NAME, categoryAttribute.getAttribute_name());
+			map.put(Attribute.KEY_ATTRIBUTE_TYPE, categoryAttribute.getAttribute_type());
+			list.add(map);
+		}
+
+		return list;
 	}
 
 	public Map<String, Object> find(JSONObject jsonObject) {

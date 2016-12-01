@@ -27,7 +27,18 @@ public class AdminService {
 
 		List<Admin> adminList = adminDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, adminList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Admin admin : adminList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Admin.KEY_ADMIN_ID, admin.getAdmin_id());
+			map.put(Admin.KEY_ADMIN_NAME, admin.getAdmin_name());
+			map.put(Admin.KEY_USER_ID, admin.getUser_id());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

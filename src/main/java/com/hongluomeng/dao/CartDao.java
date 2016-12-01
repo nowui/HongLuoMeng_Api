@@ -18,7 +18,7 @@ public class CartDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append(Cart.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("" + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -90,7 +90,7 @@ public class CartDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append("WHERE " + Cart.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_CART_ID + " = ? ", cart.getCart_id());
 		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
 

@@ -34,7 +34,18 @@ public class RoleService {
 
 		List<Role> roleList = roleDao.listByGroup_id(roleMap.getGroup_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, roleList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Role role : roleList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Role.KEY_ROLE_ID, role.getRole_id());
+			map.put(Role.KEY_ROLE_NAME, role.getRole_name());
+			map.put(Role.KEY_ROLE_SORT, role.getRole_sort());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

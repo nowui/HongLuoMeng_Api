@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.hongluomeng.common.Utility;
+import com.hongluomeng.type.OrderEnum;
 
 public class Order extends Base<Order> {
 
@@ -308,6 +309,18 @@ public class Order extends Base<Order> {
 
 	public String getOrder_status() {
 		return getStr(KEY_ORDER_STATUS);
+	}
+
+	public String getOrder_status_value() {
+		String order_status = getOrder_status();
+
+		for(OrderEnum orderEnum : OrderEnum.values()) {
+			if(order_status.equals(orderEnum.getKey())) {
+				return orderEnum.getValue();
+			}
+		}
+
+		return "";
 	}
 
 	public void setOrder_status(String order_status) {

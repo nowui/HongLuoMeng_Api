@@ -15,7 +15,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_TABLE_ROLE + "." + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Role.KEY_GROUP_ID + " = ? ", role.getGroup_id());
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -33,7 +33,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_TABLE_ROLE + "." + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND " + Role.KEY_ROLE_ID + " != ? ", role_id);
 		dynamicSQL.append("AND " + Role.KEY_ROLE_KEY + " = ? ", role_key);
 
@@ -45,7 +45,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_TABLE_ROLE + "." + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Role.KEY_GROUP_ID + " = ? ", role.getGroup_id());
 		dynamicSQL.append("ORDER BY " + Role.KEY_ROLE_SORT + " ASC ");
 		dynamicSQL.appendPagination(m, n);
@@ -64,7 +64,7 @@ public class RoleDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Role.KEY_TABLE_ROLE + " ");
-		dynamicSQL.append("WHERE " + Role.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Role.KEY_TABLE_ROLE + "." + Role.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Role.KEY_ROLE_ID + " = ? ", role.getRole_id());
 
 		List<Role> roleList = new Role().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

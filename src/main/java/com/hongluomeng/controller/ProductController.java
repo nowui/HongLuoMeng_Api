@@ -115,9 +115,9 @@ public class ProductController extends BaseController {
 	public void listCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<CategoryAttribute> categoryAttributeList = productService.listCategoryAttribute(jsonObject);
+		List<Map<String, Object>> list = productService.listCategoryAttribute(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", categoryAttributeList));
+		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
 	}
 
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_ATTRIBUTE_FIND)

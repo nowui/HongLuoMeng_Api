@@ -14,7 +14,7 @@ public class ActivityDao {
 	private Integer count(Activity activity) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		dynamicSQL.append("WHERE " + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -29,8 +29,8 @@ public class ActivityDao {
 	private List<Activity> list(Activity activity, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		dynamicSQL.append("WHERE " + Activity.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Activity.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Activity().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -45,7 +45,7 @@ public class ActivityDao {
 	private Activity find(Activity activity) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		dynamicSQL.append("WHERE " + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Activity.KEY_ACTIVITY_ID + " = ? ", activity.getActivity_id());
 
 		List<Activity> activityList = activity.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

@@ -18,7 +18,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_TYPE + " = ? ", user.getUser_type());
 
@@ -30,7 +30,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_ACCOUNT + " = ? ) ", user_id, user_account);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -41,7 +41,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_PHONE + " = ? ) ", user_id, user_phone);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -52,7 +52,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_EMAIL + " = ? ) ", user_id, user_email);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -63,7 +63,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WEIBO_UID + " = ? ) ", user_id, weibo_uid);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -74,7 +74,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WECHAT_UID + " = ? ) ", user_id, wechat_uid);
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -85,7 +85,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmptyForLike("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
 		dynamicSQL.append("ORDER BY " + User.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
@@ -105,7 +105,7 @@ public class UserDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + User.KEY_TABLE_USER + " ");
-		dynamicSQL.append("WHERE " + User.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ID + " = ? ", user.getUser_id());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
 		dynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_PHONE + " = ? ", user.getUser_phone());

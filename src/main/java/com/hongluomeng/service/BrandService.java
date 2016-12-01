@@ -34,7 +34,18 @@ public class BrandService {
 
 		List<Brand> brandList = brandDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, brandList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Brand brand : brandList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
+			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
+			map.put(Category.KEY_CATEGORY_NAME, brand.getCategory_name());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}
@@ -207,7 +218,21 @@ public class BrandService {
 
 		List<BrandApply> brandApplyList = brandApplyService.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, brandApplyList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (BrandApply brandApply : brandApplyList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(BrandApply.KEY_BRAND_ID, brandApply.getBrand_id());
+			map.put(Brand.KEY_BRAND_NAME, brandApply.getBrand_name());
+			map.put(BrandApply.KEY_USER_ID, brandApply.getUser_id());
+			map.put(Member.KEY_MEMBER_REAL_NAME, brandApply.getMember_real_name());
+			map.put(BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS, brandApply.getBrand_apply_review_status_value());
+			map.put(BrandApply.KEY_SYSTEM_CREATE_TIME, brandApply.getSystem_create_time());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

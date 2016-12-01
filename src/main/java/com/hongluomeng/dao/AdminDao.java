@@ -13,7 +13,7 @@ public class AdminDao {
 	private Integer count(Admin admin) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		dynamicSQL.append("WHERE " + Admin.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -28,8 +28,8 @@ public class AdminDao {
 	private List<Admin> list(Admin admin, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		dynamicSQL.append("WHERE " + Admin.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Admin.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.append("WHERE " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -44,7 +44,7 @@ public class AdminDao {
 	private Admin find(Admin admin) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 		dynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		dynamicSQL.append("WHERE " + Admin.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Admin.KEY_ADMIN_ID + " = ? ", admin.getAdmin_id());
 
 		List<Admin> adminList = new Admin().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

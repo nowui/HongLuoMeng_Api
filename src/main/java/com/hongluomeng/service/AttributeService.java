@@ -1,5 +1,7 @@
 package com.hongluomeng.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,18 @@ public class AttributeService {
 
 		List<Attribute> attributeList = attributeDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, attributeList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Attribute attribute : attributeList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Attribute.KEY_ATTRIBUTE_ID, attribute.getAttribute_id());
+			map.put(Attribute.KEY_ATTRIBUTE_NAME, attribute.getAttribute_name());
+			map.put(Attribute.KEY_ATTRIBUTE_TYPE, attribute.getAttribute_type());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

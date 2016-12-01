@@ -1,5 +1,7 @@
 package com.hongluomeng.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +28,18 @@ public class OperationService {
 
 		List<Operation> operationList = operationDao.list(operationParameter, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, operationList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Operation operation : operationList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Operation.KEY_OPERATION_ID, operation.getOperation_id());
+			map.put(Operation.KEY_OPERATION_NAME, operation.getOperation_name());
+			map.put(Operation.KEY_OPERATION_SORT, operation.getOperation_sort());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

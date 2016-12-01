@@ -24,7 +24,17 @@ public class ActivityService {
 
 		List<Activity> activityList = activityDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, activityList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Activity activity : activityList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
+			map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

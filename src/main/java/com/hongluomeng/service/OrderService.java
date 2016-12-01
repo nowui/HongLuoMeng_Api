@@ -48,7 +48,7 @@ public class OrderService {
             map.put(Order.KEY_ORDER_NO, order.getOrder_no());
             map.put(Order.KEY_ORDER_PAY_PRICE, order.getOrder_pay_price());
             map.put(Order.KEY_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
-            map.put(Order.KEY_ORDER_STATUS, order.getOrder_status());
+            map.put(Order.KEY_ORDER_STATUS, order.getOrder_status_value());
 
             list.add(map);
         }

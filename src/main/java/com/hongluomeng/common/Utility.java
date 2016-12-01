@@ -216,7 +216,11 @@ public class Utility {
 	}
 
 	public static String getDateTimeString(Date dateTime) {
-		return dateTimeFormat.format(dateTime);
+		if(isNull(dateTime)) {
+			return "";
+		} else {
+			return dateTimeFormat.format(dateTime);
+		}
 	}
 
 	public static Object[][] getObjectArray(List<Object[]> parameterList) {

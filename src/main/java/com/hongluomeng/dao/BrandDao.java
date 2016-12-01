@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.model.Category;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Brand;
@@ -17,7 +18,7 @@ public class BrandDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Brand.KEY_TABLE_BRAND + " ");
-		dynamicSQL.append("WHERE " + Brand.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -32,10 +33,12 @@ public class BrandDao {
 	private List<Brand> list(Brand brand, Integer m, Integer n) {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + Brand.KEY_TABLE_BRAND + " ");
-		dynamicSQL.append("WHERE " + Brand.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("SELECT " + Brand.KEY_TABLE_BRAND + ".*, " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_NAME + " FROM " + Brand.KEY_TABLE_BRAND + " ");
+		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " ON " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + " = " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_CATEGORY_ID + " ");
+		dynamicSQL.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_CATEGORY_ID + " = ? ", brand.getCategory_id());
-		dynamicSQL.append("ORDER BY " + Brand.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.append("ORDER BY " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.appendPagination(m, n);
 
 		return brand.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
@@ -74,7 +77,7 @@ public class BrandDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Brand.KEY_TABLE_BRAND + " ");
-		dynamicSQL.append("WHERE " + Brand.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Brand.KEY_BRAND_ID + " = ? ", brand.getBrand_id());
 
 		List<Brand> brandList = new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

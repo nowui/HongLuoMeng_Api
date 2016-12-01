@@ -1,13 +1,13 @@
 package com.hongluomeng.service;
 
 import com.hongluomeng.common.Private;
+import com.hongluomeng.model.Attribute;
+import com.hongluomeng.model.Authorization;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -15,7 +15,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.AuthorizationDao;
-import com.hongluomeng.model.Authorization;
 
 public class AuthorizationService {
 
@@ -28,7 +27,18 @@ public class AuthorizationService {
 
 		List<Authorization> authorizationList = authorizationDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, authorizationList);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		for (Authorization authorization : authorizationList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Authorization.KEY_AUTHORIZATION_ID, authorization.getAuthorization_id());
+			map.put(Authorization.KEY_AUTHORIZATION_CREATE_TIME, authorization.getAuthorization_create_time());
+			map.put(Authorization.KEY_AUTHORIZATION_EXPIRE_TIME, authorization.getAuthorization_expire_time());
+
+			list.add(map);
+		}
+
+		Map<String, Object> resultMap = Utility.setResultMap(count, list);
 
 		return resultMap;
 	}

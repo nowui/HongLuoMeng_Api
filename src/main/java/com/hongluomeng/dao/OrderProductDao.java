@@ -16,7 +16,7 @@ public class OrderProductDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -32,7 +32,7 @@ public class OrderProductDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
 		if (!Utility.isNullOrEmpty(orderProduct.getOrderIdList())) {
 			for (int i = 0; i < orderProduct.getOrderIdList().size(); i++) {
 				String order_id = orderProduct.getOrderIdList().get(i);
@@ -75,7 +75,7 @@ public class OrderProductDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + OrderProduct.KEY_ORDER_ID + " = ? ", orderProduct.getOrder_id());
 
 		List<OrderProduct> orderProductList = new OrderProduct().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

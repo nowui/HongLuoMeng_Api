@@ -16,7 +16,7 @@ public class MemberDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + Member.KEY_TABLE_MEMBER + " ");
-		dynamicSQL.append("WHERE " + Member.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -32,8 +32,8 @@ public class MemberDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
-		dynamicSQL.append("WHERE " + Member.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Member.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		dynamicSQL.append("WHERE " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return new Member().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());

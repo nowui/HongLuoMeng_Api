@@ -1,5 +1,6 @@
 package com.hongluomeng.model;
 
+import com.hongluomeng.common.Utility;
 import com.jfinal.plugin.activerecord.Model;
 
 import java.util.Date;
@@ -17,6 +18,10 @@ public class Base<M extends Base> extends Model<M>  {
 
 	public void setSystem_create_user_id(String system_create_user_id) {
 		set(KEY_SYSTEM_CREATE_USER_ID, system_create_user_id);
+	}
+
+	public String getSystem_create_time() {
+		return Utility.getDateTimeString(getDate(KEY_SYSTEM_CREATE_TIME));
 	}
 
 	public void setSystem_create_time(Date system_create_time) {

@@ -212,7 +212,7 @@ public class ProductService {
         categoryService.delete(jsonObject);
     }
 
-    public List<CategoryAttribute> listCategoryAttribute(JSONObject jsonObject) {
+    public List<Map<String, Object>> listCategoryAttribute(JSONObject jsonObject) {
         return categoryAttributeService.list(jsonObject);
     }
 

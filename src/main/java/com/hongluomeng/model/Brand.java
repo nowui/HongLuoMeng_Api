@@ -48,6 +48,10 @@ public class Brand extends Base<Brand> {
 		Utility.checkStringLength(getCategory_id(), 32, "分类编号");
 	}
 
+	public String getCategory_name() {
+		return getStr(Category.KEY_CATEGORY_NAME);
+	}
+
 	public String getBrand_name() {
 		return getStr(KEY_BRAND_NAME);
 	}

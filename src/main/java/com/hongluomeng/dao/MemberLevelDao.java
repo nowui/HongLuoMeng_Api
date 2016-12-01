@@ -15,7 +15,7 @@ public class MemberLevelDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT COUNT(*) FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
-		dynamicSQL.append("WHERE " + MemberLevel.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -31,8 +31,8 @@ public class MemberLevelDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
-		dynamicSQL.append("WHERE " + MemberLevel.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ASC ");
+		dynamicSQL.append("WHERE " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("ORDER BY " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ASC ");
 		dynamicSQL.appendPagination(m, n);
 
 		return memberLevel.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
@@ -48,7 +48,7 @@ public class MemberLevelDao {
 		DynamicSQL dynamicSQL = new DynamicSQL();
 
 		dynamicSQL.append("SELECT * FROM " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ");
-		dynamicSQL.append("WHERE " + MemberLevel.KEY_SYSTEM_STATUS + " = 1 ");
+		dynamicSQL.append("WHERE " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + MemberLevel.KEY_MEMBER_LEVEL_ID + " = ? ", memberLevel.getMember_level_id());
 
 		List<MemberLevel> memberLevelList = new MemberLevel().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
