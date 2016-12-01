@@ -295,11 +295,11 @@ public class MemberService {
 			resultMap.put(Member.KEY_MEMBER_AVATAR_SMALL, "");
 			resultMap.put(Member.KEY_MEMBER_AVATAR_LARGE, "");
 		} else {
-			JSONObject avatarObject = JSONObject.parseObject(member.getMember_avatar());
+			//JSONObject avatarObject = JSONObject.parseObject(member.getMember_avatar());
 
-			resultMap.put(Member.KEY_MEMBER_AVATAR, avatarObject.getString(Const.UPLOAD_NORMAL));
-			resultMap.put(Member.KEY_MEMBER_AVATAR_SMALL, avatarObject.getString(Const.UPLOAD_SMALL));
-			resultMap.put(Member.KEY_MEMBER_AVATAR_LARGE, avatarObject.getString(Const.UPLOAD_LARGE));
+			resultMap.put(Member.KEY_MEMBER_AVATAR, member.getMember_avatar().getString(Const.UPLOAD_NORMAL));
+			resultMap.put(Member.KEY_MEMBER_AVATAR_SMALL, member.getMember_avatar().getString(Const.UPLOAD_SMALL));
+			resultMap.put(Member.KEY_MEMBER_AVATAR_LARGE, member.getMember_avatar().getString(Const.UPLOAD_LARGE));
 		}
 
 		return resultMap;

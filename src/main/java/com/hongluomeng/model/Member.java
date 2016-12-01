@@ -1,5 +1,7 @@
 package com.hongluomeng.model;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Utility;
 
 public class Member extends Base<Member> {
@@ -80,8 +82,12 @@ public class Member extends Base<Member> {
 		Utility.checkStringLength(getMember_name(), 3, 20, "会员名称");
 	}
 
-	public String getMember_avatar() {
-		return getStr(KEY_MEMBER_AVATAR);
+//	public String getMember_avatar() {
+//		return getStr(KEY_MEMBER_AVATAR);
+//	}
+
+	public JSONObject getMember_avatar() {
+		return JSONObject.parseObject(getStr(KEY_MEMBER_AVATAR));
 	}
 
 	public void setMember_avatar(String member_avatar) {
@@ -89,7 +95,7 @@ public class Member extends Base<Member> {
 	}
 
 	public void checkMember_avatar() {
-		Utility.checkStringLength(getMember_avatar(), 0, 300, "会员头像");
+		Utility.checkStringLength(getStr(KEY_MEMBER_AVATAR), 0, 300, "会员头像");
 	}
 
 	public void checkMember_avatar_small(String member_avatar_small) {
