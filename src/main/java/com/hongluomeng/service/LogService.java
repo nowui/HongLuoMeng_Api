@@ -44,7 +44,9 @@ public class LogService {
 	public Log find(JSONObject jsonObject) {
 		Log logMap = jsonObject.toJavaObject(Log.class);
 
-		return logDao.findByLog_id(logMap.getLog_id());
+		Log log = logDao.findByLog_id(logMap.getLog_id());
+
+		return log;
 	}
 
 }

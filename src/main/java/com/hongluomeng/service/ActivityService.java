@@ -72,8 +72,6 @@ public class ActivityService {
 	public Map<String, Object> get(JSONObject jsonObject) {
 		Activity activityMap = jsonObject.toJavaObject(Activity.class);
 
-		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
-
 		Activity activity = activityDao.findByActivity_id(activityMap.getActivity_id());
 
 		Map<String, Object> map = new HashMap<String, Object>();

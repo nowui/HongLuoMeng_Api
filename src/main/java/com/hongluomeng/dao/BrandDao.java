@@ -40,7 +40,7 @@ public class BrandDao {
 		dynamicSQL.append("ORDER BY " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
-		return brand.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new Brand().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
 	}
 
 	public List<Brand> list(Integer m, Integer n) {

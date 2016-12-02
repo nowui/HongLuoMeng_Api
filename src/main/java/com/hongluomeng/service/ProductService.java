@@ -44,9 +44,7 @@ public class ProductService {
             list.add(map);
         }
 
-        Map<String, Object> resultMap = Utility.setResultMap(count, list);
-
-        return resultMap;
+        return Utility.setResultMap(count, list);
     }
 
     public Product find(JSONObject jsonObject) {
@@ -58,7 +56,15 @@ public class ProductService {
 
         List<Brand> brandList = brandService.listAll();
 
+        for(Brand brand : brandList) {
+            brand.keep(Brand.KEY_BRAND_ID, Brand.KEY_BRAND_NAME);
+        }
+
         List<MemberLevel> memberLevelList = memberLevelService.listAll();
+
+        for(MemberLevel memberLevel : memberLevelList) {
+            memberLevel.keep(MemberLevel.KEY_MEMBER_LEVEL_ID, MemberLevel.KEY_MEMBER_LEVEL_NAME);
+        }
 
         List<ProductSku> productSkuList = new ArrayList<ProductSku>();
 

@@ -45,9 +45,7 @@ public class MemberService {
 			list.add(map);
 		}
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, list);
-
-		return resultMap;
+		return Utility.setResultMap(count, list);
 	}
 
 	public Member find(JSONObject jsonObject) {
@@ -78,7 +76,7 @@ public class MemberService {
 		User user = userService.loginByUser_phoneAndUser_passwordAndUser_type(userMap.getUser_phone(), userMap.getUser_password(), UserEnum.MEMBER.getKey());
 
 		if (user == null) {
-			return null;
+			throw new RuntimeException("用户名或者密码不正确");
 		} else {
 			String user_id = user.getUser_id();
 

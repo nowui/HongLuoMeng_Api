@@ -9,12 +9,8 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.service.CategoryService;
 import com.hongluomeng.type.CatetoryEnum;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.GroupValidator;
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 
-@Before(GroupValidator.class)
 public class GroupController extends BaseController {
 
 	private CategoryService categoryService = new CategoryService();
@@ -23,43 +19,65 @@ public class GroupController extends BaseController {
 	public void list() {
 		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.GROUP.getKey());
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_GROUP_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Category categoryValidator = jsonObject.toJavaObject(Category.class);
+
+		categoryValidator.checkCategory_id();
+
 		Category category = categoryService.find(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+		renderJson(Utility.setSuccessResponse(category));
 	}
 
 	@ActionKey(Url.URL_GROUP_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Category categoryValidator = jsonObject.toJavaObject(Category.class);
+
+		categoryValidator.checkCategory_name();
+
+		categoryValidator.checkCategory_sort();
+
 		categoryService.save(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_GROUP_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Category categoryValidator = jsonObject.toJavaObject(Category.class);
+
+		categoryValidator.checkCategory_id();
+
+		categoryValidator.checkCategory_name();
+
+		categoryValidator.checkCategory_sort();
+
 		categoryService.update(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_GROUP_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Category categoryValidator = jsonObject.toJavaObject(Category.class);
+
+		categoryValidator.checkCategory_id();
+
 		categoryService.delete(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 }

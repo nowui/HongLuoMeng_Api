@@ -71,7 +71,7 @@ public class Activity extends Base<Activity> {
 	}
 
 	public void checkActivity_content() {
-		Utility.checkNull(getActivity_content(), "活动内容");
+		Utility.checkStringLength(getActivity_content(), 0, 0, "活动内容");
 	}
 
 	public Integer getActivity_sort() {

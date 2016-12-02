@@ -5,16 +5,12 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.jfinal.aop.Before;
+import com.hongluomeng.model.Cart;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
-import com.hongluomeng.model.Cart;
 import com.hongluomeng.service.CartService;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.CartValidator;
 
-@Before(CartValidator.class)
 public class CartController extends BaseController {
 
     private CartService cartService = new CartService();
@@ -23,45 +19,67 @@ public class CartController extends BaseController {
     public void list() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+        Utility.checkPageAndLimit(jsonObject);
+
         Map<String, Object> resultMap = cartService.list(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+        renderJson(Utility.setSuccessResponse(resultMap));
     }
 
     @ActionKey(Url.URL_CART_FIND)
     public void find() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+        Cart cartValidator = jsonObject.toJavaObject(Cart.class);
+
+        cartValidator.checkCart_id();
+
         Cart cart = cartService.find(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", cart));
+        renderJson(Utility.setSuccessResponse(cart));
     }
 
     @ActionKey(Url.URL_CART_SAVE)
     public void save() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+        Cart cartValidator = jsonObject.toJavaObject(Cart.class);
+
+        cartValidator.checkProduct_sku_id();
+
+        cartValidator.checkProduct_amount();
+
         cartService.save(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+        renderJson(Utility.setSuccessResponse());
     }
 
     @ActionKey(Url.URL_CART_UPDATE)
     public void update() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+        Cart cartValidator = jsonObject.toJavaObject(Cart.class);
+
+        cartValidator.checkCart_id();
+
+        cartValidator.checkProduct_amount();
+
         cartService.update(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+        renderJson(Utility.setSuccessResponse());
     }
 
     @ActionKey(Url.URL_CART_DELETE)
     public void delete() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+        Cart cartValidator = jsonObject.toJavaObject(Cart.class);
+
+        cartValidator.checkCart_id();
+
         cartService.delete(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+        renderJson(Utility.setSuccessResponse());
     }
 
     @ActionKey(Url.URL_CART_LIST_GET)
@@ -70,7 +88,7 @@ public class CartController extends BaseController {
 
         List<Map<String, Object>> cartList = cartService.getList(jsonObject);
 
-        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", cartList));
+        renderJson(Utility.setSuccessResponse(cartList));
     }
 
 }

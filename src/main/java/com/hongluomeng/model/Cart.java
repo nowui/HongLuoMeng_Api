@@ -16,6 +16,8 @@ public class Cart extends Base<Cart> {
 	public static final String KEY_PRODUCT_SKU_ID = "product_sku_id";
 	public static final String KEY_PRODUCT_AMOUNT = "product_amount";
 
+	private Product product;
+	private ProductSku productSku;
 	private List<String> productSkuIdList;
 
 	public String getCart_id() {
@@ -54,18 +56,6 @@ public class Cart extends Base<Cart> {
 		Utility.checkStringLength(getProduct_sku_id(), 32, "商品SKU编号");
 	}
 
-	public String getProduct_id() {
-		return getStr(Product.KEY_PRODUCT_ID);
-	}
-
-	public void checkProduct_id() {
-		Utility.checkStringLength(getProduct_id(), 32, "商品编号");
-	}
-
-	public String getProduct_name() {
-		return getStr(Product.KEY_PRODUCT_NAME);
-	}
-
 	public Integer getProduct_amount() {
 		return Utility.getIntegerValue(get(KEY_PRODUCT_AMOUNT));
 	}
@@ -78,16 +68,12 @@ public class Cart extends Base<Cart> {
 		Utility.checkIntegerLength(getProduct_amount(), 1, 7, "购物车商品数量");
 	}
 
-	public JSONArray getProduct_image() {
-		return JSONArray.parseArray(getStr(Product.KEY_PRODUCT_IMAGE));
+	public Product getProduct() {
+		return new Product().put(this);
 	}
 
-	public JSONArray getProduct_attribute_value() {
-		return JSONArray.parseArray(getStr(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE));
-	}
-
-	public BigDecimal getProduct_price() {
-		return getBigDecimal(ProductSku.KEY_PRODUCT_PRICE);
+	public ProductSku getProductSku() {
+		return new ProductSku().put(this);
 	}
 
 	public List<String> getProductSkuIdList() {

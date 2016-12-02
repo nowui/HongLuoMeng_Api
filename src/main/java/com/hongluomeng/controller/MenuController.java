@@ -9,12 +9,8 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.service.CategoryService;
 import com.hongluomeng.type.CatetoryEnum;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.MenuValidator;
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 
-@Before(MenuValidator.class)
 public class MenuController extends BaseController {
 
 	private CategoryService categoryService = new CategoryService();
@@ -23,7 +19,7 @@ public class MenuController extends BaseController {
 	public void list() {
 		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.MENU.getKey());
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MENU_FIND)
@@ -32,25 +28,41 @@ public class MenuController extends BaseController {
 
 		Category category = categoryService.find(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", category));
+		renderJson(Utility.setSuccessResponse(category));
 	}
 
 	@ActionKey(Url.URL_MENU_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Category category = jsonObject.toJavaObject(Category.class);
+
+		category.checkParent_id();
+
+		category.checkCategory_name();
+
+		category.checkCategory_sort();
+
 		categoryService.save(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MENU_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Category category = jsonObject.toJavaObject(Category.class);
+
+		category.checkCategory_id();
+
+		category.checkCategory_name();
+
+		category.checkCategory_sort();
+
 		categoryService.update(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MENU_DELETE)
@@ -59,7 +71,7 @@ public class MenuController extends BaseController {
 
 		categoryService.delete(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 }

@@ -35,9 +35,7 @@ public class AttributeService {
 			list.add(map);
 		}
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, list);
-
-		return resultMap;
+		return Utility.setResultMap(count, list);
 	}
 
 	public Attribute find(JSONObject jsonObject) {

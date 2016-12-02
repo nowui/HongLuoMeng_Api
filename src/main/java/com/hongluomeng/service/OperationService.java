@@ -64,10 +64,9 @@ public class OperationService {
 	public Operation find(JSONObject jsonObject) {
 		Operation operationMap = jsonObject.toJavaObject(Operation.class);
 
-		Operation operationParameter = new Operation();
-		operationParameter.setOperation_id(operationMap.getOperation_id());
+		Operation operation = operationDao.findByOperation_id(operationMap.getOperation_id());
 
-		return operationDao.findByOperation_id(operationParameter.getOperation_id());
+		return operation;
 	}
 
 	public void save(JSONObject jsonObject) {

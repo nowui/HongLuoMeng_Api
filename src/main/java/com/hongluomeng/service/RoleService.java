@@ -45,9 +45,7 @@ public class RoleService {
 			list.add(map);
 		}
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, list);
-
-		return resultMap;
+		return Utility.setResultMap(count, list);
 	}
 
 	public List<Map<String, Object>> listOperation(JSONObject jsonObject) {

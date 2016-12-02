@@ -40,14 +40,12 @@ public class BrandService {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Brand.KEY_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.KEY_BRAND_NAME, brand.getBrand_name());
-			map.put(Category.KEY_CATEGORY_NAME, brand.getCategory_name());
+			map.put(Category.KEY_CATEGORY_NAME, brand.getCategory().getCategory_name());
 
 			list.add(map);
 		}
 
-		Map<String, Object> resultMap = Utility.setResultMap(count, list);
-
-		return resultMap;
+		return Utility.setResultMap(count, list);
 	}
 
 	public List<Map<String, Object>> getList(JSONObject jsonObject) {
@@ -223,7 +221,7 @@ public class BrandService {
 		for (BrandApply brandApply : brandApplyList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(BrandApply.KEY_BRAND_ID, brandApply.getBrand_id());
-			map.put(Brand.KEY_BRAND_NAME, brandApply.getBrand_name());
+			map.put(Brand.KEY_BRAND_NAME, brandApply.getBrand().getBrand_name());
 			map.put(BrandApply.KEY_USER_ID, brandApply.getUser_id());
 			map.put(Member.KEY_MEMBER_REAL_NAME, brandApply.getMember_real_name());
 			map.put(BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS, brandApply.getBrand_apply_review_status_value());

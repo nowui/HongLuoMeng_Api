@@ -1,7 +1,6 @@
 package com.hongluomeng.model;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.Utility;
@@ -22,6 +21,7 @@ public class Brand extends Base<Brand> {
 	public static final String KEY_BRAND_APPLY_EXPIRE_TIME = "brand_apply_expire_time";
 	public static final String KEY_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
 
+	private Category category;
 	private List<Category> categoryList;
 
 	public String getBrand_id() {
@@ -46,10 +46,6 @@ public class Brand extends Base<Brand> {
 
 	public void checkCategory_id() {
 		Utility.checkStringLength(getCategory_id(), 32, "分类编号");
-	}
-
-	public String getCategory_name() {
-		return getStr(Category.KEY_CATEGORY_NAME);
 	}
 
 	public String getBrand_name() {
@@ -113,11 +109,7 @@ public class Brand extends Base<Brand> {
 	}
 
 	public String getBrand_apply_create_time() {
-		if(Utility.isNullOrEmpty(getDate(KEY_BRAND_APPLY_CREATE_TIME))) {
-			return "";
-		} else {
-			return Utility.getDateTimeString(getDate(KEY_BRAND_APPLY_CREATE_TIME));
-		}
+		return Utility.getDateTimeString(getDate(KEY_BRAND_APPLY_CREATE_TIME));
 	}
 
 	public String getBrand_apply_expire_time() {
@@ -134,6 +126,10 @@ public class Brand extends Base<Brand> {
 
 	public String getBrand_apply_review_status() {
 		return getStr(KEY_BRAND_APPLY_REVIEW_STATUS);
+	}
+
+	public Category getCategory() {
+		return new Category().put(this);
 	}
 
 	public List<Category> getCategoryList() {

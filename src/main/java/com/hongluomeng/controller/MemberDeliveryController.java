@@ -5,68 +5,108 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.MemberDelivery;
 import com.hongluomeng.service.MemberDeliveryService;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.MemberDeliveryValidator;
 
-@Before(MemberDeliveryValidator.class)
 public class MemberDeliveryController extends BaseController {
 
-	private MemberDeliveryService memberDeliveryService = new MemberDeliveryService();
+    private MemberDeliveryService memberDeliveryService = new MemberDeliveryService();
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_LIST)
-	public void list() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+    @ActionKey(Url.URL_MEMBER_DELIVERY_LIST)
+    public void list() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> resultMap = memberDeliveryService.list(jsonObject);
+        Utility.checkPageAndLimit(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
-	}
+        Map<String, Object> resultMap = memberDeliveryService.list(jsonObject);
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_FIND)
-	public void find() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+        renderJson(Utility.setSuccessResponse(resultMap));
+    }
 
-		MemberDelivery memberDelivery = memberDeliveryService.find(jsonObject);
+    @ActionKey(Url.URL_MEMBER_DELIVERY_FIND)
+    public void find() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberDelivery));
-	}
+        MemberDelivery memberDeliveryValidator = jsonObject.toJavaObject(MemberDelivery.class);
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_SAVE)
-	public void save() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+        memberDeliveryValidator.checkMember_delivery_id();
 
-		memberDeliveryService.save(jsonObject);
+        MemberDelivery memberDelivery = memberDeliveryService.find(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-	}
+        renderJson(Utility.setSuccessResponse(memberDelivery));
+    }
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_UPDATE)
-	public void update() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+    @ActionKey(Url.URL_MEMBER_DELIVERY_SAVE)
+    public void save() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		memberDeliveryService.update(jsonObject);
+        MemberDelivery memberDeliveryValidator = jsonObject.toJavaObject(MemberDelivery.class);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-	}
+        memberDeliveryValidator.checkMember_delivery_name();
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_DELETE)
-	public void delete() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+        memberDeliveryValidator.checkMember_delivery_phone();
 
-		memberDeliveryService.delete(jsonObject);
+        memberDeliveryValidator.checkMember_delivery_province();
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
-	}
+        memberDeliveryValidator.checkMember_delivery_city();
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_LIST_GET)
-	public void getList() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+        memberDeliveryValidator.checkMember_delivery_area();
+
+        memberDeliveryValidator.checkMember_delivery_address();
+
+        memberDeliveryValidator.checkMember_delivery_zip();
+
+        memberDeliveryService.save(jsonObject);
+
+        renderJson(Utility.setSuccessResponse());
+    }
+
+    @ActionKey(Url.URL_MEMBER_DELIVERY_UPDATE)
+    public void update() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        MemberDelivery memberDeliveryValidator = jsonObject.toJavaObject(MemberDelivery.class);
+
+        memberDeliveryValidator.checkMember_delivery_id();
+
+        memberDeliveryValidator.checkMember_delivery_name();
+
+        memberDeliveryValidator.checkMember_delivery_phone();
+
+        memberDeliveryValidator.checkMember_delivery_province();
+
+        memberDeliveryValidator.checkMember_delivery_city();
+
+        memberDeliveryValidator.checkMember_delivery_area();
+
+        memberDeliveryValidator.checkMember_delivery_address();
+
+        memberDeliveryValidator.checkMember_delivery_zip();
+
+        memberDeliveryService.update(jsonObject);
+
+        renderJson(Utility.setSuccessResponse());
+    }
+
+    @ActionKey(Url.URL_MEMBER_DELIVERY_DELETE)
+    public void delete() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        MemberDelivery memberDeliveryValidator = jsonObject.toJavaObject(MemberDelivery.class);
+
+        memberDeliveryValidator.checkMember_delivery_id();
+
+        memberDeliveryService.delete(jsonObject);
+
+        renderJson(Utility.setSuccessResponse());
+    }
+
+    @ActionKey(Url.URL_MEMBER_DELIVERY_LIST_GET)
+    public void getList() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
 		/*String request_user_id = "00e600a0a7de4d158098e54982608598";
 
@@ -118,18 +158,22 @@ public class MemberDeliveryController extends BaseController {
 			}
 		}*/
 
-		List<MemberDelivery> memberDeliveryList = memberDeliveryService.getist(jsonObject);
+        List<MemberDelivery> memberDeliveryList = memberDeliveryService.getist(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberDeliveryList));
-	}
+        renderJson(Utility.setSuccessResponse(memberDeliveryList));
+    }
 
-	@ActionKey(Url.URL_MEMBER_DELIVERY_GET)
-	public void get() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+    @ActionKey(Url.URL_MEMBER_DELIVERY_GET)
+    public void get() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		MemberDelivery memberDelivery = memberDeliveryService.find(jsonObject);
+        MemberDelivery memberDeliveryValidator = jsonObject.toJavaObject(MemberDelivery.class);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", memberDelivery));
-	}
+        memberDeliveryValidator.checkMember_delivery_id();
+
+        MemberDelivery memberDelivery = memberDeliveryService.find(jsonObject);
+
+        renderJson(Utility.setSuccessResponse(memberDelivery));
+    }
 
 }

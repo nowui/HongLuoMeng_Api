@@ -4,17 +4,15 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.jfinal.aop.Before;
+import com.hongluomeng.model.Sms;
+import com.hongluomeng.model.User;
 import com.jfinal.core.ActionKey;
 import com.jfinal.upload.UploadFile;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Member;
 import com.hongluomeng.service.MemberService;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.MemberValidator;
 
-@Before(MemberValidator.class)
 public class MemberController extends BaseController {
 
 	private MemberService memberService = new MemberService();
@@ -23,103 +21,207 @@ public class MemberController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Utility.checkPageAndLimit(jsonObject);
+
 		Map<String, Object> resultMap = memberService.list(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		memberValidator.checkMember_id();
+
 		Member member = memberService.find(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", member));
+		renderJson(Utility.setSuccessResponse(member));
 	}
 
 	@ActionKey(Url.URL_MEMBER_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		memberValidator.checkMember_id();
+
 		memberService.delete(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_LOGIN)
 	public void login() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> map = memberService.login(jsonObject);
+		User userValidator = jsonObject.toJavaObject(User.class);
 
-		if (map == null) {
-			renderJson(Utility.setResponse(CodeEnum.CODE_400, "用户名或者密码不正确", null));
-		} else {
-			renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
-		}
+		userValidator.checkUser_phone();
+
+		userValidator.checkUser_password();
+
+		Map<String, Object> resultMap = memberService.login(jsonObject);
+
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_WEIBO_OAUTH)
 	public void oauthWeibo() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		User userValidator = jsonObject.toJavaObject(User.class);
+
+		memberValidator.checkMember_name();
+
+		memberValidator.checkMember_avatar();
+
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+
+		userValidator.checkWeibo_uid();
+
+		userValidator.checkWeibo_access_token();
+
+		memberValidator.checkMember_weibo_fans();
+
+		memberValidator.checkMember_weibo_friend();
+
 		Map<String, Object> map = memberService.oauthWeibo(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_WECHAT_OAUTH)
 	public void oauthWechat() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> map = memberService.oauthWechat(jsonObject);
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+		User userValidator = jsonObject.toJavaObject(User.class);
+
+		memberValidator.checkMember_name();
+
+		memberValidator.checkMember_avatar();
+
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+
+		userValidator.checkWechat_uid();
+
+		userValidator.checKWechat_access_token();
+
+		Map<String, Object> resultMap = memberService.oauthWechat(jsonObject);
+
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_WEIBO_BIND)
 	public void bindWeibo() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		User userValidator = jsonObject.toJavaObject(User.class);
+
+		memberValidator.checkMember_name();
+
+		memberValidator.checkMember_avatar();
+
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+
+		userValidator.checkWeibo_uid();
+
+		userValidator.checkWeibo_access_token();
+
+		memberValidator.checkMember_weibo_fans();
+
+		memberValidator.checkMember_weibo_friend();
+
 		memberService.bindWeibo(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_WECHAT_BIND)
 	public void bindWechat() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		User userValidator = jsonObject.toJavaObject(User.class);
+
+		memberValidator.checkMember_name();
+
+		memberValidator.checkMember_avatar();
+
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+
+		userValidator.checkWechat_uid();
+
+		userValidator.checKWechat_access_token();
+
 		memberService.bindWechat(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_REGISTER)
 	public void register() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> map = memberService.register(jsonObject);
+		User userValidator = jsonObject.toJavaObject(User.class);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", map));
+		userValidator.checkUser_phone();
+
+		userValidator.checkUser_password();
+
+		Sms smsValidator = jsonObject.toJavaObject(Sms.class);
+
+		smsValidator.checkSms_code();
+
+		Map<String, Object> resultMap = memberService.register(jsonObject);
+
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_NAME_UPDATE)
 	public void updatName() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		memberValidator.checkMember_name();
+
 		memberService.updateName(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_PASSWORD_UPDATE)
 	public void updatePassword() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		User userValidator = jsonObject.toJavaObject(User.class);
+
+		userValidator.checkUser_phone();
+
+		userValidator.checkUser_password();
+
 		memberService.updatePassword(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_AVATAR_UPLOAD)
@@ -130,9 +232,9 @@ public class MemberController extends BaseController {
 
 		UploadFile uploadFile = getFile("file", request_user_id, 1024 * 1024);
 
-		JSONObject avatarObject = memberService.uploadAvatar(uploadFile, request_user_id);
+		Map<String, Object> resultMap = memberService.uploadAvatar(uploadFile, request_user_id);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", avatarObject));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_WEIBO_UPDATE)
@@ -141,7 +243,7 @@ public class MemberController extends BaseController {
 
 		memberService.updateWeibo(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_MEMBER_STATUS_GET)
@@ -150,16 +252,20 @@ public class MemberController extends BaseController {
 
 		Map<String, Object> resultMap = memberService.getStatus(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_STATUS_UPDATE)
 	public void updateStatus() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Member memberValidator = jsonObject.toJavaObject(Member.class);
+
+		memberValidator.checkMember_id();
+
 		memberService.updateStatus(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 }

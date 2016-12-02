@@ -145,6 +145,22 @@ public class Utility {
 		return matcher.matches();
 	}
 
+	public static Map<String, Object> setResultMap(Integer total, Object data) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put(Const.KEY_TOTAL, total);
+		resultMap.put(Const.KEY_LIST, data);
+
+		return resultMap;
+	}
+
+	public static Map<String, Object> setSuccessResponse() {
+		return setResponse(CodeEnum.CODE_200, "", null);
+	}
+
+	public static Map<String, Object> setSuccessResponse(Object data) {
+		return setResponse(CodeEnum.CODE_200, "", data);
+	}
+
 	public static Map<String, Object> setResponse(CodeEnum code, String message, Object data) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(Const.KEY_CODE, code.getKey());
@@ -154,14 +170,6 @@ public class Utility {
 			map.put(Const.KEY_MESSAGE, message.replaceAll("java.lang.RuntimeException: ", ""));
 		}
 		return map;
-	}
-
-	public static Map<String, Object> setResultMap(Integer total, Object data) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put(Const.KEY_TOTAL, total);
-		resultMap.put(Const.KEY_LIST, data);
-
-		return resultMap;
 	}
 
 	public static Integer getStarNumber(Map<String, Object> map) {
@@ -363,9 +371,11 @@ public class Utility {
 			}
 		}
 
-		String regex = "^.{" + start + "," + end + "}$";
-		if (!match(regex, str)) {
-			throw new RuntimeException(message);
+		if(start > 0 && end > 0) {
+			String regex = "^.{" + start + "," + end + "}$";
+			if (!match(regex, str)) {
+				throw new RuntimeException(message);
+			}
 		}
 	}
 

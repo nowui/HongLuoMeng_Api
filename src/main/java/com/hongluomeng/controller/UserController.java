@@ -5,15 +5,12 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.service.UserService;
 import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.UserValidator;
 
-@Before(UserValidator.class)
 public class UserController extends BaseController {
 
 	private UserService userService = new UserService();
@@ -22,9 +19,11 @@ public class UserController extends BaseController {
 	public void listMenu() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Map<String, Object>> list = userService.menu(jsonObject);
+		//User userValidator = jsonObject.toJavaObject(User.class);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
+		List<Map<String, Object>> resultList = userService.menu(jsonObject);
+
+		renderJson(Utility.setSuccessResponse(resultList));
 	}
 
 }

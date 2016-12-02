@@ -129,7 +129,7 @@ public class AdminService {
 		User user = userService.loginByUser_accountAndUser_passwordAndUser_type(userMap.getUser_account(), userMap.getUser_password(), UserEnum.ADMIN.getKey());
 
 		if (user == null) {
-			return null;
+			throw new RuntimeException("用户名或者密码不正确");
 		} else {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 

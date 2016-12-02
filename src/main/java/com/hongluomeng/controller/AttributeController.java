@@ -4,16 +4,12 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Attribute;
 import com.hongluomeng.service.AttributeService;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.AttributeValidator;
 
-@Before(AttributeValidator.class)
 public class AttributeController extends BaseController {
 
 	private AttributeService attributeService = new AttributeService();
@@ -22,45 +18,77 @@ public class AttributeController extends BaseController {
 	public void list() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Utility.checkPageAndLimit(jsonObject);
+
 		Map<String, Object> resultMap = attributeService.list(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_ATTRIBUTE_FIND)
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Attribute attributeValidator = jsonObject.toJavaObject(Attribute.class);
+
+		attributeValidator.checkAttribute_id();
+
 		Attribute attribute = attributeService.find(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", attribute));
+		renderJson(Utility.setSuccessResponse(attribute));
 	}
 
 	@ActionKey(Url.URL_ATTRIBUTE_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Attribute attributeValidator = jsonObject.toJavaObject(Attribute.class);
+
+		attributeValidator.checkAttribute_name();
+
+		attributeValidator.checkAttribute_input_type();
+
+		attributeValidator.checkAttribute_type();
+
+		attributeValidator.checkAttribute_sort();
+
 		attributeService.save(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_ATTRIBUTE_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Attribute attributeValidator = jsonObject.toJavaObject(Attribute.class);
+
+		attributeValidator.checkAttribute_id();
+
+		attributeValidator.checkAttribute_name();
+
+		attributeValidator.checkAttribute_input_type();
+
+		attributeValidator.checkAttribute_type();
+
+		attributeValidator.checkAttribute_sort();
+
 		attributeService.update(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_ATTRIBUTE_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+		Attribute attributeValidator = jsonObject.toJavaObject(Attribute.class);
+
+		attributeValidator.checkAttribute_id();
+
 		attributeService.delete(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 }

@@ -16,6 +16,8 @@ public class BrandApply extends Base<BrandApply> {
 	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
 	public static final String KEY_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
 
+	private Brand brand;
+
 	public String getBrand_id() {
 		return getStr(KEY_BRAND_ID);
 	}
@@ -26,10 +28,6 @@ public class BrandApply extends Base<BrandApply> {
 
 	public void checkBrand_id() {
 		Utility.checkStringLength(getBrand_id(), 32, "品牌编号");
-	}
-
-	public String getBrand_name() {
-		return getStr(Brand.KEY_BRAND_NAME);
 	}
 
 	public String getUser_id() {
@@ -110,6 +108,10 @@ public class BrandApply extends Base<BrandApply> {
 		}
 
 		return "";
+	}
+
+	public Brand getBrand() {
+		return new Brand().put(this);
 	}
 
 }

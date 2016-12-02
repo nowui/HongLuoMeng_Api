@@ -5,16 +5,12 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Role;
 import com.hongluomeng.service.RoleService;
-import com.hongluomeng.type.CodeEnum;
-import com.hongluomeng.validator.RoleValidator;
 
-@Before(RoleValidator.class)
 public class RoleController extends BaseController {
 
 	private RoleService roleService = new RoleService();
@@ -25,7 +21,7 @@ public class RoleController extends BaseController {
 
 		Map<String, Object> resultMap = roleService.list(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultMap));
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_ROLE_FIND)
@@ -34,7 +30,7 @@ public class RoleController extends BaseController {
 
 		Role role = roleService.find(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", role));
+		renderJson(Utility.setSuccessResponse(role));
 	}
 
 	@ActionKey(Url.URL_ROLE_SAVE)
@@ -43,7 +39,7 @@ public class RoleController extends BaseController {
 
 		roleService.save(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_ROLE_UPDATE)
@@ -52,7 +48,7 @@ public class RoleController extends BaseController {
 
 		roleService.update(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_ROLE_DELETE)
@@ -61,16 +57,16 @@ public class RoleController extends BaseController {
 
 		roleService.delete(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_ROLE_OPERATION_LIST)
 	public void listOperatio() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Map<String, Object>> list = roleService.listOperation(jsonObject);
+		List<Map<String, Object>> resultList = roleService.listOperation(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", list));
+		renderJson(Utility.setSuccessResponse(resultList));
 	}
 
 	@ActionKey(Url.URL_ROLE_OPERATION_UPDATE)
@@ -79,7 +75,7 @@ public class RoleController extends BaseController {
 
 		roleService.updateOperation(jsonObject);
 
-		renderJson(Utility.setResponse(CodeEnum.CODE_200, "", null));
+		renderJson(Utility.setSuccessResponse());
 	}
 
 }

@@ -46,7 +46,9 @@ public class AuthorizationService {
 	public Authorization find(JSONObject jsonObject) {
 		Authorization authorizationMap = jsonObject.toJavaObject(Authorization.class);
 
-		return authorizationDao.findByAuthorization_id(authorizationMap.getAuthorization_id());
+		Authorization authorization = authorizationDao.findByAuthorization_id(authorizationMap.getAuthorization_id());
+
+		return authorization;
 	}
 
 	public String saveByUser_id(String user_id) {

@@ -8,6 +8,7 @@ import com.hongluomeng.common.DynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Activity;
+import com.jfinal.plugin.activerecord.Record;
 
 public class ActivityDao {
 
@@ -33,7 +34,9 @@ public class ActivityDao {
 		dynamicSQL.append("ORDER BY " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_CREATE_TIME + " DESC ");
 		dynamicSQL.appendPagination(m, n);
 
-		return new Activity().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Activity> activityList = new Activity().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+
+		return activityList;
 	}
 
 	public List<Activity> list(Integer m, Integer n) {
@@ -48,11 +51,12 @@ public class ActivityDao {
 		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
 		dynamicSQL.isNullOrEmpty("AND " + Activity.KEY_ACTIVITY_ID + " = ? ", activity.getActivity_id());
 
-		List<Activity> activityList = activity.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
-		if (activityList.size() == 0) {
+		List<Record> recordList = Db.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		if (recordList.size() == 0) {
 			return null;
 		} else {
-			return activityList.get(0);
+			Activity activityModel = new Activity().put(recordList.get(0));
+			return activityModel;
 		}
 	}
 
