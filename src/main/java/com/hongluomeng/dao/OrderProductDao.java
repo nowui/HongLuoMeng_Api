@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -13,12 +13,12 @@ import com.hongluomeng.model.OrderProduct;
 public class OrderProductDao {
 
 	private Integer count(OrderProduct orderProduct) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT COUNT(*) FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -29,28 +29,28 @@ public class OrderProductDao {
 	}
 
 	private List<OrderProduct> list(OrderProduct orderProduct, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
 		if (!Utility.isNullOrEmpty(orderProduct.getOrderIdList())) {
 			for (int i = 0; i < orderProduct.getOrderIdList().size(); i++) {
 				String order_id = orderProduct.getOrderIdList().get(i);
 
 				if(i == 0) {
-					dynamicSQL.append("AND(");
+					myDynamicSQL.append("AND(");
 				} else {
-					dynamicSQL.append("OR ");
+					myDynamicSQL.append("OR ");
 				}
 
-				dynamicSQL.isNullOrEmpty(OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
+				myDynamicSQL.isNullOrEmpty(OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
 			}
-			dynamicSQL.append(") ");
+			myDynamicSQL.append(") ");
 		}
-		dynamicSQL.append("ORDER BY " + OrderProduct.KEY_SYSTEM_CREATE_TIME + " ASC ");
-		dynamicSQL.appendPagination(m, n);
+		myDynamicSQL.append("ORDER BY " + OrderProduct.KEY_SYSTEM_CREATE_TIME + " ASC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return new OrderProduct().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new OrderProduct().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<OrderProduct> listByOrder_id(String order_id) {
@@ -72,13 +72,13 @@ public class OrderProductDao {
 	}
 
 	private OrderProduct find(OrderProduct orderProduct) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + OrderProduct.KEY_ORDER_ID + " = ? ", orderProduct.getOrder_id());
+		myDynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + OrderProduct.KEY_ORDER_ID + " = ? ", orderProduct.getOrder_id());
 
-		List<OrderProduct> orderProductList = new OrderProduct().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<OrderProduct> orderProductList = new OrderProduct().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(orderProductList == null) {
 			return null;
 		} else {
@@ -206,15 +206,15 @@ public class OrderProductDao {
 	}
 
 	public void delete(String order_id, String request_user_id) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("UPDATE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		dynamicSQL.append("SET " + OrderProduct.KEY_SYSTEM_STATUS + " = 0, ");
-		dynamicSQL.append(OrderProduct.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		dynamicSQL.append(OrderProduct.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		dynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
+		myDynamicSQL.append("UPDATE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("SET " + OrderProduct.KEY_SYSTEM_STATUS + " = 0, ");
+		myDynamicSQL.append(OrderProduct.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(OrderProduct.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
 
-		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 }

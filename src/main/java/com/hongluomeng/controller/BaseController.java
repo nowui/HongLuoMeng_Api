@@ -11,14 +11,7 @@ public class BaseController extends Controller {
 
 		setAttr(Const.KEY_RESPONSE, response);
 
-//		@SuppressWarnings("unchecked")
-//		Map<String, Object> map = (Map<String, Object>) object;
-//
-//		if ((int) map.get(Const.KEY_CODE) == CodeEnum.CODE_500.getKey()) {
-//			map.put(Const.KEY_MESSAGE, "网络错误");
-//		}
-
-		super.renderJson(JSON.toJSONString(object));
+		super.renderJson(response);
 	}
 
 }

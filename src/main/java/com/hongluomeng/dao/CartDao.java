@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -15,12 +15,12 @@ import com.hongluomeng.model.ProductSku;
 public class CartDao {
 
 	private Integer count(Cart cart) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append("" + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
+		myDynamicSQL.append("" + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -31,38 +31,38 @@ public class CartDao {
 	}
 
 	private List<Cart> list(Cart cart, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT " + Cart.KEY_TABLE_CART + ".*, ");
-		dynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
-		dynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_IMAGE + ", ");
-		dynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
-		dynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + " ");
-		dynamicSQL.append("FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
-		dynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
-		dynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ", cart.getUser_id());
+		myDynamicSQL.append("SELECT " + Cart.KEY_TABLE_CART + ".*, ");
+		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
+		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_IMAGE + ", ");
+		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + " ");
+		myDynamicSQL.append("FROM " + Cart.KEY_TABLE_CART + " ");
+		myDynamicSQL.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
+		myDynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
+		myDynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ", cart.getUser_id());
 
 		if (!Utility.isNullOrEmpty(cart.getProductSkuIdList())) {
 			for (int i = 0; i < cart.getProductSkuIdList().size(); i++) {
 				String product_sku_id = cart.getProductSkuIdList().get(i);
 
 				if(i == 0) {
-					dynamicSQL.append("AND(");
+					myDynamicSQL.append("AND(");
 				} else {
-					dynamicSQL.append("OR ");
+					myDynamicSQL.append("OR ");
 				}
 
-				dynamicSQL.isNullOrEmpty(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+				myDynamicSQL.isNullOrEmpty(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
-			dynamicSQL.append(") ");
+			myDynamicSQL.append(") ");
 		}
 
-		dynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_CREATE_TIME + " DESC ");
-		dynamicSQL.appendPagination(m, n);
+		myDynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return cart.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return cart.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<Cart> list(Integer m, Integer n) {
@@ -87,14 +87,14 @@ public class CartDao {
 	}
 
 	private Cart find(Cart cart) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
-		dynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_CART_ID + " = ? ", cart.getCart_id());
-		dynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
+		myDynamicSQL.append("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
+		myDynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Cart.KEY_CART_ID + " = ? ", cart.getCart_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
 
-		List<Cart> cartList = cart.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Cart> cartList = cart.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (cartList.size() == 0) {
 			return null;
 		} else {

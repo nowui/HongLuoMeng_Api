@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Attribute;
@@ -12,11 +12,11 @@ import com.hongluomeng.model.Attribute;
 public class AttributeDao {
 
 	private Integer count(Attribute attribute) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		dynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -27,13 +27,13 @@ public class AttributeDao {
 	}
 
 	private List<Attribute> list(Attribute attribute, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		dynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", " + Attribute.KEY_ATTRIBUTE_SORT + " ASC ");
-		dynamicSQL.appendPagination(m, n);
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("ORDER BY " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", " + Attribute.KEY_ATTRIBUTE_SORT + " ASC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return new Attribute().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new Attribute().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<Attribute> list(Integer m, Integer n) {
@@ -43,12 +43,12 @@ public class AttributeDao {
 	}
 
 	private Attribute find(Attribute attribute) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		dynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + Attribute.KEY_ATTRIBUTE_ID + " = ? ", attribute.getAttribute_id());
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
+		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Attribute.KEY_ATTRIBUTE_ID + " = ? ", attribute.getAttribute_id());
 
-		List<Attribute> attributeList = attribute.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Attribute> attributeList = attribute.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (attributeList.size() == 0) {
 			return null;
 		} else {

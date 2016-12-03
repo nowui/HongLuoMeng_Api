@@ -3,7 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Log;
@@ -11,11 +11,11 @@ import com.hongluomeng.model.Log;
 public class LogDao {
 
 	private Integer count(Log log) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Log.KEY_TABLE_LOG + " ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Log.KEY_TABLE_LOG + " ");
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -26,13 +26,13 @@ public class LogDao {
 	}
 
 	private List<Log> list(Log log, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + Log.KEY_TABLE_LOG + " ");
-		dynamicSQL.append("ORDER BY " + Log.KEY_LOG_CREATE_TIME + " DESC ");
-		dynamicSQL.appendPagination(m, n);
+		myDynamicSQL.append("SELECT * FROM " + Log.KEY_TABLE_LOG + " ");
+		myDynamicSQL.append("ORDER BY " + Log.KEY_LOG_CREATE_TIME + " DESC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return new Log().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new Log().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<Log> list(Integer m, Integer n) {
@@ -42,12 +42,12 @@ public class LogDao {
 	}
 
 	private Log find(Log log) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + Log.KEY_TABLE_LOG + " ");
-		dynamicSQL.isNullOrEmpty("WHERE " + Log.KEY_LOG_ID + " = ? ", log.getLog_id());
+		myDynamicSQL.append("SELECT * FROM " + Log.KEY_TABLE_LOG + " ");
+		myDynamicSQL.isNullOrEmpty("WHERE " + Log.KEY_LOG_ID + " = ? ", log.getLog_id());
 
-		List<Log> logList = log.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Log> logList = log.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(logList.size() == 0) {
 			return null;
 		} else {

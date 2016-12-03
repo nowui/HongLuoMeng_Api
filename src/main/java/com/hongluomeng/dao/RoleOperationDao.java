@@ -3,7 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -12,13 +12,13 @@ import com.hongluomeng.model.RoleOperation;
 public class RoleOperationDao {
 
 	private List<RoleOperation> list(RoleOperation roleOperation) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ");
-		dynamicSQL.append("WHERE 1 = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
+		myDynamicSQL.append("SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ");
+		myDynamicSQL.append("WHERE 1 = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
 
-		return roleOperation.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return roleOperation.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<RoleOperation> listByRole_id(String role_id) {
@@ -50,35 +50,35 @@ public class RoleOperationDao {
 	}
 
 	public void deleteByRole_id(List<RoleOperation> roleOperationList, String role_id) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
+		myDynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
 
 		if (roleOperationList.size() > 0) {
-			dynamicSQL.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
+			myDynamicSQL.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
 
 			for(int i = 0; i < roleOperationList.size(); i++) {
 				RoleOperation roleOperation = roleOperationList.get(i);
 				if(i > 0) {
-					dynamicSQL.append("OR ");
+					myDynamicSQL.append("OR ");
 				}
 
-				dynamicSQL.append("(" + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
-				dynamicSQL.append("AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ", roleOperation.getOperation_id());
+				myDynamicSQL.append("(" + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
+				myDynamicSQL.append("AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ", roleOperation.getOperation_id());
 			}
-			dynamicSQL.append(") AS A) AND ");
+			myDynamicSQL.append(") AS A) AND ");
 		}
-		dynamicSQL.append(RoleOperation.KEY_ROLE_ID + " = ? ", role_id);
+		myDynamicSQL.append(RoleOperation.KEY_ROLE_ID + " = ? ", role_id);
 
-		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public void deleteByOperation_id(String operation_id) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ", operation_id);
+		myDynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ", operation_id);
 
-		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 }

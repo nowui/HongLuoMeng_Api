@@ -3,7 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Authorization;
@@ -11,10 +11,10 @@ import com.hongluomeng.model.Authorization;
 public class AuthorizationDao {
 
 	private Integer count(Authorization authorization) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -25,12 +25,12 @@ public class AuthorizationDao {
 	}
 
 	private List<Authorization> list(Authorization authorization, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
-		dynamicSQL.append("ORDER BY " + Authorization.KEY_AUTHORIZATION_CREATE_TIME + " DESC ");
-		dynamicSQL.appendPagination(m, n);
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		myDynamicSQL.append("ORDER BY " + Authorization.KEY_AUTHORIZATION_CREATE_TIME + " DESC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return new Authorization().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new Authorization().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<Authorization> list(Integer m, Integer n) {
@@ -40,12 +40,12 @@ public class AuthorizationDao {
 	}
 
 	private Authorization find(Authorization authorization) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
-		dynamicSQL.append("WHERE 1 = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + Authorization.KEY_AUTHORIZATION_ID + " = ? ", authorization.getAuthorization_id());
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		myDynamicSQL.append("WHERE 1 = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Authorization.KEY_AUTHORIZATION_ID + " = ? ", authorization.getAuthorization_id());
 
-		List<Authorization> authorizationList = new Authorization().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Authorization> authorizationList = new Authorization().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(authorizationList.size() == 0) {
 			return null;
 		} else {

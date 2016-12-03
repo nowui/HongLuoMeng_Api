@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
@@ -13,13 +13,13 @@ import com.hongluomeng.model.MemberDelivery;
 public class MemberDeliveryDao {
 
 	private Integer count(MemberDelivery memberDelivery) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT COUNT(*) FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
+		myDynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -30,26 +30,26 @@ public class MemberDeliveryDao {
 	}
 
 	private List<MemberDelivery> list(MemberDelivery memberDelivery, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT ");
-		dynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ID + ", ");
-		dynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_NAME + ", ");
-		dynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PHONE + ", ");
-		dynamicSQL.append("province." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + ", ");
-		dynamicSQL.append("city." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + ", ");
-		dynamicSQL.append("area." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + ", ");
-		dynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ADDRESS + " ");
-		dynamicSQL.append("FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
-		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + " ");
-		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + " ");
-		dynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
-		dynamicSQL.append("ORDER BY " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_CREATE_TIME + " DESC ");
-		dynamicSQL.appendPagination(m, n);
+		myDynamicSQL.append("SELECT ");
+		myDynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ID + ", ");
+		myDynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_NAME + ", ");
+		myDynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PHONE + ", ");
+		myDynamicSQL.append("province." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + ", ");
+		myDynamicSQL.append("city." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + ", ");
+		myDynamicSQL.append("area." + Category.KEY_CATEGORY_NAME + " AS " + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + ", ");
+		myDynamicSQL.append(MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_ADDRESS + " ");
+		myDynamicSQL.append("FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
+		myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE + " ");
+		myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_CITY + " ");
+		myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_MEMBER_DELIVERY_AREA + " ");
+		myDynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_USER_ID + " = ? ", memberDelivery.getUser_id());
+		myDynamicSQL.append("ORDER BY " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return new MemberDelivery().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new MemberDelivery().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<MemberDelivery> list(Integer m, Integer n) {
@@ -68,13 +68,13 @@ public class MemberDeliveryDao {
 	}
 
 	private MemberDelivery find(MemberDelivery memberDelivery) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
-		dynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_MEMBER_DELIVERY_ID + " = ? ", memberDelivery.getMember_delivery_id());
+		myDynamicSQL.append("SELECT * FROM " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + " ");
+		myDynamicSQL.append("WHERE " + MemberDelivery.KEY_TABLE_MEMBER_DELIVERY + "." + MemberDelivery.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + MemberDelivery.KEY_MEMBER_DELIVERY_ID + " = ? ", memberDelivery.getMember_delivery_id());
 
-		List<MemberDelivery> memberDeliveryList = new MemberDelivery().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<MemberDelivery> memberDeliveryList = new MemberDelivery().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(memberDeliveryList.size() == 0) {
 			return null;
 		} else {

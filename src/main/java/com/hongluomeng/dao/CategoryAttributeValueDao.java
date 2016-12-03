@@ -3,7 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.hongluomeng.model.Attribute;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Const;
@@ -14,22 +14,22 @@ import com.hongluomeng.model.CategoryAttributeValue;
 public class CategoryAttributeValueDao {
 
 	public List<CategoryAttributeValue> listByObject_idAndObject_typeAndCategory_id(String object_id, String object_type, String category_id) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT ");
-		dynamicSQL.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + ", ");
-		dynamicSQL.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + ", ");
-		dynamicSQL.append(Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + ", ");
-		dynamicSQL.append(Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + ", ");
-		dynamicSQL.append(Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", ");
-		dynamicSQL.append("IFNULL(" + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + "." + CategoryAttributeValue.KEY_ATTRIBUTE_VALUE + ", '') AS " + CategoryAttributeValue.KEY_ATTRIBUTE_VALUE + " ");
-		dynamicSQL.append("FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
-		dynamicSQL.append("LEFT JOIN (SELECT * FROM " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " WHERE " + CategoryAttributeValue.KEY_OBJECT_ID + " = ? AND " + CategoryAttributeValue.KEY_OBJECT_TYPE + " = ?) AS " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + "." + CategoryAttributeValue.KEY_ATTRIBUTE_ID + " ", object_id, object_type);
-		dynamicSQL.append("LEFT JOIN table_attribute ON table_attribute.attribute_id = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
-		dynamicSQL.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", category_id);
-		dynamicSQL.append("ORDER BY " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ");
+		myDynamicSQL.append("SELECT ");
+		myDynamicSQL.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + ", ");
+		myDynamicSQL.append(CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + ", ");
+		myDynamicSQL.append(Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_NAME + ", ");
+		myDynamicSQL.append(Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE + ", ");
+		myDynamicSQL.append(Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", ");
+		myDynamicSQL.append("IFNULL(" + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + "." + CategoryAttributeValue.KEY_ATTRIBUTE_VALUE + ", '') AS " + CategoryAttributeValue.KEY_ATTRIBUTE_VALUE + " ");
+		myDynamicSQL.append("FROM " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + " ");
+		myDynamicSQL.append("LEFT JOIN (SELECT * FROM " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " WHERE " + CategoryAttributeValue.KEY_OBJECT_ID + " = ? AND " + CategoryAttributeValue.KEY_OBJECT_TYPE + " = ?) AS " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " ON " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " = " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + "." + CategoryAttributeValue.KEY_ATTRIBUTE_ID + " ", object_id, object_type);
+		myDynamicSQL.append("LEFT JOIN table_attribute ON table_attribute.attribute_id = " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_ATTRIBUTE_ID + " ");
+		myDynamicSQL.append("WHERE " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ID + " = ? ", category_id);
+		myDynamicSQL.append("ORDER BY " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", " + CategoryAttribute.KEY_TABLE_CATEGORY_ATTRIBUTE + "." + CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT + " ");
 
-		return new CategoryAttributeValue().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new CategoryAttributeValue().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public void saveByObject_idAndObject_typeAndCategoryAttributeList(String object_id, String object_type, List<CategoryAttributeValue> categoryAttributeValueList) {
@@ -52,19 +52,19 @@ public class CategoryAttributeValueDao {
 	}
 
 	public void deleteByObject_idAndObject_type(String object_id, String object_type) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("DELETE FROM " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " WHERE " + CategoryAttributeValue.KEY_OBJECT_ID + " = ? AND " + CategoryAttributeValue.KEY_OBJECT_TYPE + " = ? ", object_id, object_type);
+		myDynamicSQL.append("DELETE FROM " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " WHERE " + CategoryAttributeValue.KEY_OBJECT_ID + " = ? AND " + CategoryAttributeValue.KEY_OBJECT_TYPE + " = ? ", object_id, object_type);
 
-		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public void deleteByAttribute_id(String attribute_id) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("DELETE FROM " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " WHERE " + CategoryAttributeValue.KEY_ATTRIBUTE_ID + " = ? ", attribute_id);
+		myDynamicSQL.append("DELETE FROM " + CategoryAttributeValue.KEY_TABLE_CATEGORY_ATTRIBUTE_VALUE + " WHERE " + CategoryAttributeValue.KEY_ATTRIBUTE_ID + " = ? ", attribute_id);
 
-		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 }

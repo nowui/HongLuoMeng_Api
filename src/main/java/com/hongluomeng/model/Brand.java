@@ -21,7 +21,6 @@ public class Brand extends Base<Brand> {
 	public static final String KEY_BRAND_APPLY_EXPIRE_TIME = "brand_apply_expire_time";
 	public static final String KEY_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
 
-	private Category category;
 	private List<Category> categoryList;
 
 	public String getBrand_id() {

@@ -56,9 +56,22 @@ public class AppConfig extends JFinalConfig {
         final Integer MIDIDLE = PropKit.getInt("minIdle");
         final Integer MAXACTIVEE = PropKit.getInt("maxActivee");
 
+//        Slf4jLogFilter sql_log_filter = new Slf4jLogFilter();
+//        StatFilter sql_stat_filter = new StatFilter();
+//
+//        sql_log_filter.setConnectionLogEnabled(false);
+//        sql_log_filter.setStatementLogEnabled(false);
+//        sql_log_filter.setStatementExecutableSqlLogEnable(true);
+//        sql_log_filter.setResultSetLogEnabled(false);
+//
+//        sql_stat_filter.setSlowSqlMillis(3 * 1000);
+//        sql_stat_filter.setLogSlowSql(true);
+
         DruidPlugin druidPlugin = new DruidPlugin(URL, USERNAME, PASSWORD);
         druidPlugin.set(INITIALSIZE, MIDIDLE, MAXACTIVEE);
         druidPlugin.setFilters("stat,wall");
+//        druidPlugin.addFilter(sql_log_filter);
+//        druidPlugin.addFilter(sql_stat_filter);
         plugins.add(druidPlugin);
 
         ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(druidPlugin);

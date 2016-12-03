@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Activity;
@@ -13,11 +13,11 @@ import com.jfinal.plugin.activerecord.Record;
 public class ActivityDao {
 
 	private Integer count(Activity activity) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
+		myDynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -28,13 +28,13 @@ public class ActivityDao {
 	}
 
 	private List<Activity> list(Activity activity, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.append("ORDER BY " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_CREATE_TIME + " DESC ");
-		dynamicSQL.appendPagination(m, n);
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
+		myDynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("ORDER BY " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		List<Activity> activityList = new Activity().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Activity> activityList = new Activity().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 
 		return activityList;
 	}
@@ -46,12 +46,12 @@ public class ActivityDao {
 	}
 
 	private Activity find(Activity activity) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
-		dynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		dynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + Activity.KEY_ACTIVITY_ID + " = ? ", activity.getActivity_id());
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+		myDynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
+		myDynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Activity.KEY_ACTIVITY_ID + " = ? ", activity.getActivity_id());
 
-		List<Record> recordList = Db.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Record> recordList = Db.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (recordList.size() == 0) {
 			return null;
 		} else {

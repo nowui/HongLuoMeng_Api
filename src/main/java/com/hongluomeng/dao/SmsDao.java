@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.Const;
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Sms;
@@ -13,18 +13,18 @@ import com.hongluomeng.model.Sms;
 public class SmsDao {
 
 	private Integer count(Sms sms, Integer minute) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("WHERE " + Sms.KEY_SYSTEM_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
-		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_TYPE + " = ? ", sms.getSms_type());
-		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms.getSms_phone());
-		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CODE + " = ? ", sms.getSms_code());
-		dynamicSQL.append("AND " + Sms.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Sms.KEY_TABLE_SMS + " ");
+		myDynamicSQL.append("WHERE " + Sms.KEY_SYSTEM_CREATE_TIME + " > DATE_SUB(NOW(), INTERVAL " + minute + " MINUTE) ");
+		myDynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_TYPE + " = ? ", sms.getSms_type());
+		myDynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms.getSms_phone());
+		myDynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CODE + " = ? ", sms.getSms_code());
+		myDynamicSQL.append("AND " + Sms.KEY_SYSTEM_STATUS + " = 1 ");
 
-		System.out.println(dynamicSQL.sql.toString());
+		System.out.println(myDynamicSQL.sql.toString());
 
-		Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
@@ -46,13 +46,13 @@ public class SmsDao {
 	}
 
 	private List<Sms> list(Sms sms, Integer m, Integer n) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("ORDER BY " + Sms.KEY_TABLE_SMS + "." + Sms.KEY_SYSTEM_CREATE_TIME + " DESC ");
-		dynamicSQL.appendPagination(m, n);
+		myDynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
+		myDynamicSQL.append("ORDER BY " + Sms.KEY_TABLE_SMS + "." + Sms.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.appendPagination(m, n);
 
-		return new Sms().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		return new Sms().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 	public List<Sms> list(Integer m, Integer n) {
@@ -62,13 +62,13 @@ public class SmsDao {
 	}
 
 	private Sms find(Sms sms) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("WHERE 1 = 1 ");
-		dynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_ID + " = ? ", sms.getSms_id());
+		myDynamicSQL.append("SELECT * FROM " + Sms.KEY_TABLE_SMS + " ");
+		myDynamicSQL.append("WHERE 1 = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_ID + " = ? ", sms.getSms_id());
 
-		List<Sms> smsList = new Sms().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		List<Sms> smsList = new Sms().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(smsList.size() == 0) {
 			return null;
 		} else {
@@ -94,16 +94,16 @@ public class SmsDao {
 	}
 
 	public void updateSms_statusBySms_phone(String sms_type, String sms_phone, String sms_code) {
-		DynamicSQL dynamicSQL = new DynamicSQL();
+		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		dynamicSQL.append("UPDATE " + Sms.KEY_TABLE_SMS + " ");
-		dynamicSQL.append("SET " + Sms.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		dynamicSQL.append("SET " + Sms.KEY_SYSTEM_STATUS + " = ? ", 0);
-		dynamicSQL.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ", sms_type);
-		dynamicSQL.append("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms_phone);
-		dynamicSQL.append("AND " + Sms.KEY_SMS_CODE + " = ? ", sms_code);
+		myDynamicSQL.append("UPDATE " + Sms.KEY_TABLE_SMS + " ");
+		myDynamicSQL.append("SET " + Sms.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("SET " + Sms.KEY_SYSTEM_STATUS + " = ? ", 0);
+		myDynamicSQL.append("WHERE " + Sms.KEY_SMS_TYPE + " = ? ", sms_type);
+		myDynamicSQL.append("AND " + Sms.KEY_SMS_PHONE + " = ? ", sms_phone);
+		myDynamicSQL.append("AND " + Sms.KEY_SMS_CODE + " = ? ", sms_code);
 
-		Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
 }

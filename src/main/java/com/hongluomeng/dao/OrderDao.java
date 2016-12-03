@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.Const;
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Order;
@@ -14,13 +14,13 @@ import com.hongluomeng.type.OrderEnum;
 public class OrderDao {
 
     private Integer count(Order order) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
-        dynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_NO + " = ? ", order.getOrder_no());
+        myDynamicSQL.append("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_NO + " = ? ", order.getOrder_no());
 
-        Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         return count.intValue();
     }
 
@@ -31,21 +31,21 @@ public class OrderDao {
     }
 
     private List<Order> list(Order order, Integer m, Integer n) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
         String order_flow_status = order.getOrder_status();
         if (order_flow_status.equals(OrderEnum.WAIT.getKey())) {
             order_flow_status += "," + OrderEnum.CONFIRM.getKey();
         }
 
-        dynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
-        dynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.isNullOrEmpty("AND " + Order.KEY_USER_ID + " = ? ", order.getUser_id());
-        dynamicSQL.isNullOrEmptyForSplit(Order.KEY_ORDER_STATUS + " = ? ", order_flow_status);
-        dynamicSQL.append("ORDER BY " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_CREATE_TIME + " DESC ");
-        dynamicSQL.appendPagination(m, n);
+        myDynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_USER_ID + " = ? ", order.getUser_id());
+        myDynamicSQL.isNullOrEmptyForSplit(Order.KEY_ORDER_STATUS + " = ? ", order_flow_status);
+        myDynamicSQL.append("ORDER BY " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_CREATE_TIME + " DESC ");
+        myDynamicSQL.appendPagination(m, n);
 
-        return new Order().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        return new Order().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
     public List<Order> list(Integer m, Integer n) {
@@ -64,13 +64,13 @@ public class OrderDao {
     }
 
     private Order find(Order order) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
-        dynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_ID + " = ? ", order.getOrder_id());
+        myDynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_ID + " = ? ", order.getOrder_id());
 
-        List<Order> orderList = new Order().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        List<Order> orderList = new Order().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         if (orderList.size() == 0) {
             return null;
         } else {
@@ -147,30 +147,30 @@ public class OrderDao {
     }
 
     public void payed(String order_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
-        dynamicSQL.append("SET " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.CONFIRM.getKey());
-        dynamicSQL.append("WHERE " + Order.KEY_ORDER_ID + " = ? ", order_id);
-        dynamicSQL.append("AND " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.WAIT.getKey());
+        myDynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("SET " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.CONFIRM.getKey());
+        myDynamicSQL.append("WHERE " + Order.KEY_ORDER_ID + " = ? ", order_id);
+        myDynamicSQL.append("AND " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.WAIT.getKey());
 
-        Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
     public int updateTrade(String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String order_pay_result) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
-        dynamicSQL.append("SET " + Order.KEY_ORDER_IS_PAY + " = 1, ");
-        dynamicSQL.append(Order.KEY_ORDER_TRADE_NO + " = ?, ", order_trade_no);
-        dynamicSQL.append(Order.KEY_ORDER_TRADE_ACCOUNT + " = ?, ", order_trade_account);
-        dynamicSQL.append(Order.KEY_ORDER_TRADE_PRICE + " = ?, ", order_trade_price);
-        dynamicSQL.append(Order.KEY_ORDER_TRADE_TIME + " = ?, ", Utility.getDateTimeString(new Date()));
-        dynamicSQL.append(Order.KEY_ORDER_TRADE_RESULT + " = ?, ", order_pay_result);
-        dynamicSQL.append(Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.PAYED.getKey());
-        dynamicSQL.append("WHERE " + Order.KEY_ORDER_NO + " = ? ", order_no);
+        myDynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("SET " + Order.KEY_ORDER_IS_PAY + " = 1, ");
+        myDynamicSQL.append(Order.KEY_ORDER_TRADE_NO + " = ?, ", order_trade_no);
+        myDynamicSQL.append(Order.KEY_ORDER_TRADE_ACCOUNT + " = ?, ", order_trade_account);
+        myDynamicSQL.append(Order.KEY_ORDER_TRADE_PRICE + " = ?, ", order_trade_price);
+        myDynamicSQL.append(Order.KEY_ORDER_TRADE_TIME + " = ?, ", Utility.getDateTimeString(new Date()));
+        myDynamicSQL.append(Order.KEY_ORDER_TRADE_RESULT + " = ?, ", order_pay_result);
+        myDynamicSQL.append(Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.PAYED.getKey());
+        myDynamicSQL.append("WHERE " + Order.KEY_ORDER_NO + " = ? ", order_no);
 
-        return Db.update(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        return Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
     public void delete(String order_id, String request_user_id) {

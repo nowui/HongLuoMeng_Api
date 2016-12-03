@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hongluomeng.common.DynamicSQL;
+import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Operation;
@@ -16,13 +16,13 @@ import com.hongluomeng.model.UserRole;
 public class OperationDao {
 
     private Integer count(Operation operation) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT COUNT(*) FROM " + Operation.KEY_TABLE_OPERATION + " ");
-        dynamicSQL.append("WHERE " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.isNullOrEmpty("AND " + Operation.KEY_MENU_ID + " = ? ", operation.getMenu_id());
+        myDynamicSQL.append("SELECT COUNT(*) FROM " + Operation.KEY_TABLE_OPERATION + " ");
+        myDynamicSQL.append("WHERE " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Operation.KEY_MENU_ID + " = ? ", operation.getMenu_id());
 
-        Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         return count.intValue();
     }
 
@@ -34,64 +34,64 @@ public class OperationDao {
     }
 
     public Integer countByOperation_idAndOperation_key(String operation_id, String operation_key) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT COUNT(*) FROM " + Operation.KEY_TABLE_OPERATION + " ");
-        dynamicSQL.append("WHERE " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.append("AND " + Operation.KEY_OPERATION_ID + " != ? ", operation_id);
-        dynamicSQL.append("AND " + Operation.KEY_OPERATION_KEY + " = ? ", operation_key);
+        myDynamicSQL.append("SELECT COUNT(*) FROM " + Operation.KEY_TABLE_OPERATION + " ");
+        myDynamicSQL.append("WHERE " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.append("AND " + Operation.KEY_OPERATION_ID + " != ? ", operation_id);
+        myDynamicSQL.append("AND " + Operation.KEY_OPERATION_KEY + " = ? ", operation_key);
 
-        Number count = Db.queryFirst(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         return count.intValue();
     }
 
     public List<Operation> list(Operation operation, Integer m, Integer n) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
-        dynamicSQL.append("WHERE " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.isNullOrEmpty("AND " + Operation.KEY_MENU_ID + " = ? ", operation.getMenu_id());
-        dynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
-        dynamicSQL.appendPagination(m, n);
+        myDynamicSQL.append("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
+        myDynamicSQL.append("WHERE " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Operation.KEY_MENU_ID + " = ? ", operation.getMenu_id());
+        myDynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
+        myDynamicSQL.appendPagination(m, n);
 
-        return operation.find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        return operation.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
     public List<Operation> listUserRoleByUser_id(String user_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT " + Operation.KEY_TABLE_OPERATION + ".* FROM " + Operation.KEY_TABLE_OPERATION + " ");
-        dynamicSQL.append("LEFT JOIN " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ON " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
-        dynamicSQL.append("LEFT JOIN " + UserRole.KEY_TABLE_USER_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
-        dynamicSQL.append("WHERE " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ", user_id);
-        dynamicSQL.append("AND " + Operation.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
+        myDynamicSQL.append("SELECT " + Operation.KEY_TABLE_OPERATION + ".* FROM " + Operation.KEY_TABLE_OPERATION + " ");
+        myDynamicSQL.append("LEFT JOIN " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ON " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
+        myDynamicSQL.append("LEFT JOIN " + UserRole.KEY_TABLE_USER_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_ROLE_ID + " ");
+        myDynamicSQL.append("WHERE " + UserRole.KEY_TABLE_USER_ROLE + "." + UserRole.KEY_USER_ID + " = ? ", user_id);
+        myDynamicSQL.append("AND " + Operation.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
 
-        return new Operation().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        return new Operation().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
     public List<Operation> listByUser_id(String user_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT " + Operation.KEY_TABLE_OPERATION + ".* FROM " + Operation.KEY_TABLE_OPERATION + " ");
-        dynamicSQL.append("LEFT JOIN " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ON " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
-        dynamicSQL.append("LEFT JOIN " + Role.KEY_TABLE_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_ID + " ");
-        dynamicSQL.append("LEFT JOIN " + User.KEY_TABLE_USER + " ON " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_KEY + " = " + User.KEY_TABLE_USER + "." + User.KEY_USER_TYPE + " ");
-        dynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_USER_ID + " = ? ", user_id);
-        dynamicSQL.append("AND " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
+        myDynamicSQL.append("SELECT " + Operation.KEY_TABLE_OPERATION + ".* FROM " + Operation.KEY_TABLE_OPERATION + " ");
+        myDynamicSQL.append("LEFT JOIN " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ON " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_OPERATION_ID + " = " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_OPERATION_ID + " ");
+        myDynamicSQL.append("LEFT JOIN " + Role.KEY_TABLE_ROLE + " ON " + RoleOperation.KEY_TABLE_ROLE_OPERATION + "." + RoleOperation.KEY_ROLE_ID + " = " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_ID + " ");
+        myDynamicSQL.append("LEFT JOIN " + User.KEY_TABLE_USER + " ON " + Role.KEY_TABLE_ROLE + "." + Role.KEY_ROLE_KEY + " = " + User.KEY_TABLE_USER + "." + User.KEY_USER_TYPE + " ");
+        myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_USER_ID + " = ? ", user_id);
+        myDynamicSQL.append("AND " + Operation.KEY_TABLE_OPERATION + "." + Operation.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.append("ORDER BY " + Operation.KEY_OPERATION_SORT + " ASC ");
 
-        return new Operation().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        return new Operation().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
     private Operation find(Operation operation) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        dynamicSQL.append("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
-        dynamicSQL.append("WHERE " + Operation.KEY_SYSTEM_STATUS + " = 1 ");
-        dynamicSQL.isNullOrEmpty("AND " + Operation.KEY_OPERATION_ID + " = ? ", operation.getOperation_id());
+        myDynamicSQL.append("SELECT * FROM " + Operation.KEY_TABLE_OPERATION + " ");
+        myDynamicSQL.append("WHERE " + Operation.KEY_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Operation.KEY_OPERATION_ID + " = ? ", operation.getOperation_id());
 
-        List<Operation> operationList = new Operation().find(dynamicSQL.sql.toString(), dynamicSQL.parameterList.toArray());
+        List<Operation> operationList = new Operation().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         if (operationList.size() == 0) {
             return null;
         } else {
