@@ -28,10 +28,6 @@ public class CategoryController extends BaseController {
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
 		Category category = categoryService.find(jsonObject);
 
 		renderJson(Utility.setSuccessResponse(category));
@@ -40,12 +36,6 @@ public class CategoryController extends BaseController {
 	@ActionKey(Url.URL_CATEGORY_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Category category = jsonObject.toJavaObject(Category.class);
-
-		category.checkCategory_name();
-
-		category.checkCategory_sort();
 
 		categoryService.save(jsonObject);
 
@@ -56,14 +46,6 @@ public class CategoryController extends BaseController {
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category category = jsonObject.toJavaObject(Category.class);
-
-		category.checkCategory_id();
-
-		category.checkCategory_name();
-
-		category.checkCategory_sort();
-
 		categoryService.update(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
@@ -72,10 +54,6 @@ public class CategoryController extends BaseController {
 	@ActionKey(Url.URL_CATEGORY_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Category category = jsonObject.toJavaObject(Category.class);
-
-		category.checkCategory_id();
 
 		categoryService.delete(jsonObject);
 

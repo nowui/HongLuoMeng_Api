@@ -115,13 +115,6 @@ public class UserDao {
 		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_WEIBO_UID + " = ? ", user.getWeibo_uid());
 		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_WECHAT_UID + " = ? ", user.getWechat_uid());
 
-		System.out.println(user.getUser_account());
-		System.out.println(user.getUser_password());
-		System.out.println(HashKit.md5(Private.PRIVATE_KEY + user.getUser_password()));
-		System.out.println(user.getUser_type());
-
-		System.out.println(myDynamicSQL.sql.toString());
-
 		List<User> userList = new User().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (userList.size() == 0) {
 			return null;

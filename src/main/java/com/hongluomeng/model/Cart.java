@@ -66,28 +66,12 @@ public class Cart extends Base<Cart> {
 		Utility.checkIntegerLength(getProduct_amount(), 1, 7, "购物车商品数量");
 	}
 
-	private Product getProduct() {
+	public Product getProduct() {
 		return new Product().put(this);
 	}
 
-	public String getProduct_name() {
-		return getProduct().getProduct_name();
-	}
-
-	public JSONArray getProduct_image() {
-		return getProduct().getProduct_image();
-	}
-
-	public BigDecimal getProduct_price() {
-		return getProduct().getProduct_price();
-	}
-
-	private ProductSku getProductSku() {
+	public ProductSku getProductSku() {
 		return new ProductSku().put(this);
-	}
-
-	public JSONArray getProduct_attribute_value() {
-		return getProductSku().getProduct_attribute_value();
 	}
 
 	public List<String> getProductSkuIdList() {

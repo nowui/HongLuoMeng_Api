@@ -18,6 +18,8 @@ public class CategoryAttributeService {
 	public List<Map<String, Object>> list(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
 
+		categoryAttributeMap.checkCategory_id();
+
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
 		List<CategoryAttribute> categoryAttributeList = categoryAttributeDao.listByCategory_id(categoryAttributeMap.getCategory_id());
@@ -35,6 +37,8 @@ public class CategoryAttributeService {
 
 	public Map<String, Object> find(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
+
+		categoryAttributeMap.checkCategory_id();
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
@@ -68,17 +72,33 @@ public class CategoryAttributeService {
 	public void save(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
 
+		categoryAttributeMap.checkCategory_id();
+
+		categoryAttributeMap.checkAttribute_id();
+
+		categoryAttributeMap.checkCategory_attribute_sort();
+
 		categoryAttributeDao.save(categoryAttributeMap);
 	}
 
 	public void update(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
 
+		categoryAttributeMap.checkCategory_id();
+
+		categoryAttributeMap.checkAttribute_id();
+
+		categoryAttributeMap.checkCategory_attribute_sort();
+
 		categoryAttributeDao.update(categoryAttributeMap);
 	}
 
 	public void delete(JSONObject jsonObject) {
 		CategoryAttribute categoryAttributeMap = jsonObject.toJavaObject(CategoryAttribute.class);
+
+		categoryAttributeMap.checkCategory_id();
+
+		categoryAttributeMap.checkAttribute_id();
 
 		categoryAttributeDao.delete(categoryAttributeMap);
 	}

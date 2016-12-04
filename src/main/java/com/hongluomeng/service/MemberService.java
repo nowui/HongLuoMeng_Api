@@ -271,7 +271,7 @@ public class MemberService {
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
 		JSONObject avatarObject = new JSONObject();
-		avatarObject.put(Const.UPLOAD_NORMAL, memberMap.getMember_avatar());
+		avatarObject.put(Const.UPLOAD_NORMAL, jsonObject.getString(Member.KEY_MEMBER_AVATAR));
 		avatarObject.put(Const.UPLOAD_SMALL, jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
 		avatarObject.put(Const.UPLOAD_LARGE, jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
 

@@ -74,8 +74,6 @@ public class UploadService {
 	public void uploadBase64(JSONObject jsonObject, String request_user_id) {
 		String dataString = jsonObject.getString(Const.KEY_DATA);
 
-		System.out.println(request_user_id);
-
 		String name = Utility.getUUID();
 
 		String suffix = dataString.substring(11, dataString.indexOf(";base64,"));

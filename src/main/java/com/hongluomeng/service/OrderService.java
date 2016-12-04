@@ -133,7 +133,7 @@ public class OrderService {
             Boolean isApply = false;
 
             for (Brand brand : brandList) {
-                if (productSku.getBrand_id().equals(brand.getBrand_id())) {
+                if (productSku.getBrand().getBrand_id().equals(brand.getBrand_id())) {
                     isApply = true;
 
                     break;
@@ -141,7 +141,7 @@ public class OrderService {
             }
 
             if (!isApply) {
-                throw new RuntimeException(productSku.getProduct_name() + "所属品牌未代理");
+                throw new RuntimeException(productSku.getProduct().getProduct_name() + "所属品牌未代理");
             }
         }
 
@@ -158,7 +158,7 @@ public class OrderService {
                     //设置商品数量, 用在下面计算商品数量和商品总价格
                     productSku.setProduct_amount(cart.getProduct_amount());
 
-                    if (cart.getProduct_amount() + productSku.getProduct_lock_stock() > productSku.getProduct_stock()) {
+                    if (cart.getProduct_amount() + productSku.getProductLockStock().getProduct_lock_stock() > productSku.getProduct_stock()) {
                         isOver = true;
                     }
 
@@ -312,21 +312,21 @@ public class OrderService {
 
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setOrder_id(order.getOrder_id());
-            orderProduct.setCategory_id(productSku.getCategory_id());
-            orderProduct.setCategory_name(productSku.getCategory_name());
-            orderProduct.setBrand_id(productSku.getBrand_id());
-            orderProduct.setBrand_name(productSku.getBrand_name());
+            orderProduct.setCategory_id(productSku.getCategory().getCategory_id());
+            orderProduct.setCategory_name(productSku.getCategory().getCategory_name());
+            orderProduct.setBrand_id(productSku.getBrand().getBrand_id());
+            orderProduct.setBrand_name(productSku.getBrand().getBrand_name());
             orderProduct.setProduct_id(productSku.getProduct_id());
-            orderProduct.setProduct_name(productSku.getProduct_name());
-            orderProduct.setProduct_image(productSku.getProduct_image().toJSONString());
-            orderProduct.setProduct_is_new(productSku.getProduct_is_new());
-            orderProduct.setProduct_is_recommend(productSku.getProduct_is_recommend());
-            orderProduct.setProduct_is_bargain(productSku.getProduct_is_bargain());
-            orderProduct.setProduct_is_hot(productSku.getProduct_is_hot());
-            orderProduct.setProduct_is_sell_out(productSku.getProduct_is_sell_out());
-            orderProduct.setProduct_is_sale(productSku.getProduct_is_sale());
-            orderProduct.setProduct_content(productSku.getProduct_content());
-            orderProduct.setProduct_sku_value(productSku.getProduct_sku_value().toJSONString());
+            orderProduct.setProduct_name(productSku.getProduct().getProduct_name());
+            orderProduct.setProduct_image(productSku.getProduct().getProduct_image().toJSONString());
+            orderProduct.setProduct_is_new(productSku.getProduct().getProduct_is_new());
+            orderProduct.setProduct_is_recommend(productSku.getProduct().getProduct_is_recommend());
+            orderProduct.setProduct_is_bargain(productSku.getProduct().getProduct_is_bargain());
+            orderProduct.setProduct_is_hot(productSku.getProduct().getProduct_is_hot());
+            orderProduct.setProduct_is_sell_out(productSku.getProduct().getProduct_is_sell_out());
+            orderProduct.setProduct_is_sale(productSku.getProduct().getProduct_is_sale());
+            orderProduct.setProduct_content(productSku.getProduct().getProduct_content());
+            orderProduct.setProduct_sku_value(productSku.getProduct().getProduct_sku_value().toJSONString());
             orderProduct.setProduct_sku_id(productSku.getProduct_sku_id());
             orderProduct.setProduct_attribute_value(productSku.getProduct_attribute_value().toJSONString());
             orderProduct.setProduct_price(productSku.getProduct_price());

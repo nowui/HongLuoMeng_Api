@@ -5,8 +5,9 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
-import com.hongluomeng.model.CategoryAttribute;
+import com.hongluomeng.service.CategoryAttributeService;
 import com.hongluomeng.service.CategoryService;
+import com.hongluomeng.type.CatetoryEnum;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -18,6 +19,7 @@ public class ProductController extends BaseController {
 
 	private ProductService productService = new ProductService();
 	private CategoryService categoryService = new CategoryService();
+	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 
 	@ActionKey(Url.URL_PRODUCT_LIST)
 	public void list() {
@@ -122,9 +124,9 @@ public class ProductController extends BaseController {
 
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST)
 	public void listCategory() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+		//JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Map<String, Object> resultMap = productService.listCategory(jsonObject);
+		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.PRODUCT.getKey());
 
 		renderJson(Utility.setSuccessResponse(resultMap));
 	}
@@ -132,10 +134,6 @@ public class ProductController extends BaseController {
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_FIND)
 	public void findCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
 
 		Category category = categoryService.find(jsonObject);
 
@@ -146,14 +144,6 @@ public class ProductController extends BaseController {
 	public void saveCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkParent_id();
-
-		categoryValidator.checkCategory_name();
-
-		categoryValidator.checkCategory_sort();
-
 		categoryService.save(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
@@ -163,15 +153,7 @@ public class ProductController extends BaseController {
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
-		categoryValidator.checkCategory_name();
-
-		categoryValidator.checkCategory_sort();
-
-		productService.updateCategory(jsonObject);
+		categoryService.update(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -180,11 +162,7 @@ public class ProductController extends BaseController {
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
-		productService.deleteCategory(jsonObject);
+		categoryService.delete(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -193,11 +171,7 @@ public class ProductController extends BaseController {
 	public void listCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		CategoryAttribute categoryAttributeValidator = jsonObject.toJavaObject(CategoryAttribute.class);
-
-		categoryAttributeValidator.checkCategory_id();
-
-		List<Map<String, Object>> resultList = productService.listCategoryAttribute(jsonObject);
+		List<Map<String, Object>> resultList = categoryAttributeService.list(jsonObject);
 
 		renderJson(Utility.setSuccessResponse(resultList));
 	}
@@ -206,11 +180,7 @@ public class ProductController extends BaseController {
 	public void findCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		CategoryAttribute categoryAttributeValidator = jsonObject.toJavaObject(CategoryAttribute.class);
-
-		categoryAttributeValidator.checkCategory_id();
-
-		Map<String, Object> resultMap = productService.findCategoryAttribute(jsonObject);
+		Map<String, Object> resultMap = categoryAttributeService.find(jsonObject);
 
 		renderJson(Utility.setSuccessResponse(resultMap));
 	}
@@ -219,15 +189,7 @@ public class ProductController extends BaseController {
 	public void saveCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		CategoryAttribute categoryAttributeValidator = jsonObject.toJavaObject(CategoryAttribute.class);
-
-		categoryAttributeValidator.checkCategory_id();
-
-		categoryAttributeValidator.checkAttribute_id();
-
-		categoryAttributeValidator.checkCategory_attribute_sort();
-
-		productService.saveCategoryAttribute(jsonObject);
+		categoryAttributeService.save(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -236,15 +198,7 @@ public class ProductController extends BaseController {
 	public void updateCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		CategoryAttribute categoryAttributeValidator = jsonObject.toJavaObject(CategoryAttribute.class);
-
-		categoryAttributeValidator.checkCategory_id();
-
-		categoryAttributeValidator.checkAttribute_id();
-
-		categoryAttributeValidator.checkCategory_attribute_sort();
-
-		productService.updateCategoryAttribute(jsonObject);
+		categoryAttributeService.update(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -253,24 +207,16 @@ public class ProductController extends BaseController {
 	public void deleteCategoryAttribute() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		CategoryAttribute categoryAttributeValidator = jsonObject.toJavaObject(CategoryAttribute.class);
-
-		categoryAttributeValidator.checkCategory_id();
-
-		categoryAttributeValidator.checkAttribute_id();
-
-		productService.deleteCategoryAttribute(jsonObject);
+		categoryAttributeService.delete(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
 
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST_GET)
 	public void getCategoryList() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
 
-		List<Map<String, Object>> resultList = productService.getCategoryList(jsonObject);
-
-		renderJson(Utility.setSuccessResponse(resultList));
+		renderJson(Utility.setSuccessResponse(categoryList));
 	}
 
 	@ActionKey(Url.URL_PRODUCT_LIST_GET)
@@ -279,9 +225,9 @@ public class ProductController extends BaseController {
 
 		Category categoryValidator = jsonObject.toJavaObject(Category.class);
 
-		Utility.checkNull(categoryValidator.getCategory_id(), "分类编号");
-
 		Utility.checkPageAndLimit(jsonObject);
+
+		Utility.checkNull(categoryValidator.getCategory_id(), "分类编号");
 
 		List<Map<String, Object>> resultList = productService.getList(jsonObject);
 

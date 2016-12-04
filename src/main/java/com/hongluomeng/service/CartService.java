@@ -113,8 +113,8 @@ public class CartService {
 
         for (Cart cart : cartList) {
             String product_attribute_value = "";
-            for (int i = 0; i < cart.getProduct_attribute_value().size(); i++) {
-                JSONObject object = cart.getProduct_attribute_value().getJSONObject(i);
+            for (int i = 0; i < cart.getProductSku().getProduct_attribute_value().size(); i++) {
+                JSONObject object = cart.getProductSku().getProduct_attribute_value().getJSONObject(i);
 
                 if (i > 0) {
                     product_attribute_value += " ";
@@ -126,12 +126,12 @@ public class CartService {
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(Cart.KEY_CART_ID, cart.getCart_id());
-            map.put(Product.KEY_PRODUCT_NAME, cart.getProduct_name());
+            map.put(Product.KEY_PRODUCT_NAME, cart.getProduct().getProduct_name());
             map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
             map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getProduct_amount());
-            map.put(Product.KEY_PRODUCT_IMAGE, cart.getProduct_image().get(0));
+            map.put(Product.KEY_PRODUCT_IMAGE, cart.getProduct().getProduct_image().get(0));
             map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
-            map.put(ProductSku.KEY_PRODUCT_PRICE, cart.getProduct_price());
+            map.put(ProductSku.KEY_PRODUCT_PRICE, cart.getProduct().getProduct_price());
 
             resultList.add(map);
         }

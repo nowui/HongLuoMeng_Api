@@ -108,12 +108,8 @@ public class BrandApply extends Base<BrandApply> {
 		return "";
 	}
 
-	private Brand getBrand() {
+	public Brand getBrand() {
 		return new Brand().put(this);
-	}
-
-	public String getBrand_name() {
-		return getBrand().getBrand_name();
 	}
 
 }

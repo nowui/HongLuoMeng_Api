@@ -221,7 +221,7 @@ public class BrandService {
 		for (BrandApply brandApply : brandApplyList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(BrandApply.KEY_BRAND_ID, brandApply.getBrand_id());
-			map.put(Brand.KEY_BRAND_NAME, brandApply.getBrand_name());
+			map.put(Brand.KEY_BRAND_NAME, brandApply.getBrand().getBrand_name());
 			map.put(BrandApply.KEY_USER_ID, brandApply.getUser_id());
 			map.put(Member.KEY_MEMBER_REAL_NAME, brandApply.getMember_real_name());
 			map.put(BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS, brandApply.getBrand_apply_review_status_value());
@@ -239,7 +239,7 @@ public class BrandService {
 		BrandApply brandApplyMap = jsonObject.toJavaObject(BrandApply.class);
 
 		BrandApply brandApply = brandApplyService.findByBrand_idAndUser_id(brandApplyMap.getBrand_id(), brandApplyMap.getUser_id());
-		brandApply.put(Brand.KEY_BRAND_NAME, brandApply.getBrand_name());
+		brandApply.put(Brand.KEY_BRAND_NAME, brandApply.getBrand().getBrand_name());
 
 		return brandApply;
 	}
@@ -258,7 +258,6 @@ public class BrandService {
 
 			brandApplyService.save(brandMap.getBrand_id(), memberMap.getMember_real_name(), memberMap.getMember_identity_card(), memberMap.getMember_identity_card_front_image(), memberMap.getMember_identity_card_back_image(), request_user_id);
 		} else {
-			System.out.println(brandApply.getBrand_apply_review_status());
 			if (brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.WAIT.getKey()) || brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
 				throw new RuntimeException("这品牌已经申请过,不能再申请!");
 			} else {

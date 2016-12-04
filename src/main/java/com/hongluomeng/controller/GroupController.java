@@ -26,10 +26,6 @@ public class GroupController extends BaseController {
 	public void find() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
 		Category category = categoryService.find(jsonObject);
 
 		renderJson(Utility.setSuccessResponse(category));
@@ -38,12 +34,6 @@ public class GroupController extends BaseController {
 	@ActionKey(Url.URL_GROUP_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_name();
-
-		categoryValidator.checkCategory_sort();
 
 		categoryService.save(jsonObject);
 
@@ -54,14 +44,6 @@ public class GroupController extends BaseController {
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
-		categoryValidator.checkCategory_name();
-
-		categoryValidator.checkCategory_sort();
-
 		categoryService.update(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
@@ -70,10 +52,6 @@ public class GroupController extends BaseController {
 	@ActionKey(Url.URL_GROUP_DELETE)
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
 
 		categoryService.delete(jsonObject);
 

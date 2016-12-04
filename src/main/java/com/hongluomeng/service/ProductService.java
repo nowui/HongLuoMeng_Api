@@ -198,60 +198,7 @@ public class ProductService {
         productDao.delete(productMap.getProduct_id(), request_user_id);
     }
 
-    public Map<String, Object> listCategory(JSONObject jsonObject) {
-        return categoryService.treeByCategory_key(CatetoryEnum.PRODUCT.getKey());
-    }
 
-    public Category findCategory(JSONObject jsonObject) {
-        return categoryService.find(jsonObject);
-    }
-
-    public void saveCategory(JSONObject jsonObject) {
-        categoryService.save(jsonObject);
-    }
-
-    public void updateCategory(JSONObject jsonObject) {
-        categoryService.update(jsonObject);
-    }
-
-    public void deleteCategory(JSONObject jsonObject) {
-        categoryService.delete(jsonObject);
-    }
-
-    public List<Map<String, Object>> listCategoryAttribute(JSONObject jsonObject) {
-        return categoryAttributeService.list(jsonObject);
-    }
-
-    public Map<String, Object> findCategoryAttribute(JSONObject jsonObject) {
-        return categoryAttributeService.find(jsonObject);
-    }
-
-    public void saveCategoryAttribute(JSONObject jsonObject) {
-        categoryAttributeService.save(jsonObject);
-    }
-
-    public void updateCategoryAttribute(JSONObject jsonObject) {
-        categoryAttributeService.update(jsonObject);
-    }
-
-    public void deleteCategoryAttribute(JSONObject jsonObject) {
-        categoryAttributeService.delete(jsonObject);
-    }
-
-    public List<Map<String, Object>> getCategoryList(JSONObject jsonObject) {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-
-        List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
-
-        for (Category category : categoryList) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Category.KEY_CATEGORY_ID, category.getCategory_id());
-            map.put(Category.KEY_CATEGORY_NAME, category.getCategory_name());
-            list.add(map);
-        }
-
-        return list;
-    }
 
     public List<Map<String, Object>> getList(JSONObject jsonObject) {
         Product productMap = jsonObject.toJavaObject(Product.class);

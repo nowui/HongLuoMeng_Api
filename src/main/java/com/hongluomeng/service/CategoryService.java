@@ -72,23 +72,6 @@ public class CategoryService {
 		}
 	}
 
-//	public Map<String, Object> tree(JSONObject jsonObject) {
-//		Category categoryMap = jsonObject.toJavaObject(Category.class);
-//
-//		Category category = categoryDao.findByCategory_key(categoryMap.getCategory_key());
-//
-//		if(category == null) {
-//			throw new RuntimeException("没有该分类");
-//		}
-//
-//		Map<String, Object> resultMap = new HashMap<String, Object>();
-//		resultMap.put(Const.KEY_ID, category.getCategory_id());
-//		resultMap.put(Const.KEY_TEXT, category.getCategory_name());
-//		resultMap.put(Const.KEY_CHILDREN, getChildrenList(categoryDao.listByCategory_path(category.getCategory_id().toString()), category.getCategory_id()));
-//
-//		return resultMap;
-//	}
-
 	public Map<String, Object> treeByCategory_key(String ategory_key) {
 		Category category = categoryDao.findByCategory_key(ategory_key);
 
@@ -134,6 +117,8 @@ public class CategoryService {
 	public Category find(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
 
+		categoryMap.checkCategory_id();
+
 		Category category = categoryDao.findByCategory_id(categoryMap.getCategory_id());
 
 		return category;
@@ -145,6 +130,12 @@ public class CategoryService {
 
 	public Category save(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
+
+		categoryMap.checkParent_id();
+
+		categoryMap.checkCategory_name();
+
+		categoryMap.checkCategory_sort();
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
@@ -176,6 +167,12 @@ public class CategoryService {
 	public void update(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
 
+		categoryMap.checkCategory_id();
+
+		categoryMap.checkCategory_name();
+
+		categoryMap.checkCategory_sort();
+
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		Integer count = 0;
@@ -194,6 +191,8 @@ public class CategoryService {
 
 	public void delete(JSONObject jsonObject) {
 		Category categoryMap = jsonObject.toJavaObject(Category.class);
+
+		categoryMap.checkCategory_id();
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 

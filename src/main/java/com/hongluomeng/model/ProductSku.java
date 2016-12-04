@@ -89,80 +89,20 @@ public class ProductSku extends Base<ProductSku> {
 		this.product_amount = product_amount;
 	}
 
-	private Category getCategory() {
+	public Category getCategory() {
 		return new Category().put(this);
 	}
 
-	public String getCategory_id() {
-		return getCategory().getCategory_id();
-	}
-
-	public String getCategory_name() {
-		return getCategory().getCategory_name();
-	}
-
-	private Brand getBrand() {
+	public Brand getBrand() {
 		return new Brand().put(this);
 	}
 
-	public String getBrand_id() {
-		return getBrand().getBrand_id();
-	}
-
-	public String getBrand_name() {
-		return getBrand().getBrand_name();
-	}
-
-	private Product getProduct() {
+	public Product getProduct() {
 		return new Product().put(this);
 	}
 
-	public String getProduct_name() {
-		return getProduct().getProduct_name();
-	}
-
-	public JSONArray getProduct_image() {
-		return getProduct().getProduct_image();
-	}
-
-	public Boolean getProduct_is_new() {
-		return getProduct().getProduct_is_new();
-	}
-
-	public Boolean getProduct_is_recommend() {
-		return getProduct().getProduct_is_recommend();
-	}
-
-	public Boolean getProduct_is_bargain() {
-		return getProduct().getProduct_is_bargain();
-	}
-
-	public Boolean getProduct_is_hot() {
-		return getProduct().getProduct_is_hot();
-	}
-
-	public Boolean getProduct_is_sell_out() {
-		return getProduct().getProduct_is_sell_out();
-	}
-
-	public Boolean getProduct_is_sale() {
-		return getProduct().getProduct_is_sale();
-	}
-
-	public String getProduct_content() {
-		return getProduct().getProduct_content();
-	}
-
-	public JSONArray getProduct_sku_value() {
-		return getProduct().getProduct_sku_value();
-	}
-
-	private ProductLockStock getProductLockStock() {
+	public ProductLockStock getProductLockStock() {
 		return new ProductLockStock().put(this);
-	}
-
-	public Integer getProduct_lock_stock() {
-		return getProductLockStock().getProduct_lock_stock();
 	}
 
 }

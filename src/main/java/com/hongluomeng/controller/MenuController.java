@@ -35,14 +35,6 @@ public class MenuController extends BaseController {
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category category = jsonObject.toJavaObject(Category.class);
-
-		category.checkParent_id();
-
-		category.checkCategory_name();
-
-		category.checkCategory_sort();
-
 		categoryService.save(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
@@ -51,14 +43,6 @@ public class MenuController extends BaseController {
 	@ActionKey(Url.URL_MENU_UPDATE)
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Category category = jsonObject.toJavaObject(Category.class);
-
-		category.checkCategory_id();
-
-		category.checkCategory_name();
-
-		category.checkCategory_sort();
 
 		categoryService.update(jsonObject);
 

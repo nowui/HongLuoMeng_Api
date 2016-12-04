@@ -158,9 +158,9 @@ public class MemberDeliveryController extends BaseController {
 			}
 		}*/
 
-        List<MemberDelivery> memberDeliveryList = memberDeliveryService.getist(jsonObject);
+        List<Map<String, Object>> resultList = memberDeliveryService.getist(jsonObject);
 
-        renderJson(Utility.setSuccessResponse(memberDeliveryList));
+        renderJson(Utility.setSuccessResponse(resultList));
     }
 
     @ActionKey(Url.URL_MEMBER_DELIVERY_GET)

@@ -93,9 +93,9 @@ public class MemberController extends BaseController {
 
 		memberValidator.checkMember_weibo_friend();
 
-		Map<String, Object> map = memberService.oauthWeibo(jsonObject);
+		Map<String, Object> resultMap = memberService.oauthWeibo(jsonObject);
 
-		renderJson(Utility.setSuccessResponse());
+		renderJson(Utility.setSuccessResponse(resultMap));
 	}
 
 	@ActionKey(Url.URL_MEMBER_WECHAT_OAUTH)

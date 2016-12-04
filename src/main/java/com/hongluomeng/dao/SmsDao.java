@@ -22,8 +22,6 @@ public class SmsDao {
 		myDynamicSQL.isNullOrEmpty("AND " + Sms.KEY_SMS_CODE + " = ? ", sms.getSms_code());
 		myDynamicSQL.append("AND " + Sms.KEY_SYSTEM_STATUS + " = 1 ");
 
-		System.out.println(myDynamicSQL.sql.toString());
-
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
