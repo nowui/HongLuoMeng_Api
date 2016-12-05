@@ -7,6 +7,7 @@ import com.hongluomeng.model.Brand;
 
 public class BrandCache extends BaseCache {
 
+	@SuppressWarnings("unchecked")
 	public List<Brand> getBrandListByUser_id(String user_id) {
 		return (List<Brand>) ehcacheList.get(Const.CACHE_BRAND + "_" + user_id);
 	}

@@ -53,12 +53,14 @@ public class GlobalActionInterceptor implements Interceptor {
         uncheckTokenSet.add(Url.URL_MEMBER_WEIBO_OAUTH);
         uncheckTokenSet.add(Url.URL_MEMBER_WECHAT_OAUTH);
         uncheckTokenSet.add(Url.URL_ORDER_NOTIFY);
+        uncheckTokenSet.add(Url.URL_WEIXIN_NOTIFY);
 
         //不检查request的url列表
         Set<String> uncheckRequestSet = new HashSet<String>();
         uncheckRequestSet.add(Url.URL_UPLOAD_IMAGE);
         uncheckRequestSet.add(Url.URL_MEMBER_AVATAR_UPLOAD);
         uncheckRequestSet.add(Url.URL_ORDER_NOTIFY);
+        uncheckRequestSet.add(Url.URL_WEIXIN_NOTIFY);
 
         //不保存request到log的url列表
         Set<String> unSaveLogSet = new HashSet<String>();
@@ -67,6 +69,7 @@ public class GlobalActionInterceptor implements Interceptor {
         //不检查请求头的url列表
         Set<String> uncheckRequestHeaderSet = new HashSet<String>();
         uncheckRequestHeaderSet.add(Url.URL_ORDER_NOTIFY);
+        uncheckRequestHeaderSet.add(Url.URL_WEIXIN_NOTIFY);
 
         Connection connection = null;
 

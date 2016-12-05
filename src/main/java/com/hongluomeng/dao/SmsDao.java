@@ -43,6 +43,14 @@ public class SmsDao {
 		return count(sms, minute);
 	}
 
+	public Integer countBySms_typeAndSms_codeAndMinute(String sms_type, String sms_code, Integer minute) {
+		Sms sms = new Sms();
+		sms.setSms_type(sms_type);
+		sms.setSms_code(sms_code);
+
+		return count(sms, minute);
+	}
+
 	private List<Sms> list(Sms sms, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 

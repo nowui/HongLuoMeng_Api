@@ -7,6 +7,7 @@ import com.hongluomeng.model.Operation;
 
 public class OperationCache extends BaseCache {
 
+	@SuppressWarnings("unchecked")
 	public List<Operation> getOperationListByUser_id(String user_id) {
 		return (List<Operation>) ehcacheList.get(Const.CACHE_OPERATION + "_" + user_id);
 	}

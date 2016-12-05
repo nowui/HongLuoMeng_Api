@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.MyDynamicSQL;
+import com.hongluomeng.model.Category;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Order;
@@ -66,9 +67,18 @@ public class OrderDao {
     private Order find(Order order) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        myDynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("SELECT " + Order.KEY_TABLE_ORDER + ".*, ");
+        myDynamicSQL.append("province." + Category.KEY_CATEGORY_NAME + " AS " + Order.KEY_ORDER_DELIVERY_PROVINCE + ", ");
+        myDynamicSQL.append("city." + Category.KEY_CATEGORY_NAME + " AS " + Order.KEY_ORDER_DELIVERY_CITY + ", ");
+        myDynamicSQL.append("area." + Category.KEY_CATEGORY_NAME + " AS " + Order.KEY_ORDER_DELIVERY_AREA + " ");
+        myDynamicSQL.append("FROM " + Order.KEY_TABLE_ORDER + " ");
+        myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + Order.KEY_TABLE_ORDER + "." + Order.KEY_ORDER_DELIVERY_PROVINCE + " ");
+        myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + Order.KEY_TABLE_ORDER + "." + Order.KEY_ORDER_DELIVERY_CITY + " ");
+        myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + Order.KEY_TABLE_ORDER + "." + Order.KEY_ORDER_DELIVERY_AREA + " ");
         myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
         myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_ID + " = ? ", order.getOrder_id());
+
+        System.out.println(myDynamicSQL.sql.toString());
 
         List<Order> orderList = new Order().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         if (orderList.size() == 0) {

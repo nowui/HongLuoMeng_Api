@@ -168,4 +168,6 @@ public class Url {
 	public static final String URL_ACTIVITY_LIST_GET = "/activity/list/get";
 	public static final String URL_ACTIVITY_GET = "/activity/get";
 
+	public static final String URL_WEIXIN_NOTIFY = "/weixin/notify";
+
 }

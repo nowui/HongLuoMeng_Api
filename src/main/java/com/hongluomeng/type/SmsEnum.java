@@ -3,7 +3,8 @@ package com.hongluomeng.type;
 public enum SmsEnum {
 
 	REGISTER("REGISTER"),
-	PASSWORD("PASSWORD");
+	PASSWORD("PASSWORD"),
+	WEIXIN("WEIXIN");
 
 	private String key;
 

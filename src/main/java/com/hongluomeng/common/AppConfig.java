@@ -44,6 +44,7 @@ public class AppConfig extends JFinalConfig {
         routes.add("/member/delivery", MemberDeliveryController.class);
         routes.add("/order", OrderController.class);
         routes.add("/activity", ActivityController.class);
+        routes.add("/weixin/notify", WeixinController.class);
     }
 
     public void configPlugin(Plugins plugins) {
