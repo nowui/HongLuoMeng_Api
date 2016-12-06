@@ -1,10 +1,6 @@
 package com.hongluomeng.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Const;
@@ -50,6 +46,7 @@ public class CategoryService {
 			Category c = new Category();
 			c.setCategory_id(model.getCategory_id());
 			c.setCategory_name(model.getCategory_name());
+			c.setSystem_create_time(new Date());
 			categoryResultList.add(c);
 		}
 

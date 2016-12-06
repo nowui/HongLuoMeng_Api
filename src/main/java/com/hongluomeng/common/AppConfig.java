@@ -19,7 +19,7 @@ public class AppConfig extends JFinalConfig {
     public void configConstant(Constants constants) {
         constants.setDevMode(false);
         constants.setViewType(ViewType.JSP);
-        constants.setError404View("index.jsp");
+        constants.setError404View("/error.jsp");
     }
 
     public void configRoute(Routes routes) {

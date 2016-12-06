@@ -80,7 +80,7 @@ public class Brand extends Base<Brand> {
 	}
 
 	public void checkBrand_background() {
-		Utility.checkStringLength(getBrand_background(), 1, 100, "品牌背景");
+		Utility.checkStringLength(getBrand_background(), 0, 100, "品牌背景");
 	}
 
 	public String getBrand_introduce() {

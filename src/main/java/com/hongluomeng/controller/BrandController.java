@@ -36,8 +36,6 @@ public class BrandController extends BaseController {
 
 		Brand brandValidator = jsonObject.toJavaObject(Brand.class);
 
-		Utility.checkNull(brandValidator.getBrand_id(), "品牌编号");
-
 		Brand brand = brandService.find(jsonObject);
 
 		renderJson(Utility.setSuccessResponse(brand));

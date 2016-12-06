@@ -10,6 +10,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.CategoryAttributeDao;
 import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.CategoryAttribute;
+import com.hongluomeng.model.CategoryAttributeValue;
 
 public class CategoryAttributeService {
 
@@ -29,6 +30,8 @@ public class CategoryAttributeService {
 			map.put(CategoryAttribute.KEY_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
 			map.put(Attribute.KEY_ATTRIBUTE_NAME, categoryAttribute.getAttribute_name());
 			map.put(Attribute.KEY_ATTRIBUTE_TYPE, categoryAttribute.getAttribute_type());
+			map.put(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE, categoryAttribute.getAttribute_default_value());
+			map.put(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE, "");
 			list.add(map);
 		}
 

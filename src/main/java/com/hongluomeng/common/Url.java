@@ -170,4 +170,6 @@ public class Url {
 
 	public static final String URL_WEIXIN_NOTIFY = "/weixin/notify";
 
+	public static final String URL_TOPIC_INDEX = "/topic/index";
+
 }

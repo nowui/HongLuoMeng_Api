@@ -1,5 +1,7 @@
 package com.hongluomeng.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +51,7 @@ public class ProductController extends BaseController {
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Product productValidator = productService.find(jsonObject);
+		Product productValidator = jsonObject.toJavaObject(Product.class);
 
 		productValidator.checkCategory_id();
 
@@ -80,7 +82,7 @@ public class ProductController extends BaseController {
 	public void update() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Product productValidator = productService.find(jsonObject);
+		Product productValidator = jsonObject.toJavaObject(Product.class);
 
 		productValidator.checkProduct_id();
 
@@ -113,7 +115,7 @@ public class ProductController extends BaseController {
 	public void delete() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Product productValidator = productService.find(jsonObject);
+		Product productValidator = jsonObject.toJavaObject(Product.class);
 
 		productValidator.checkProduct_id();
 
@@ -216,7 +218,16 @@ public class ProductController extends BaseController {
 	public void getCategoryList() {
 		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
 
-		renderJson(Utility.setSuccessResponse(categoryList));
+		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		for(Category category : categoryList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Category.KEY_CATEGORY_ID, category.getCategory_id());
+			map.put(Category.KEY_CATEGORY_NAME, category.getCategory_name());
+
+			resultList.add(map);
+		}
+
+		renderJson(Utility.setSuccessResponse(resultList));
 	}
 
 	@ActionKey(Url.URL_PRODUCT_LIST_GET)
