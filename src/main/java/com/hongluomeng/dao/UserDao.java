@@ -17,10 +17,10 @@ public class UserDao {
 	private Integer count(User user) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_TYPE + " = ? ", user.getUser_type());
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_ACCOUNT + " = ? ", user.getUser_account());
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_TYPE + " = ? ", user.getUser_type());
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -29,9 +29,9 @@ public class UserDao {
 	public Integer countByUser_accountNotEqualUser_id(String user_id, String user_account) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_ACCOUNT + " = ? ) ", user_id, user_account);
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND (" + User.COLUMN_USER_ID + " != ? AND " + User.COLUMN_USER_ACCOUNT + " = ? ) ", user_id, user_account);
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -40,9 +40,9 @@ public class UserDao {
 	public Integer countByUser_phoneNotEqualUser_id(String user_id, String user_phone) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_PHONE + " = ? ) ", user_id, user_phone);
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND (" + User.COLUMN_USER_ID + " != ? AND " + User.COLUMN_USER_PHONE + " = ? ) ", user_id, user_phone);
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -51,9 +51,9 @@ public class UserDao {
 	public Integer countByUser_emailNotEqualUser_id(String user_id, String user_email) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_USER_EMAIL + " = ? ) ", user_id, user_email);
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND (" + User.COLUMN_USER_ID + " != ? AND " + User.COLUMN_USER_EMAIL + " = ? ) ", user_id, user_email);
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -62,9 +62,9 @@ public class UserDao {
 	public Integer countByWeibo_uidNotEqualUser_id(String user_id, String weibo_uid) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WEIBO_UID + " = ? ) ", user_id, weibo_uid);
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND (" + User.COLUMN_USER_ID + " != ? AND " + User.COLUMN_WEIBO_UID + " = ? ) ", user_id, weibo_uid);
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -73,9 +73,9 @@ public class UserDao {
 	public Integer countByWechat_uidNotEqualUser_id(String user_id, String wechat_uid) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("AND (" + User.KEY_USER_ID + " != ? AND " + User.KEY_WECHAT_UID + " = ? ) ", user_id, wechat_uid);
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND (" + User.COLUMN_USER_ID + " != ? AND " + User.COLUMN_WECHAT_UID + " = ? ) ", user_id, wechat_uid);
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -84,10 +84,10 @@ public class UserDao {
 	private List<User> list(User user, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmptyForLike("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
-		myDynamicSQL.append("ORDER BY " + User.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("SELECT * FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmptyForLike("AND " + User.COLUMN_USER_ACCOUNT + " = ? ", user.getUser_account());
+		myDynamicSQL.append("ORDER BY " + User.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		List<User> userList = new User().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -104,16 +104,16 @@ public class UserDao {
 	private User find(User user) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("WHERE " + User.KEY_TABLE_USER + "." + User.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ID + " = ? ", user.getUser_id());
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_ACCOUNT + " = ? ", user.getUser_account());
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_PHONE + " = ? ", user.getUser_phone());
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_EMAIL + " = ? ", user.getUser_email());
-		myDynamicSQL.isNullOrEmptyForOther("AND " + User.KEY_USER_PASSWORD + " = ? ", user.getUser_password(), HashKit.md5(Private.PRIVATE_KEY + user.getUser_password()));
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_USER_TYPE + " = ? ", user.getUser_type());
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_WEIBO_UID + " = ? ", user.getWeibo_uid());
-		myDynamicSQL.isNullOrEmpty("AND " + User.KEY_WECHAT_UID + " = ? ", user.getWechat_uid());
+		myDynamicSQL.append("SELECT * FROM " + User.TABLE_USER + " ");
+		myDynamicSQL.append("WHERE " + User.TABLE_USER + "." + User.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_ID + " = ? ", user.getUser_id());
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_ACCOUNT + " = ? ", user.getUser_account());
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_PHONE + " = ? ", user.getUser_phone());
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_EMAIL + " = ? ", user.getUser_email());
+		myDynamicSQL.isNullOrEmptyForOther("AND " + User.COLUMN_USER_PASSWORD + " = ? ", user.getUser_password(), HashKit.md5(Private.PRIVATE_KEY + user.getUser_password()));
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_USER_TYPE + " = ? ", user.getUser_type());
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_WEIBO_UID + " = ? ", user.getWeibo_uid());
+		myDynamicSQL.isNullOrEmpty("AND " + User.COLUMN_WECHAT_UID + " = ? ", user.getWechat_uid());
 
 		List<User> userList = new User().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (userList.size() == 0) {
@@ -284,11 +284,11 @@ public class UserDao {
 
 	public void updateUser_account(User user, String request_user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("SET " + User.KEY_USER_ACCOUNT + " = ?, ", user.getUser_account());
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + User.KEY_USER_ID + " = ? ", user.getUser_id());
+		myDynamicSQL.append("UPDATE " + User.TABLE_USER + " ");
+		myDynamicSQL.append("SET " + User.COLUMN_USER_ACCOUNT + " = ?, ", user.getUser_account());
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + User.COLUMN_USER_ID + " = ? ", user.getUser_id());
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -296,11 +296,11 @@ public class UserDao {
 	public void updateUser_passwordByUser_id(String user_id, String user_password, String request_user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("SET " + User.KEY_USER_PASSWORD + " = ?, ", HashKit.md5(Private.PRIVATE_KEY + user_password));
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + User.KEY_USER_ID + " = ? ", user_id);
+		myDynamicSQL.append("UPDATE " + User.TABLE_USER + " ");
+		myDynamicSQL.append("SET " + User.COLUMN_USER_PASSWORD + " = ?, ", HashKit.md5(Private.PRIVATE_KEY + user_password));
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + User.COLUMN_USER_ID + " = ? ", user_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -308,11 +308,11 @@ public class UserDao {
 	public void updateUser_passwordByUser_phone(String user_phone, String user_password, String request_user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("SET " + User.KEY_USER_PASSWORD + " = ?, ", HashKit.md5(Private.PRIVATE_KEY + user_password));
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + User.KEY_USER_PHONE + " = ? ", user_phone);
+		myDynamicSQL.append("UPDATE " + User.TABLE_USER + " ");
+		myDynamicSQL.append("SET " + User.COLUMN_USER_PASSWORD + " = ?, ", HashKit.md5(Private.PRIVATE_KEY + user_password));
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + User.COLUMN_USER_PHONE + " = ? ", user_phone);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -320,9 +320,9 @@ public class UserDao {
 	public void updateObject_idByUser_id(String object_id, String user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("SET " + User.KEY_OBJECT_ID + " = ? ", object_id);
-		myDynamicSQL.append("WHERE " + User.KEY_USER_ID + " = ? ", user_id);
+		myDynamicSQL.append("UPDATE " + User.TABLE_USER + " ");
+		myDynamicSQL.append("SET " + User.COLUMN_OBJECT_ID + " = ? ", object_id);
+		myDynamicSQL.append("WHERE " + User.COLUMN_USER_ID + " = ? ", user_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -330,11 +330,11 @@ public class UserDao {
 	public void deleteByObject_id(String object_id, String request_user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + User.KEY_TABLE_USER + " ");
-		myDynamicSQL.append("SET " + User.KEY_SYSTEM_STATUS + " = 0, ");
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		myDynamicSQL.append(User.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + User.KEY_OBJECT_ID + " = ? ", object_id);
+		myDynamicSQL.append("UPDATE " + User.TABLE_USER + " ");
+		myDynamicSQL.append("SET " + User.COLUMN_SYSTEM_STATUS + " = 0, ");
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(User.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + User.COLUMN_OBJECT_ID + " = ? ", object_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

@@ -8,23 +8,23 @@ public class MemberDelivery extends Base<MemberDelivery> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_MEMBER_DELIVERY = "table_member_delivery";
-	public static final String KEY_MEMBER_DELIVERY_ID = "member_delivery_id";
-	public static final String KEY_USER_ID = "user_id";
-	public static final String KEY_MEMBER_DELIVERY_NAME = "member_delivery_name";
-	public static final String KEY_MEMBER_DELIVERY_PHONE = "member_delivery_phone";
-	public static final String KEY_MEMBER_DELIVERY_PROVINCE = "member_delivery_province";
-	public static final String KEY_MEMBER_DELIVERY_CITY = "member_delivery_city";
-	public static final String KEY_MEMBER_DELIVERY_AREA = "member_delivery_area";
-	public static final String KEY_MEMBER_DELIVERY_ADDRESS = "member_delivery_address";
-	public static final String KEY_MEMBER_DELIVERY_ZIP = "member_delivery_zip";
+	public static final String TABLE_MEMBER_DELIVERY = "table_member_delivery";
+	public static final String COLUMN_MEMBER_DELIVERY_ID = "member_delivery_id";
+	public static final String COLUMN_USER_ID = "user_id";
+	public static final String COLUMN_MEMBER_DELIVERY_NAME = "member_delivery_name";
+	public static final String COLUMN_MEMBER_DELIVERY_PHONE = "member_delivery_phone";
+	public static final String COLUMN_MEMBER_DELIVERY_PROVINCE = "member_delivery_province";
+	public static final String COLUMN_MEMBER_DELIVERY_CITY = "member_delivery_city";
+	public static final String COLUMN_MEMBER_DELIVERY_AREA = "member_delivery_area";
+	public static final String COLUMN_MEMBER_DELIVERY_ADDRESS = "member_delivery_address";
+	public static final String COLUMN_MEMBER_DELIVERY_ZIP = "member_delivery_zip";
 
 	public String getMember_delivery_id() {
-		return getStr(KEY_MEMBER_DELIVERY_ID);
+		return getStr(COLUMN_MEMBER_DELIVERY_ID);
 	}
 
 	public void setMember_delivery_id(String member_delivery_id) {
-		set(KEY_MEMBER_DELIVERY_ID, member_delivery_id);
+		set(COLUMN_MEMBER_DELIVERY_ID, member_delivery_id);
 	}
 
 	public void checkMember_delivery_id() {
@@ -32,11 +32,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getUser_id() {
-		return getStr(KEY_USER_ID);
+		return getStr(COLUMN_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
-		set(KEY_USER_ID, user_id);
+		set(COLUMN_USER_ID, user_id);
 	}
 
 	public void checkUser_id() {
@@ -44,11 +44,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_name() {
-		return getStr(KEY_MEMBER_DELIVERY_NAME);
+		return getStr(COLUMN_MEMBER_DELIVERY_NAME);
 	}
 
 	public void setMember_delivery_name(String member_delivery_name) {
-		set(KEY_MEMBER_DELIVERY_NAME, member_delivery_name);
+		set(COLUMN_MEMBER_DELIVERY_NAME, member_delivery_name);
 	}
 
 	public void checkMember_delivery_name() {
@@ -56,11 +56,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_phone() {
-		return getStr(KEY_MEMBER_DELIVERY_PHONE);
+		return getStr(COLUMN_MEMBER_DELIVERY_PHONE);
 	}
 
 	public void setMember_delivery_phone(String member_delivery_phone) {
-		set(KEY_MEMBER_DELIVERY_PHONE, member_delivery_phone);
+		set(COLUMN_MEMBER_DELIVERY_PHONE, member_delivery_phone);
 	}
 
 	public void checkMember_delivery_phone() {
@@ -68,11 +68,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_province() {
-		return getStr(KEY_MEMBER_DELIVERY_PROVINCE);
+		return getStr(COLUMN_MEMBER_DELIVERY_PROVINCE);
 	}
 
 	public void setMember_delivery_province(String member_delivery_province) {
-		set(KEY_MEMBER_DELIVERY_PROVINCE, member_delivery_province);
+		set(COLUMN_MEMBER_DELIVERY_PROVINCE, member_delivery_province);
 	}
 
 	public void checkMember_delivery_province() {
@@ -80,11 +80,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_city() {
-		return getStr(KEY_MEMBER_DELIVERY_CITY);
+		return getStr(COLUMN_MEMBER_DELIVERY_CITY);
 	}
 
 	public void setMember_delivery_city(String member_delivery_city) {
-		set(KEY_MEMBER_DELIVERY_CITY, member_delivery_city);
+		set(COLUMN_MEMBER_DELIVERY_CITY, member_delivery_city);
 	}
 
 	public void checkMember_delivery_city() {
@@ -92,11 +92,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_area() {
-		return getStr(KEY_MEMBER_DELIVERY_AREA);
+		return getStr(COLUMN_MEMBER_DELIVERY_AREA);
 	}
 
 	public void setMember_delivery_area(String member_delivery_area) {
-		set(KEY_MEMBER_DELIVERY_AREA, member_delivery_area);
+		set(COLUMN_MEMBER_DELIVERY_AREA, member_delivery_area);
 	}
 
 	public void checkMember_delivery_area() {
@@ -104,11 +104,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_address() {
-		return getStr(KEY_MEMBER_DELIVERY_ADDRESS);
+		return getStr(COLUMN_MEMBER_DELIVERY_ADDRESS);
 	}
 
 	public void setMember_delivery_address(String member_delivery_address) {
-		set(KEY_MEMBER_DELIVERY_ADDRESS, member_delivery_address);
+		set(COLUMN_MEMBER_DELIVERY_ADDRESS, member_delivery_address);
 	}
 
 	public void checkMember_delivery_address() {
@@ -116,11 +116,11 @@ public class MemberDelivery extends Base<MemberDelivery> {
 	}
 
 	public String getMember_delivery_zip() {
-		return getStr(KEY_MEMBER_DELIVERY_ZIP);
+		return getStr(COLUMN_MEMBER_DELIVERY_ZIP);
 	}
 
 	public void setMember_delivery_zip(String member_delivery_zip) {
-		set(KEY_MEMBER_DELIVERY_ZIP, member_delivery_zip);
+		set(COLUMN_MEMBER_DELIVERY_ZIP, member_delivery_zip);
 	}
 
 	public void checkMember_delivery_zip() {

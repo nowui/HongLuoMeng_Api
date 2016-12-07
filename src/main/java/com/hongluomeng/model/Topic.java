@@ -6,20 +6,20 @@ public class Topic extends Base<Topic> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_TOPIC = "table_topic";
-	public static final String KEY_TOPIC_ID = "topic_id";
-	public static final String KEY_TOPIC_NAME = "topic_name";
-	public static final String KEY_TOPIC_URL = "topic_url";
-	public static final String KEY_TOPIC_IMAGE = "topic_image";
-	public static final String KEY_TOPIC_CONTENT = "topic_content";
-	public static final String KEY_TOPIC_SORT = "topic_sort";
+	public static final String TABLE_TOPIC = "table_topic";
+	public static final String COLUMN_TOPIC_ID = "topic_id";
+	public static final String COLUMN_TOPIC_NAME = "topic_name";
+	public static final String COLUMN_TOPIC_URL = "topic_url";
+	public static final String COLUMN_TOPIC_IMAGE = "topic_image";
+	public static final String COLUMN_TOPIC_CONTENT = "topic_content";
+	public static final String COLUMN_TOPIC_SORT = "topic_sort";
 
 	public String getTopic_id() {
-		return getStr(KEY_TOPIC_ID);
+		return getStr(COLUMN_TOPIC_ID);
 	}
 
 	public void setTopic_id(String topic_id) {
-		set(KEY_TOPIC_ID, topic_id);
+		set(COLUMN_TOPIC_ID, topic_id);
 	}
 
 	public void checkTopic_id() {
@@ -27,11 +27,11 @@ public class Topic extends Base<Topic> {
 	}
 
 	public String getTopic_name() {
-		return getStr(KEY_TOPIC_NAME);
+		return getStr(COLUMN_TOPIC_NAME);
 	}
 
 	public void setTopic_name(String topic_name) {
-		set(KEY_TOPIC_NAME, topic_name);
+		set(COLUMN_TOPIC_NAME, topic_name);
 	}
 
 	public void checkTopic_name() {
@@ -39,11 +39,11 @@ public class Topic extends Base<Topic> {
 	}
 
 	public String getTopic_url() {
-		return getStr(KEY_TOPIC_URL);
+		return getStr(COLUMN_TOPIC_URL);
 	}
 
 	public void setTopic_url(String topic_url) {
-		set(KEY_TOPIC_URL, topic_url);
+		set(COLUMN_TOPIC_URL, topic_url);
 	}
 
 	public void checkTopic_url() {
@@ -51,11 +51,11 @@ public class Topic extends Base<Topic> {
 	}
 
 	public String getTopic_image() {
-		return getStr(KEY_TOPIC_IMAGE);
+		return getStr(COLUMN_TOPIC_IMAGE);
 	}
 
 	public void setTopic_image(String brand_image) {
-		set(KEY_TOPIC_IMAGE, brand_image);
+		set(COLUMN_TOPIC_IMAGE, brand_image);
 	}
 
 	public void checkTopic_logo() {
@@ -63,11 +63,11 @@ public class Topic extends Base<Topic> {
 	}
 
 	public String getTopic_content() {
-		return getStr(KEY_TOPIC_CONTENT);
+		return getStr(COLUMN_TOPIC_CONTENT);
 	}
 
 	public void setTopic_content(String topic_content) {
-		set(KEY_TOPIC_CONTENT, topic_content);
+		set(COLUMN_TOPIC_CONTENT, topic_content);
 	}
 
 	public void checkTopic_content() {
@@ -75,11 +75,11 @@ public class Topic extends Base<Topic> {
 	}
 
 	public Integer getTopic_sort() {
-		return Utility.getIntegerValue(get(KEY_TOPIC_SORT));
+		return Utility.getIntegerValue(get(COLUMN_TOPIC_SORT));
 	}
 
 	public void setTopic_sort(Integer topic_sort) {
-		set(KEY_TOPIC_SORT, topic_sort);
+		set(COLUMN_TOPIC_SORT, topic_sort);
 	}
 
 	public void checkTopic_sort() {

@@ -118,9 +118,9 @@ public class MemberDeliveryController extends BaseController {
 			JSONObject provinceObject = provinceArray.getJSONObject(i);
 
 			JSONObject provinceCategory = new JSONObject();
-			provinceCategory.put(Category.KEY_PARENT_ID, "d4bdf8cb679f41da946f91b6747b9cfb");
-			provinceCategory.put(Category.KEY_CATEGORY_NAME, provinceObject.getString("name"));
-			provinceCategory.put(Category.KEY_CATEGORY_SORT, i);
+			provinceCategory.put(Category.COLUMN_PARENT_ID, "d4bdf8cb679f41da946f91b6747b9cfb");
+			provinceCategory.put(Category.COLUMN_CATEGORY_NAME, provinceObject.getString("name"));
+			provinceCategory.put(Category.COLUMN_CATEGORY_SORT, i);
 			provinceCategory.put(Const.KEY_REQUEST_USER_ID, request_user_id);
 
 			Category pCategory = categoryService.save(provinceCategory);
@@ -131,9 +131,9 @@ public class MemberDeliveryController extends BaseController {
 				JSONObject cityObject = cityArray.getJSONObject(j);
 
 				JSONObject cityCategory = new JSONObject();
-				cityCategory.put(Category.KEY_PARENT_ID, pCategory.getCategory_id());
-				cityCategory.put(Category.KEY_CATEGORY_NAME, cityObject.getString("name"));
-				cityCategory.put(Category.KEY_CATEGORY_SORT, j);
+				cityCategory.put(Category.COLUMN_PARENT_ID, pCategory.getCategory_id());
+				cityCategory.put(Category.COLUMN_CATEGORY_NAME, cityObject.getString("name"));
+				cityCategory.put(Category.COLUMN_CATEGORY_SORT, j);
 				cityCategory.put(Const.KEY_REQUEST_USER_ID, request_user_id);
 
 				Category cCategory = categoryService.save(cityCategory);
@@ -148,9 +148,9 @@ public class MemberDeliveryController extends BaseController {
 					String area = areaArray.getString(k);
 
 					JSONObject areaCategory = new JSONObject();
-					areaCategory.put(Category.KEY_PARENT_ID, cCategory.getCategory_id());
-					areaCategory.put(Category.KEY_CATEGORY_NAME, area);
-					areaCategory.put(Category.KEY_CATEGORY_SORT, k);
+					areaCategory.put(Category.COLUMN_PARENT_ID, cCategory.getCategory_id());
+					areaCategory.put(Category.COLUMN_CATEGORY_NAME, area);
+					areaCategory.put(Category.COLUMN_CATEGORY_SORT, k);
 					areaCategory.put(Const.KEY_REQUEST_USER_ID, request_user_id);
 
 					categoryService.save(areaCategory);

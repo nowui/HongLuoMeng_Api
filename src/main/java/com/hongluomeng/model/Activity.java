@@ -6,20 +6,20 @@ public class Activity extends Base<Activity> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_ACTIVITY = "table_activity";
-	public static final String KEY_ACTIVITY_ID = "activity_id";
-	public static final String KEY_ACTIVITY_NAME = "activity_name";
-	public static final String KEY_ACTIVITY_URL = "activity_url";
-	public static final String KEY_ACTIVITY_IMAGE = "activity_image";
-	public static final String KEY_ACTIVITY_CONTENT = "activity_content";
-	public static final String KEY_ACTIVITY_SORT = "activity_sort";
+	public static final String TABLE_ACTIVITY = "table_activity";
+	public static final String COLUMN_ACTIVITY_ID = "activity_id";
+	public static final String COLUMN_ACTIVITY_NAME = "activity_name";
+	public static final String COLUMN_ACTIVITY_URL = "activity_url";
+	public static final String COLUMN_ACTIVITY_IMAGE = "activity_image";
+	public static final String COLUMN_ACTIVITY_CONTENT = "activity_content";
+	public static final String COLUMN_ACTIVITY_SORT = "activity_sort";
 
 	public String getActivity_id() {
-		return getStr(KEY_ACTIVITY_ID);
+		return getStr(COLUMN_ACTIVITY_ID);
 	}
 
 	public void setActivity_id(String activity_id) {
-		set(KEY_ACTIVITY_ID, activity_id);
+		set(COLUMN_ACTIVITY_ID, activity_id);
 	}
 
 	public void checkActivity_id() {
@@ -27,11 +27,11 @@ public class Activity extends Base<Activity> {
 	}
 
 	public String getActivity_name() {
-		return getStr(KEY_ACTIVITY_NAME);
+		return getStr(COLUMN_ACTIVITY_NAME);
 	}
 
 	public void setActivity_name(String activity_name) {
-		set(KEY_ACTIVITY_NAME, activity_name);
+		set(COLUMN_ACTIVITY_NAME, activity_name);
 	}
 
 	public void checkActivity_name() {
@@ -39,11 +39,11 @@ public class Activity extends Base<Activity> {
 	}
 
 	public String getActivity_url() {
-		return getStr(KEY_ACTIVITY_URL);
+		return getStr(COLUMN_ACTIVITY_URL);
 	}
 
 	public void setActivity_url(String activity_url) {
-		set(KEY_ACTIVITY_URL, activity_url);
+		set(COLUMN_ACTIVITY_URL, activity_url);
 	}
 
 	public void checkActivity_url() {
@@ -51,11 +51,11 @@ public class Activity extends Base<Activity> {
 	}
 
 	public String getActivity_image() {
-		return getStr(KEY_ACTIVITY_IMAGE);
+		return getStr(COLUMN_ACTIVITY_IMAGE);
 	}
 
 	public void setActivity_image(String brand_image) {
-		set(KEY_ACTIVITY_IMAGE, brand_image);
+		set(COLUMN_ACTIVITY_IMAGE, brand_image);
 	}
 
 	public void checkActivity_logo() {
@@ -63,11 +63,11 @@ public class Activity extends Base<Activity> {
 	}
 
 	public String getActivity_content() {
-		return getStr(KEY_ACTIVITY_CONTENT);
+		return getStr(COLUMN_ACTIVITY_CONTENT);
 	}
 
 	public void setActivity_content(String activity_content) {
-		set(KEY_ACTIVITY_CONTENT, activity_content);
+		set(COLUMN_ACTIVITY_CONTENT, activity_content);
 	}
 
 	public void checkActivity_content() {
@@ -75,11 +75,11 @@ public class Activity extends Base<Activity> {
 	}
 
 	public Integer getActivity_sort() {
-		return Utility.getIntegerValue(get(KEY_ACTIVITY_SORT));
+		return Utility.getIntegerValue(get(COLUMN_ACTIVITY_SORT));
 	}
 
 	public void setActivity_sort(Integer activity_sort) {
-		set(KEY_ACTIVITY_SORT, activity_sort);
+		set(COLUMN_ACTIVITY_SORT, activity_sort);
 	}
 
 	public void checkActivity_sort() {

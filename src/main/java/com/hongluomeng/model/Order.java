@@ -10,33 +10,33 @@ public class Order extends Base<Order> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_ORDER = "table_order";
-	public static final String KEY_ORDER_ID = "order_id";
-	public static final String KEY_USER_ID = "user_id";
-	public static final String KEY_ORDER_NO = "order_no";
-	public static final String KEY_ORDER_PAY_PRICE = "order_pay_price";
-	public static final String KEY_ORDER_PRODUCT_PAY_AMOUNT = "order_product_pay_amount";
-	public static final String KEY_ORDER_MESSAGE = "order_message";
-	public static final String KEY_ORDER_DELIVERY_NAME = "order_delivery_name";
-	public static final String KEY_ORDER_DELIVERY_PHONE = "order_delivery_phone";
-	public static final String KEY_ORDER_DELIVERY_PROVINCE = "order_delivery_province";
-	public static final String KEY_ORDER_DELIVERY_CITY = "order_delivery_city";
-	public static final String KEY_ORDER_DELIVERY_AREA = "order_delivery_area";
-	public static final String KEY_ORDER_DELIVERY_ADDRESS = "order_delivery_address";
-	public static final String KEY_ORDER_DELIVERY_ZIP = "order_delivery_zip";
-	public static final String KEY_ORDER_PAY_TYPE = "order_pay_type";
-	public static final String KEY_ORDER_IS_PAY = "order_is_pay";
-	public static final String KEY_ORDER_TRADE_NO = "order_trade_no";
-	public static final String KEY_ORDER_TRADE_ACCOUNT = "order_trade_account";
-	public static final String KEY_ORDER_TRADE_PRICE = "order_trade_price";
-	public static final String KEY_ORDER_TRADE_TIME = "order_trade_time";
-	public static final String KEY_ORDER_TRADE_RESULT = "order_trade_result";
-	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
-	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
-	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
-	public static final String KEY_ORDER_STATUS = "order_status";
-	public static final String KEY_SIGN = "sign";
-	public static final String KEY_ORDER_LIST = "orderProductList";
+	public static final String TABLE_ORDER = "table_order";
+	public static final String COLUMN_ORDER_ID = "order_id";
+	public static final String COLUMN_USER_ID = "user_id";
+	public static final String COLUMN_ORDER_NO = "order_no";
+	public static final String COLUMN_ORDER_PAY_PRICE = "order_pay_price";
+	public static final String COLUMN_ORDER_PRODUCT_PAY_AMOUNT = "order_product_pay_amount";
+	public static final String COLUMN_ORDER_MESSAGE = "order_message";
+	public static final String COLUMN_ORDER_DELIVERY_NAME = "order_delivery_name";
+	public static final String COLUMN_ORDER_DELIVERY_PHONE = "order_delivery_phone";
+	public static final String COLUMN_ORDER_DELIVERY_PROVINCE = "order_delivery_province";
+	public static final String COLUMN_ORDER_DELIVERY_CITY = "order_delivery_city";
+	public static final String COLUMN_ORDER_DELIVERY_AREA = "order_delivery_area";
+	public static final String COLUMN_ORDER_DELIVERY_ADDRESS = "order_delivery_address";
+	public static final String COLUMN_ORDER_DELIVERY_ZIP = "order_delivery_zip";
+	public static final String COLUMN_ORDER_PAY_TYPE = "order_pay_type";
+	public static final String COLUMN_ORDER_IS_PAY = "order_is_pay";
+	public static final String COLUMN_ORDER_TRADE_NO = "order_trade_no";
+	public static final String COLUMN_ORDER_TRADE_ACCOUNT = "order_trade_account";
+	public static final String COLUMN_ORDER_TRADE_PRICE = "order_trade_price";
+	public static final String COLUMN_ORDER_TRADE_TIME = "order_trade_time";
+	public static final String COLUMN_ORDER_TRADE_RESULT = "order_trade_result";
+	public static final String COLUMN_MEMBER_LEVEL_ID = "member_level_id";
+	public static final String COLUMN_MEMBER_LEVEL_NAME = "member_level_name";
+	public static final String COLUMN_MEMBER_LEVEL_VALUE = "member_level_value";
+	public static final String COLUMN_ORDER_STATUS = "order_status";
+	public static final String COLUMN_ORDER_SIGN = "sign";
+	public static final String COLUMN_ORDER_LIST = "orderProductList";
 
 	private String member_delivery_id;
 	private List<Cart> cartList;
@@ -44,11 +44,11 @@ public class Order extends Base<Order> {
 	private List<OrderProduct> orderProductList;
 
 	public String getOrder_id() {
-		return getStr(KEY_ORDER_ID);
+		return getStr(COLUMN_ORDER_ID);
 	}
 
 	public void setOrder_id(String order_id) {
-		set(KEY_ORDER_ID, order_id);
+		set(COLUMN_ORDER_ID, order_id);
 	}
 
 	public void checkOrder_id() {
@@ -56,11 +56,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getUser_id() {
-		return getStr(KEY_USER_ID);
+		return getStr(COLUMN_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
-		set(KEY_USER_ID, user_id);
+		set(COLUMN_USER_ID, user_id);
 	}
 
 	public void checkUser_id() {
@@ -68,11 +68,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_no() {
-		return getStr(KEY_ORDER_NO);
+		return getStr(COLUMN_ORDER_NO);
 	}
 
 	public void setOrder_no(String order_no) {
-		set(KEY_ORDER_NO, order_no);
+		set(COLUMN_ORDER_NO, order_no);
 	}
 
 	public void checkOrder_no() {
@@ -80,11 +80,11 @@ public class Order extends Base<Order> {
 	}
 
 	public BigDecimal getOrder_pay_price() {
-		return getBigDecimal(KEY_ORDER_PAY_PRICE);
+		return getBigDecimal(COLUMN_ORDER_PAY_PRICE);
 	}
 
 	public void setOrder_pay_price(BigDecimal order_pay_price) {
-		set(KEY_ORDER_PAY_PRICE, order_pay_price);
+		set(COLUMN_ORDER_PAY_PRICE, order_pay_price);
 	}
 
 	public void checkOrder_pay_price() {
@@ -92,19 +92,19 @@ public class Order extends Base<Order> {
 	}
 
 	public Integer getOrder_product_pay_amount() {
-		return Utility.getIntegerValue(get(KEY_ORDER_PRODUCT_PAY_AMOUNT));
+		return Utility.getIntegerValue(get(COLUMN_ORDER_PRODUCT_PAY_AMOUNT));
 	}
 
 	public void setOrder_product_pay_amount(Integer order_product_pay_amount) {
-		set(KEY_ORDER_PRODUCT_PAY_AMOUNT, order_product_pay_amount);
+		set(COLUMN_ORDER_PRODUCT_PAY_AMOUNT, order_product_pay_amount);
 	}
 
 	public String getOrder_message() {
-		return getStr(KEY_ORDER_MESSAGE);
+		return getStr(COLUMN_ORDER_MESSAGE);
 	}
 
 	public void setOrder_message(String order_message) {
-		set(KEY_ORDER_MESSAGE, order_message);
+		set(COLUMN_ORDER_MESSAGE, order_message);
 	}
 
 	public void checkOrder_message() {
@@ -112,11 +112,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_name() {
-		return getStr(KEY_ORDER_DELIVERY_NAME);
+		return getStr(COLUMN_ORDER_DELIVERY_NAME);
 	}
 
 	public void setOrder_delivery_name(String order_delivery_name) {
-		set(KEY_ORDER_DELIVERY_NAME, order_delivery_name);
+		set(COLUMN_ORDER_DELIVERY_NAME, order_delivery_name);
 	}
 
 	public void checkOrder_delivery_name() {
@@ -124,11 +124,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_phone() {
-		return getStr(KEY_ORDER_DELIVERY_PHONE);
+		return getStr(COLUMN_ORDER_DELIVERY_PHONE);
 	}
 
 	public void setOrder_delivery_phone(String order_delivery_phone) {
-		set(KEY_ORDER_DELIVERY_PHONE, order_delivery_phone);
+		set(COLUMN_ORDER_DELIVERY_PHONE, order_delivery_phone);
 	}
 
 	public void checkOrder_delivery_phone() {
@@ -136,11 +136,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_province() {
-		return getStr(KEY_ORDER_DELIVERY_PROVINCE);
+		return getStr(COLUMN_ORDER_DELIVERY_PROVINCE);
 	}
 
 	public void setOrder_delivery_province(String order_delivery_province) {
-		set(KEY_ORDER_DELIVERY_PROVINCE, order_delivery_province);
+		set(COLUMN_ORDER_DELIVERY_PROVINCE, order_delivery_province);
 	}
 
 	public void checkOrder_delivery_province() {
@@ -148,11 +148,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_city() {
-		return getStr(KEY_ORDER_DELIVERY_CITY);
+		return getStr(COLUMN_ORDER_DELIVERY_CITY);
 	}
 
 	public void setOrder_delivery_city(String order_delivery_city) {
-		set(KEY_ORDER_DELIVERY_CITY, order_delivery_city);
+		set(COLUMN_ORDER_DELIVERY_CITY, order_delivery_city);
 	}
 
 	public void checkOrder_delivery_city() {
@@ -160,11 +160,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_area() {
-		return getStr(KEY_ORDER_DELIVERY_AREA);
+		return getStr(COLUMN_ORDER_DELIVERY_AREA);
 	}
 
 	public void setOrder_delivery_area(String order_delivery_area) {
-		set(KEY_ORDER_DELIVERY_AREA, order_delivery_area);
+		set(COLUMN_ORDER_DELIVERY_AREA, order_delivery_area);
 	}
 
 	public void checkOrder_delivery_area() {
@@ -172,11 +172,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_address() {
-		return getStr(KEY_ORDER_DELIVERY_ADDRESS);
+		return getStr(COLUMN_ORDER_DELIVERY_ADDRESS);
 	}
 
 	public void setOrder_delivery_address(String order_delivery_address) {
-		set(KEY_ORDER_DELIVERY_ADDRESS, order_delivery_address);
+		set(COLUMN_ORDER_DELIVERY_ADDRESS, order_delivery_address);
 	}
 
 	public void checkOrder_delivery_address() {
@@ -184,11 +184,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_delivery_zip() {
-		return getStr(KEY_ORDER_DELIVERY_ZIP);
+		return getStr(COLUMN_ORDER_DELIVERY_ZIP);
 	}
 
 	public void setOrder_delivery_zip(String order_delivery_zip) {
-		set(KEY_ORDER_DELIVERY_ZIP, order_delivery_zip);
+		set(COLUMN_ORDER_DELIVERY_ZIP, order_delivery_zip);
 	}
 
 	public void checkOrder_delivery_zip() {
@@ -196,11 +196,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_pay_type() {
-		return getStr(KEY_ORDER_PAY_TYPE);
+		return getStr(COLUMN_ORDER_PAY_TYPE);
 	}
 
 	public void setOrder_pay_type(String order_pay_type) {
-		set(KEY_ORDER_PAY_TYPE, order_pay_type);
+		set(COLUMN_ORDER_PAY_TYPE, order_pay_type);
 	}
 
 	public void checkOrder_pay_type() {
@@ -208,19 +208,19 @@ public class Order extends Base<Order> {
 	}
 
 	public Boolean getOrder_is_pay() {
-		return getBoolean(KEY_ORDER_IS_PAY);
+		return getBoolean(COLUMN_ORDER_IS_PAY);
 	}
 
 	public void setOrder_is_pay(Boolean order_is_pay) {
-		set(KEY_ORDER_IS_PAY, order_is_pay);
+		set(COLUMN_ORDER_IS_PAY, order_is_pay);
 	}
 
 	public String getOrder_trade_no() {
-		return getStr(KEY_ORDER_TRADE_NO);
+		return getStr(COLUMN_ORDER_TRADE_NO);
 	}
 
 	public void setOrder_trade_no(String order_trade_no) {
-		set(KEY_ORDER_TRADE_NO, order_trade_no);
+		set(COLUMN_ORDER_TRADE_NO, order_trade_no);
 	}
 
 	public void checkOrder_trade_no() {
@@ -228,11 +228,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_trade_account() {
-		return getStr(KEY_ORDER_TRADE_ACCOUNT);
+		return getStr(COLUMN_ORDER_TRADE_ACCOUNT);
 	}
 
 	public void setOrder_trade_account(String order_trade_account) {
-		set(KEY_ORDER_TRADE_ACCOUNT, order_trade_account);
+		set(COLUMN_ORDER_TRADE_ACCOUNT, order_trade_account);
 	}
 
 	public void checkOrder_trade_account() {
@@ -240,11 +240,11 @@ public class Order extends Base<Order> {
 	}
 
 	public BigDecimal getOrder_trade_price() {
-		return getBigDecimal(KEY_ORDER_TRADE_PRICE);
+		return getBigDecimal(COLUMN_ORDER_TRADE_PRICE);
 	}
 
 	public void setOrder_trade_price(BigDecimal order_trade_price) {
-		set(KEY_ORDER_TRADE_PRICE, order_trade_price);
+		set(COLUMN_ORDER_TRADE_PRICE, order_trade_price);
 	}
 
 	public void checkOrder_trade_price() {
@@ -252,19 +252,19 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_trade_time() {
-		return getStr(KEY_ORDER_TRADE_TIME);
+		return getStr(COLUMN_ORDER_TRADE_TIME);
 	}
 
 	public void setOrder_trade_time(String order_trade_time) {
-		set(KEY_ORDER_TRADE_TIME, order_trade_time);
+		set(COLUMN_ORDER_TRADE_TIME, order_trade_time);
 	}
 
 	public String getOrder_trade_result() {
-		return getStr(KEY_ORDER_TRADE_RESULT);
+		return getStr(COLUMN_ORDER_TRADE_RESULT);
 	}
 
 	public void setOrder_trade_result(String order_trade_result) {
-		set(KEY_ORDER_TRADE_RESULT, order_trade_result);
+		set(COLUMN_ORDER_TRADE_RESULT, order_trade_result);
 	}
 
 	public void checkOrder_trade_time() {
@@ -272,11 +272,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getMember_level_id() {
-		return getStr(KEY_MEMBER_LEVEL_ID);
+		return getStr(COLUMN_MEMBER_LEVEL_ID);
 	}
 
 	public void setMember_level_id(String member_level_id) {
-		set(KEY_MEMBER_LEVEL_ID, member_level_id);
+		set(COLUMN_MEMBER_LEVEL_ID, member_level_id);
 	}
 
 	public void checkMember_level_id() {
@@ -284,11 +284,11 @@ public class Order extends Base<Order> {
 	}
 
 	public String getMember_level_name() {
-		return getStr(KEY_MEMBER_LEVEL_NAME);
+		return getStr(COLUMN_MEMBER_LEVEL_NAME);
 	}
 
 	public void setMember_level_name(String member_level_name) {
-		set(KEY_MEMBER_LEVEL_NAME, member_level_name);
+		set(COLUMN_MEMBER_LEVEL_NAME, member_level_name);
 	}
 
 	public void checkMember_level_name() {
@@ -296,11 +296,11 @@ public class Order extends Base<Order> {
 	}
 
 	public Integer getMember_level_value() {
-		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
+		return Utility.getIntegerValue(get(COLUMN_MEMBER_LEVEL_VALUE));
 	}
 
 	public void setMember_level_value(Integer member_level_value) {
-		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
+		set(COLUMN_MEMBER_LEVEL_VALUE, member_level_value);
 	}
 
 	public void checkMember_level_value() {
@@ -308,7 +308,7 @@ public class Order extends Base<Order> {
 	}
 
 	public String getOrder_status() {
-		return getStr(KEY_ORDER_STATUS);
+		return getStr(COLUMN_ORDER_STATUS);
 	}
 
 	public String getOrder_status_value() {
@@ -324,7 +324,7 @@ public class Order extends Base<Order> {
 	}
 
 	public void setOrder_status(String order_status) {
-		set(KEY_ORDER_STATUS, order_status);
+		set(COLUMN_ORDER_STATUS, order_status);
 	}
 
 	public void checkOrder_status() {

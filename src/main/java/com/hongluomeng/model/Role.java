@@ -6,19 +6,19 @@ public class Role extends Base<Role> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_ROLE = "table_role";
-	public static final String KEY_ROLE_ID = "role_id";
-	public static final String KEY_GROUP_ID = "group_id";
-	public static final String KEY_ROLE_NAME = "role_name";
-	public static final String KEY_ROLE_KEY = "role_key";
-	public static final String KEY_ROLE_SORT = "role_sort";
+	public static final String TABLE_ROLE = "table_role";
+	public static final String COLUMN_ROLE_ID = "role_id";
+	public static final String COLUMN_GROUP_ID = "group_id";
+	public static final String COLUMN_ROLE_NAME = "role_name";
+	public static final String COLUMN_ROLE_KEY = "role_key";
+	public static final String COLUMN_ROLE_SORT = "role_sort";
 
 	public String getRole_id() {
-		return getStr(KEY_ROLE_ID);
+		return getStr(COLUMN_ROLE_ID);
 	}
 
 	public void setRole_id(String role_id) {
-		set(KEY_ROLE_ID, role_id);
+		set(COLUMN_ROLE_ID, role_id);
 	}
 
 	public void checkRole_id() {
@@ -26,11 +26,11 @@ public class Role extends Base<Role> {
 	}
 
 	public String getGroup_id() {
-		return getStr(KEY_GROUP_ID);
+		return getStr(COLUMN_GROUP_ID);
 	}
 
 	public void setGroup_id(String group_id) {
-		set(KEY_GROUP_ID, group_id);
+		set(COLUMN_GROUP_ID, group_id);
 	}
 
 	public void checkGroup_id() {
@@ -38,11 +38,11 @@ public class Role extends Base<Role> {
 	}
 
 	public String getRole_name() {
-		return getStr(KEY_ROLE_NAME);
+		return getStr(COLUMN_ROLE_NAME);
 	}
 
 	public void setRole_name(String role_name) {
-		set(KEY_ROLE_NAME, role_name);
+		set(COLUMN_ROLE_NAME, role_name);
 	}
 
 	public void checkRole_name() {
@@ -50,11 +50,11 @@ public class Role extends Base<Role> {
 	}
 
 	public String getRole_key() {
-		return getStr(KEY_ROLE_KEY);
+		return getStr(COLUMN_ROLE_KEY);
 	}
 
 	public void setRole_key(String role_key) {
-		set(KEY_ROLE_KEY, role_key);
+		set(COLUMN_ROLE_KEY, role_key);
 	}
 
 	public void checkRole_key() {
@@ -62,11 +62,11 @@ public class Role extends Base<Role> {
 	}
 
 	public Integer getRole_sort() {
-		return Utility.getIntegerValue(get(KEY_ROLE_SORT));
+		return Utility.getIntegerValue(get(COLUMN_ROLE_SORT));
 	}
 
 	public void setRole_sort(Integer role_sort) {
-		set(KEY_ROLE_SORT, role_sort);
+		set(COLUMN_ROLE_SORT, role_sort);
 	}
 
 	public void checkRole_sort() {

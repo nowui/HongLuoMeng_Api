@@ -27,7 +27,7 @@ public class UploadService {
 
 		String suffix = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf(".") + 1);
 
-		if (!".jpg.gif.png.bmp.JPG.GIF.PNG.BMP".contains(suffix)) {
+		if (!Const.UPLOAD_IMAGE_NAME.contains(suffix)) {
 			isImage = false;
 		} else {
 			Image image = null;

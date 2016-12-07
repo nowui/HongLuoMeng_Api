@@ -11,25 +11,25 @@ public class Product extends Base<Product> {
 	private static final long serialVersionUID = 1L;
 
 	public static final String KEY_TABLE_PRODUCT = "table_product";
-	public static final String KEY_PRODUCT_ID = "product_id";
-	public static final String KEY_CATEGORY_ID = "category_id";
-	public static final String KEY_BRAND_ID = "brand_id";
-	public static final String KEY_PRODUCT_NAME = "product_name";
-	public static final String KEY_PRODUCT_IMAGE = "product_image";
-	public static final String KEY_PRODUCT_PRICE = "product_price";
-	public static final String KEY_PRODUCT_STOCK = "product_stock";
-	public static final String KEY_PRODUCT_IS_NEW = "product_is_new";
-	public static final String KEY_PRODUCT_IS_RECOMMEND = "product_is_recommend";
-	public static final String KEY_PRODUCT_IS_BARGAIN = "product_is_bargain";
-	public static final String KEY_PRODUCT_IS_HOT = "product_is_hot";
-	public static final String KEY_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
-	public static final String KEY_PRODUCT_IS_SALE = "product_is_sale";
-	public static final String KEY_PRODUCT_CONTENT = "product_content";
-	public static final String KEY_PRODUCT_SKU_VALUE = "product_sku_value";;
-	public static final String KEY_MEMBER_LEVEL_LIST = "memberLevelList";
-	public static final String KEY_PRODUCT_SKU_LIST = "productSkuList";
-	public static final String KEY_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
-	public static final String KEY_PRODUCT_IS_APPLY = "product_is_apply";
+	public static final String COLUMN_PRODUCT_ID = "product_id";
+	public static final String COLUMN_CATEGORY_ID = "category_id";
+	public static final String COLUMN_BRAND_ID = "brand_id";
+	public static final String COLUMN_PRODUCT_NAME = "product_name";
+	public static final String COLUMN_PRODUCT_IMAGE = "product_image";
+	public static final String COLUMN_PRODUCT_PRICE = "product_price";
+	public static final String COLUMN_PRODUCT_STOCK = "product_stock";
+	public static final String COLUMN_PRODUCT_IS_NEW = "product_is_new";
+	public static final String COLUMN_PRODUCT_IS_RECOMMEND = "product_is_recommend";
+	public static final String COLUMN_PRODUCT_IS_BARGAIN = "product_is_bargain";
+	public static final String COLUMN_PRODUCT_IS_HOT = "product_is_hot";
+	public static final String COLUMN_PRODUCT_IS_SELL_OUT = "product_is_sell_out";
+	public static final String COLUMN_PRODUCT_IS_SALE = "product_is_sale";
+	public static final String COLUMN_PRODUCT_CONTENT = "product_content";
+	public static final String COLUMN_PRODUCT_SKU_VALUE = "product_sku_value";;
+	public static final String COLUMN_MEMBER_LEVEL_LIST = "memberLevelList";
+	public static final String COLUMN_PRODUCT_SKU_LIST = "productSkuList";
+	public static final String COLUMN_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
+	public static final String COLUMN_PRODUCT_IS_APPLY = "product_is_apply";
 
 	private List<Category> categoryList;
 	private List<Brand> brandList;
@@ -38,11 +38,11 @@ public class Product extends Base<Product> {
 	private List<ProductSku> productSkuList;
 
 	public String getProduct_id() {
-		return getStr(KEY_PRODUCT_ID);
+		return getStr(COLUMN_PRODUCT_ID);
 	}
 
 	public void setProduct_id(String product_id) {
-		set(KEY_PRODUCT_ID, product_id);
+		set(COLUMN_PRODUCT_ID, product_id);
 	}
 
 	public void checkProduct_id() {
@@ -50,11 +50,11 @@ public class Product extends Base<Product> {
 	}
 
 	public String getCategory_id() {
-		return getStr(KEY_CATEGORY_ID);
+		return getStr(COLUMN_CATEGORY_ID);
 	}
 
 	public void setCategory_id(String category_id) {
-		set(KEY_CATEGORY_ID, category_id);
+		set(COLUMN_CATEGORY_ID, category_id);
 	}
 
 	public void checkCategory_id() {
@@ -62,11 +62,11 @@ public class Product extends Base<Product> {
 	}
 
 	public String getBrand_id() {
-		return getStr(KEY_BRAND_ID);
+		return getStr(COLUMN_BRAND_ID);
 	}
 
 	public void setBrand_id(String brand_id) {
-		set(KEY_BRAND_ID, brand_id);
+		set(COLUMN_BRAND_ID, brand_id);
 	}
 
 	public void checkBrand_id() {
@@ -74,11 +74,11 @@ public class Product extends Base<Product> {
 	}
 
 	public String getProduct_name() {
-		return getStr(KEY_PRODUCT_NAME);
+		return getStr(COLUMN_PRODUCT_NAME);
 	}
 
 	public void setProduct_name(String product_name) {
-		set(KEY_PRODUCT_NAME, product_name);
+		set(COLUMN_PRODUCT_NAME, product_name);
 	}
 
 	public void checkProduct_name() {
@@ -86,11 +86,11 @@ public class Product extends Base<Product> {
 	}
 
 	public JSONArray getProduct_image() {
-		return JSONArray.parseArray(getStr(KEY_PRODUCT_IMAGE));
+		return JSONArray.parseArray(getStr(COLUMN_PRODUCT_IMAGE));
 	}
 
 	public void setProduct_image(String product_image) {
-		set(KEY_PRODUCT_IMAGE, product_image);
+		set(COLUMN_PRODUCT_IMAGE, product_image);
 	}
 
 	public void checkProduct_image() {
@@ -98,11 +98,11 @@ public class Product extends Base<Product> {
 	}
 
 	public BigDecimal getProduct_price() {
-		return getBigDecimal(KEY_PRODUCT_PRICE);
+		return getBigDecimal(COLUMN_PRODUCT_PRICE);
 	}
 
 	public void setProduct_price(BigDecimal product_price) {
-		set(KEY_PRODUCT_PRICE, product_price);
+		set(COLUMN_PRODUCT_PRICE, product_price);
 	}
 
 	public void checkProduct_price() {
@@ -110,11 +110,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Integer getProduct_stock() {
-		return Utility.getIntegerValue(get(KEY_PRODUCT_STOCK));
+		return Utility.getIntegerValue(get(COLUMN_PRODUCT_STOCK));
 	}
 
 	public void setProduct_stock(Integer product_stock) {
-		set(KEY_PRODUCT_STOCK, product_stock);
+		set(COLUMN_PRODUCT_STOCK, product_stock);
 	}
 
 	public void checkProduct_stock() {
@@ -122,11 +122,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Boolean getProduct_is_new() {
-		return getBoolean(KEY_PRODUCT_IS_NEW);
+		return getBoolean(COLUMN_PRODUCT_IS_NEW);
 	}
 
 	public void setProduct_is_new(Boolean product_is_new) {
-		set(KEY_PRODUCT_IS_NEW, product_is_new);
+		set(COLUMN_PRODUCT_IS_NEW, product_is_new);
 	}
 
 	public void checkProduct_is_new() {
@@ -134,11 +134,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Boolean getProduct_is_recommend() {
-		return getBoolean(KEY_PRODUCT_IS_RECOMMEND);
+		return getBoolean(COLUMN_PRODUCT_IS_RECOMMEND);
 	}
 
 	public void setProduct_is_recommend(Boolean product_is_recommend) {
-		set(KEY_PRODUCT_IS_RECOMMEND, product_is_recommend);
+		set(COLUMN_PRODUCT_IS_RECOMMEND, product_is_recommend);
 	}
 
 	public void checkProduct_is_recommend() {
@@ -146,11 +146,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Boolean getProduct_is_bargain() {
-		return getBoolean(KEY_PRODUCT_IS_BARGAIN);
+		return getBoolean(COLUMN_PRODUCT_IS_BARGAIN);
 	}
 
 	public void setProduct_is_bargain(Boolean product_is_bargain) {
-		set(KEY_PRODUCT_IS_BARGAIN, product_is_bargain);
+		set(COLUMN_PRODUCT_IS_BARGAIN, product_is_bargain);
 	}
 
 	public void checkProduct_is_bargain() {
@@ -158,11 +158,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Boolean getProduct_is_hot() {
-		return getBoolean(KEY_PRODUCT_IS_HOT);
+		return getBoolean(COLUMN_PRODUCT_IS_HOT);
 	}
 
 	public void setProduct_is_hot(Boolean product_is_hot) {
-		set(KEY_PRODUCT_IS_HOT, product_is_hot);
+		set(COLUMN_PRODUCT_IS_HOT, product_is_hot);
 	}
 
 	public void checkProduct_is_hot() {
@@ -170,11 +170,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Boolean getProduct_is_sell_out() {
-		return getBoolean(KEY_PRODUCT_IS_SELL_OUT);
+		return getBoolean(COLUMN_PRODUCT_IS_SELL_OUT);
 	}
 
 	public void setProduct_is_sell_out(Boolean product_is_sell_out) {
-		set(KEY_PRODUCT_IS_SELL_OUT, product_is_sell_out);
+		set(COLUMN_PRODUCT_IS_SELL_OUT, product_is_sell_out);
 	}
 
 	public void checkProduct_is_sell_out() {
@@ -182,11 +182,11 @@ public class Product extends Base<Product> {
 	}
 
 	public Boolean getProduct_is_sale() {
-		return getBoolean(KEY_PRODUCT_IS_SALE);
+		return getBoolean(COLUMN_PRODUCT_IS_SALE);
 	}
 
 	public void setProduct_is_sale(Boolean product_is_sale) {
-		set(KEY_PRODUCT_IS_SALE, product_is_sale);
+		set(COLUMN_PRODUCT_IS_SALE, product_is_sale);
 	}
 
 	public void checkProduct_is_sale() {
@@ -194,7 +194,7 @@ public class Product extends Base<Product> {
 	}
 
 	public String getProduct_content() {
-		return getStr(KEY_PRODUCT_CONTENT);
+		return getStr(COLUMN_PRODUCT_CONTENT);
 	}
 
 	public void checkProduct_content() {
@@ -202,18 +202,18 @@ public class Product extends Base<Product> {
 	}
 
 	public void setProduct_content(String product_content) {
-		set(KEY_PRODUCT_CONTENT, product_content);
+		set(COLUMN_PRODUCT_CONTENT, product_content);
 	}
 
 	public JSONArray getProduct_sku_value() {
-		return JSONArray.parseArray(getStr(KEY_PRODUCT_SKU_VALUE));
+		return JSONArray.parseArray(getStr(COLUMN_PRODUCT_SKU_VALUE));
 	}
 
 	public void setProduct_sku_value(String product_sku_value) {
 		if(Utility.isNullOrEmpty(product_sku_value)) {
 			product_sku_value = "[]";
 		}
-		set(KEY_PRODUCT_SKU_VALUE, product_sku_value);
+		set(COLUMN_PRODUCT_SKU_VALUE, product_sku_value);
 	}
 
 	public void checkProduct_sku_value() {

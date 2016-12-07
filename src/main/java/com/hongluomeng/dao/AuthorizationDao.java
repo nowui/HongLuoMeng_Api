@@ -12,7 +12,7 @@ public class AuthorizationDao {
 
 	private Integer count(Authorization authorization) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Authorization.TABLE_AUTHORIZATION + " ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -26,8 +26,8 @@ public class AuthorizationDao {
 
 	private List<Authorization> list(Authorization authorization, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
-		myDynamicSQL.append("ORDER BY " + Authorization.KEY_AUTHORIZATION_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("SELECT * FROM " + Authorization.TABLE_AUTHORIZATION + " ");
+		myDynamicSQL.append("ORDER BY " + Authorization.COLUMN_AUTHORIZATION_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return new Authorization().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -41,9 +41,9 @@ public class AuthorizationDao {
 
 	private Authorization find(Authorization authorization) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT * FROM " + Authorization.KEY_TABLE_AUTHORIZATION + " ");
+		myDynamicSQL.append("SELECT * FROM " + Authorization.TABLE_AUTHORIZATION + " ");
 		myDynamicSQL.append("WHERE 1 = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Authorization.KEY_AUTHORIZATION_ID + " = ? ", authorization.getAuthorization_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Authorization.COLUMN_AUTHORIZATION_ID + " = ? ", authorization.getAuthorization_id());
 
 		List<Authorization> authorizationList = new Authorization().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(authorizationList.size() == 0) {
@@ -71,7 +71,7 @@ public class AuthorizationDao {
 	public void updateToken(Authorization authorization) {
 		List<Object> parameterList = new ArrayList<Object>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Authorization.KEY_TABLE_AUTHORIZATION + " SET " + Authorization.KEY_AUTHORIZATION_TOKEN + " = ? WHERE " + Authorization.KEY_AUTHORIZATION_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Authorization.TABLE_AUTHORIZATION + " SET " + Authorization.COLUMN_AUTHORIZATION_TOKEN + " = ? WHERE " + Authorization.COLUMN_AUTHORIZATION_ID + " = ? ");
 
 		parameterList.add(authorization.getAuthorization_token());
 		parameterList.add(authorization.getAuthorization_id());

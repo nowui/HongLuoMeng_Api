@@ -28,8 +28,8 @@ public class ActivityService {
 
 		for (Activity activity : activityList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
-			map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
+			map.put(Activity.COLUMN_ACTIVITY_ID, activity.getActivity_id());
+			map.put(Activity.COLUMN_ACTIVITY_NAME, activity.getActivity_name());
 
 			list.add(map);
 		}
@@ -50,10 +50,10 @@ public class ActivityService {
 
 		for (Activity activity : activityList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
-			map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
-			map.put(Activity.KEY_ACTIVITY_URL, activity.getActivity_url());
-			map.put(Activity.KEY_ACTIVITY_IMAGE, activity.getActivity_image());
+			map.put(Activity.COLUMN_ACTIVITY_ID, activity.getActivity_id());
+			map.put(Activity.COLUMN_ACTIVITY_NAME, activity.getActivity_name());
+			map.put(Activity.COLUMN_ACTIVITY_URL, activity.getActivity_url());
+			map.put(Activity.COLUMN_ACTIVITY_IMAGE, Utility.packageImagePath(activity.getActivity_image(), Const.UPLOAD_LARGE));
 
 			list.add(map);
 		}
@@ -75,9 +75,9 @@ public class ActivityService {
 		Activity activity = activityDao.findByActivity_id(activityMap.getActivity_id());
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(Activity.KEY_ACTIVITY_ID, activity.getActivity_id());
-		map.put(Activity.KEY_ACTIVITY_NAME, activity.getActivity_name());
-		map.put(Activity.KEY_ACTIVITY_CONTENT, activity.getActivity_content());
+		map.put(Activity.COLUMN_ACTIVITY_ID, activity.getActivity_id());
+		map.put(Activity.COLUMN_ACTIVITY_NAME, activity.getActivity_name());
+		map.put(Activity.COLUMN_ACTIVITY_CONTENT, activity.getActivity_content());
 
 		return map;
 	}

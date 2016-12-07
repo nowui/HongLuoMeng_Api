@@ -7,7 +7,7 @@ public class Attribute extends Base<Attribute> {
 	private static final long serialVersionUID = 1L;
 
 	public static final String KEY_TABLE_ATTRIBUTE = "table_attribute";
-	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
+	public static final String COLUMN_ATTRIBUTE_ID = "attribute_id";
 	public static final String KEY_ATTRIBUTE_NAME = "attribute_name";
 	public static final String KEY_ATTRIBUTE_INPUT_TYPE = "attribute_input_type";
 	public static final String KEY_ATTRIBUTE_DEFAULT_VALUE = "attribute_default_value";
@@ -15,11 +15,11 @@ public class Attribute extends Base<Attribute> {
 	public static final String KEY_ATTRIBUTE_SORT = "attribute_sort";
 
 	public String getAttribute_id() {
-		return getStr(KEY_ATTRIBUTE_ID);
+		return getStr(COLUMN_ATTRIBUTE_ID);
 	}
 
 	public void setAttribute_id(String attribute_id) {
-		set(KEY_ATTRIBUTE_ID, attribute_id);
+		set(COLUMN_ATTRIBUTE_ID, attribute_id);
 	}
 
 	public void checkAttribute_id() {

@@ -27,11 +27,11 @@ public class CategoryAttributeService {
 
 		for(CategoryAttribute categoryAttribute : categoryAttributeList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(CategoryAttribute.KEY_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
+			map.put(CategoryAttribute.COLUMN_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
 			map.put(Attribute.KEY_ATTRIBUTE_NAME, categoryAttribute.getAttribute_name());
 			map.put(Attribute.KEY_ATTRIBUTE_TYPE, categoryAttribute.getAttribute_type());
 			map.put(Attribute.KEY_ATTRIBUTE_DEFAULT_VALUE, categoryAttribute.getAttribute_default_value());
-			map.put(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE, "");
+			map.put(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE, "");
 			list.add(map);
 		}
 
@@ -46,26 +46,26 @@ public class CategoryAttributeService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
 		if (Utility.isNullOrEmpty(categoryAttributeMap.getAttribute_id())) {
-			resultMap.put(CategoryAttribute.KEY_CATEGORY_ID, "");
-			resultMap.put(CategoryAttribute.KEY_ATTRIBUTE_ID, "");
-			resultMap.put(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT, 0);
+			resultMap.put(CategoryAttribute.COLUMN_CATEGORY_ID, "");
+			resultMap.put(CategoryAttribute.COLUMN_ATTRIBUTE_ID, "");
+			resultMap.put(CategoryAttribute.COLUMN_CATEGORY_ATTRIBUTE_SORT, 0);
 
-			resultMap.put(CategoryAttribute.KEY_ATTRIBUTE_LIST, categoryAttributeDao.listNotUsedAttributeByCategory_id(categoryAttributeMap.getCategory_id()));
+			resultMap.put(CategoryAttribute.COLUMN_ATTRIBUTE_LIST, categoryAttributeDao.listNotUsedAttributeByCategory_id(categoryAttributeMap.getCategory_id()));
 		} else {
 			CategoryAttribute categoryAttribute = categoryAttributeDao.findByCategory_idAndAttribute_id(categoryAttributeMap.getCategory_id(), categoryAttributeMap.getAttribute_id());
 
-			resultMap.put(CategoryAttribute.KEY_CATEGORY_ID, categoryAttribute.getCategory_id());
-			resultMap.put(CategoryAttribute.KEY_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
-			resultMap.put(CategoryAttribute.KEY_CATEGORY_ATTRIBUTE_SORT, categoryAttribute.getCategory_attribute_sort());
+			resultMap.put(CategoryAttribute.COLUMN_CATEGORY_ID, categoryAttribute.getCategory_id());
+			resultMap.put(CategoryAttribute.COLUMN_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
+			resultMap.put(CategoryAttribute.COLUMN_CATEGORY_ATTRIBUTE_SORT, categoryAttribute.getCategory_attribute_sort());
 
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Attribute.KEY_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
+			map.put(Attribute.COLUMN_ATTRIBUTE_ID, categoryAttribute.getAttribute_id());
 			map.put(Attribute.KEY_ATTRIBUTE_NAME, categoryAttribute.getAttribute_name());
 			list.add(map);
 
-			resultMap.put(CategoryAttribute.KEY_ATTRIBUTE_LIST, list);
+			resultMap.put(CategoryAttribute.COLUMN_ATTRIBUTE_LIST, list);
 		}
 
 

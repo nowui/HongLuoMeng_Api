@@ -14,8 +14,8 @@ public class ActivityDao {
 
 	private Integer count(Activity activity) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		myDynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Activity.TABLE_ACTIVITY + " ");
+		myDynamicSQL.append("WHERE " + Activity.TABLE_ACTIVITY + "." + Activity.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -29,9 +29,9 @@ public class ActivityDao {
 
 	private List<Activity> list(Activity activity, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		myDynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("ORDER BY " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("SELECT * FROM " + Activity.TABLE_ACTIVITY + " ");
+		myDynamicSQL.append("WHERE " + Activity.TABLE_ACTIVITY + "." + Activity.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("ORDER BY " + Activity.TABLE_ACTIVITY + "." + Activity.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		List<Activity> activityList = new Activity().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -47,9 +47,9 @@ public class ActivityDao {
 
 	private Activity find(Activity activity) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT * FROM " + Activity.KEY_TABLE_ACTIVITY + " ");
-		myDynamicSQL.append("WHERE " + Activity.KEY_TABLE_ACTIVITY + "." + Activity.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Activity.KEY_ACTIVITY_ID + " = ? ", activity.getActivity_id());
+		myDynamicSQL.append("SELECT * FROM " + Activity.TABLE_ACTIVITY + " ");
+		myDynamicSQL.append("WHERE " + Activity.TABLE_ACTIVITY + "." + Activity.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Activity.COLUMN_ACTIVITY_ID + " = ? ", activity.getActivity_id());
 
 		List<Record> recordList = Db.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (recordList.size() == 0) {

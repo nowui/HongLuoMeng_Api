@@ -8,18 +8,18 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_CATEGORY_ATTRIBUTE = "table_category_attribute";
-	public static final String KEY_CATEGORY_ID = "category_id";
-	public static final String KEY_ATTRIBUTE_ID = "attribute_id";
-	public static final String KEY_CATEGORY_ATTRIBUTE_SORT = "category_attribute_sort";
-	public static final String KEY_ATTRIBUTE_LIST = "attributeList";
+	public static final String TABLE_CATEGORY_ATTRIBUTE = "table_category_attribute";
+	public static final String COLUMN_CATEGORY_ID = "category_id";
+	public static final String COLUMN_ATTRIBUTE_ID = "attribute_id";
+	public static final String COLUMN_CATEGORY_ATTRIBUTE_SORT = "category_attribute_sort";
+	public static final String COLUMN_ATTRIBUTE_LIST = "attributeList";
 
 	public String getCategory_id() {
-		return getStr(KEY_CATEGORY_ID);
+		return getStr(COLUMN_CATEGORY_ID);
 	}
 
 	public void setCategory_id(String category_id) {
-		set(KEY_CATEGORY_ID, category_id);
+		set(COLUMN_CATEGORY_ID, category_id);
 	}
 
 	public void checkCategory_id() {
@@ -27,11 +27,11 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 	}
 
 	public String getAttribute_id() {
-		return getStr(KEY_ATTRIBUTE_ID);
+		return getStr(COLUMN_ATTRIBUTE_ID);
 	}
 
 	public void setAttribute_id(String attribute_id) {
-		set(KEY_ATTRIBUTE_ID, attribute_id);
+		set(COLUMN_ATTRIBUTE_ID, attribute_id);
 	}
 
 	public void checkAttribute_id() {
@@ -39,11 +39,11 @@ public class CategoryAttribute extends Model<CategoryAttribute> {
 	}
 
 	public Integer getCategory_attribute_sort() {
-		return Utility.getIntegerValue(get(KEY_CATEGORY_ATTRIBUTE_SORT));
+		return Utility.getIntegerValue(get(COLUMN_CATEGORY_ATTRIBUTE_SORT));
 	}
 
 	public void setCategory_attribute_sort(Integer category_attribute_sort) {
-		set(KEY_CATEGORY_ATTRIBUTE_SORT, category_attribute_sort);
+		set(COLUMN_CATEGORY_ATTRIBUTE_SORT, category_attribute_sort);
 	}
 
 	public void checkCategory_attribute_sort() {

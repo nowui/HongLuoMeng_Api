@@ -8,30 +8,30 @@ public class Member extends Base<Member> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_MEMBER = "table_member";
-	public static final String KEY_MEMBER_ID = "member_id";
-	public static final String KEY_USER_ID = "user_id";
-	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
-	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
-	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
-	public static final String KEY_MEMBER_NAME = "member_name";
-	public static final String KEY_MEMBER_AVATAR = "member_avatar";
-	public static final String KEY_MEMBER_AVATAR_SMALL = "member_avatar_small";
-	public static final String KEY_MEMBER_AVATAR_LARGE = "member_avatar_large";
-	public static final String KEY_MEMBER_REAL_NAME = "member_real_name";
-	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
-	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
-	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
-	public static final String KEY_MEMBER_WEIBO_FANS = "member_weibo_fans";
-	public static final String KEY_MEMBER_WEIBO_FRIEND = "member_weibo_friend";
-	public static final String KEY_MEMBER_STATUS = "member_status";
+	public static final String TABLE_MEMBER = "table_member";
+	public static final String COLUMN_MEMBER_ID = "member_id";
+	public static final String COLUMN_USER_ID = "user_id";
+	public static final String COLUMN_MEMBER_LEVEL_ID = "member_level_id";
+	public static final String COLUMN_MEMBER_LEVEL_NAME = "member_level_name";
+	public static final String COLUMN_MEMBER_LEVEL_VALUE = "member_level_value";
+	public static final String COLUMN_MEMBER_NAME = "member_name";
+	public static final String COLUMN_MEMBER_AVATAR = "member_avatar";
+	public static final String COLUMN_MEMBER_AVATAR_SMALL = "member_avatar_small";
+	public static final String COLUMN_MEMBER_AVATAR_LARGE = "member_avatar_large";
+	public static final String COLUMN_MEMBER_REAL_NAME = "member_real_name";
+	public static final String COLUMN_MEMBER_IDENTITY_CARD = "member_identity_card";
+	public static final String COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
+	public static final String COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
+	public static final String COLUMN_MEMBER_WEIBO_FANS = "member_weibo_fans";
+	public static final String COLUMN_MEMBER_WEIBO_FRIEND = "member_weibo_friend";
+	public static final String COLUMN_MEMBER_STATUS = "member_status";
 
 	public String getMember_id() {
-		return getStr(KEY_MEMBER_ID);
+		return getStr(COLUMN_MEMBER_ID);
 	}
 
 	public void setMember_id(String member_id) {
-		set(KEY_MEMBER_ID, member_id);
+		set(COLUMN_MEMBER_ID, member_id);
 	}
 
 	public void checkMember_id() {
@@ -39,11 +39,11 @@ public class Member extends Base<Member> {
 	}
 
 	public String getUser_id() {
-		return getStr(KEY_USER_ID);
+		return getStr(COLUMN_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
-		set(KEY_USER_ID, user_id);
+		set(COLUMN_USER_ID, user_id);
 	}
 
 	public void checkUser_id() {
@@ -51,11 +51,11 @@ public class Member extends Base<Member> {
 	}
 
 	public String getMember_level_id() {
-		return getStr(KEY_MEMBER_LEVEL_ID);
+		return getStr(COLUMN_MEMBER_LEVEL_ID);
 	}
 
 	public void setMember_level_id(String member_level_id) {
-		set(KEY_MEMBER_LEVEL_ID, member_level_id);
+		set(COLUMN_MEMBER_LEVEL_ID, member_level_id);
 	}
 
 	public void checkMember_level_id() {
@@ -63,19 +63,19 @@ public class Member extends Base<Member> {
 	}
 
 	public String getMember_level_name() {
-		return getStr(KEY_MEMBER_LEVEL_NAME);
+		return getStr(COLUMN_MEMBER_LEVEL_NAME);
 	}
 
 	public Integer getMember_level_value() {
-		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
+		return Utility.getIntegerValue(get(COLUMN_MEMBER_LEVEL_VALUE));
 	}
 
 	public String getMember_name() {
-		return getStr(KEY_MEMBER_NAME);
+		return getStr(COLUMN_MEMBER_NAME);
 	}
 
 	public void setMember_name(String member_name) {
-		set(KEY_MEMBER_NAME, member_name);
+		set(COLUMN_MEMBER_NAME, member_name);
 	}
 
 	public void checkMember_name() {
@@ -83,19 +83,19 @@ public class Member extends Base<Member> {
 	}
 
 //	public String getMember_avatar() {
-//		return getStr(KEY_MEMBER_AVATAR);
+//		return getStr(COLUMN_MEMBER_AVATAR);
 //	}
 
 	public JSONObject getMember_avatar() {
-		return JSONObject.parseObject(getStr(KEY_MEMBER_AVATAR));
+		return JSONObject.parseObject(getStr(COLUMN_MEMBER_AVATAR));
 	}
 
 	public void setMember_avatar(String member_avatar) {
-		set(KEY_MEMBER_AVATAR, member_avatar);
+		set(COLUMN_MEMBER_AVATAR, member_avatar);
 	}
 
 	public void checkMember_avatar() {
-		Utility.checkStringLength(getStr(KEY_MEMBER_AVATAR), 0, 300, "会员头像");
+		Utility.checkStringLength(getStr(COLUMN_MEMBER_AVATAR), 0, 300, "会员头像");
 	}
 
 	public void checkMember_avatar_small(String member_avatar_small) {
@@ -107,11 +107,11 @@ public class Member extends Base<Member> {
 	}
 
 	public String getMember_real_name() {
-		return getStr(KEY_MEMBER_REAL_NAME);
+		return getStr(COLUMN_MEMBER_REAL_NAME);
 	}
 
 	public void setMember_real_name(String member_real_name) {
-		set(KEY_MEMBER_REAL_NAME, member_real_name);
+		set(COLUMN_MEMBER_REAL_NAME, member_real_name);
 	}
 
 	public void checkMember_real_name() {
@@ -119,11 +119,11 @@ public class Member extends Base<Member> {
 	}
 
 	public String getMember_identity_card() {
-		return getStr(KEY_MEMBER_IDENTITY_CARD);
+		return getStr(COLUMN_MEMBER_IDENTITY_CARD);
 	}
 
 	public void setMember_identity_card(String member_identity_card) {
-		set(KEY_MEMBER_IDENTITY_CARD, member_identity_card);
+		set(COLUMN_MEMBER_IDENTITY_CARD, member_identity_card);
 	}
 
 	public void checkMember_identity_card() {
@@ -131,11 +131,11 @@ public class Member extends Base<Member> {
 	}
 
 	public String getMember_identity_card_front_image() {
-		return getStr(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
+		return getStr(COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
 	}
 
 	public void setMember_identity_card_front_image(String member_identity_card_front_image) {
-		set(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
+		set(COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
 	}
 
 	public void checkMember_identity_card_front_image() {
@@ -143,11 +143,11 @@ public class Member extends Base<Member> {
 	}
 
 	public String getMember_identity_card_back_image() {
-		return getStr(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE);
+		return getStr(COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE);
 	}
 
 	public void setMember_identity_card_back_image(String member_identity_card_back_image) {
-		set(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
+		set(COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
 	}
 
 	public void checkMember_identity_card_back_image() {
@@ -155,11 +155,11 @@ public class Member extends Base<Member> {
 	}
 
 	public Integer getMember_weibo_fans() {
-		return Utility.getIntegerValue(get(KEY_MEMBER_WEIBO_FANS));
+		return Utility.getIntegerValue(get(COLUMN_MEMBER_WEIBO_FANS));
 	}
 
 	public void setMember_weibo_fans(Integer member_weibo_fans) {
-		set(KEY_MEMBER_WEIBO_FANS, member_weibo_fans);
+		set(COLUMN_MEMBER_WEIBO_FANS, member_weibo_fans);
 	}
 
 	public void checkMember_weibo_fans() {
@@ -167,11 +167,11 @@ public class Member extends Base<Member> {
 	}
 
 	public Integer getMember_weibo_friend() {
-		return Utility.getIntegerValue(get(KEY_MEMBER_WEIBO_FRIEND));
+		return Utility.getIntegerValue(get(COLUMN_MEMBER_WEIBO_FRIEND));
 	}
 
 	public void setMember_weibo_friend(Integer member_weibo_friend) {
-		set(KEY_MEMBER_WEIBO_FRIEND, member_weibo_friend);
+		set(COLUMN_MEMBER_WEIBO_FRIEND, member_weibo_friend);
 	}
 
 	public void checkMember_weibo_friend() {
@@ -179,11 +179,11 @@ public class Member extends Base<Member> {
 	}
 
 	public Boolean getMember_status() {
-		return getBoolean(KEY_MEMBER_STATUS);
+		return getBoolean(COLUMN_MEMBER_STATUS);
 	}
 
 	public void setMember_status(Boolean member_status) {
-		set(KEY_MEMBER_STATUS, member_status);
+		set(COLUMN_MEMBER_STATUS, member_status);
 	}
 
 }

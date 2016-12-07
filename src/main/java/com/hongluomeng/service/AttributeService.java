@@ -28,7 +28,7 @@ public class AttributeService {
 
 		for (Attribute attribute : attributeList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Attribute.KEY_ATTRIBUTE_ID, attribute.getAttribute_id());
+			map.put(Attribute.COLUMN_ATTRIBUTE_ID, attribute.getAttribute_id());
 			map.put(Attribute.KEY_ATTRIBUTE_NAME, attribute.getAttribute_name());
 			map.put(Attribute.KEY_ATTRIBUTE_TYPE, attribute.getAttribute_type());
 

@@ -17,9 +17,9 @@ public class OrderDao {
     private Integer count(Order order) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        myDynamicSQL.append("SELECT COUNT(*) FROM " + Order.KEY_TABLE_ORDER + " ");
-        myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
-        myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_NO + " = ? ", order.getOrder_no());
+        myDynamicSQL.append("SELECT COUNT(*) FROM " + Order.TABLE_ORDER + " ");
+        myDynamicSQL.append("WHERE " + Order.TABLE_ORDER + "." + Order.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Order.COLUMN_ORDER_NO + " = ? ", order.getOrder_no());
 
         Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         return count.intValue();
@@ -39,11 +39,11 @@ public class OrderDao {
             order_flow_status += "," + OrderEnum.CONFIRM.getKey();
         }
 
-        myDynamicSQL.append("SELECT * FROM " + Order.KEY_TABLE_ORDER + " ");
-        myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
-        myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_USER_ID + " = ? ", order.getUser_id());
-        myDynamicSQL.isNullOrEmptyForSplit(Order.KEY_ORDER_STATUS + " = ? ", order_flow_status);
-        myDynamicSQL.append("ORDER BY " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_CREATE_TIME + " DESC ");
+        myDynamicSQL.append("SELECT * FROM " + Order.TABLE_ORDER + " ");
+        myDynamicSQL.append("WHERE " + Order.TABLE_ORDER + "." + Order.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Order.COLUMN_USER_ID + " = ? ", order.getUser_id());
+        myDynamicSQL.isNullOrEmptyForSplit(Order.COLUMN_ORDER_STATUS + " = ? ", order_flow_status);
+        myDynamicSQL.append("ORDER BY " + Order.TABLE_ORDER + "." + Order.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
         myDynamicSQL.appendPagination(m, n);
 
         return new Order().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -67,16 +67,16 @@ public class OrderDao {
     private Order find(Order order) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        myDynamicSQL.append("SELECT " + Order.KEY_TABLE_ORDER + ".*, ");
-        myDynamicSQL.append("province." + Category.KEY_CATEGORY_NAME + " AS " + Order.KEY_ORDER_DELIVERY_PROVINCE + ", ");
-        myDynamicSQL.append("city." + Category.KEY_CATEGORY_NAME + " AS " + Order.KEY_ORDER_DELIVERY_CITY + ", ");
-        myDynamicSQL.append("area." + Category.KEY_CATEGORY_NAME + " AS " + Order.KEY_ORDER_DELIVERY_AREA + " ");
-        myDynamicSQL.append("FROM " + Order.KEY_TABLE_ORDER + " ");
-        myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS province ON province." + Category.KEY_CATEGORY_ID + " = " + Order.KEY_TABLE_ORDER + "." + Order.KEY_ORDER_DELIVERY_PROVINCE + " ");
-        myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS city ON city." + Category.KEY_CATEGORY_ID + " = " + Order.KEY_TABLE_ORDER + "." + Order.KEY_ORDER_DELIVERY_CITY + " ");
-        myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " AS area ON area." + Category.KEY_CATEGORY_ID + " = " + Order.KEY_TABLE_ORDER + "." + Order.KEY_ORDER_DELIVERY_AREA + " ");
-        myDynamicSQL.append("WHERE " + Order.KEY_TABLE_ORDER + "." + Order.KEY_SYSTEM_STATUS + " = 1 ");
-        myDynamicSQL.isNullOrEmpty("AND " + Order.KEY_ORDER_ID + " = ? ", order.getOrder_id());
+        myDynamicSQL.append("SELECT " + Order.TABLE_ORDER + ".*, ");
+        myDynamicSQL.append("province." + Category.COLUMN_CATEGORY_NAME + " AS " + Order.COLUMN_ORDER_DELIVERY_PROVINCE + ", ");
+        myDynamicSQL.append("city." + Category.COLUMN_CATEGORY_NAME + " AS " + Order.COLUMN_ORDER_DELIVERY_CITY + ", ");
+        myDynamicSQL.append("area." + Category.COLUMN_CATEGORY_NAME + " AS " + Order.COLUMN_ORDER_DELIVERY_AREA + " ");
+        myDynamicSQL.append("FROM " + Order.TABLE_ORDER + " ");
+        myDynamicSQL.append("LEFT JOIN " + Category.TABLE_CATEGORY + " AS province ON province." + Category.COLUMN_CATEGORY_ID + " = " + Order.TABLE_ORDER + "." + Order.COLUMN_ORDER_DELIVERY_PROVINCE + " ");
+        myDynamicSQL.append("LEFT JOIN " + Category.TABLE_CATEGORY + " AS city ON city." + Category.COLUMN_CATEGORY_ID + " = " + Order.TABLE_ORDER + "." + Order.COLUMN_ORDER_DELIVERY_CITY + " ");
+        myDynamicSQL.append("LEFT JOIN " + Category.TABLE_CATEGORY + " AS area ON area." + Category.COLUMN_CATEGORY_ID + " = " + Order.TABLE_ORDER + "." + Order.COLUMN_ORDER_DELIVERY_AREA + " ");
+        myDynamicSQL.append("WHERE " + Order.TABLE_ORDER + "." + Order.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Order.COLUMN_ORDER_ID + " = ? ", order.getOrder_id());
 
         System.out.println(myDynamicSQL.sql.toString());
 
@@ -159,10 +159,10 @@ public class OrderDao {
     public void payed(String order_id) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        myDynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
-        myDynamicSQL.append("SET " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.CONFIRM.getKey());
-        myDynamicSQL.append("WHERE " + Order.KEY_ORDER_ID + " = ? ", order_id);
-        myDynamicSQL.append("AND " + Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.WAIT.getKey());
+        myDynamicSQL.append("UPDATE " + Order.TABLE_ORDER + " ");
+        myDynamicSQL.append("SET " + Order.COLUMN_ORDER_STATUS + " = ? ", OrderEnum.CONFIRM.getKey());
+        myDynamicSQL.append("WHERE " + Order.COLUMN_ORDER_ID + " = ? ", order_id);
+        myDynamicSQL.append("AND " + Order.COLUMN_ORDER_STATUS + " = ? ", OrderEnum.WAIT.getKey());
 
         Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
@@ -170,15 +170,15 @@ public class OrderDao {
     public int updateTrade(String order_no, String order_trade_no, String order_trade_account, String order_trade_price, String order_pay_result) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-        myDynamicSQL.append("UPDATE " + Order.KEY_TABLE_ORDER + " ");
-        myDynamicSQL.append("SET " + Order.KEY_ORDER_IS_PAY + " = 1, ");
-        myDynamicSQL.append(Order.KEY_ORDER_TRADE_NO + " = ?, ", order_trade_no);
-        myDynamicSQL.append(Order.KEY_ORDER_TRADE_ACCOUNT + " = ?, ", order_trade_account);
-        myDynamicSQL.append(Order.KEY_ORDER_TRADE_PRICE + " = ?, ", order_trade_price);
-        myDynamicSQL.append(Order.KEY_ORDER_TRADE_TIME + " = ?, ", Utility.getDateTimeString(new Date()));
-        myDynamicSQL.append(Order.KEY_ORDER_TRADE_RESULT + " = ?, ", order_pay_result);
-        myDynamicSQL.append(Order.KEY_ORDER_STATUS + " = ? ", OrderEnum.PAYED.getKey());
-        myDynamicSQL.append("WHERE " + Order.KEY_ORDER_NO + " = ? ", order_no);
+        myDynamicSQL.append("UPDATE " + Order.TABLE_ORDER + " ");
+        myDynamicSQL.append("SET " + Order.COLUMN_ORDER_IS_PAY + " = 1, ");
+        myDynamicSQL.append(Order.COLUMN_ORDER_TRADE_NO + " = ?, ", order_trade_no);
+        myDynamicSQL.append(Order.COLUMN_ORDER_TRADE_ACCOUNT + " = ?, ", order_trade_account);
+        myDynamicSQL.append(Order.COLUMN_ORDER_TRADE_PRICE + " = ?, ", order_trade_price);
+        myDynamicSQL.append(Order.COLUMN_ORDER_TRADE_TIME + " = ?, ", Utility.getDateTimeString(new Date()));
+        myDynamicSQL.append(Order.COLUMN_ORDER_TRADE_RESULT + " = ?, ", order_pay_result);
+        myDynamicSQL.append(Order.COLUMN_ORDER_STATUS + " = ? ", OrderEnum.PAYED.getKey());
+        myDynamicSQL.append("WHERE " + Order.COLUMN_ORDER_NO + " = ? ", order_no);
 
         return Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }

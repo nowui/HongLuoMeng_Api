@@ -32,6 +32,7 @@ public class OrderService {
     private OrderProductService orderProductService = new OrderProductService();
     private ProductLockStockService productLockStockService = new ProductLockStockService();
     private BrandService brandService = new BrandService();
+    private BrandApplyService brandApplyService = new BrandApplyService();
 
     public Map<String, Object> list(JSONObject jsonObject) {
         //Order orderMap = jsonObject.toJavaObject(Order.class);
@@ -44,11 +45,11 @@ public class OrderService {
 
         for (Order order : orderList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Order.KEY_ORDER_ID, order.getOrder_id());
-            map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-            map.put(Order.KEY_ORDER_PAY_PRICE, order.getOrder_pay_price());
-            map.put(Order.KEY_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
-            map.put(Order.KEY_ORDER_STATUS, order.getOrder_status_value());
+            map.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
+            map.put(Order.COLUMN_ORDER_NO, order.getOrder_no());
+            map.put(Order.COLUMN_ORDER_PAY_PRICE, order.getOrder_pay_price());
+            map.put(Order.COLUMN_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
+            map.put(Order.COLUMN_ORDER_STATUS, order.getOrder_status_value());
 
             list.add(map);
         }
@@ -83,8 +84,8 @@ public class OrderService {
         String sign = sign(order, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(Order.KEY_ORDER_ID, order.getOrder_id());
-        resultMap.put(Order.KEY_SIGN, sign);
+        resultMap.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
+        resultMap.put(Order.COLUMN_ORDER_SIGN, sign);
 
         return resultMap;
     }
@@ -99,8 +100,8 @@ public class OrderService {
         String sign = sign(order, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(Order.KEY_ORDER_ID, order.getOrder_id());
-        resultMap.put(Order.KEY_SIGN, sign);
+        resultMap.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
+        resultMap.put(Order.COLUMN_ORDER_SIGN, sign);
 
         return resultMap;
     }
@@ -128,12 +129,12 @@ public class OrderService {
         List<ProductSku> productSkuList = productSkuService.listByProductSkuIdList(productSkuIdList);
 
         //检测所有商品的所属品牌是否已经代理
-        List<Brand> brandList = brandService.listByUser_idForMyListFromCache(request_user_id);
+        List<BrandApply> brandApplyList = brandApplyService.listByUser_idFromCache(request_user_id);
         for (ProductSku productSku : productSkuList) {
             Boolean isApply = false;
 
-            for (Brand brand : brandList) {
-                if (productSku.getBrand().getBrand_id().equals(brand.getBrand_id())) {
+            for (BrandApply brandApply : brandApplyList) {
+                if (productSku.getBrand().getBrand_id().equals(brandApply.getBrand_id())) {
                     isApply = true;
 
                     break;
@@ -239,10 +240,10 @@ public class OrderService {
                 for (int i = 0; i < array.size(); i++) {
                     JSONObject object = array.getJSONObject(i);
 
-                    String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
+                    String member_level_id = object.getString(MemberLevel.COLUMN_MEMBER_LEVEL_ID);
 
                     if (member.getMember_level_id().equals(member_level_id)) {
-                        BigDecimal member_level_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
+                        BigDecimal member_level_price = object.getBigDecimal(ProductSku.COLUMN_MEMBER_LEVEL_PRICE);
 
                         order_price = order_price.add(member_level_price.multiply(BigDecimal.valueOf(productSku.getProduct_amount())));
 
@@ -296,10 +297,10 @@ public class OrderService {
                 for (int i = 0; i < array.size(); i++) {
                     JSONObject object = array.getJSONObject(i);
 
-                    String member_level_id = object.getString(MemberLevel.KEY_MEMBER_LEVEL_ID);
+                    String member_level_id = object.getString(MemberLevel.COLUMN_MEMBER_LEVEL_ID);
 
                     if (member.getMember_level_id().equals(member_level_id)) {
-                        product_pay_price = object.getBigDecimal(ProductSku.KEY_MEMBER_LEVEL_PRICE);
+                        product_pay_price = object.getBigDecimal(ProductSku.COLUMN_MEMBER_LEVEL_PRICE);
 
                         isExit = true;
                     }
@@ -394,21 +395,21 @@ public class OrderService {
 
         for (Order order : orderList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Order.KEY_ORDER_ID, order.getOrder_id());
-            map.put(Order.KEY_ORDER_NO, order.getOrder_no());
-            map.put(Order.KEY_ORDER_PAY_PRICE, order.getOrder_pay_price());
-            map.put(Order.KEY_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
-            map.put(Order.KEY_ORDER_DELIVERY_NAME, order.getOrder_delivery_name());
-            map.put(Order.KEY_ORDER_STATUS, order.getOrder_status());
+            map.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
+            map.put(Order.COLUMN_ORDER_NO, order.getOrder_no());
+            map.put(Order.COLUMN_ORDER_PAY_PRICE, order.getOrder_pay_price());
+            map.put(Order.COLUMN_ORDER_PRODUCT_PAY_AMOUNT, order.getOrder_product_pay_amount());
+            map.put(Order.COLUMN_ORDER_DELIVERY_NAME, order.getOrder_delivery_name());
+            map.put(Order.COLUMN_ORDER_STATUS, order.getOrder_status());
 
             List<Map<String, Object>> orderProductRsultList = new ArrayList<Map<String, Object>>();
 
             for (OrderProduct orderProduct : orderProductList) {
                 if (orderProduct.getOrder_id().equals(order.getOrder_id())) {
                     Map<String, Object> orderProductMap = new HashMap<String, Object>();
-                    orderProductMap.put(OrderProduct.KEY_PRODUCT_ID, orderProduct.getProduct_id());
-                    orderProductMap.put(OrderProduct.KEY_PRODUCT_NAME, orderProduct.getProduct_name());
-                    orderProductMap.put(Product.KEY_PRODUCT_IMAGE, orderProduct.getProduct_image().get(0));
+                    orderProductMap.put(OrderProduct.COLUMN_PRODUCT_ID, orderProduct.getProduct_id());
+                    orderProductMap.put(OrderProduct.COLUMN_PRODUCT_NAME, orderProduct.getProduct_name());
+                    orderProductMap.put(Product.COLUMN_PRODUCT_IMAGE, orderProduct.getProduct_image().get(0));
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_PAY_PRICE, orderProduct.getProduct_pay_price());
                     orderProductMap.put(OrderProduct.KEY_PRODUCT_PAY_AMOUNT, orderProduct.getProduct_pay_amount());
 
@@ -420,14 +421,14 @@ public class OrderService {
                             attribute_value += "_";
                         }
 
-                        attribute_value += object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
+                        attribute_value += object.getString(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE);
                     }
-                    orderProductMap.put(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
+                    orderProductMap.put(OrderProduct.COLUMN_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
 
                     orderProductRsultList.add(orderProductMap);
                 }
             }
-            map.put(Order.KEY_ORDER_LIST, orderProductRsultList);
+            map.put(Order.COLUMN_ORDER_LIST, orderProductRsultList);
 
             resultList.add(map);
         }
@@ -447,8 +448,8 @@ public class OrderService {
         String sign = sign(order, order.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(Order.KEY_ORDER_ID, order.getOrder_id());
-        resultMap.put(Order.KEY_SIGN, sign);
+        resultMap.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
+        resultMap.put(Order.COLUMN_ORDER_SIGN, sign);
 
         return resultMap;
     }

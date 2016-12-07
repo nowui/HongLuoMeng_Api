@@ -46,7 +46,7 @@ public class UploadController extends BaseController {
 		for (File file : files) {
 			String extName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 
-			if (".jpg.gif.png.bmp.JPG.GIF.PNG.BMP".contains(extName)) {
+			if (Const.UPLOAD_IMAGE_NAME.contains(extName)) {
 				fileList.add(file);
 			}
 		}

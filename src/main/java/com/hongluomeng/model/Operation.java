@@ -6,20 +6,20 @@ public class Operation extends Base<Operation> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_OPERATION = "table_operation";
-	public static final String KEY_OPERATION_ID = "operation_id";
-	public static final String KEY_MENU_ID = "menu_id";
-	public static final String KEY_OPERATION_NAME = "operation_name";
-	public static final String KEY_OPERATION_KEY = "operation_key";
-	public static final String KEY_OPERATION_VALUE = "operation_value";
-	public static final String KEY_OPERATION_SORT = "operation_sort";
+	public static final String TABLE_OPERATION = "table_operation";
+	public static final String COLUMN_OPERATION_ID = "operation_id";
+	public static final String COLUMN_MENU_ID = "menu_id";
+	public static final String COLUMN_OPERATION_NAME = "operation_name";
+	public static final String COLUMN_OPERATION_KEY = "operation_key";
+	public static final String COLUMN_OPERATION_VALUE = "operation_value";
+	public static final String COLUMN_OPERATION_SORT = "operation_sort";
 
 	public String getOperation_id() {
-		return getStr(KEY_OPERATION_ID);
+		return getStr(COLUMN_OPERATION_ID);
 	}
 
 	public void setOperation_id(String operation_id) {
-		set(KEY_OPERATION_ID, operation_id);
+		set(COLUMN_OPERATION_ID, operation_id);
 	}
 
 	public void checkOperation_id() {
@@ -27,11 +27,11 @@ public class Operation extends Base<Operation> {
 	}
 
 	public String getMenu_id() {
-		return getStr(KEY_MENU_ID);
+		return getStr(COLUMN_MENU_ID);
 	}
 
 	public void setMenu_id(String menu_id) {
-		set(KEY_MENU_ID, menu_id);
+		set(COLUMN_MENU_ID, menu_id);
 	}
 
 	public void checkMenu_id() {
@@ -39,11 +39,11 @@ public class Operation extends Base<Operation> {
 	}
 
 	public String getOperation_name() {
-		return getStr(KEY_OPERATION_NAME);
+		return getStr(COLUMN_OPERATION_NAME);
 	}
 
 	public void setOperation_name(String operation_name) {
-		set(KEY_OPERATION_NAME, operation_name);
+		set(COLUMN_OPERATION_NAME, operation_name);
 	}
 
 	public void checkOperation_name() {
@@ -51,11 +51,11 @@ public class Operation extends Base<Operation> {
 	}
 
 	public String getOperation_key() {
-		return getStr(KEY_OPERATION_KEY);
+		return getStr(COLUMN_OPERATION_KEY);
 	}
 
 	public void setOperation_key(String operation_key) {
-		set(KEY_OPERATION_KEY, operation_key);
+		set(COLUMN_OPERATION_KEY, operation_key);
 	}
 
 	public void checkOperation_key() {
@@ -63,11 +63,11 @@ public class Operation extends Base<Operation> {
 	}
 
 	public String getOperation_value() {
-		return getStr(KEY_OPERATION_VALUE);
+		return getStr(COLUMN_OPERATION_VALUE);
 	}
 
 	public void setOperation_value(String operation_value) {
-		set(KEY_OPERATION_VALUE, operation_value);
+		set(COLUMN_OPERATION_VALUE, operation_value);
 	}
 
 	public void checkOperation_value() {
@@ -75,11 +75,11 @@ public class Operation extends Base<Operation> {
 	}
 
 	public Integer getOperation_sort() {
-		return Utility.getIntegerValue(get(KEY_OPERATION_SORT));
+		return Utility.getIntegerValue(get(COLUMN_OPERATION_SORT));
 	}
 
 	public void setOperation_sort(Integer operation_sort) {
-		set(KEY_OPERATION_SORT, operation_sort);
+		set(COLUMN_OPERATION_SORT, operation_sort);
 	}
 
 	public void checkOperation_sort() {

@@ -26,9 +26,9 @@ public class MemberLevelService {
 
 		for (MemberLevel memberLevel : memberLevelList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(MemberLevel.KEY_MEMBER_LEVEL_ID, memberLevel.getMember_level_id());
-			map.put(MemberLevel.KEY_MEMBER_LEVEL_NAME, memberLevel.getMember_level_name());
-			map.put(MemberLevel.KEY_MEMBER_LEVEL_VALUE, memberLevel.getMember_level_value());
+			map.put(MemberLevel.COLUMN_MEMBER_LEVEL_ID, memberLevel.getMember_level_id());
+			map.put(MemberLevel.COLUMN_MEMBER_LEVEL_NAME, memberLevel.getMember_level_name());
+			map.put(MemberLevel.COLUMN_MEMBER_LEVEL_VALUE, memberLevel.getMember_level_value());
 
 			list.add(map);
 		}

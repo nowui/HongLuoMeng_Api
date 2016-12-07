@@ -221,8 +221,8 @@ public class ProductController extends BaseController {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		for(Category category : categoryList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Category.KEY_CATEGORY_ID, category.getCategory_id());
-			map.put(Category.KEY_CATEGORY_NAME, category.getCategory_name());
+			map.put(Category.COLUMN_CATEGORY_ID, category.getCategory_id());
+			map.put(Category.COLUMN_CATEGORY_NAME, category.getCategory_name());
 
 			resultList.add(map);
 		}

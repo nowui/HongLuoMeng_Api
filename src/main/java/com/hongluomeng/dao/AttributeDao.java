@@ -14,7 +14,7 @@ public class AttributeDao {
 	private Integer count(Attribute attribute) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT COUNT(*) FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -29,7 +29,7 @@ public class AttributeDao {
 	private List<Attribute> list(Attribute attribute, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.COLUMN_SYSTEM_STATUS + " = 1 ");
 		myDynamicSQL.append("ORDER BY " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_ATTRIBUTE_TYPE + ", " + Attribute.KEY_ATTRIBUTE_SORT + " ASC ");
 		myDynamicSQL.appendPagination(m, n);
 
@@ -45,8 +45,8 @@ public class AttributeDao {
 	private Attribute find(Attribute attribute) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT * FROM " + Attribute.KEY_TABLE_ATTRIBUTE + " ");
-		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Attribute.KEY_ATTRIBUTE_ID + " = ? ", attribute.getAttribute_id());
+		myDynamicSQL.append("WHERE " + Attribute.KEY_TABLE_ATTRIBUTE + "." + Attribute.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Attribute.COLUMN_ATTRIBUTE_ID + " = ? ", attribute.getAttribute_id());
 
 		List<Attribute> attributeList = attribute.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (attributeList.size() == 0) {
@@ -74,7 +74,7 @@ public class AttributeDao {
 	}
 
 	public void update(Attribute attribute, String request_user_id) {
-		attribute.remove(Attribute.KEY_SYSTEM_STATUS);
+		attribute.remove(Attribute.COLUMN_SYSTEM_STATUS);
 
 		attribute.initForUpdate(request_user_id);
 

@@ -15,8 +15,8 @@ public class OrderProductDao {
 	private Integer count(OrderProduct orderProduct) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		myDynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + OrderProduct.TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("WHERE " + OrderProduct.TABLE_ORDER_PRODUCT + "." + OrderProduct.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -31,8 +31,8 @@ public class OrderProductDao {
 	private List<OrderProduct> list(OrderProduct orderProduct, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		myDynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT * FROM " + OrderProduct.TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("WHERE " + OrderProduct.TABLE_ORDER_PRODUCT + "." + OrderProduct.COLUMN_SYSTEM_STATUS + " = 1 ");
 		if (!Utility.isNullOrEmpty(orderProduct.getOrderIdList())) {
 			for (int i = 0; i < orderProduct.getOrderIdList().size(); i++) {
 				String order_id = orderProduct.getOrderIdList().get(i);
@@ -43,11 +43,11 @@ public class OrderProductDao {
 					myDynamicSQL.append("OR ");
 				}
 
-				myDynamicSQL.isNullOrEmpty(OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
+				myDynamicSQL.isNullOrEmpty(OrderProduct.COLUMN_ORDER_ID + " = ? ", order_id);
 			}
 			myDynamicSQL.append(") ");
 		}
-		myDynamicSQL.append("ORDER BY " + OrderProduct.KEY_SYSTEM_CREATE_TIME + " ASC ");
+		myDynamicSQL.append("ORDER BY " + OrderProduct.COLUMN_SYSTEM_CREATE_TIME + " ASC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return new OrderProduct().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -74,9 +74,9 @@ public class OrderProductDao {
 	private OrderProduct find(OrderProduct orderProduct) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		myDynamicSQL.append("WHERE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + "." + OrderProduct.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + OrderProduct.KEY_ORDER_ID + " = ? ", orderProduct.getOrder_id());
+		myDynamicSQL.append("SELECT * FROM " + OrderProduct.TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("WHERE " + OrderProduct.TABLE_ORDER_PRODUCT + "." + OrderProduct.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + OrderProduct.COLUMN_ORDER_ID + " = ? ", orderProduct.getOrder_id());
 
 		List<OrderProduct> orderProductList = new OrderProduct().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(orderProductList == null) {
@@ -104,34 +104,34 @@ public class OrderProductDao {
 	public void saveByOrderProductList(List<OrderProduct> orderProductList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ( ");
-		sql.append(OrderProduct.KEY_ORDER_ID + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_ID + ", ");
-		sql.append(OrderProduct.KEY_CATEGORY_ID + ", ");
-		sql.append(OrderProduct.KEY_CATEGORY_NAME + ", ");
-		sql.append(OrderProduct.KEY_BRAND_ID + ", ");
-		sql.append(OrderProduct.KEY_BRAND_NAME + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_NAME + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IMAGE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IS_NEW + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IS_RECOMMEND + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IS_BARGAIN + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IS_HOT + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IS_SELL_OUT + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_IS_SALE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_CONTENT + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_SKU_VALUE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_SKU_ID + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
-		sql.append(OrderProduct.KEY_PRODUCT_PRICE + ", ");
-		sql.append(OrderProduct.KEY_MEMBER_LEVEL_PRICE + ", ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + OrderProduct.TABLE_ORDER_PRODUCT + " ( ");
+		sql.append(OrderProduct.COLUMN_ORDER_ID + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_ID + ", ");
+		sql.append(OrderProduct.COLUMN_CATEGORY_ID + ", ");
+		sql.append(OrderProduct.COLUMN_CATEGORY_NAME + ", ");
+		sql.append(OrderProduct.COLUMN_BRAND_ID + ", ");
+		sql.append(OrderProduct.COLUMN_BRAND_NAME + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_NAME + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IMAGE + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IS_NEW + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IS_RECOMMEND + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IS_BARGAIN + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IS_HOT + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IS_SELL_OUT + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_IS_SALE + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_CONTENT + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_SKU_VALUE + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_SKU_ID + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		sql.append(OrderProduct.COLUMN_PRODUCT_PRICE + ", ");
+		sql.append(OrderProduct.COLUMN_MEMBER_LEVEL_PRICE + ", ");
 		sql.append(OrderProduct.KEY_PRODUCT_PAY_PRICE + ", ");
 		sql.append(OrderProduct.KEY_PRODUCT_PAY_AMOUNT + ", ");
-		sql.append(OrderProduct.KEY_SYSTEM_CREATE_USER_ID + ", ");
-		sql.append(OrderProduct.KEY_SYSTEM_CREATE_TIME + ", ");
-		sql.append(OrderProduct.KEY_SYSTEM_UPDATE_USER_ID + ", ");
-		sql.append(OrderProduct.KEY_SYSTEM_UPDATE_TIME + ", ");
-		sql.append(OrderProduct.KEY_SYSTEM_STATUS + " ");
+		sql.append(OrderProduct.COLUMN_SYSTEM_CREATE_USER_ID + ", ");
+		sql.append(OrderProduct.COLUMN_SYSTEM_CREATE_TIME + ", ");
+		sql.append(OrderProduct.COLUMN_SYSTEM_UPDATE_USER_ID + ", ");
+		sql.append(OrderProduct.COLUMN_SYSTEM_UPDATE_TIME + ", ");
+		sql.append(OrderProduct.COLUMN_SYSTEM_STATUS + " ");
 		sql.append(") VALUES ( ");
 		sql.append("?, ");
 		sql.append("?, ");
@@ -208,11 +208,11 @@ public class OrderProductDao {
 	public void delete(String order_id, String request_user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + OrderProduct.KEY_TABLE_ORDER_PRODUCT + " ");
-		myDynamicSQL.append("SET " + OrderProduct.KEY_SYSTEM_STATUS + " = 0, ");
-		myDynamicSQL.append(OrderProduct.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		myDynamicSQL.append(OrderProduct.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + OrderProduct.KEY_ORDER_ID + " = ? ", order_id);
+		myDynamicSQL.append("UPDATE " + OrderProduct.TABLE_ORDER_PRODUCT + " ");
+		myDynamicSQL.append("SET " + OrderProduct.COLUMN_SYSTEM_STATUS + " = 0, ");
+		myDynamicSQL.append(OrderProduct.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(OrderProduct.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + OrderProduct.COLUMN_ORDER_ID + " = ? ", order_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

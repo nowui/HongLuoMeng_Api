@@ -7,21 +7,21 @@ public class BrandApply extends Base<BrandApply> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_BRAND_APPLY = "table_brand_apply";
-	public static final String KEY_BRAND_ID = "brand_id";
-	public static final String KEY_USER_ID = "user_id";
-	public static final String KEY_MEMBER_REAL_NAME = "member_real_name";
-	public static final String KEY_MEMBER_IDENTITY_CARD = "member_identity_card";
-	public static final String KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
-	public static final String KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
-	public static final String KEY_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
+	public static final String TABLE_BRAND_APPLY = "table_brand_apply";
+	public static final String COLUMN_BRAND_ID = "brand_id";
+	public static final String COLUMN_USER_ID = "user_id";
+	public static final String COLUMN_MEMBER_REAL_NAME = "member_real_name";
+	public static final String COLUMN_MEMBER_IDENTITY_CARD = "member_identity_card";
+	public static final String COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE = "member_identity_card_front_image";
+	public static final String COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE = "member_identity_card_back_image";
+	public static final String COLUMN_BRAND_APPLY_REVIEW_STATUS = "brand_apply_review_status";
 
 	public String getBrand_id() {
-		return getStr(KEY_BRAND_ID);
+		return getStr(COLUMN_BRAND_ID);
 	}
 
 	public void setBrand_id(String brand_id) {
-		set(KEY_BRAND_ID, brand_id);
+		set(COLUMN_BRAND_ID, brand_id);
 	}
 
 	public void checkBrand_id() {
@@ -29,11 +29,11 @@ public class BrandApply extends Base<BrandApply> {
 	}
 
 	public String getUser_id() {
-		return getStr(KEY_USER_ID);
+		return getStr(COLUMN_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
-		set(KEY_USER_ID, user_id);
+		set(COLUMN_USER_ID, user_id);
 	}
 
 	public void checkUser_id() {
@@ -41,11 +41,11 @@ public class BrandApply extends Base<BrandApply> {
 	}
 
 	public String getMember_real_name() {
-		return getStr(KEY_MEMBER_REAL_NAME);
+		return getStr(COLUMN_MEMBER_REAL_NAME);
 	}
 
 	public void setMember_real_name(String member_real_name) {
-		set(KEY_MEMBER_REAL_NAME, member_real_name);
+		set(COLUMN_MEMBER_REAL_NAME, member_real_name);
 	}
 
 	public void checkMember_real_name() {
@@ -53,11 +53,11 @@ public class BrandApply extends Base<BrandApply> {
 	}
 
 	public String getMember_identity_card() {
-		return getStr(KEY_MEMBER_IDENTITY_CARD);
+		return getStr(COLUMN_MEMBER_IDENTITY_CARD);
 	}
 
 	public void setMember_identity_card(String member_identity_card) {
-		set(KEY_MEMBER_IDENTITY_CARD, member_identity_card);
+		set(COLUMN_MEMBER_IDENTITY_CARD, member_identity_card);
 	}
 
 	public void checkMember_identity_card() {
@@ -65,11 +65,11 @@ public class BrandApply extends Base<BrandApply> {
 	}
 
 	public String getMember_identity_card_front_image() {
-		return getStr(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
+		return getStr(COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE);
 	}
 
 	public void setMember_identity_card_front_image(String member_identity_card_front_image) {
-		set(KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
+		set(COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE, member_identity_card_front_image);
 	}
 
 	public void checkMember_identity_card_front_image() {
@@ -77,11 +77,11 @@ public class BrandApply extends Base<BrandApply> {
 	}
 
 	public String getMember_identity_card_back_image() {
-		return getStr(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE);
+		return getStr(COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE);
 	}
 
 	public void setMember_identity_card_back_image(String member_identity_card_back_image) {
-		set(KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
+		set(COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE, member_identity_card_back_image);
 	}
 
 	public void checkMember_identity_card_back_image() {
@@ -89,11 +89,11 @@ public class BrandApply extends Base<BrandApply> {
 	}
 
 	public String getBrand_apply_review_status() {
-		return getStr(KEY_BRAND_APPLY_REVIEW_STATUS);
+		return getStr(COLUMN_BRAND_APPLY_REVIEW_STATUS);
 	}
 
 	public void setBrand_apply_review_status(String brand_apply_review_status) {
-		set(KEY_BRAND_APPLY_REVIEW_STATUS, brand_apply_review_status);
+		set(COLUMN_BRAND_APPLY_REVIEW_STATUS, brand_apply_review_status);
 	}
 
 	public String getBrand_apply_review_status_value() {

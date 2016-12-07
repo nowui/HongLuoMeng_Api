@@ -26,8 +26,8 @@ public class MemberDeliveryService {
 
 		for (MemberDelivery memberDelivery : memberDeliveryList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_ID, memberDelivery.getMember_delivery_id());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_NAME, memberDelivery.getMember_delivery_name());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_ID, memberDelivery.getMember_delivery_id());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_NAME, memberDelivery.getMember_delivery_name());
 
 			list.add(map);
 		}
@@ -82,13 +82,13 @@ public class MemberDeliveryService {
 
 		for (MemberDelivery memberDelivery : memberDeliveryList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_ID, memberDelivery.getMember_delivery_id());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_NAME, memberDelivery.getMember_delivery_name());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_PHONE, memberDelivery.getMember_delivery_phone());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_PROVINCE, memberDelivery.getMember_delivery_province());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_CITY, memberDelivery.getMember_delivery_city());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_AREA, memberDelivery.getMember_delivery_area());
-			map.put(MemberDelivery.KEY_MEMBER_DELIVERY_ADDRESS, memberDelivery.getMember_delivery_address());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_ID, memberDelivery.getMember_delivery_id());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_NAME, memberDelivery.getMember_delivery_name());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_PHONE, memberDelivery.getMember_delivery_phone());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_PROVINCE, memberDelivery.getMember_delivery_province());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_CITY, memberDelivery.getMember_delivery_city());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_AREA, memberDelivery.getMember_delivery_area());
+			map.put(MemberDelivery.COLUMN_MEMBER_DELIVERY_ADDRESS, memberDelivery.getMember_delivery_address());
 
 			resultList.add(map);
 		}

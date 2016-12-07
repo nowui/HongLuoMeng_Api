@@ -19,8 +19,8 @@ public class ProductSkuDao {
 	private Integer count(ProductSku productSku) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		myDynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + ProductSku.TABLE_PRODUCT_SKU + " ");
+		myDynamicSQL.append("WHERE " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -35,15 +35,15 @@ public class ProductSkuDao {
 	private List<ProductSku> list(ProductSku productSku, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		myDynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + ProductSku.KEY_PRODUCT_ID + " = ? ", productSku.getProduct_id());
+		myDynamicSQL.append("SELECT * FROM " + ProductSku.TABLE_PRODUCT_SKU + " ");
+		myDynamicSQL.append("WHERE " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + ProductSku.COLUMN_PRODUCT_ID + " = ? ", productSku.getProduct_id());
 		if (! Utility.isNullOrEmpty(productSku.getProductSkuIdList())) {
 			for(String product_sku_id : productSku.getProductSkuIdList()) {
-				myDynamicSQL.append("AND " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+				myDynamicSQL.append("AND " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
 		}
-		myDynamicSQL.append("ORDER BY " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("ORDER BY " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return new ProductSku().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -59,24 +59,24 @@ public class ProductSkuDao {
 	public List<ProductSku> listByProductSkuIdList(List<String> productSkuIdList) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT " + ProductSku.KEY_TABLE_PRODUCT_SKU + ".*, ");
-		myDynamicSQL.append(Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + ", ");
-		myDynamicSQL.append(Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_NAME + ", ");
-		myDynamicSQL.append(Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + ", ");
-		myDynamicSQL.append(Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_NAME + ", ");
+		myDynamicSQL.append("SELECT " + ProductSku.TABLE_PRODUCT_SKU + ".*, ");
+		myDynamicSQL.append(Category.TABLE_CATEGORY + "." + Category.COLUMN_CATEGORY_ID + ", ");
+		myDynamicSQL.append(Category.TABLE_CATEGORY + "." + Category.COLUMN_CATEGORY_NAME + ", ");
+		myDynamicSQL.append(Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_ID + ", ");
+		myDynamicSQL.append(Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_NAME + ", ");
 		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + ".*, ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + ", ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_STOCK + ", ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + ", ");
-		myDynamicSQL.append("IFNULL(" + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.KEY_PRODUCT_LOCK_STOCK + ", 0) AS " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK + " ");
-		myDynamicSQL.append("FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		myDynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
-		myDynamicSQL.append("LEFT JOIN " + Category.KEY_TABLE_CATEGORY + " ON " + Category.KEY_TABLE_CATEGORY + "." + Category.KEY_CATEGORY_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_CATEGORY_ID + " ");
-		myDynamicSQL.append("LEFT JOIN " + Brand.KEY_TABLE_BRAND + " ON " + Brand.KEY_TABLE_BRAND + "." + Brand.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ");
-		myDynamicSQL.append("LEFT JOIN (SELECT " + ProductLockStock.KEY_PRODUCT_SKU_ID + ", SUM(" + ProductLockStock.KEY_PRODUCT_LOCK_STOCK + ") AS " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK + " FROM " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " WHERE " + ProductLockStock.KEY_SYSTEM_STATUS + " = 1 AND " + ProductLockStock.KEY_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? GROUP BY " + ProductLockStock.KEY_PRODUCT_SKU_ID + ") AS " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + " ON " + ProductLockStock.KEY_TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.KEY_PRODUCT_SKU_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " ", new Date());
-		myDynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_PRICE + ", ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_MEMBER_LEVEL_PRICE + ", ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_STOCK + ", ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_STATUS + ", ");
+		myDynamicSQL.append("IFNULL(" + ProductLockStock.TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.COLUMN_PRODUCT_LOCK_STOCK + ", 0) AS " + ProductLockStock.COLUMN_PRODUCT_LOCK_STOCK + " ");
+		myDynamicSQL.append("FROM " + ProductSku.TABLE_PRODUCT_SKU + " ");
+		myDynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_PRODUCT_ID + " = " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_ID + " ");
+		myDynamicSQL.append("LEFT JOIN " + Category.TABLE_CATEGORY + " ON " + Category.TABLE_CATEGORY + "." + Category.COLUMN_CATEGORY_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_CATEGORY_ID + " ");
+		myDynamicSQL.append("LEFT JOIN " + Brand.TABLE_BRAND + " ON " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_BRAND_ID + " ");
+		myDynamicSQL.append("LEFT JOIN (SELECT " + ProductLockStock.COLUMN_PRODUCT_SKU_ID + ", SUM(" + ProductLockStock.COLUMN_PRODUCT_LOCK_STOCK + ") AS " + ProductLockStock.COLUMN_PRODUCT_LOCK_STOCK + " FROM " + ProductLockStock.TABLE_PRODUCT_LOCK_STOCK + " WHERE " + ProductLockStock.COLUMN_SYSTEM_STATUS + " = 1 AND " + ProductLockStock.COLUMN_PRODUCT_LOCK_STOCK_EXPIRE_TIME + " > ? GROUP BY " + ProductLockStock.COLUMN_PRODUCT_SKU_ID + ") AS " + ProductLockStock.TABLE_PRODUCT_LOCK_STOCK + " ON " + ProductLockStock.TABLE_PRODUCT_LOCK_STOCK + "." + ProductLockStock.COLUMN_PRODUCT_SKU_ID + " = " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " ", new Date());
+		myDynamicSQL.append("WHERE " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_STATUS + " = 1 ");
 		if (productSkuIdList.size() > 0) {
 			for(int i = 0; i < productSkuIdList.size(); i++) {
 				String product_sku_id = productSkuIdList.get(i);
@@ -87,7 +87,7 @@ public class ProductSkuDao {
 					myDynamicSQL.append("OR ");
 				}
 
-				myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+				myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
 			myDynamicSQL.append(") ");
 		}
@@ -98,9 +98,9 @@ public class ProductSkuDao {
 	private ProductSku find(ProductSku productSku) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		myDynamicSQL.append("WHERE " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", productSku.getProduct_sku_id());
+		myDynamicSQL.append("SELECT * FROM " + ProductSku.TABLE_PRODUCT_SKU + " ");
+		myDynamicSQL.append("WHERE " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", productSku.getProduct_sku_id());
 
 		List<ProductSku> productSkuList = new ProductSku().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if(productSkuList == null) {
@@ -122,18 +122,18 @@ public class ProductSkuDao {
 	public void save(String product_id, List<ProductSku> productSkuList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ( ");
-		sql.append(ProductSku.KEY_PRODUCT_SKU_ID + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_ID + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_PRICE + ", ");
-		sql.append(ProductSku.KEY_MEMBER_LEVEL_PRICE + ", ");
-		sql.append(ProductSku.KEY_PRODUCT_STOCK + ", ");
-		sql.append(ProductSku.KEY_SYSTEM_CREATE_USER_ID + ", ");
-		sql.append(ProductSku.KEY_SYSTEM_CREATE_TIME + ", ");
-		sql.append(ProductSku.KEY_SYSTEM_UPDATE_USER_ID + ", ");
-		sql.append(ProductSku.KEY_SYSTEM_UPDATE_TIME + ", ");
-		sql.append(ProductSku.KEY_SYSTEM_STATUS + " ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + ProductSku.TABLE_PRODUCT_SKU + " ( ");
+		sql.append(ProductSku.COLUMN_PRODUCT_SKU_ID + ", ");
+		sql.append(ProductSku.COLUMN_PRODUCT_ID + ", ");
+		sql.append(ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		sql.append(ProductSku.COLUMN_PRODUCT_PRICE + ", ");
+		sql.append(ProductSku.COLUMN_MEMBER_LEVEL_PRICE + ", ");
+		sql.append(ProductSku.COLUMN_PRODUCT_STOCK + ", ");
+		sql.append(ProductSku.COLUMN_SYSTEM_CREATE_USER_ID + ", ");
+		sql.append(ProductSku.COLUMN_SYSTEM_CREATE_TIME + ", ");
+		sql.append(ProductSku.COLUMN_SYSTEM_UPDATE_USER_ID + ", ");
+		sql.append(ProductSku.COLUMN_SYSTEM_UPDATE_TIME + ", ");
+		sql.append(ProductSku.COLUMN_SYSTEM_STATUS + " ");
 		sql.append(") VALUES ( ");
 		sql.append("?, ");
 		sql.append("?, ");
@@ -172,14 +172,14 @@ public class ProductSkuDao {
 	public void update(List<ProductSku> productSkuList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		sql.append("SET " + ProductSku.KEY_PRODUCT_STOCK + " = ?, ");
-		sql.append(ProductSku.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ");
-		sql.append(ProductSku.KEY_SYSTEM_UPDATE_TIME + " = ? ");
-		sql.append("WHERE " + ProductSku.KEY_PRODUCT_ID + " = ? ");
-		sql.append("AND " + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + " = ? ");
-		sql.append("AND " + ProductSku.KEY_PRODUCT_PRICE + " = ? ");
-		sql.append("AND " + ProductSku.KEY_SYSTEM_STATUS + " = 1 ");
+		StringBuffer sql = new StringBuffer("UPDATE " + ProductSku.TABLE_PRODUCT_SKU + " ");
+		sql.append("SET " + ProductSku.COLUMN_PRODUCT_STOCK + " = ?, ");
+		sql.append(ProductSku.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ");
+		sql.append(ProductSku.COLUMN_SYSTEM_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + ProductSku.COLUMN_PRODUCT_ID + " = ? ");
+		sql.append("AND " + ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE + " = ? ");
+		sql.append("AND " + ProductSku.COLUMN_PRODUCT_PRICE + " = ? ");
+		sql.append("AND " + ProductSku.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		for(ProductSku productSku : productSkuList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -200,11 +200,11 @@ public class ProductSkuDao {
 	public void delete(List<String> productSkuIdList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ");
-		sql.append("SET " + ProductSku.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ");
-		sql.append(ProductSku.KEY_SYSTEM_UPDATE_TIME + " = ?, ");
-		sql.append(ProductSku.KEY_SYSTEM_STATUS + " = 0 ");
-		sql.append("WHERE " + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + ProductSku.TABLE_PRODUCT_SKU + " ");
+		sql.append("SET " + ProductSku.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ");
+		sql.append(ProductSku.COLUMN_SYSTEM_UPDATE_TIME + " = ?, ");
+		sql.append(ProductSku.COLUMN_SYSTEM_STATUS + " = 0 ");
+		sql.append("WHERE " + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ");
 
 		for(String product_sku_id : productSkuIdList) {
 			List<Object> objectList = new ArrayList<Object>();

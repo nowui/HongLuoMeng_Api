@@ -2,6 +2,7 @@ package com.hongluomeng.service;
 
 import java.util.List;
 
+import com.hongluomeng.cache.BrandApplyCache;
 import com.hongluomeng.dao.BrandApplyDao;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.type.BrandApplyReviewEnum;
@@ -9,17 +10,34 @@ import com.hongluomeng.type.BrandApplyReviewEnum;
 public class BrandApplyService {
 
 	private BrandApplyDao brandApplyDao = new BrandApplyDao();
+	private BrandApplyCache brandApplyCache = new BrandApplyCache();
 
-	public Integer count() {
-		return brandApplyDao.count();
+	public Integer countByCategory_idAndUser_id(String category_id, String user_id) {
+		return brandApplyDao.countByCategory_idAndUser_id(category_id, user_id);
 	}
 
-	public Integer countByBrand_idAndUser_id(String brand_id, String user_id) {
-		return brandApplyDao.countByBrand_idAndUser_id(brand_id, user_id);
+//	public Integer countByBrand_idAndUser_id(String brand_id, String user_id) {
+//		return brandApplyDao.countByBrand_idAndUser_id(brand_id, user_id);
+//	}
+
+//	public List<BrandApply> list(Integer m, Integer n) {
+//		return brandApplyDao.listByCategory_idAndUser_id("", "", m, n);
+//	}
+
+	public List<BrandApply> listByCategory_idAndUser_id(String category_id, String user_id, Integer m, Integer n) {
+		return brandApplyDao.listByCategory_idAndUser_id(category_id, user_id, m, n);
 	}
 
-	public List<BrandApply> list(Integer m, Integer n) {
-		return brandApplyDao.list(m, n);
+	public List<BrandApply> listByUser_idFromCache(String user_id) {
+		List<BrandApply> brandApplyList = brandApplyCache.getBrandListByUser_id(user_id);
+
+		if (brandApplyList == null) {
+			brandApplyList = brandApplyDao.listByCategory_idAndUser_id("", user_id, 0, 0);
+
+			brandApplyCache.setBrandApplyListByUser_id(brandApplyList, user_id);
+		}
+
+		return brandApplyList;
 	}
 
 	public BrandApply findByBrand_idAndUser_id(String brand_id, String user_id) {
@@ -35,6 +53,8 @@ public class BrandApplyService {
 	}
 
 	public void reviewPass(String brand_id, String user_id, String request_user_id) {
+		brandApplyCache.removeBrandApplyListByUser_id(user_id);
+
 		brandApplyDao.updateStatus(brand_id, BrandApplyReviewEnum.PASS.getKey(), user_id, request_user_id);
 	}
 

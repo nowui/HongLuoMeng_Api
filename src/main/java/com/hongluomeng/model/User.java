@@ -6,25 +6,25 @@ public class User extends Base<User> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_USER = "table_user";
-	public static final String KEY_USER_ID = "user_id";
-	public static final String KEY_USER_ACCOUNT = "user_account";
-	public static final String KEY_USER_PHONE = "user_phone";
-	public static final String KEY_USER_EMAIL = "user_email";
-	public static final String KEY_USER_PASSWORD = "user_password";
-	public static final String KEY_WEIBO_UID = "weibo_uid";
-	public static final String KEY_WEIBO_ACCESS_TOKEN = "weibo_access_token";
-	public static final String KEY_WECHAT_UID = "wechat_uid";
-	public static final String KEY_WECHAT_ACCESS_TOKEN = "wechat_access_token";
-	public static final String KEY_OBJECT_ID = "object_id";
-	public static final String KEY_USER_TYPE = "user_type";
+	public static final String TABLE_USER = "table_user";
+	public static final String COLUMN_USER_ID = "user_id";
+	public static final String COLUMN_USER_ACCOUNT = "user_account";
+	public static final String COLUMN_USER_PHONE = "user_phone";
+	public static final String COLUMN_USER_EMAIL = "user_email";
+	public static final String COLUMN_USER_PASSWORD = "user_password";
+	public static final String COLUMN_WEIBO_UID = "weibo_uid";
+	public static final String COLUMN_WEIBO_ACCESS_TOKEN = "weibo_access_token";
+	public static final String COLUMN_WECHAT_UID = "wechat_uid";
+	public static final String COLUMN_WECHAT_ACCESS_TOKEN = "wechat_access_token";
+	public static final String COLUMN_OBJECT_ID = "object_id";
+	public static final String COLUMN_USER_TYPE = "user_type";
 
 	public String getUser_id() {
-		return getStr(KEY_USER_ID);
+		return getStr(COLUMN_USER_ID);
 	}
 
 	public void setUser_id(String user_id) {
-		set(KEY_USER_ID, user_id);
+		set(COLUMN_USER_ID, user_id);
 	}
 
 	public void checkUser_id() {
@@ -32,11 +32,11 @@ public class User extends Base<User> {
 	}
 
 	public String getUser_account() {
-		return getStr(KEY_USER_ACCOUNT);
+		return getStr(COLUMN_USER_ACCOUNT);
 	}
 
 	public void setUser_account(String user_account) {
-		set(KEY_USER_ACCOUNT, user_account);
+		set(COLUMN_USER_ACCOUNT, user_account);
 	}
 
 	public void checkUser_account() {
@@ -44,11 +44,11 @@ public class User extends Base<User> {
 	}
 
 	public String getUser_phone() {
-		return getStr(KEY_USER_PHONE);
+		return getStr(COLUMN_USER_PHONE);
 	}
 
 	public void setUser_phone(String user_phone) {
-		set(KEY_USER_PHONE, user_phone);
+		set(COLUMN_USER_PHONE, user_phone);
 	}
 
 	public void checkUser_phone() {
@@ -56,11 +56,11 @@ public class User extends Base<User> {
 	}
 
 	public String getUser_email() {
-		return getStr(KEY_USER_EMAIL);
+		return getStr(COLUMN_USER_EMAIL);
 	}
 
 	public void setUser_email(String user_email) {
-		set(KEY_USER_EMAIL, user_email);
+		set(COLUMN_USER_EMAIL, user_email);
 	}
 
 	public void checkUser_email() {
@@ -68,11 +68,11 @@ public class User extends Base<User> {
 	}
 
 	public String getUser_password() {
-		return getStr(KEY_USER_PASSWORD);
+		return getStr(COLUMN_USER_PASSWORD);
 	}
 
 	public void setUser_password(String user_password) {
-		set(KEY_USER_PASSWORD, user_password);
+		set(COLUMN_USER_PASSWORD, user_password);
 	}
 
 	public void checkUser_password() {
@@ -80,11 +80,11 @@ public class User extends Base<User> {
 	}
 
 	public String getWeibo_uid() {
-		return getStr(KEY_WEIBO_UID);
+		return getStr(COLUMN_WEIBO_UID);
 	}
 
 	public void setWeibo_uid(String weibo_uid) {
-		set(KEY_WEIBO_UID, weibo_uid);
+		set(COLUMN_WEIBO_UID, weibo_uid);
 	}
 
 	public void checkWeibo_uid() {
@@ -92,11 +92,11 @@ public class User extends Base<User> {
 	}
 
 	public String getWeibo_access_token() {
-		return getStr(KEY_WEIBO_ACCESS_TOKEN);
+		return getStr(COLUMN_WEIBO_ACCESS_TOKEN);
 	}
 
 	public void setWeibo_access_token(String weibo_access_token) {
-		set(KEY_WEIBO_ACCESS_TOKEN, weibo_access_token);
+		set(COLUMN_WEIBO_ACCESS_TOKEN, weibo_access_token);
 	}
 
 	public void checkWeibo_access_token() {
@@ -104,11 +104,11 @@ public class User extends Base<User> {
 	}
 
 	public String getWechat_uid() {
-		return getStr(KEY_WECHAT_UID);
+		return getStr(COLUMN_WECHAT_UID);
 	}
 
 	public void setWechat_uid(String wechat_uid) {
-		set(KEY_WECHAT_UID, wechat_uid);
+		set(COLUMN_WECHAT_UID, wechat_uid);
 	}
 
 	public void checkWechat_uid() {
@@ -116,11 +116,11 @@ public class User extends Base<User> {
 	}
 
 	public String getWechat_access_token() {
-		return getStr(KEY_WECHAT_ACCESS_TOKEN);
+		return getStr(COLUMN_WECHAT_ACCESS_TOKEN);
 	}
 
 	public void setWechat_access_token(String wechat_access_token) {
-		set(KEY_WECHAT_ACCESS_TOKEN, wechat_access_token);
+		set(COLUMN_WECHAT_ACCESS_TOKEN, wechat_access_token);
 	}
 
 	public void checKWechat_access_token() {
@@ -128,11 +128,11 @@ public class User extends Base<User> {
 	}
 
 	public String getObject_id() {
-		return getStr(KEY_OBJECT_ID);
+		return getStr(COLUMN_OBJECT_ID);
 	}
 
 	public void setObject_id(String object_id) {
-		set(KEY_OBJECT_ID, object_id);
+		set(COLUMN_OBJECT_ID, object_id);
 	}
 
 	public void checkObject_id() {
@@ -140,11 +140,11 @@ public class User extends Base<User> {
 	}
 
 	public String getUser_type() {
-		return getStr(KEY_USER_TYPE);
+		return getStr(COLUMN_USER_TYPE);
 	}
 
 	public void setUser_type(String user_type) {
-		set(KEY_USER_TYPE, user_type);
+		set(COLUMN_USER_TYPE, user_type);
 	}
 
 	public void checkUser_type() {

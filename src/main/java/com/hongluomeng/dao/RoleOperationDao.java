@@ -14,9 +14,9 @@ public class RoleOperationDao {
 	private List<RoleOperation> list(RoleOperation roleOperation) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " ");
+		myDynamicSQL.append("SELECT * FROM " + RoleOperation.TABLE_ROLE_OPERATION + " ");
 		myDynamicSQL.append("WHERE 1 = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
+		myDynamicSQL.isNullOrEmpty("AND " + RoleOperation.COLUMN_ROLE_ID + " = ? ", roleOperation.getRole_id());
 
 		return roleOperation.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -33,7 +33,7 @@ public class RoleOperationDao {
 	public void save(List<RoleOperation> roleOperationList) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " (" + RoleOperation.KEY_ROLE_ID + ", " + RoleOperation.KEY_OPERATION_ID + ") SELECT ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_ROLE_ID + " = ? AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + RoleOperation.TABLE_ROLE_OPERATION + " (" + RoleOperation.COLUMN_ROLE_ID + ", " + RoleOperation.COLUMN_OPERATION_ID + ") SELECT ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + RoleOperation.TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.COLUMN_ROLE_ID + " = ? AND " + RoleOperation.COLUMN_OPERATION_ID + " = ?) ");
 
 		for(RoleOperation roleOperation : roleOperationList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -52,10 +52,10 @@ public class RoleOperationDao {
 	public void deleteByRole_id(List<RoleOperation> roleOperationList, String role_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
+		myDynamicSQL.append("DELETE FROM " + RoleOperation.TABLE_ROLE_OPERATION + " WHERE ");
 
 		if (roleOperationList.size() > 0) {
-			myDynamicSQL.append(RoleOperation.KEY_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.KEY_OPERATION_ID + " FROM (SELECT " + RoleOperation.KEY_OPERATION_ID + " FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE ");
+			myDynamicSQL.append(RoleOperation.COLUMN_OPERATION_ID + " NOT IN (SELECT A." + RoleOperation.COLUMN_OPERATION_ID + " FROM (SELECT " + RoleOperation.COLUMN_OPERATION_ID + " FROM " + RoleOperation.TABLE_ROLE_OPERATION + " WHERE ");
 
 			for(int i = 0; i < roleOperationList.size(); i++) {
 				RoleOperation roleOperation = roleOperationList.get(i);
@@ -63,12 +63,12 @@ public class RoleOperationDao {
 					myDynamicSQL.append("OR ");
 				}
 
-				myDynamicSQL.append("(" + RoleOperation.KEY_ROLE_ID + " = ? ", roleOperation.getRole_id());
-				myDynamicSQL.append("AND " + RoleOperation.KEY_OPERATION_ID + " = ?) ", roleOperation.getOperation_id());
+				myDynamicSQL.append("(" + RoleOperation.COLUMN_ROLE_ID + " = ? ", roleOperation.getRole_id());
+				myDynamicSQL.append("AND " + RoleOperation.COLUMN_OPERATION_ID + " = ?) ", roleOperation.getOperation_id());
 			}
 			myDynamicSQL.append(") AS A) AND ");
 		}
-		myDynamicSQL.append(RoleOperation.KEY_ROLE_ID + " = ? ", role_id);
+		myDynamicSQL.append(RoleOperation.COLUMN_ROLE_ID + " = ? ", role_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -76,7 +76,7 @@ public class RoleOperationDao {
 	public void deleteByOperation_id(String operation_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("DELETE FROM " + RoleOperation.KEY_TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.KEY_OPERATION_ID + " = ? ", operation_id);
+		myDynamicSQL.append("DELETE FROM " + RoleOperation.TABLE_ROLE_OPERATION + " WHERE " + RoleOperation.COLUMN_OPERATION_ID + " = ? ", operation_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

@@ -15,8 +15,8 @@ public class MemberDao {
 	private Integer count(Member member) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + Member.KEY_TABLE_MEMBER + " ");
-		myDynamicSQL.append("WHERE " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Member.TABLE_MEMBER + " ");
+		myDynamicSQL.append("WHERE " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -31,9 +31,9 @@ public class MemberDao {
 	private List<Member> list(Member member, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + Member.KEY_TABLE_MEMBER + " ");
-		myDynamicSQL.append("WHERE " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("ORDER BY " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("SELECT * FROM " + Member.TABLE_MEMBER + " ");
+		myDynamicSQL.append("WHERE " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("ORDER BY " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return new Member().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -48,14 +48,14 @@ public class MemberDao {
 	private Member find(Member member) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT " + Member.KEY_TABLE_MEMBER + ".*, ");
-		myDynamicSQL.append("IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_NAME + ", '') AS " + MemberLevel.KEY_MEMBER_LEVEL_NAME + ", ");
-		myDynamicSQL.append("IFNULL(" + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_VALUE + ", 0) AS " + MemberLevel.KEY_MEMBER_LEVEL_VALUE + " ");
-		myDynamicSQL.append("FROM " + Member.KEY_TABLE_MEMBER + " ");
-		myDynamicSQL.append("LEFT JOIN " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + " ON " + MemberLevel.KEY_TABLE_MEMBER_LEVEL + "." + MemberLevel.KEY_MEMBER_LEVEL_ID + " = " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_LEVEL_ID + " ");
-		myDynamicSQL.append("WHERE " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_MEMBER_ID + " = ? ", member.getMember_id());
-		myDynamicSQL.isNullOrEmpty("AND " + Member.KEY_TABLE_MEMBER + "." + Member.KEY_USER_ID + " = ? ", member.getUser_id());
+		myDynamicSQL.append("SELECT " + Member.TABLE_MEMBER + ".*, ");
+		myDynamicSQL.append("IFNULL(" + MemberLevel.TABLE_MEMBER_LEVEL + "." + MemberLevel.COLUMN_MEMBER_LEVEL_NAME + ", '') AS " + MemberLevel.COLUMN_MEMBER_LEVEL_NAME + ", ");
+		myDynamicSQL.append("IFNULL(" + MemberLevel.TABLE_MEMBER_LEVEL + "." + MemberLevel.COLUMN_MEMBER_LEVEL_VALUE + ", 0) AS " + MemberLevel.COLUMN_MEMBER_LEVEL_VALUE + " ");
+		myDynamicSQL.append("FROM " + Member.TABLE_MEMBER + " ");
+		myDynamicSQL.append("LEFT JOIN " + MemberLevel.TABLE_MEMBER_LEVEL + " ON " + MemberLevel.TABLE_MEMBER_LEVEL + "." + MemberLevel.COLUMN_MEMBER_LEVEL_ID + " = " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_LEVEL_ID + " ");
+		myDynamicSQL.append("WHERE " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_ID + " = ? ", member.getMember_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Member.TABLE_MEMBER + "." + Member.COLUMN_USER_ID + " = ? ", member.getUser_id());
 
 		List<Member> memberList = new Member().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (memberList.size() == 0) {
@@ -114,11 +114,11 @@ public class MemberDao {
 	public void updateMember_nameByUser_id(String member_name, String user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
-		myDynamicSQL.append(Member.KEY_MEMBER_NAME + " = ?, ", member_name);
-		myDynamicSQL.append(Member.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", user_id);
-		myDynamicSQL.append(Member.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ?  ", user_id);
+		myDynamicSQL.append("UPDATE " + Member.TABLE_MEMBER + " SET ");
+		myDynamicSQL.append(Member.COLUMN_MEMBER_NAME + " = ?, ", member_name);
+		myDynamicSQL.append(Member.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", user_id);
+		myDynamicSQL.append(Member.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + Member.COLUMN_USER_ID + " = ?  ", user_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -126,14 +126,14 @@ public class MemberDao {
 	public void updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(String member_level_id, Integer member_weibo_fans, Integer member_weibo_friend, String user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
-		myDynamicSQL.append(Member.KEY_MEMBER_LEVEL_ID + " = ?, ", member_level_id);
-		myDynamicSQL.append(Member.KEY_MEMBER_WEIBO_FANS + " = ?, ", member_weibo_fans);
-		myDynamicSQL.append(Member.KEY_MEMBER_WEIBO_FRIEND + " = ?, ", member_weibo_friend);
-		myDynamicSQL.isTrueOrFalse(Member.KEY_MEMBER_STATUS + " = 1, ", member_weibo_fans > 300000);
-		myDynamicSQL.append(Member.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", user_id);
-		myDynamicSQL.append(Member.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ?  ", member_weibo_fans);
+		myDynamicSQL.append("UPDATE " + Member.TABLE_MEMBER + " SET ");
+		myDynamicSQL.append(Member.COLUMN_MEMBER_LEVEL_ID + " = ?, ", member_level_id);
+		myDynamicSQL.append(Member.COLUMN_MEMBER_WEIBO_FANS + " = ?, ", member_weibo_fans);
+		myDynamicSQL.append(Member.COLUMN_MEMBER_WEIBO_FRIEND + " = ?, ", member_weibo_friend);
+		myDynamicSQL.isTrueOrFalse(Member.COLUMN_MEMBER_STATUS + " = 1, ", member_weibo_fans > 300000);
+		myDynamicSQL.append(Member.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", user_id);
+		myDynamicSQL.append(Member.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + Member.COLUMN_USER_ID + " = ?  ", member_weibo_fans);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -155,14 +155,14 @@ public class MemberDao {
 	public void updateInfo(String member_real_name, String member_identity_card, String member_identity_card_front_image, String member_identity_card_back_image, String request_user_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("UPDATE " + Member.KEY_TABLE_MEMBER + " SET ");
-		myDynamicSQL.append(Member.KEY_MEMBER_REAL_NAME + " = ?, ", member_real_name);
-		myDynamicSQL.append(Member.KEY_MEMBER_IDENTITY_CARD + " = ?, ", member_identity_card);
-		myDynamicSQL.append(Member.KEY_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ?, ", member_identity_card_front_image);
-		myDynamicSQL.append(Member.KEY_MEMBER_IDENTITY_CARD_BACK_IMAGE + " = ?, ", member_identity_card_back_image);
-		myDynamicSQL.append(Member.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
-		myDynamicSQL.append(Member.KEY_SYSTEM_UPDATE_TIME + " = ? ", new Date());
-		myDynamicSQL.append("WHERE " + Member.KEY_USER_ID + " = ? ", request_user_id);
+		myDynamicSQL.append("UPDATE " + Member.TABLE_MEMBER + " SET ");
+		myDynamicSQL.append(Member.COLUMN_MEMBER_REAL_NAME + " = ?, ", member_real_name);
+		myDynamicSQL.append(Member.COLUMN_MEMBER_IDENTITY_CARD + " = ?, ", member_identity_card);
+		myDynamicSQL.append(Member.COLUMN_MEMBER_IDENTITY_CARD_FRONT_IMAGE + " = ?, ", member_identity_card_front_image);
+		myDynamicSQL.append(Member.COLUMN_MEMBER_IDENTITY_CARD_BACK_IMAGE + " = ?, ", member_identity_card_back_image);
+		myDynamicSQL.append(Member.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
+		myDynamicSQL.append(Member.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
+		myDynamicSQL.append("WHERE " + Member.COLUMN_USER_ID + " = ? ", request_user_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

@@ -32,9 +32,9 @@ public class OperationService {
 
 		for (Operation operation : operationList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Operation.KEY_OPERATION_ID, operation.getOperation_id());
-			map.put(Operation.KEY_OPERATION_NAME, operation.getOperation_name());
-			map.put(Operation.KEY_OPERATION_SORT, operation.getOperation_sort());
+			map.put(Operation.COLUMN_OPERATION_ID, operation.getOperation_id());
+			map.put(Operation.COLUMN_OPERATION_NAME, operation.getOperation_name());
+			map.put(Operation.COLUMN_OPERATION_SORT, operation.getOperation_sort());
 
 			list.add(map);
 		}

@@ -37,10 +37,10 @@ public class MemberService {
 
 		for (Member member : memberList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Member.KEY_MEMBER_ID, member.getMember_id());
-			map.put(Member.KEY_MEMBER_NAME, member.getMember_name());
-			map.put(Member.KEY_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
-			map.put(Member.KEY_MEMBER_STATUS, member.getMember_status());
+			map.put(Member.COLUMN_MEMBER_ID, member.getMember_id());
+			map.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
+			map.put(Member.COLUMN_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
+			map.put(Member.COLUMN_MEMBER_STATUS, member.getMember_status());
 
 			list.add(map);
 		}
@@ -271,9 +271,9 @@ public class MemberService {
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
 		JSONObject avatarObject = new JSONObject();
-		avatarObject.put(Const.UPLOAD_NORMAL, jsonObject.getString(Member.KEY_MEMBER_AVATAR));
-		avatarObject.put(Const.UPLOAD_SMALL, jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
-		avatarObject.put(Const.UPLOAD_LARGE, jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+		avatarObject.put(Const.UPLOAD_NORMAL, jsonObject.getString(Member.COLUMN_MEMBER_AVATAR));
+		avatarObject.put(Const.UPLOAD_SMALL, jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_SMALL));
+		avatarObject.put(Const.UPLOAD_LARGE, jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_LARGE));
 
 		return avatarObject.toJSONString();
 	}
@@ -282,22 +282,22 @@ public class MemberService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
 		resultMap.put(Const.KEY_TOKEN, token);
-		resultMap.put(Member.KEY_MEMBER_NAME, member.getMember_name());
-		resultMap.put(Member.KEY_MEMBER_LEVEL_ID, member.getMember_level_id());
-		resultMap.put(Member.KEY_MEMBER_LEVEL_NAME, member.getMember_level_name());
-		resultMap.put(Member.KEY_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
-		resultMap.put(Member.KEY_MEMBER_STATUS, member.getMember_status());
+		resultMap.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
+		resultMap.put(Member.COLUMN_MEMBER_LEVEL_ID, member.getMember_level_id());
+		resultMap.put(Member.COLUMN_MEMBER_LEVEL_NAME, member.getMember_level_name());
+		resultMap.put(Member.COLUMN_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
+		resultMap.put(Member.COLUMN_MEMBER_STATUS, member.getMember_status());
 
 		if (Utility.isNullOrEmpty(member.getMember_avatar())) {
-			resultMap.put(Member.KEY_MEMBER_AVATAR, "");
-			resultMap.put(Member.KEY_MEMBER_AVATAR_SMALL, "");
-			resultMap.put(Member.KEY_MEMBER_AVATAR_LARGE, "");
+			resultMap.put(Member.COLUMN_MEMBER_AVATAR, "");
+			resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, "");
+			resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, "");
 		} else {
 			//JSONObject avatarObject = JSONObject.parseObject(member.getMember_avatar());
 
-			resultMap.put(Member.KEY_MEMBER_AVATAR, member.getMember_avatar().getString(Const.UPLOAD_NORMAL));
-			resultMap.put(Member.KEY_MEMBER_AVATAR_SMALL, member.getMember_avatar().getString(Const.UPLOAD_SMALL));
-			resultMap.put(Member.KEY_MEMBER_AVATAR_LARGE, member.getMember_avatar().getString(Const.UPLOAD_LARGE));
+			resultMap.put(Member.COLUMN_MEMBER_AVATAR, member.getMember_avatar().getString(Const.UPLOAD_NORMAL));
+			resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, member.getMember_avatar().getString(Const.UPLOAD_SMALL));
+			resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, member.getMember_avatar().getString(Const.UPLOAD_LARGE));
 		}
 
 		return resultMap;
@@ -345,7 +345,7 @@ public class MemberService {
 		Member member = memberDao.findByUser_id(request_user_id);
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put(Member.KEY_MEMBER_STATUS, member.getMember_status());
+		resultMap.put(Member.COLUMN_MEMBER_STATUS, member.getMember_status());
 
 		return resultMap;
 	}

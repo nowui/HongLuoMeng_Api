@@ -31,9 +31,10 @@ public class AuthorizationService {
 
 		for (Authorization authorization : authorizationList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Authorization.KEY_AUTHORIZATION_ID, authorization.getAuthorization_id());
-			map.put(Authorization.KEY_AUTHORIZATION_CREATE_TIME, authorization.getAuthorization_create_time());
-			map.put(Authorization.KEY_AUTHORIZATION_EXPIRE_TIME, authorization.getAuthorization_expire_time());
+			map.put(Authorization.COLUMN_AUTHORIZATION_ID, authorization.getAuthorization_id());
+			map.put(Authorization.COLUMN_USER_ID, authorization.getUser_id());
+			map.put(Authorization.COLUMN_AUTHORIZATION_CREATE_TIME, authorization.getAuthorization_create_time());
+			map.put(Authorization.COLUMN_AUTHORIZATION_EXPIRE_TIME, authorization.getAuthorization_expire_time());
 
 			list.add(map);
 		}
@@ -67,7 +68,7 @@ public class AuthorizationService {
 		authorizationParameter.setAuthorization_expire_time(exp);
 		authorizationDao.save(authorizationParameter);
 
-		String token = Jwts.builder().setIssuedAt(now).setExpiration(exp).claim(Const.KEY_AUTHORIZATION_ID, authorizationParameter.getAuthorization_id()).claim(Const.KEY_USER_ID, user_id).signWith(SignatureAlgorithm.HS512, key).compact();
+		String token = Jwts.builder().setIssuedAt(now).setExpiration(exp).claim(Const.COLUMN_AUTHORIZATION_ID, authorizationParameter.getAuthorization_id()).claim(Const.COLUMN_USER_ID, user_id).signWith(SignatureAlgorithm.HS512, key).compact();
 
 		authorizationParameter.setAuthorization_token(token);
 		authorizationDao.updateToken(authorizationParameter);

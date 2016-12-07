@@ -8,18 +8,18 @@ public class MemberLevel extends Base<MemberLevel> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_MEMBER_LEVEL = "table_member_level";
-	public static final String KEY_MEMBER_LEVEL_ID = "member_level_id";
-	public static final String KEY_MEMBER_LEVEL_NAME = "member_level_name";
-	public static final String KEY_MEMBER_LEVEL_VALUE = "member_level_value";
-	public static final String KEY_MEMBER_LEVEL_SORT = "member_level_sort";
+	public static final String TABLE_MEMBER_LEVEL = "table_member_level";
+	public static final String COLUMN_MEMBER_LEVEL_ID = "member_level_id";
+	public static final String COLUMN_MEMBER_LEVEL_NAME = "member_level_name";
+	public static final String COLUMN_MEMBER_LEVEL_VALUE = "member_level_value";
+	public static final String COLUMN_MEMBER_LEVEL_SORT = "member_level_sort";
 
 	public String getMember_level_id() {
-		return getStr(KEY_MEMBER_LEVEL_ID);
+		return getStr(COLUMN_MEMBER_LEVEL_ID);
 	}
 
 	public void setMember_level_id(String member_level_id) {
-		set(KEY_MEMBER_LEVEL_ID, member_level_id);
+		set(COLUMN_MEMBER_LEVEL_ID, member_level_id);
 	}
 
 	public void checkMember_level_id() {
@@ -27,11 +27,11 @@ public class MemberLevel extends Base<MemberLevel> {
 	}
 
 	public String getMember_level_name() {
-		return getStr(KEY_MEMBER_LEVEL_NAME);
+		return getStr(COLUMN_MEMBER_LEVEL_NAME);
 	}
 
 	public void setMember_level_name(String member_level_name) {
-		set(KEY_MEMBER_LEVEL_NAME, member_level_name);
+		set(COLUMN_MEMBER_LEVEL_NAME, member_level_name);
 	}
 
 	public void checkMember_level_name() {
@@ -39,11 +39,11 @@ public class MemberLevel extends Base<MemberLevel> {
 	}
 
 	public Integer getMember_level_value() {
-		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_VALUE));
+		return Utility.getIntegerValue(get(COLUMN_MEMBER_LEVEL_VALUE));
 	}
 
 	public void setMember_level_value(Integer member_level_value) {
-		set(KEY_MEMBER_LEVEL_VALUE, member_level_value);
+		set(COLUMN_MEMBER_LEVEL_VALUE, member_level_value);
 	}
 
 	public void checkMember_level_value() {
@@ -51,11 +51,11 @@ public class MemberLevel extends Base<MemberLevel> {
 	}
 
 	public Integer getMember_level_sort() {
-		return Utility.getIntegerValue(get(KEY_MEMBER_LEVEL_SORT));
+		return Utility.getIntegerValue(get(COLUMN_MEMBER_LEVEL_SORT));
 	}
 
 	public void setMember_level_sort(Integer member_level_sort) {
-		set(KEY_MEMBER_LEVEL_SORT, member_level_sort);
+		set(COLUMN_MEMBER_LEVEL_SORT, member_level_sort);
 	}
 
 	public void checkMember_level_sort() {

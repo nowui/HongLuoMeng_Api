@@ -18,6 +18,7 @@ public class ProductService {
     private ProductDao productDao = new ProductDao();
     private CategoryService categoryService = new CategoryService();
     private BrandService brandService = new BrandService();
+    private BrandApplyService brandApplyService = new BrandApplyService();
     private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
     private CategoryAttributeValueService categoryAttributeValueService = new CategoryAttributeValueService();
     private MemberLevelService memberLevelService = new MemberLevelService();
@@ -35,11 +36,15 @@ public class ProductService {
 
         for (Product product : productList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
-            map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
-            map.put(Product.KEY_PRODUCT_IS_HOT, product.getProduct_is_hot());
-            map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
-            map.put(Product.KEY_PRODUCT_STOCK, product.getProduct_stock());
+            map.put(Product.COLUMN_PRODUCT_ID, product.getProduct_id());
+            map.put(Product.COLUMN_PRODUCT_NAME, product.getProduct_name());
+            map.put(Product.COLUMN_PRODUCT_IS_NEW, product.getProduct_is_new());
+            map.put(Product.COLUMN_PRODUCT_IS_RECOMMEND, product.getProduct_is_recommend());
+            map.put(Product.COLUMN_PRODUCT_IS_BARGAIN, product.getProduct_is_bargain());
+            map.put(Product.COLUMN_PRODUCT_IS_HOT, product.getProduct_is_hot());
+            map.put(Product.COLUMN_PRODUCT_IS_SELL_OUT, product.getProduct_is_sell_out());
+            map.put(Product.COLUMN_PRODUCT_PRICE, product.getProduct_price());
+            map.put(Product.COLUMN_PRODUCT_STOCK, product.getProduct_stock());
 
             list.add(map);
         }
@@ -57,13 +62,13 @@ public class ProductService {
         List<Brand> brandList = brandService.listAll();
 
         for(Brand brand : brandList) {
-            brand.keep(Brand.KEY_BRAND_ID, Brand.KEY_BRAND_NAME);
+            brand.keep(Brand.COLUMN_BRAND_ID, Brand.COLUMN_BRAND_NAME);
         }
 
         List<MemberLevel> memberLevelList = memberLevelService.listAll();
 
         for(MemberLevel memberLevel : memberLevelList) {
-            memberLevel.keep(MemberLevel.KEY_MEMBER_LEVEL_ID, MemberLevel.KEY_MEMBER_LEVEL_NAME);
+            memberLevel.keep(MemberLevel.COLUMN_MEMBER_LEVEL_ID, MemberLevel.COLUMN_MEMBER_LEVEL_NAME);
         }
 
         List<ProductSku> productSkuList = new ArrayList<ProductSku>();
@@ -277,15 +282,15 @@ public class ProductService {
             for (int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
                 JSONObject object = productSku.getProduct_attribute_value().getJSONObject(i);
 
-                String attribute_id = object.getString(Attribute.KEY_ATTRIBUTE_ID);
+                String attribute_id = object.getString(Attribute.COLUMN_ATTRIBUTE_ID);
                 String attribute_name = object.getString(Attribute.KEY_ATTRIBUTE_NAME);
-                String attribute_value = object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
+                String attribute_value = object.getString(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE);
 
                 int index = -1;
                 for (int j = 0; j < productAllSkuList.size(); j++) {
                     Map<String, Object> map = productAllSkuList.get(j);
 
-                    if (map.get(Attribute.KEY_ATTRIBUTE_ID).equals(attribute_id)) {
+                    if (map.get(Attribute.COLUMN_ATTRIBUTE_ID).equals(attribute_id)) {
                         index = j;
 
                         break;
@@ -296,20 +301,20 @@ public class ProductService {
                     Map<String, Object> map = productAllSkuList.get(index);
 
                     @SuppressWarnings("unchecked")
-                    List<String> array = (List<String>) map.get(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
+                    List<String> array = (List<String>) map.get(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE);
 
                     if (!array.contains(attribute_value)) {
                         array.add(attribute_value);
                     }
                 } else {
                     Map<String, Object> map = new HashMap<String, Object>();
-                    map.put(Attribute.KEY_ATTRIBUTE_ID, attribute_id);
+                    map.put(Attribute.COLUMN_ATTRIBUTE_ID, attribute_id);
                     map.put(Attribute.KEY_ATTRIBUTE_NAME, attribute_name);
 
                     List<String> array = new ArrayList<String>();
                     array.add(attribute_value);
 
-                    map.put(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE, array);
+                    map.put(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE, array);
 
                     productAllSkuList.add(map);
                 }
@@ -319,9 +324,9 @@ public class ProductService {
         List<Map<String, Object>> productSkuStringList = new ArrayList<Map<String, Object>>();
         for (ProductSku productSku : productSkuList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ProductSku.KEY_PRODUCT_SKU_ID, productSku.getProduct_sku_id());
-            map.put(ProductSku.KEY_PRODUCT_PRICE, productSku.getProduct_price());
-            map.put(ProductSku.KEY_PRODUCT_STOCK, productSku.getProduct_stock());
+            map.put(ProductSku.COLUMN_PRODUCT_SKU_ID, productSku.getProduct_sku_id());
+            map.put(ProductSku.COLUMN_PRODUCT_PRICE, productSku.getProduct_price());
+            map.put(ProductSku.COLUMN_PRODUCT_STOCK, productSku.getProduct_stock());
 
             //商品库存减去锁定库存数
             for (ProductLockStock productLockStock : productLockStockList) {
@@ -331,7 +336,7 @@ public class ProductService {
                     if (productStock < 0) {
                         throw new RuntimeException("该商品库存有异常");
                     }
-                    map.put(ProductSku.KEY_PRODUCT_STOCK, productStock);
+                    map.put(ProductSku.COLUMN_PRODUCT_STOCK, productStock);
                 }
             }
 
@@ -343,23 +348,23 @@ public class ProductService {
                     attribute_value += "_";
                 }
 
-                attribute_value += object.getString(Attribute.KEY_ATTRIBUTE_ID) + "_" + object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
+                attribute_value += object.getString(Attribute.COLUMN_ATTRIBUTE_ID) + "_" + object.getString(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE);
             }
 
-            map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
+            map.put(ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE, attribute_value);
 
             productSkuStringList.add(map);
         }
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
-        map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
-        map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image());
-        map.put(Product.KEY_PRODUCT_SKU_LIST, productSkuStringList);
-        map.put(Product.KEY_PRODUCT_ALL_SKU_LIST, productAllSkuList);
-        map.put(Product.KEY_PRODUCT_CONTENT, product.getProduct_content());
-        map.put(Product.KEY_PRODUCT_PRICE, ps.getProduct_price());
-        map.put(Product.KEY_PRODUCT_IS_APPLY, checkIsApply(product.getBrand_id(), request_user_id));
+        map.put(Product.COLUMN_PRODUCT_ID, product.getProduct_id());
+        map.put(Product.COLUMN_PRODUCT_NAME, product.getProduct_name());
+        map.put(Product.COLUMN_PRODUCT_IMAGE, product.getProduct_image());
+        map.put(Product.COLUMN_PRODUCT_SKU_LIST, productSkuStringList);
+        map.put(Product.COLUMN_PRODUCT_ALL_SKU_LIST, productAllSkuList);
+        map.put(Product.COLUMN_PRODUCT_CONTENT, product.getProduct_content());
+        map.put(Product.COLUMN_PRODUCT_PRICE, ps.getProduct_price());
+        map.put(Product.COLUMN_PRODUCT_IS_APPLY, checkIsApply(product.getBrand_id(), request_user_id));
 
         List<Map<String, Object>> memberPriceList = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < ps.getMember_level_price().size(); i++) {
@@ -367,10 +372,10 @@ public class ProductService {
 
             memberPriceList.add(object);
         }
-        map.put(Product.KEY_MEMBER_LEVEL_LIST, memberPriceList);
+        map.put(Product.COLUMN_MEMBER_LEVEL_LIST, memberPriceList);
 
-        map.put(Product.KEY_PRODUCT_STOCK, ps.getProduct_stock());
-        map.put(ProductSku.KEY_PRODUCT_SKU_ID, ps.getProduct_sku_id());
+        map.put(Product.COLUMN_PRODUCT_STOCK, ps.getProduct_stock());
+        map.put(ProductSku.COLUMN_PRODUCT_SKU_ID, ps.getProduct_sku_id());
 
         //商品库存减去锁定库存数
         for (ProductLockStock productLockStock : productLockStockList) {
@@ -380,7 +385,7 @@ public class ProductService {
                 if (productStock < 0) {
                     throw new RuntimeException("该商品库存有异常");
                 }
-                map.put(Product.KEY_PRODUCT_STOCK, productStock);
+                map.put(Product.COLUMN_PRODUCT_STOCK, productStock);
             }
         }
 
@@ -392,11 +397,11 @@ public class ProductService {
 
         for (Product product : productList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Product.KEY_PRODUCT_ID, product.getProduct_id());
-            map.put(Product.KEY_PRODUCT_NAME, product.getProduct_name());
-            map.put(Product.KEY_PRODUCT_PRICE, product.getProduct_price());
-            map.put(Product.KEY_PRODUCT_IMAGE, product.getProduct_image().get(0));
-            map.put(Product.KEY_PRODUCT_IS_APPLY, checkIsApply(product.getBrand_id(), request_user_id));
+            map.put(Product.COLUMN_PRODUCT_ID, product.getProduct_id());
+            map.put(Product.COLUMN_PRODUCT_NAME, product.getProduct_name());
+            map.put(Product.COLUMN_PRODUCT_PRICE, product.getProduct_price());
+            map.put(Product.COLUMN_PRODUCT_IMAGE, product.getProduct_image().get(0));
+            map.put(Product.COLUMN_PRODUCT_IS_APPLY, checkIsApply(product.getBrand_id(), request_user_id));
 
             list.add(map);
         }
@@ -407,10 +412,10 @@ public class ProductService {
     public Boolean checkIsApply(String brand_id, String request_user_id) {
         Boolean result = false;
 
-        List<Brand> brandList = brandService.listByUser_idForMyListFromCache(request_user_id);
+        List<BrandApply> brandApplyList = brandApplyService.listByUser_idFromCache(request_user_id);
 
-        for (Brand brand : brandList) {
-            if (brand.getBrand_id().equals(brand_id)) {
+        for (BrandApply brandApply : brandApplyList) {
+            if (brandApply.getBrand_id().equals(brand_id)) {
                 result = true;
 
                 break;

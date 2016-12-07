@@ -81,9 +81,9 @@ public class MemberController extends BaseController {
 
 		memberValidator.checkMember_avatar();
 
-		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_SMALL));
 
-		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_LARGE));
 
 		userValidator.checkWeibo_uid();
 
@@ -110,9 +110,9 @@ public class MemberController extends BaseController {
 
 		memberValidator.checkMember_avatar();
 
-		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_SMALL));
 
-		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_LARGE));
 
 		userValidator.checkWechat_uid();
 
@@ -135,9 +135,9 @@ public class MemberController extends BaseController {
 
 		memberValidator.checkMember_avatar();
 
-		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_SMALL));
 
-		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_LARGE));
 
 		userValidator.checkWeibo_uid();
 
@@ -164,9 +164,9 @@ public class MemberController extends BaseController {
 
 		memberValidator.checkMember_avatar();
 
-		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.KEY_MEMBER_AVATAR_SMALL));
+		memberValidator.checkMember_avatar_small(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_SMALL));
 
-		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.KEY_MEMBER_AVATAR_LARGE));
+		memberValidator.checkMember_avatar_large(jsonObject.getString(Member.COLUMN_MEMBER_AVATAR_LARGE));
 
 		userValidator.checkWechat_uid();
 

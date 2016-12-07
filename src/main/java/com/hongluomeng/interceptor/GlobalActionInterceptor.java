@@ -118,9 +118,9 @@ public class GlobalActionInterceptor implements Interceptor {
                     try {
                         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 
-                        user_id = claims.get(Const.KEY_USER_ID).toString();
+                        user_id = claims.get(Const.COLUMN_USER_ID).toString();
 
-                        authorization_id = claims.get(Const.KEY_AUTHORIZATION_ID).toString();
+                        authorization_id = claims.get(Const.COLUMN_AUTHORIZATION_ID).toString();
                     } catch (Exception e) {
                         isAuthorization = false;
                     }
@@ -273,29 +273,29 @@ public class GlobalActionInterceptor implements Interceptor {
                 DbKit.getConfig().removeThreadLocalConnection();
             }
 
-            ThreadContext.put(Log.KEY_LOG_ID, Utility.getUUID());
+            ThreadContext.put(Log.COLUMN_LOG_ID, Utility.getUUID());
 
-            ThreadContext.put(Log.KEY_LOG_URL, url);
+            ThreadContext.put(Log.COLUMN_LOG_URL, url);
 
-            ThreadContext.put(Log.KEY_LOG_REQUEST, request);
+            ThreadContext.put(Log.COLUMN_LOG_REQUEST, request);
 
-            ThreadContext.put(Log.KEY_LOG_RESPONSE, controller.getAttrForStr(Const.KEY_RESPONSE));
+            ThreadContext.put(Log.COLUMN_LOG_RESPONSE, controller.getAttrForStr(Const.KEY_RESPONSE));
 
-            ThreadContext.put(Log.KEY_AUTHORIZATION_ID, authorization_id);
+            ThreadContext.put(Log.COLUMN_AUTHORIZATION_ID, authorization_id);
 
-            ThreadContext.put(Log.KEY_USER_ID, user_id);
+            ThreadContext.put(Log.COLUMN_USER_ID, user_id);
 
-            ThreadContext.put(Log.KEY_LOG_CODE, code.getKey() + "");
+            ThreadContext.put(Log.COLUMN_LOG_CODE, code.getKey() + "");
 
-            ThreadContext.put(Log.KEY_LOG_PLATFORM, platform);
+            ThreadContext.put(Log.COLUMN_LOG_PLATFORM, platform);
 
-            ThreadContext.put(Log.KEY_LOG_VERSION, version);
+            ThreadContext.put(Log.COLUMN_LOG_VERSION, version);
 
-            ThreadContext.put(Log.KEY_LOG_IP_ADDRESS, Utility.getIpAddress(controller.getRequest()));
+            ThreadContext.put(Log.COLUMN_LOG_IP_ADDRESS, Utility.getIpAddress(controller.getRequest()));
 
-            ThreadContext.put(Log.KEY_LOG_CREATE_TIME, Utility.getDateTimeString(start));
+            ThreadContext.put(Log.COLUMN_LOG_CREATE_TIME, Utility.getDateTimeString(start));
 
-            ThreadContext.put(Log.KEY_LOG_RUN_TIME, (new Date().getTime() - start.getTime()) + "");
+            ThreadContext.put(Log.COLUMN_LOG_RUN_TIME, (new Date().getTime() - start.getTime()) + "");
 
             if (url.contains("/log/") || Const.IS_TEST) {
 

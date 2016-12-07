@@ -17,8 +17,8 @@ public class CartDao {
 	private Integer count(Cart cart) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + Cart.KEY_TABLE_CART + " ");
-		myDynamicSQL.append("" + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Cart.TABLE_CART + " ");
+		myDynamicSQL.append("" + Cart.TABLE_CART + "." + Cart.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -33,16 +33,16 @@ public class CartDao {
 	private List<Cart> list(Cart cart, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT " + Cart.KEY_TABLE_CART + ".*, ");
-		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_NAME + ", ");
-		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_IMAGE + ", ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE + ", ");
-		myDynamicSQL.append(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_PRICE + " ");
-		myDynamicSQL.append("FROM " + Cart.KEY_TABLE_CART + " ");
-		myDynamicSQL.append("LEFT JOIN " + ProductSku.KEY_TABLE_PRODUCT_SKU + " ON " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = " + Cart.KEY_TABLE_CART + "." + Cart.KEY_PRODUCT_SKU_ID + " ");
-		myDynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_PRODUCT_ID + " = " + ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_ID + " ");
-		myDynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Cart.KEY_TABLE_CART + "." + Cart.KEY_USER_ID + " = ? ", cart.getUser_id());
+		myDynamicSQL.append("SELECT " + Cart.TABLE_CART + ".*, ");
+		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_PRODUCT_NAME + ", ");
+		myDynamicSQL.append(Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_PRODUCT_IMAGE + ", ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE + ", ");
+		myDynamicSQL.append(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_PRICE + " ");
+		myDynamicSQL.append("FROM " + Cart.TABLE_CART + " ");
+		myDynamicSQL.append("LEFT JOIN " + ProductSku.TABLE_PRODUCT_SKU + " ON " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " = " + Cart.TABLE_CART + "." + Cart.COLUMN_PRODUCT_SKU_ID + " ");
+		myDynamicSQL.append("LEFT JOIN " + Product.KEY_TABLE_PRODUCT + " ON " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_PRODUCT_ID + " = " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_ID + " ");
+		myDynamicSQL.append("WHERE " + Cart.TABLE_CART + "." + Cart.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Cart.TABLE_CART + "." + Cart.COLUMN_USER_ID + " = ? ", cart.getUser_id());
 
 		if (!Utility.isNullOrEmpty(cart.getProductSkuIdList())) {
 			for (int i = 0; i < cart.getProductSkuIdList().size(); i++) {
@@ -54,12 +54,12 @@ public class CartDao {
 					myDynamicSQL.append("OR ");
 				}
 
-				myDynamicSQL.isNullOrEmpty(ProductSku.KEY_TABLE_PRODUCT_SKU + "." + ProductSku.KEY_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+				myDynamicSQL.isNullOrEmpty(ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", product_sku_id);
 			}
 			myDynamicSQL.append(") ");
 		}
 
-		myDynamicSQL.append("ORDER BY " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("ORDER BY " + Cart.TABLE_CART + "." + Cart.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return cart.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -89,10 +89,10 @@ public class CartDao {
 	private Cart find(Cart cart) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + Cart.KEY_TABLE_CART + " ");
-		myDynamicSQL.append("WHERE " + Cart.KEY_TABLE_CART + "." + Cart.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Cart.KEY_CART_ID + " = ? ", cart.getCart_id());
-		myDynamicSQL.isNullOrEmpty("AND " + Cart.KEY_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
+		myDynamicSQL.append("SELECT * FROM " + Cart.TABLE_CART + " ");
+		myDynamicSQL.append("WHERE " + Cart.TABLE_CART + "." + Cart.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Cart.COLUMN_CART_ID + " = ? ", cart.getCart_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Cart.COLUMN_PRODUCT_SKU_ID + " = ? ", cart.getProduct_sku_id());
 
 		List<Cart> cartList = cart.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (cartList.size() == 0) {
@@ -129,8 +129,8 @@ public class CartDao {
 	}
 
 	public void update(Cart cart, String request_user_id) {
-		cart.remove(Cart.KEY_USER_ID);
-		cart.remove(Cart.KEY_PRODUCT_SKU_ID);
+		cart.remove(Cart.COLUMN_USER_ID);
+		cart.remove(Cart.COLUMN_PRODUCT_SKU_ID);
 
 		cart.initForUpdate(request_user_id);
 
@@ -140,11 +140,11 @@ public class CartDao {
 	public void updateProduct_amount(List<Cart> cartList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Cart.KEY_TABLE_CART + " ");
-		sql.append("SET " + Cart.KEY_PRODUCT_AMOUNT + " = ?, ");
-		sql.append(Cart.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ");
-		sql.append(Cart.KEY_SYSTEM_UPDATE_TIME + " = ? ");
-		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Cart.TABLE_CART + " ");
+		sql.append("SET " + Cart.COLUMN_PRODUCT_AMOUNT + " = ?, ");
+		sql.append(Cart.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ");
+		sql.append(Cart.COLUMN_SYSTEM_UPDATE_TIME + " = ? ");
+		sql.append("WHERE " + Cart.COLUMN_CART_ID + " = ? ");
 
 		for (Cart cart : cartList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -173,12 +173,12 @@ public class CartDao {
 	public void delete(List<Cart> cartList, String request_user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("UPDATE " + Cart.KEY_TABLE_CART + " ");
-		sql.append("SET " + Cart.KEY_PRODUCT_AMOUNT + " = 0, ");
-		sql.append(Cart.KEY_SYSTEM_UPDATE_USER_ID + " = ?, ");
-		sql.append(Cart.KEY_SYSTEM_UPDATE_TIME + " = ?, ");
-		sql.append(Cart.KEY_SYSTEM_STATUS + " = 0 ");
-		sql.append("WHERE " + Cart.KEY_CART_ID + " = ? ");
+		StringBuffer sql = new StringBuffer("UPDATE " + Cart.TABLE_CART + " ");
+		sql.append("SET " + Cart.COLUMN_PRODUCT_AMOUNT + " = 0, ");
+		sql.append(Cart.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ");
+		sql.append(Cart.COLUMN_SYSTEM_UPDATE_TIME + " = ?, ");
+		sql.append(Cart.COLUMN_SYSTEM_STATUS + " = 0 ");
+		sql.append("WHERE " + Cart.COLUMN_CART_ID + " = ? ");
 
 		for (Cart cart : cartList) {
 			List<Object> objectList = new ArrayList<Object>();

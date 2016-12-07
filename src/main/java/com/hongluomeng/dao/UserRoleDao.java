@@ -14,10 +14,10 @@ public class UserRoleDao {
 	private List<UserRole> list(UserRole userRole) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("SELECT * FROM " + UserRole.KEY_TABLE_USER_ROLE + " ");
+		myDynamicSQL.append("SELECT * FROM " + UserRole.TABLE_USER_ROLE + " ");
 		myDynamicSQL.append("WHERE 1 = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + UserRole.KEY_USER_ID + " = ? ", userRole.getUser_id());
-		myDynamicSQL.isNullOrEmpty("AND " + UserRole.KEY_USER_TYPE + " = ? ", userRole.getUser_type());
+		myDynamicSQL.isNullOrEmpty("AND " + UserRole.COLUMN_USER_ID + " = ? ", userRole.getUser_id());
+		myDynamicSQL.isNullOrEmpty("AND " + UserRole.COLUMN_USER_TYPE + " = ? ", userRole.getUser_type());
 
 		return userRole.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
@@ -33,7 +33,7 @@ public class UserRoleDao {
 	public void save(List<UserRole> userRoleList, String user_id) {
 		List<Object[]> parameterList = new ArrayList<Object[]>();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO " + UserRole.KEY_TABLE_USER_ROLE + " (" + UserRole.KEY_USER_ID + ", " + UserRole.KEY_USER_TYPE + ", " + UserRole.KEY_ROLE_ID + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE " + UserRole.KEY_USER_ID + " = ? AND " + UserRole.KEY_USER_TYPE + " = ? AND " + UserRole.KEY_ROLE_ID + " = ?) ");
+		StringBuffer sql = new StringBuffer("INSERT INTO " + UserRole.TABLE_USER_ROLE + " (" + UserRole.COLUMN_USER_ID + ", " + UserRole.COLUMN_USER_TYPE + ", " + UserRole.COLUMN_ROLE_ID + ") SELECT ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT * FROM " + UserRole.TABLE_USER_ROLE + " WHERE " + UserRole.COLUMN_USER_ID + " = ? AND " + UserRole.COLUMN_USER_TYPE + " = ? AND " + UserRole.COLUMN_ROLE_ID + " = ?) ");
 
 		for(UserRole userRole : userRoleList) {
 			List<Object> objectList = new ArrayList<Object>();
@@ -54,10 +54,10 @@ public class UserRoleDao {
 	public void delete(List<UserRole> userRoleList, String user_id, String user_type) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
-		myDynamicSQL.append("DELETE FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
+		myDynamicSQL.append("DELETE FROM " + UserRole.TABLE_USER_ROLE + " WHERE ");
 
 		if (userRoleList.size() > 0) {
-			myDynamicSQL.append(UserRole.KEY_ROLE_ID + " NOT IN (SELECT A." + UserRole.KEY_ROLE_ID + " FROM (SELECT " + UserRole.KEY_ROLE_ID + " FROM " + UserRole.KEY_TABLE_USER_ROLE + " WHERE ");
+			myDynamicSQL.append(UserRole.COLUMN_ROLE_ID + " NOT IN (SELECT A." + UserRole.COLUMN_ROLE_ID + " FROM (SELECT " + UserRole.COLUMN_ROLE_ID + " FROM " + UserRole.TABLE_USER_ROLE + " WHERE ");
 
 			for(int i = 0; i < userRoleList.size(); i++) {
 				UserRole userRole = userRoleList.get(i);
@@ -65,14 +65,14 @@ public class UserRoleDao {
 					myDynamicSQL.append("OR ");
 				}
 
-				myDynamicSQL.append("(" + UserRole.KEY_USER_ID + " = ? ", userRole.getUser_id());
-				myDynamicSQL.append("AND " + UserRole.KEY_USER_TYPE + " = ? ", userRole.getUser_type());
-				myDynamicSQL.append("AND " + UserRole.KEY_ROLE_ID + " = ?) ", userRole.getRole_id());
+				myDynamicSQL.append("(" + UserRole.COLUMN_USER_ID + " = ? ", userRole.getUser_id());
+				myDynamicSQL.append("AND " + UserRole.COLUMN_USER_TYPE + " = ? ", userRole.getUser_type());
+				myDynamicSQL.append("AND " + UserRole.COLUMN_ROLE_ID + " = ?) ", userRole.getRole_id());
 			}
 			myDynamicSQL.append(") AS A) AND ");
 		}
-		myDynamicSQL.append(UserRole.KEY_USER_ID + " = ? ", user_id);
-		myDynamicSQL.append("AND " + UserRole.KEY_USER_TYPE + " = ? ", user_type);
+		myDynamicSQL.append(UserRole.COLUMN_USER_ID + " = ? ", user_id);
+		myDynamicSQL.append("AND " + UserRole.COLUMN_USER_TYPE + " = ? ", user_type);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

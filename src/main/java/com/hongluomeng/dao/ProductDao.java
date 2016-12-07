@@ -16,8 +16,8 @@ public class ProductDao {
 	private Integer count(Product product) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT COUNT(*) FROM " + Product.KEY_TABLE_PRODUCT + " ");
-		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmptyForLike("AND " + Product.KEY_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
+		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmptyForLike("AND " + Product.COLUMN_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -33,13 +33,13 @@ public class ProductDao {
 	private List<Product> list(Product product, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
-		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Product.KEY_PRODUCT_IS_SALE + " = ?, ", product.getProduct_is_sale());
-		myDynamicSQL.isNullOrEmptyForLike("AND " + Product.KEY_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
-		myDynamicSQL.isNullOrEmpty("AND " + Product.KEY_CATEGORY_ID + " = ? ", product.getCategory_id());
-		myDynamicSQL.isNullOrEmpty("AND " + Product.KEY_BRAND_ID + " = ? ", product.getBrand_id());
-		myDynamicSQL.isNullOrEmpty("AND " + Product.KEY_PRODUCT_IS_HOT + " = ? ", product.getProduct_is_hot());
-		myDynamicSQL.append("ORDER BY " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Product.COLUMN_PRODUCT_IS_SALE + " = ?, ", product.getProduct_is_sale());
+		myDynamicSQL.isNullOrEmptyForLike("AND " + Product.COLUMN_PRODUCT_NAME + " LIKE ? ", product.getProduct_name());
+		myDynamicSQL.isNullOrEmpty("AND " + Product.COLUMN_CATEGORY_ID + " = ? ", product.getCategory_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Product.COLUMN_BRAND_ID + " = ? ", product.getBrand_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Product.COLUMN_PRODUCT_IS_HOT + " = ? ", product.getProduct_is_hot());
+		myDynamicSQL.append("ORDER BY " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		List<Product> productList = new Product().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -80,10 +80,10 @@ public class ProductDao {
 	public List<Product> listByUser_id(String user_id, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT " + Product.KEY_TABLE_PRODUCT + ".* FROM " + Product.KEY_TABLE_PRODUCT + " ");
-		myDynamicSQL.append("LEFT JOIN (SELECT * FROM " + BrandApply.KEY_TABLE_BRAND_APPLY + " WHERE " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "' AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_SYSTEM_STATUS + " = 1) " + BrandApply.KEY_TABLE_BRAND_APPLY + " ON " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_BRAND_ID + " ", user_id);
-		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("AND " + BrandApply.KEY_TABLE_BRAND_APPLY + "." + BrandApply.KEY_USER_ID + " = ? ", user_id);
-		myDynamicSQL.append("ORDER BY " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("LEFT JOIN (SELECT * FROM " + BrandApply.TABLE_BRAND_APPLY + " WHERE " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_USER_ID + " = ? AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS + " = '" + BrandApplyReviewEnum.PASS.getKey() + "' AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_SYSTEM_STATUS + " = 1) " + BrandApply.TABLE_BRAND_APPLY + " ON " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_ID + " = " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_BRAND_ID + " ", user_id);
+		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_USER_ID + " = ? ", user_id);
+		myDynamicSQL.append("ORDER BY " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		List<Product> productList = new Product().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -94,8 +94,8 @@ public class ProductDao {
 	private Product find(Product product) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT * FROM " + Product.KEY_TABLE_PRODUCT + " ");
-		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Product.KEY_PRODUCT_ID + " = ? ", product.getProduct_id());
+		myDynamicSQL.append("WHERE " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Product.COLUMN_PRODUCT_ID + " = ? ", product.getProduct_id());
 
 		List<Product> productList = new Product().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 

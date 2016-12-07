@@ -38,9 +38,9 @@ public class RoleService {
 
 		for (Role role : roleList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Role.KEY_ROLE_ID, role.getRole_id());
-			map.put(Role.KEY_ROLE_NAME, role.getRole_name());
-			map.put(Role.KEY_ROLE_SORT, role.getRole_sort());
+			map.put(Role.COLUMN_ROLE_ID, role.getRole_id());
+			map.put(Role.COLUMN_ROLE_NAME, role.getRole_name());
+			map.put(Role.COLUMN_ROLE_SORT, role.getRole_sort());
 
 			list.add(map);
 		}

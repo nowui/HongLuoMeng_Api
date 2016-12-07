@@ -12,8 +12,8 @@ public class AdminDao {
 
 	private Integer count(Admin admin) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT COUNT(*) FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		myDynamicSQL.append("WHERE " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("SELECT COUNT(*) FROM " + Admin.TABLE_ADMIN + " ");
+		myDynamicSQL.append("WHERE " + Admin.TABLE_ADMIN + "." + Admin.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
@@ -27,9 +27,9 @@ public class AdminDao {
 
 	private List<Admin> list(Admin admin, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		myDynamicSQL.append("WHERE " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.append("ORDER BY " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_CREATE_TIME + " DESC ");
+		myDynamicSQL.append("SELECT * FROM " + Admin.TABLE_ADMIN + " ");
+		myDynamicSQL.append("WHERE " + Admin.TABLE_ADMIN + "." + Admin.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("ORDER BY " + Admin.TABLE_ADMIN + "." + Admin.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return new Admin().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
@@ -43,9 +43,9 @@ public class AdminDao {
 
 	private Admin find(Admin admin) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT * FROM " + Admin.KEY_TABLE_ADMIN + " ");
-		myDynamicSQL.append("WHERE " + Admin.KEY_TABLE_ADMIN + "." + Admin.KEY_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Admin.KEY_ADMIN_ID + " = ? ", admin.getAdmin_id());
+		myDynamicSQL.append("SELECT * FROM " + Admin.TABLE_ADMIN + " ");
+		myDynamicSQL.append("WHERE " + Admin.TABLE_ADMIN + "." + Admin.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.isNullOrEmpty("AND " + Admin.COLUMN_ADMIN_ID + " = ? ", admin.getAdmin_id());
 
 		List<Admin> adminList = new Admin().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (adminList.size() == 0) {
@@ -73,7 +73,7 @@ public class AdminDao {
 	}
 
 	public void update(Admin admin, String request_user_id) {
-		admin.remove(Admin.KEY_USER_ID);
+		admin.remove(Admin.COLUMN_USER_ID);
 
 		admin.initForUpdate(request_user_id);
 

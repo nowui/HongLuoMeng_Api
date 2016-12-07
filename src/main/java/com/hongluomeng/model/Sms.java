@@ -6,19 +6,19 @@ public class Sms extends Base<Sms> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_SMS = "table_sms";
-	public static final String KEY_SMS_ID = "sms_id";
-	public static final String KEY_SMS_TYPE = "sms_type";
-	public static final String KEY_SMS_PHONE = "sms_phone";
-	public static final String KEY_SMS_CODE = "sms_code";
-	public static final String KEY_SMS_IP_ADDRESS = "sms_ip_address";
+	public static final String TABLE_SMS = "table_sms";
+	public static final String COLUMN_SMS_ID = "sms_id";
+	public static final String COLUMN_SMS_TYPE = "sms_type";
+	public static final String COLUMN_SMS_PHONE = "sms_phone";
+	public static final String COLUMN_SMS_CODE = "sms_code";
+	public static final String COLUMN_SMS_IP_ADDRESS = "sms_ip_address";
 
 	public String getSms_id() {
-		return getStr(KEY_SMS_ID);
+		return getStr(COLUMN_SMS_ID);
 	}
 
 	public void setSms_id(String sms_id) {
-		set(KEY_SMS_ID, sms_id);
+		set(COLUMN_SMS_ID, sms_id);
 	}
 
 	public void checkSms_id() {
@@ -26,11 +26,11 @@ public class Sms extends Base<Sms> {
 	}
 
 	public String getSms_type() {
-		return getStr(KEY_SMS_TYPE);
+		return getStr(COLUMN_SMS_TYPE);
 	}
 
 	public void setSms_type(String sms_type) {
-		set(KEY_SMS_TYPE, sms_type);
+		set(COLUMN_SMS_TYPE, sms_type);
 	}
 
 	public void checkMember_real_name() {
@@ -38,11 +38,11 @@ public class Sms extends Base<Sms> {
 	}
 
 	public String getSms_phone() {
-		return getStr(KEY_SMS_PHONE);
+		return getStr(COLUMN_SMS_PHONE);
 	}
 
 	public void setSms_phone(String sms_phone) {
-		set(KEY_SMS_PHONE, sms_phone);
+		set(COLUMN_SMS_PHONE, sms_phone);
 	}
 
 	public void checkSms_phone() {
@@ -50,11 +50,11 @@ public class Sms extends Base<Sms> {
 	}
 
 	public String getSms_code() {
-		return getStr(KEY_SMS_CODE);
+		return getStr(COLUMN_SMS_CODE);
 	}
 
 	public void setSms_code(String sms_code) {
-		set(KEY_SMS_CODE, sms_code);
+		set(COLUMN_SMS_CODE, sms_code);
 	}
 
 	public void checkSms_code() {
@@ -62,11 +62,11 @@ public class Sms extends Base<Sms> {
 	}
 
 	public String getSms_ip_address() {
-		return getStr(KEY_SMS_IP_ADDRESS);
+		return getStr(COLUMN_SMS_IP_ADDRESS);
 	}
 
 	public void setSms_ip_address(String sms_ip_address) {
-		set(KEY_SMS_IP_ADDRESS, sms_ip_address);
+		set(COLUMN_SMS_IP_ADDRESS, sms_ip_address);
 	}
 
 	public void checkSms_ip_address() {

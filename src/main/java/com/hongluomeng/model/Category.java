@@ -6,22 +6,22 @@ public class Category extends Base<Category> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String KEY_TABLE_CATEGORY = "table_category";
-	public static final String KEY_CATEGORY_ID = "category_id";
-	public static final String KEY_PARENT_ID = "parent_id";
-	public static final String KEY_CATEGORY_NAME = "category_name";
-	public static final String KEY_CATEGORY_KEY = "category_key";
-	public static final String KEY_CATEGORY_VALUE = "category_value";
-	public static final String KEY_CATEGORY_SORT = "category_sort";
-	public static final String KEY_CATEGORY_PATH = "category_path";
-	public static final String KEY_CATEGORY_DESCRIPTION = "category_description";
+	public static final String TABLE_CATEGORY = "table_category";
+	public static final String COLUMN_CATEGORY_ID = "category_id";
+	public static final String COLUMN_PARENT_ID = "parent_id";
+	public static final String COLUMN_CATEGORY_NAME = "category_name";
+	public static final String COLUMN_CATEGORY_KEY = "category_key";
+	public static final String COLUMN_CATEGORY_VALUE = "category_value";
+	public static final String COLUMN_CATEGORY_SORT = "category_sort";
+	public static final String COLUMN_CATEGORY_PATH = "category_path";
+	public static final String COLUMN_CATEGORY_DESCRIPTION = "category_description";
 
 	public String getCategory_id() {
-		return getStr(KEY_CATEGORY_ID);
+		return getStr(COLUMN_CATEGORY_ID);
 	}
 
 	public void setCategory_id(String category_id) {
-		set(KEY_CATEGORY_ID, category_id);
+		set(COLUMN_CATEGORY_ID, category_id);
 	}
 
 	public void checkCategory_id() {
@@ -29,11 +29,11 @@ public class Category extends Base<Category> {
 	}
 
 	public String getParent_id() {
-		return getStr(KEY_PARENT_ID);
+		return getStr(COLUMN_PARENT_ID);
 	}
 
 	public void setParent_id(String parent_id) {
-		set(KEY_PARENT_ID, parent_id);
+		set(COLUMN_PARENT_ID, parent_id);
 	}
 
 	public void checkParent_id() {
@@ -41,11 +41,11 @@ public class Category extends Base<Category> {
 	}
 
 	public String getCategory_name() {
-		return getStr(KEY_CATEGORY_NAME);
+		return getStr(COLUMN_CATEGORY_NAME);
 	}
 
 	public void setCategory_name(String category_name) {
-		set(KEY_CATEGORY_NAME, category_name);
+		set(COLUMN_CATEGORY_NAME, category_name);
 	}
 
 	public void checkCategory_name() {
@@ -53,11 +53,11 @@ public class Category extends Base<Category> {
 	}
 
 	public String getCategory_key() {
-		return getStr(KEY_CATEGORY_KEY);
+		return getStr(COLUMN_CATEGORY_KEY);
 	}
 
 	public void setCategory_key(String parent_key) {
-		set(KEY_CATEGORY_KEY, parent_key);
+		set(COLUMN_CATEGORY_KEY, parent_key);
 	}
 
 	public void checkCategory_key() {
@@ -65,11 +65,11 @@ public class Category extends Base<Category> {
 	}
 
 	public String getCategory_value() {
-		return getStr(KEY_CATEGORY_VALUE);
+		return getStr(COLUMN_CATEGORY_VALUE);
 	}
 
 	public void setCategory_value(String category_value) {
-		set(KEY_CATEGORY_VALUE, category_value);
+		set(COLUMN_CATEGORY_VALUE, category_value);
 	}
 
 	public void checkCategory_value() {
@@ -77,11 +77,11 @@ public class Category extends Base<Category> {
 	}
 
 	public Integer getCategory_sort() {
-		return Utility.getIntegerValue(get(KEY_CATEGORY_SORT));
+		return Utility.getIntegerValue(get(COLUMN_CATEGORY_SORT));
 	}
 
 	public void setCategory_sort(Integer category_sort) {
-		set(KEY_CATEGORY_SORT, category_sort);
+		set(COLUMN_CATEGORY_SORT, category_sort);
 	}
 
 	public void checkCategory_sort() {
@@ -89,11 +89,11 @@ public class Category extends Base<Category> {
 	}
 
 	public String getCategory_path() {
-		return getStr(KEY_CATEGORY_PATH);
+		return getStr(COLUMN_CATEGORY_PATH);
 	}
 
 	public void setCategory_path(String category_path) {
-		set(KEY_CATEGORY_PATH, category_path);
+		set(COLUMN_CATEGORY_PATH, category_path);
 	}
 
 	public void checkCategory_path() {
@@ -101,11 +101,11 @@ public class Category extends Base<Category> {
 	}
 
 	public String getCategory_description() {
-		return getStr(KEY_CATEGORY_DESCRIPTION);
+		return getStr(COLUMN_CATEGORY_DESCRIPTION);
 	}
 
 	public void setCategory_description(String category_description) {
-		set(KEY_CATEGORY_DESCRIPTION, category_description);
+		set(COLUMN_CATEGORY_DESCRIPTION, category_description);
 	}
 
 	public void checkCategory_description() {

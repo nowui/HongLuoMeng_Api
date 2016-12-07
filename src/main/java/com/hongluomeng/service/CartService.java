@@ -24,11 +24,11 @@ public class CartService {
 
         for (Cart cart : cartList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Cart.KEY_CART_ID, cart.getCart_id());
-            map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
-            map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getUser_id());
-            map.put(Cart.KEY_USER_ID, cart.getUser_id());
-            map.put(Cart.KEY_SYSTEM_CREATE_TIME, cart.getSystem_create_time());
+            map.put(Cart.COLUMN_CART_ID, cart.getCart_id());
+            map.put(Cart.COLUMN_PRODUCT_SKU_ID, cart.getProduct_sku_id());
+            map.put(Cart.COLUMN_PRODUCT_AMOUNT, cart.getUser_id());
+            map.put(Cart.COLUMN_USER_ID, cart.getUser_id());
+            map.put(Cart.COLUMN_SYSTEM_CREATE_TIME, cart.getSystem_create_time());
 
             list.add(map);
         }
@@ -120,18 +120,18 @@ public class CartService {
                     product_attribute_value += " ";
                 }
 
-                product_attribute_value += object.getString(CategoryAttributeValue.KEY_ATTRIBUTE_VALUE);
+                product_attribute_value += object.getString(CategoryAttributeValue.COLUMN_ATTRIBUTE_VALUE);
             }
 
 
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(Cart.KEY_CART_ID, cart.getCart_id());
-            map.put(Product.KEY_PRODUCT_NAME, cart.getProduct().getProduct_name());
-            map.put(Cart.KEY_PRODUCT_SKU_ID, cart.getProduct_sku_id());
-            map.put(Cart.KEY_PRODUCT_AMOUNT, cart.getProduct_amount());
-            map.put(Product.KEY_PRODUCT_IMAGE, cart.getProduct().getProduct_image().get(0));
-            map.put(ProductSku.KEY_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
-            map.put(ProductSku.KEY_PRODUCT_PRICE, cart.getProduct().getProduct_price());
+            map.put(Cart.COLUMN_CART_ID, cart.getCart_id());
+            map.put(Product.COLUMN_PRODUCT_NAME, cart.getProduct().getProduct_name());
+            map.put(Cart.COLUMN_PRODUCT_SKU_ID, cart.getProduct_sku_id());
+            map.put(Cart.COLUMN_PRODUCT_AMOUNT, cart.getProduct_amount());
+            map.put(Product.COLUMN_PRODUCT_IMAGE, cart.getProduct().getProduct_image().get(0));
+            map.put(ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE, product_attribute_value);
+            map.put(ProductSku.COLUMN_PRODUCT_PRICE, cart.getProduct().getProduct_price());
 
             resultList.add(map);
         }

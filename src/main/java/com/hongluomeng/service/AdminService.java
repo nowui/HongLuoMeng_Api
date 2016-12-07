@@ -31,9 +31,9 @@ public class AdminService {
 
 		for (Admin admin : adminList) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Admin.KEY_ADMIN_ID, admin.getAdmin_id());
-			map.put(Admin.KEY_ADMIN_NAME, admin.getAdmin_name());
-			map.put(Admin.KEY_USER_ID, admin.getUser_id());
+			map.put(Admin.COLUMN_ADMIN_ID, admin.getAdmin_id());
+			map.put(Admin.COLUMN_ADMIN_NAME, admin.getAdmin_name());
+			map.put(Admin.COLUMN_USER_ID, admin.getUser_id());
 
 			list.add(map);
 		}
