@@ -44,6 +44,7 @@ public class AppConfig extends JFinalConfig {
         routes.add("/member/delivery", MemberDeliveryController.class);
         routes.add("/order", OrderController.class);
         routes.add("/activity", ActivityController.class);
+        routes.add("/topic", TopicController.class);
         routes.add("/weixin/notify", WeixinController.class);
     }
 
@@ -101,6 +102,7 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_order_product", "order_product_id", OrderProduct.class);
         activeRecordPlugin.addMapping("table_product_lock_stock", "product_lock_stock_id", ProductLockStock.class);
         activeRecordPlugin.addMapping("table_activity", "activity_id", Activity.class);
+        activeRecordPlugin.addMapping("table_topic", "topic_id", Topic.class);
         plugins.add(activeRecordPlugin);
     }
 

@@ -72,6 +72,7 @@ public class TopicDao extends BaseDao {
 
 	public void save(Topic topic, String request_user_id) {
 		topic.setTopic_id(Utility.getUUID());
+        topic.setUser_id(request_user_id);
 
 		topic.initForSave(request_user_id);
 

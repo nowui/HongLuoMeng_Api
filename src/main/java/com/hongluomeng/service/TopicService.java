@@ -71,21 +71,6 @@ public class TopicService extends BaseService {
 		return topic;
 	}
 
-	public Map<String, Object> get(JSONObject jsonObject) {
-		Topic topicMap = jsonObject.toJavaObject(Topic.class);
-
-		Topic topic = topicDao.findByTopic_id(topicMap.getTopic_id());
-
-		Map<String, Object> map = new HashMap<String, Object>();
-        map.put(Topic.COLUMN_TOPIC_ID, topic.getTopic_id());
-        map.put(Topic.COLUMN_USER_ID, topic.getUser_id());
-        map.put(Member.COLUMN_MEMBER_NAME, topic.getMember().getMember_name());
-        map.put(Topic.COLUMN_TOPIC_TEXT, topic.getTopic_text());
-        map.put(Topic.COLUMN_TOPIC_IMAGE, topic.getTopic_image());
-
-		return map;
-	}
-
 	public void save(JSONObject jsonObject) {
 		Topic topicMap = jsonObject.toJavaObject(Topic.class);
 

@@ -111,7 +111,7 @@ public class TopicController extends BaseController {
         renderJson(Utility.setSuccessResponse());
     }
 
-    @ActionKey(Url.URL_TOPIC_LIEK_DELETE)
+    @ActionKey(Url.URL_TOPIC_COMMENT_DELETE)
     public void deleteComment() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
