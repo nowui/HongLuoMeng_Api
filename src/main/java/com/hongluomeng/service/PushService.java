@@ -9,10 +9,9 @@ import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
-import cn.jpush.api.push.model.audience.AudienceTarget;
 import com.hongluomeng.common.Private;
 
-public class PushService {
+public class PushService extends BaseService {
 
     public void send(String content) {
         ClientConfig config = ClientConfig.getInstance();

@@ -5,7 +5,7 @@ import java.util.List;
 import com.hongluomeng.dao.RoleOperationDao;
 import com.hongluomeng.model.RoleOperation;
 
-public class RoleOperationService {
+public class RoleOperationService extends BaseService {
 
 	private RoleOperationDao roleOperationDao = new RoleOperationDao();
 

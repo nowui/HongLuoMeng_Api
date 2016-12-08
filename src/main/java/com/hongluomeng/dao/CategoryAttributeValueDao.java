@@ -11,7 +11,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.CategoryAttributeValue;
 
-public class CategoryAttributeValueDao {
+public class CategoryAttributeValueDao extends BaseDao {
 
 	public List<CategoryAttributeValue> listByObject_idAndObject_typeAndCategory_id(String object_id, String object_type, String category_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

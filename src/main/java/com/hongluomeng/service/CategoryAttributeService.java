@@ -12,7 +12,7 @@ import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.CategoryAttributeValue;
 
-public class CategoryAttributeService {
+public class CategoryAttributeService extends BaseService {
 
 	private CategoryAttributeDao categoryAttributeDao = new CategoryAttributeDao();
 

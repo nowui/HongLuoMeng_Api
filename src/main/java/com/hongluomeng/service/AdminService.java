@@ -15,7 +15,7 @@ import com.hongluomeng.model.User;
 import com.hongluomeng.model.UserRole;
 import com.hongluomeng.type.UserEnum;
 
-public class AdminService {
+public class AdminService extends BaseService {
 
 	private AdminDao adminDao = new AdminDao();
 	private UserService userService = new UserService();
@@ -135,7 +135,10 @@ public class AdminService {
 
 			String token = authorizationService.saveByUser_id(user.getUser_id());
 
-			resultMap.put(Const.KEY_TOKEN, token);
+            Admin admin = adminDao.findByUser_id(user.getUser_id());
+
+            resultMap.put(Const.KEY_TOKEN, token);
+            resultMap.put(Admin.COLUMN_ADMIN_NAME, admin.getAdmin_name());
 
 			return resultMap;
 		}

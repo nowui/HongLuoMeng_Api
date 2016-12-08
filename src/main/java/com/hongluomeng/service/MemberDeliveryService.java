@@ -11,13 +11,11 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.MemberDeliveryDao;
 import com.hongluomeng.model.MemberDelivery;
 
-public class MemberDeliveryService {
+public class MemberDeliveryService extends BaseService {
 
 	private MemberDeliveryDao memberDeliveryDao = new MemberDeliveryDao();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Member_delivery memberDeliveryMap = jsonObject.toJavaObject(Member_delivery.class);
-
 		Integer count = memberDeliveryDao.count();
 
 		List<MemberDelivery> memberDeliveryList = memberDeliveryDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));

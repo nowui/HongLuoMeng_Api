@@ -8,14 +8,12 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.CategoryDao;
 import com.hongluomeng.model.Category;
 
-public class CategoryService {
+public class CategoryService extends BaseService {
 
 	private CategoryDao categoryDao = new CategoryDao();
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 
 	public Integer count(JSONObject jsonObject) {
-		//Category categoryMap = jsonObject.toJavaObject(Category.class);
-
 		return categoryDao.count();
 	}
 
@@ -28,6 +26,21 @@ public class CategoryService {
 		return resultMap;
 	}
 
+	public List<Map<String, Object>> list(String category_key) {
+		List<Category> categoryList = listByCategory_key(category_key);
+
+		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		for(Category category : categoryList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(Category.COLUMN_CATEGORY_ID, category.getCategory_id());
+			map.put(Category.COLUMN_CATEGORY_NAME, category.getCategory_name());
+
+			resultList.add(map);
+		}
+
+		return resultList;
+	}
+
 	public List<Category> listByCategory_path(String category_path) {
 		return categoryDao.listByCategory_path(category_path);
 	}
@@ -37,36 +50,21 @@ public class CategoryService {
 
 		List<Category> categorieList = listByCategory_path(category.getCategory_id());
 
-		List<Category> list = new ArrayList<Category>();
+		List<Category> resultList = new ArrayList<Category>();
 
-		setChildren(list, categorieList, category.getCategory_id());
+		setChildren(resultList, categorieList, category.getCategory_id());
 
-		List<Category> categoryResultList = new ArrayList<Category>();
-		for (Category model : list) {
-			Category c = new Category();
-			c.setCategory_id(model.getCategory_id());
-			c.setCategory_name(model.getCategory_name());
-			c.setSystem_create_time(new Date());
-			categoryResultList.add(c);
-		}
-
-		return categoryResultList;
+		return resultList;
 	}
 
-	private void setChildren(List<Category> list, List<Category> categorieList, String category_id) {
-		Iterator<Category> iterator = categorieList.iterator();
+	private void setChildren(List<Category> list, List<Category> categoryList, String category_id) {
+        for (Category category : categoryList) {
+            if (category.getParent_id().equals(category_id)) {
+                list.add(category);
 
-		while (iterator.hasNext()) {
-			Category c = iterator.next();
-
-			if (c.getParent_id().equals(category_id)) {
-				list.add(c);
-
-				setChildren(list, categorieList, c.getCategory_id());
-
-				//iterator.remove();
-			}
-		}
+                setChildren(list, categoryList, category.getCategory_id());
+            }
+        }
 	}
 
 	public Map<String, Object> treeByCategory_key(String ategory_key) {
@@ -80,7 +78,7 @@ public class CategoryService {
 		resultMap.put(Const.KEY_ID, category.getCategory_id());
 		resultMap.put(Const.KEY_NAME, category.getCategory_name());
 		//resultMap.put(Const.KEY_SORT, category.getCategory_sort());
-		resultMap.put(Const.KEY_CHILDREN, getChildrenList(categoryDao.listByCategory_path(category.getCategory_id().toString()), category.getCategory_id()));
+		resultMap.put(Const.KEY_CHILDREN, getChildrenList(categoryDao.listByCategory_path(category.getCategory_id()), category.getCategory_id()));
 
 		return resultMap;
 	}
@@ -132,6 +130,10 @@ public class CategoryService {
 
 		categoryMap.checkCategory_name();
 
+		categoryMap.checkCategory_key();
+
+		categoryMap.checkCategory_value();
+
 		categoryMap.checkCategory_sort();
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
@@ -168,7 +170,13 @@ public class CategoryService {
 
 		categoryMap.checkCategory_name();
 
+		categoryMap.checkCategory_key();
+
+		categoryMap.checkCategory_value();
+
 		categoryMap.checkCategory_sort();
+
+		categoryMap.checkCategory_description();
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 

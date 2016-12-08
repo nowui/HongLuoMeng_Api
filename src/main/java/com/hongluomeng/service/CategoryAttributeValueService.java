@@ -5,7 +5,7 @@ import java.util.List;
 import com.hongluomeng.dao.CategoryAttributeValueDao;
 import com.hongluomeng.model.CategoryAttributeValue;
 
-public class CategoryAttributeValueService {
+public class CategoryAttributeValueService extends BaseService {
 
 	private CategoryAttributeValueDao categoryAttributeValueDao = new CategoryAttributeValueDao();
 

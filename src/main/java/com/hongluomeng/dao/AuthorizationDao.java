@@ -8,7 +8,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Authorization;
 
-public class AuthorizationDao {
+public class AuthorizationDao extends BaseDao {
 
 	private Integer count(Authorization authorization) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

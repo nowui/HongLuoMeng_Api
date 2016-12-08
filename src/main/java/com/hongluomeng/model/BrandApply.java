@@ -112,4 +112,8 @@ public class BrandApply extends Base<BrandApply> {
 		return new Brand().put(this);
 	}
 
+	public Member getMember() {
+		return new Member().put(this);
+	}
+
 }

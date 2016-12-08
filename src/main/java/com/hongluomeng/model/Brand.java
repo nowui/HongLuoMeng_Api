@@ -55,7 +55,7 @@ public class Brand extends Base<Brand> {
 	}
 
 	public void checkBrand_name() {
-		Utility.checkStringLength(getBrand_name(), 3, 20, "品牌名称");
+		Utility.checkStringLength(getBrand_name(), 2, 20, "品牌名称");
 	}
 
 	public String getBrand_logo() {

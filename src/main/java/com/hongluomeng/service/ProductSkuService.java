@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.dao.ProductSkuDao;
 import com.hongluomeng.model.ProductSku;
 
-public class ProductSkuService {
+public class ProductSkuService extends BaseService {
 
 	private ProductSkuDao productSkuDao = new ProductSkuDao();
 

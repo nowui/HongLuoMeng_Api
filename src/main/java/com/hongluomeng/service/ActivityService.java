@@ -11,15 +11,13 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.ActivityDao;
 import com.hongluomeng.model.Activity;
 
-public class ActivityService {
+public class ActivityService extends BaseService {
 
 	private ActivityDao activityDao = new ActivityDao();
 	private CategoryService categoryService = new CategoryService();
 	private MemberService memberService = new MemberService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Activity activityMap = jsonObject.toJavaObject(Activity.class);
-
 		Integer count = activityDao.count();
 
 		List<Activity> activityList = activityDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));

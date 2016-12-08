@@ -20,7 +20,7 @@ import com.jfinal.kit.FileKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 
-public class UploadService {
+public class UploadService extends BaseService {
 
 	public String uploadImage(UploadFile uploadFile, String request_user_id) {
 		Boolean isImage = true;

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hongluomeng.cache.BrandApplyCache;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.BrandDao;
@@ -17,7 +16,7 @@ import com.hongluomeng.model.Member;
 import com.hongluomeng.type.BrandApplyReviewEnum;
 import com.hongluomeng.type.CatetoryEnum;
 
-public class BrandService {
+public class BrandService extends BaseService {
 
 	private BrandDao brandDao = new BrandDao();
 
@@ -26,8 +25,6 @@ public class BrandService {
 	private MemberService memberService = new MemberService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Brand brandMap = jsonObject.toJavaObject(Brand.class);
-
 		String category_id = "";
 
 		Integer count = brandDao.countByCategory_id(category_id);
@@ -57,7 +54,7 @@ public class BrandService {
 
 		List<Brand> brandList = brandDao.listByCategory_id(category_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
-		List<BrandApply> brandApplyList = brandApplyService.listByUser_idFromCache(request_user_id);
+		List<BrandApply> brandApplyList = brandApplyService.listByUser_id(request_user_id);
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -66,7 +63,7 @@ public class BrandService {
 			map.put(Brand.COLUMN_BRAND_ID, brand.getBrand_id());
 			map.put(Brand.COLUMN_BRAND_NAME, brand.getBrand_name());
 			map.put(Brand.COLUMN_BRAND_LOGO, brand.getBrand_logo());
-			map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, "");
+			map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, BrandApplyReviewEnum.NONE.getKey());
 
 			for(BrandApply brandApply : brandApplyList) {
 				if(brandApply.getBrand_id().equals(brand.getBrand_id())) {
@@ -87,22 +84,6 @@ public class BrandService {
 
 		return brandDao.listByCategory_id("", 0, 0);
 	}
-
-//	public List<Brand> listByCategory_idAndUser_idForMyList(String category_id, String user_id, Integer m, Integer n) {
-//		return brandDao.listByCategory_idAndUser_idForMyList(category_id, user_id, m, n);
-//	}
-
-//	public List<Brand> listByUser_idForMyListFromCache(String user_id) {
-//		List<Brand> brandList = brandCache.getBrandListByUser_id(user_id);
-//
-//		if (brandList == null) {
-//			brandList = listByCategory_idAndUser_idForMyList("", user_id, 0, 0);
-//
-//			brandCache.setBrandListByUser_id(brandList, user_id);
-//		}
-//
-//		return brandList;
-//	}
 
 	public List<Map<String, Object>> getMyList(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
@@ -150,9 +131,9 @@ public class BrandService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		Brand brand = brandDao.findByBrand_idAndUser_id(brandMap.getBrand_id(), request_user_id);
+		Brand brand = brandDao.findByBrand_id(brandMap.getBrand_id());
 
-		List<BrandApply> brandApplyList = brandApplyService.listByUser_idFromCache(request_user_id);
+		List<BrandApply> brandApplyList = brandApplyService.listByUser_id(request_user_id);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(Brand.COLUMN_BRAND_ID, brand.getBrand_id());
@@ -161,7 +142,7 @@ public class BrandService {
 		map.put(Brand.COLUMN_BRAND_BACKGROUND, brand.getBrand_background());
 		map.put(Brand.COLUMN_BRAND_INTRODUCE, brand.getBrand_introduce());
 		map.put(Brand.COLUMN_BRAND_AGREEMENT, brand.getBrand_agreement());
-		map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, "");
+		map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, BrandApplyReviewEnum.NONE.getKey());
 
 		for(BrandApply brandApply : brandApplyList) {
 			if(brandApply.getBrand_id().equals(brand.getBrand_id())) {
@@ -198,45 +179,10 @@ public class BrandService {
 		brandDao.delete(brandMap.getBrand_id(), request_user_id);
 	}
 
-	public List<Map<String, Object>> getCategoryList(JSONObject jsonObject) {
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-
-		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.BRAND.getKey());
-
-		for (Category category : categoryList) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Category.COLUMN_CATEGORY_ID, category.getCategory_id());
-			map.put(Category.COLUMN_CATEGORY_NAME, category.getCategory_name());
-			list.add(map);
-		}
-
-		return list;
-	}
-
-	public Map<String, Object> listCategory(JSONObject jsonObject) {
-		return categoryService.treeByCategory_key(CatetoryEnum.BRAND.getKey());
-	}
-
-	public Category findCategory(JSONObject jsonObject) {
-		return categoryService.find(jsonObject);
-	}
-
-	public void saveCategory(JSONObject jsonObject) {
-		categoryService.save(jsonObject);
-	}
-
-	public void updateCategory(JSONObject jsonObject) {
-		categoryService.update(jsonObject);
-	}
-
-	public void deleteCategory(JSONObject jsonObject) {
-		categoryService.delete(jsonObject);
-	}
-
 	public Map<String, Object> listApply(JSONObject jsonObject) {
 		Integer count = brandApplyService.countByCategory_idAndUser_id("", "");
 
-		List<BrandApply> brandApplyList = brandApplyService.listByCategory_idAndUser_id("", "", Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<BrandApply> brandApplyList = brandApplyService.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -245,7 +191,8 @@ public class BrandService {
 			map.put(BrandApply.COLUMN_BRAND_ID, brandApply.getBrand_id());
 			map.put(Brand.COLUMN_BRAND_NAME, brandApply.getBrand().getBrand_name());
 			map.put(BrandApply.COLUMN_USER_ID, brandApply.getUser_id());
-			map.put(Member.COLUMN_MEMBER_REAL_NAME, brandApply.getMember_real_name());
+			map.put(BrandApply.COLUMN_MEMBER_REAL_NAME, brandApply.getMember_real_name());
+			map.put(Member.COLUMN_MEMBER_NAME, brandApply.getMember().getMember_name());
 			map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, brandApply.getBrand_apply_review_status_value());
 			map.put(BrandApply.COLUMN_SYSTEM_CREATE_TIME, brandApply.getSystem_create_time());
 
@@ -315,5 +262,22 @@ public class BrandService {
 
 		brandApplyService.reviewCancel(brandApplyMap.getBrand_id(), request_user_id, request_user_id);
 	}
+
+	public Boolean checkIsApply(String brand_id, String request_user_id) {
+		Boolean result = false;
+
+		List<BrandApply> brandApplyList = brandApplyService.listByUser_id(request_user_id);
+
+		for (BrandApply brandApply : brandApplyList) {
+			if (brandApply.getBrand_id().equals(brand_id) && brandApply.getBrand_apply_review_status().equals(BrandApplyReviewEnum.PASS.getKey())) {
+				result = true;
+
+				break;
+			}
+		}
+
+		return result;
+	}
+
 
 }

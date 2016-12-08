@@ -1,7 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.MyDynamicSQL;
@@ -10,7 +8,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Activity;
 import com.jfinal.plugin.activerecord.Record;
 
-public class ActivityDao {
+public class ActivityDao extends BaseDao {
 
 	private Integer count(Activity activity) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -86,9 +84,8 @@ public class ActivityDao {
 	public void delete(String activity_id, String request_user_id) {
 		Activity activity = new Activity();
 		activity.setActivity_id(activity_id);
-		activity.setSystem_update_user_id(request_user_id);
-		activity.setSystem_update_time(new Date());
-		activity.setSystem_status(false);
+
+        activity.initForDelete(request_user_id);
 
 		activity.update();
 	}

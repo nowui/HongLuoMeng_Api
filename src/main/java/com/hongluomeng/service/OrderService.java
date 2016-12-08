@@ -22,7 +22,7 @@ import com.hongluomeng.type.PayTypeEnum;
 
 import static java.net.URLEncoder.encode;
 
-public class OrderService {
+public class OrderService extends BaseService {
 
     private OrderDao orderDao = new OrderDao();
     private MemberService memberService = new MemberService();
@@ -35,8 +35,6 @@ public class OrderService {
     private BrandApplyService brandApplyService = new BrandApplyService();
 
     public Map<String, Object> list(JSONObject jsonObject) {
-        //Order orderMap = jsonObject.toJavaObject(Order.class);
-
         Integer count = orderDao.count();
 
         List<Order> orderList = orderDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
@@ -129,17 +127,8 @@ public class OrderService {
         List<ProductSku> productSkuList = productSkuService.listByProductSkuIdList(productSkuIdList);
 
         //检测所有商品的所属品牌是否已经代理
-        List<BrandApply> brandApplyList = brandApplyService.listByUser_idFromCache(request_user_id);
         for (ProductSku productSku : productSkuList) {
-            Boolean isApply = false;
-
-            for (BrandApply brandApply : brandApplyList) {
-                if (productSku.getBrand().getBrand_id().equals(brandApply.getBrand_id())) {
-                    isApply = true;
-
-                    break;
-                }
-            }
+            Boolean isApply = brandService.checkIsApply(productSku.getBrand().getBrand_id(), request_user_id);
 
             if (!isApply) {
                 throw new RuntimeException(productSku.getProduct().getProduct_name() + "所属品牌未代理");
@@ -502,15 +491,15 @@ public class OrderService {
                 productLockStockService.delete(order_no, request_user_id);
 
                 if (result == 1) {
-                    return "success";
+                    return Const.KEY_SUCCESS;
                 } else {
-                    return "failure";
+                    return Const.KEY_FAILURE;
                 }
             } else {
-                return "failure";
+                return Const.KEY_FAILURE;
             }
         } catch (AlipayApiException e) {
-            return "failure";
+            return Const.KEY_FAILURE;
         }
 
 

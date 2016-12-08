@@ -11,7 +11,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.ProductLockStock;
 
-public class ProductLockStockDao {
+public class ProductLockStockDao extends BaseDao {
 
 	private Integer count(ProductLockStock productLockStock) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -54,7 +54,7 @@ public class ProductLockStockDao {
 		myDynamicSQL.appendPagination(m, n);
 
 		List<ProductLockStock> productLockStockList = new ProductLockStock().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
-		if (productLockStockList == null) {
+		if (productLockStockList.size() == 0) {
 			return null;
 		} else {
 			return productLockStockList;

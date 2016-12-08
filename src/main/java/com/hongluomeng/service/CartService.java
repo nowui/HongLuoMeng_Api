@@ -11,7 +11,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.CartDao;
 import com.hongluomeng.model.*;
 
-public class CartService {
+public class CartService extends BaseService {
 
     private CartDao cartDao = new CartDao();
 

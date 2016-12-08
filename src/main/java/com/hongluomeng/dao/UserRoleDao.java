@@ -9,7 +9,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.UserRole;
 
-public class UserRoleDao {
+public class UserRoleDao extends BaseDao {
 
 	private List<UserRole> list(UserRole userRole) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

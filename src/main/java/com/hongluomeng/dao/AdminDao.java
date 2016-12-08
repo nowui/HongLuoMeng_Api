@@ -1,6 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.MyDynamicSQL;
@@ -8,7 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Admin;
 
-public class AdminDao {
+public class AdminDao extends BaseDao {
 
 	private Integer count(Admin admin) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -45,7 +44,8 @@ public class AdminDao {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT * FROM " + Admin.TABLE_ADMIN + " ");
 		myDynamicSQL.append("WHERE " + Admin.TABLE_ADMIN + "." + Admin.COLUMN_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Admin.COLUMN_ADMIN_ID + " = ? ", admin.getAdmin_id());
+        myDynamicSQL.isNullOrEmpty("AND " + Admin.COLUMN_ADMIN_ID + " = ? ", admin.getAdmin_id());
+        myDynamicSQL.isNullOrEmpty("AND " + Admin.COLUMN_USER_ID + " = ? ", admin.getUser_id());
 
 		List<Admin> adminList = new Admin().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (adminList.size() == 0) {
@@ -63,6 +63,15 @@ public class AdminDao {
 
 		return find(admin);
 	}
+
+    public Admin findByUser_id(String user_id) {
+        Admin admin = new Admin();
+        admin.setUser_id(user_id);
+
+        admin.checkUser_id();
+
+        return find(admin);
+    }
 
 	public void save(Admin admin, String request_user_id) {
 		admin.setAdmin_id(Utility.getUUID());

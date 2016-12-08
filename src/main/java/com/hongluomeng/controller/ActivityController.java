@@ -49,7 +49,7 @@ public class ActivityController extends BaseController {
 
 		activityValidator.checkActivity_url();
 
-		activityValidator.checkActivity_logo();
+		activityValidator.checkActivity_image();
 
 		activityValidator.checkActivity_sort();
 
@@ -72,7 +72,7 @@ public class ActivityController extends BaseController {
 
 		activityValidator.checkActivity_url();
 
-		activityValidator.checkActivity_logo();
+		activityValidator.checkActivity_image();
 
 		activityValidator.checkActivity_sort();
 

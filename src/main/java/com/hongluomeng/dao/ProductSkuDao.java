@@ -14,7 +14,7 @@ import com.hongluomeng.model.Product;
 import com.hongluomeng.model.ProductLockStock;
 import com.hongluomeng.model.ProductSku;
 
-public class ProductSkuDao {
+public class ProductSkuDao extends BaseDao {
 
 	private Integer count(ProductSku productSku) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -103,7 +103,7 @@ public class ProductSkuDao {
 		myDynamicSQL.isNullOrEmpty("AND " + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", productSku.getProduct_sku_id());
 
 		List<ProductSku> productSkuList = new ProductSku().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
-		if(productSkuList == null) {
+		if(productSkuList.size() == 0) {
 			return null;
 		} else {
 			return productSkuList.get(0);

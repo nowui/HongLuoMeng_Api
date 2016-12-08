@@ -5,7 +5,7 @@ import java.util.List;
 import com.hongluomeng.dao.OrderProductDao;
 import com.hongluomeng.model.OrderProduct;
 
-public class OrderProductService {
+public class OrderProductService extends BaseService {
 
 	private OrderProductDao orderProductDao = new OrderProductDao();
 

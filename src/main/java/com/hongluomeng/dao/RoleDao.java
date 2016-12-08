@@ -1,7 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.MyDynamicSQL;
@@ -9,7 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Role;
 
-public class RoleDao {
+public class RoleDao extends BaseDao {
 
 	private Integer count(Role role) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -68,7 +66,7 @@ public class RoleDao {
 		myDynamicSQL.isNullOrEmpty("AND " + Role.COLUMN_ROLE_ID + " = ? ", role.getRole_id());
 
 		List<Role> roleList = new Role().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
-		if(roleList == null) {
+		if(roleList.size() == 0) {
 			return null;
 		} else {
 			return roleList.get(0);

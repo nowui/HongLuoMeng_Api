@@ -6,6 +6,8 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
 import com.hongluomeng.model.Member;
+import com.hongluomeng.service.CategoryService;
+import com.hongluomeng.type.CatetoryEnum;
 import com.jfinal.core.ActionKey;
 import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
@@ -18,6 +20,7 @@ import com.hongluomeng.type.CodeEnum;
 public class BrandController extends BaseController {
 
 	private BrandService brandService = new BrandService();
+	private CategoryService categoryService = new CategoryService();
 
 	@ActionKey(Url.URL_BRAND_LIST)
 	public void list() {
@@ -102,9 +105,7 @@ public class BrandController extends BaseController {
 
 	@ActionKey(Url.URL_BRAND_CATEGORY_LIST)
 	public void listCategory() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
-
-		Map<String, Object> resultMap = brandService.listCategory(jsonObject);
+		Map<String, Object> resultMap = categoryService.treeByCategory_key(CatetoryEnum.BRAND.getKey());
 
 		renderJson(Utility.setSuccessResponse(resultMap));
 	}
@@ -113,7 +114,7 @@ public class BrandController extends BaseController {
 	public void findCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category category = brandService.findCategory(jsonObject);
+		Category category = categoryService.find(jsonObject);
 
 		renderJson(Utility.setSuccessResponse(category));
 	}
@@ -122,21 +123,7 @@ public class BrandController extends BaseController {
 	public void saveCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkParent_id();
-
-		categoryValidator.checkCategory_name();
-
-		categoryValidator.checkCategory_key();
-
-		categoryValidator.checkCategory_value();
-
-		categoryValidator.checkCategory_sort();
-
-		categoryValidator.checkCategory_description();
-
-		brandService.saveCategory(jsonObject);
+		categoryService.save(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -145,21 +132,7 @@ public class BrandController extends BaseController {
 	public void updateCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
-		categoryValidator.checkCategory_name();
-
-		categoryValidator.checkCategory_key();
-
-		categoryValidator.checkCategory_value();
-
-		categoryValidator.checkCategory_sort();
-
-		categoryValidator.checkCategory_description();
-
-		brandService.updateCategory(jsonObject);
+		categoryService.update(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -168,11 +141,7 @@ public class BrandController extends BaseController {
 	public void deleteCategory() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Category categoryValidator = jsonObject.toJavaObject(Category.class);
-
-		categoryValidator.checkCategory_id();
-
-		brandService.deleteCategory(jsonObject);
+		categoryService.delete(jsonObject);
 
 		renderJson(Utility.setSuccessResponse());
 	}
@@ -181,7 +150,7 @@ public class BrandController extends BaseController {
 	public void getCategoryList() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		List<Map<String, Object>> resultList = brandService.getCategoryList(jsonObject);
+		List<Map<String, Object>> resultList = categoryService.list(CatetoryEnum.BRAND.getKey());
 
 		renderJson(Utility.setSuccessResponse(resultList));
 	}

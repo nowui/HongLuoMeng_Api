@@ -10,7 +10,7 @@ import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Member;
 import com.hongluomeng.type.BrandApplyReviewEnum;
 
-public class BrandApplyDao {
+public class BrandApplyDao extends BaseDao {
 
 	private Integer count(BrandApply brandApply, String category_id) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -31,22 +31,6 @@ public class BrandApplyDao {
 		return count(brandApply, category_id);
 	}
 
-//	public Integer countByBrand_idAndUser_id(String brand_id, String user_id) {
-//		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-//		myDynamicSQL.append("SELECT COUNT(*) FROM " + BrandApply.TABLE_BRAND_APPLY + " ");
-//		myDynamicSQL.append("LEFT JOIN " + Brand.TABLE_BRAND + " ON " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_ID + " = " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_ID + " ");
-//		myDynamicSQL.append("WHERE " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_ID + " = ? ", brand_id);
-//		myDynamicSQL.append("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_USER_ID + " = ? ", user_id);
-//		myDynamicSQL.append("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_SYSTEM_STATUS + " = 1 ");
-//		myDynamicSQL.append("AND " + Brand.TABLE_BRAND + "." + Brand.COLUMN_SYSTEM_STATUS + " = 1 ");
-//		myDynamicSQL.append("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS + " != '" + BrandApplyReviewEnum.REFUSE.getKey() + "' ");
-//		myDynamicSQL.append("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS + " != '" + BrandApplyReviewEnum.CANCEL.getKey() + "' ");
-//
-//		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
-//		return count.intValue();
-//
-//	}
-
 	private List<BrandApply> list(BrandApply brandApply, String category_id, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT " + BrandApply.TABLE_BRAND_APPLY + ".*, " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_NAME + ", " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + " FROM " + BrandApply.TABLE_BRAND_APPLY + " ");
@@ -54,6 +38,7 @@ public class BrandApplyDao {
 		myDynamicSQL.append("LEFT JOIN " + Member.TABLE_MEMBER + " ON " + Member.TABLE_MEMBER + "." + Member.COLUMN_USER_ID + " = " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_USER_ID + " ");
 		myDynamicSQL.append("WHERE " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_SYSTEM_STATUS + " = 1 ");
 		myDynamicSQL.isNullOrEmpty("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_USER_ID + " = ? ", brandApply.getUser_id());
+		myDynamicSQL.isNullOrEmpty("AND " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS + " = ? ", brandApply.getBrand_apply_review_status());
 		myDynamicSQL.isNullOrEmpty("AND " + Brand.TABLE_BRAND + "." + Brand.COLUMN_CATEGORY_ID + " = ? ", category_id);
 		myDynamicSQL.append("ORDER BY " + BrandApply.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
@@ -61,15 +46,10 @@ public class BrandApplyDao {
 		return new BrandApply().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
-//	public List<BrandApply> listAll(Integer m, Integer n) {
-//		BrandApply brandApply = new BrandApply();
-//
-//		return list(brandApply, m, n);
-//	}
-
-	public List<BrandApply> listByCategory_idAndUser_id(String category_id, String user_id, Integer m, Integer n) {
+	public List<BrandApply> listByCategory_idAndUser_idAndBrand_apply_review_status(String category_id, String user_id, String brand_apply_review_status, Integer m, Integer n) {
 		BrandApply brandApply = new BrandApply();
 		brandApply.setUser_id(user_id);
+		brandApply.setBrand_apply_review_status(brand_apply_review_status);
 
 		return list(brandApply, category_id, m, n);
 	}

@@ -13,7 +13,7 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
-public class SmsService {
+public class SmsService extends BaseService {
 
 	private SmsDao smsDao = new SmsDao();
 	private UserService userService = new UserService();

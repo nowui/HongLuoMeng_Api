@@ -10,7 +10,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Member;
 import com.hongluomeng.model.MemberLevel;
 
-public class MemberDao {
+public class MemberDao extends BaseDao {
 
 	private Integer count(Member member) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

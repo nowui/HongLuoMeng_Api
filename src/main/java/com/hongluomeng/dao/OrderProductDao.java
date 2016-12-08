@@ -10,7 +10,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.OrderProduct;
 
-public class OrderProductDao {
+public class OrderProductDao extends BaseDao {
 
 	private Integer count(OrderProduct orderProduct) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -79,7 +79,7 @@ public class OrderProductDao {
 		myDynamicSQL.isNullOrEmpty("AND " + OrderProduct.COLUMN_ORDER_ID + " = ? ", orderProduct.getOrder_id());
 
 		List<OrderProduct> orderProductList = new OrderProduct().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
-		if(orderProductList == null) {
+		if(orderProductList.size() == 0) {
 			return null;
 		} else {
 			return orderProductList.get(0);

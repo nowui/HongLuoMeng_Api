@@ -9,7 +9,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Attribute;
 
-public class AttributeDao {
+public class AttributeDao extends BaseDao {
 
 	private Integer count(Attribute attribute) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

@@ -170,6 +170,14 @@ public class Url {
 
 	public static final String URL_WEIXIN_NOTIFY = "/weixin/notify";
 
-	public static final String URL_TOPIC_INDEX = "/topic/index";
+    public static final String URL_TOPIC_LIST = "/topic/list";
+    public static final String URL_TOPIC_FIND = "/topic/find";
+    public static final String URL_TOPIC_SAVE = "/topic/save";
+    public static final String URL_TOPIC_DELETE = "/topic/delete";
+    public static final String URL_TOPIC_LIST_GET = "/topic/list/get";
+    public static final String URL_TOPIC_LIEK_SAVE = "/topic/like/save";
+    public static final String URL_TOPIC_LIEK_DELETE = "/topic/like/delete";
+    public static final String URL_TOPIC_COMMENT_SAVE = "/topic/comment/save";
+    public static final String URL_TOPIC_COMMENT_DELETE = "/topic/comment/delete";
 
 }

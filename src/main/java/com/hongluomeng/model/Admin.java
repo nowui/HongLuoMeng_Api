@@ -37,13 +37,17 @@ public class Admin extends Base<Admin> {
 		Utility.checkStringLength(getAdmin_name(), 3, 20, "管理员名称");
 	}
 
-	public String getUser_id() {
-		return getStr(COLUMN_USER_ID);
-	}
+    public String getUser_id() {
+        return getStr(COLUMN_USER_ID);
+    }
 
-	public void setUser_id(String user_id) {
-		set(COLUMN_USER_ID, user_id);
-	}
+    public void setUser_id(String user_id) {
+        set(COLUMN_USER_ID, user_id);
+    }
+
+    public void checkUser_id() {
+        Utility.checkStringLength(getUser_id(), 32, "用户编号");
+    }
 
 	public String getUser_account() {
 		return user_account;

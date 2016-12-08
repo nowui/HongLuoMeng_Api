@@ -1,6 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Sms;
 
-public class SmsDao {
+public class SmsDao extends BaseDao {
 
 	private Integer count(Sms sms, Integer minute) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

@@ -12,7 +12,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Order;
 import com.hongluomeng.type.OrderEnum;
 
-public class OrderDao {
+public class OrderDao extends BaseDao {
 
     private Integer count(Order order) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

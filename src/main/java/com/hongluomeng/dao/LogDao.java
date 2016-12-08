@@ -6,7 +6,7 @@ import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.model.Log;
 
-public class LogDao {
+public class LogDao extends BaseDao {
 
 	private Integer count(Log log) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

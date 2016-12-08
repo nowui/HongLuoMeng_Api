@@ -12,7 +12,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.OperationDao;
 import com.hongluomeng.model.Operation;
 
-public class OperationService {
+public class OperationService extends BaseService {
 
 	private OperationDao operationDao = new OperationDao();
 

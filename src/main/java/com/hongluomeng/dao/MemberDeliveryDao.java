@@ -8,7 +8,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.Category;
 import com.hongluomeng.model.MemberDelivery;
 
-public class MemberDeliveryDao {
+public class MemberDeliveryDao extends BaseDao {
 
 	private Integer count(MemberDelivery memberDelivery) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

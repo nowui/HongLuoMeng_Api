@@ -118,7 +118,7 @@ public class GlobalActionInterceptor implements Interceptor {
                     try {
                         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 
-                        user_id = claims.get(Const.COLUMN_USER_ID).toString();
+                        user_id = claims.get(Const.KEY_USER_ID).toString();
 
                         authorization_id = claims.get(Const.COLUMN_AUTHORIZATION_ID).toString();
                     } catch (Exception e) {

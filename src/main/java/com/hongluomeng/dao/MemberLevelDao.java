@@ -1,7 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.MyDynamicSQL;
@@ -9,7 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.MemberLevel;
 
-public class MemberLevelDao {
+public class MemberLevelDao extends BaseDao {
 
 	private Integer count(MemberLevel memberLevel) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

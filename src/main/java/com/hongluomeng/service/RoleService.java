@@ -18,7 +18,7 @@ import com.hongluomeng.model.RoleOperation;
 import com.hongluomeng.model.UserRole;
 import com.hongluomeng.type.CatetoryEnum;
 
-public class RoleService {
+public class RoleService extends BaseService {
 
 	private RoleDao roleDao = new RoleDao();
 	private CategoryService categoryService = new CategoryService();

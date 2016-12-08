@@ -21,7 +21,7 @@ public class Const {
     public static final String KEY_CHILDREN = "children";
     public static final String KEY_ICON = "icon";
     public static final String KEY_SELECTED = "selected";
-    public static final String COLUMN_USER_ID = "user_id";
+    public static final String KEY_USER_ID = "user_id";
     public static final String KEY_REQUEST_USER_ID = "request_user_id";
     public static final String KEY_TOKEN = "token";
     public static final String KEY_PLATFORM = "platform";
@@ -29,6 +29,8 @@ public class Const {
     public static final String COLUMN_AUTHORIZATION_ID = "authorization_id";
     public static final String KEY_URL = "url";
     public static final String KEY_ERROR = "error";
+    public static final String KEY_SUCCESS = "success";
+    public static final String KEY_FAILURE = "failure";
 
     public static final String CACHE_OPERATION = "cache_operation";
     public static final String CACHE_BRAND = "cache_brand";
@@ -42,6 +44,8 @@ public class Const {
     public static final String LINE_FEED = "; ";
 
     public static final String ORDER_NO_HEADER = "E";
+
+    public static final String ARRAY_EMPTY = "[\"\"]";
 
     public static final String UPLOAD_FILE = "upload";
     public static final String UPLOAD_NORMAL = "normal";

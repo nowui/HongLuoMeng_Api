@@ -13,12 +13,11 @@ import com.hongluomeng.dao.ProductDao;
 import com.hongluomeng.model.*;
 import com.hongluomeng.type.CatetoryEnum;
 
-public class ProductService {
+public class ProductService extends BaseService {
 
     private ProductDao productDao = new ProductDao();
     private CategoryService categoryService = new CategoryService();
     private BrandService brandService = new BrandService();
-    private BrandApplyService brandApplyService = new BrandApplyService();
     private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
     private CategoryAttributeValueService categoryAttributeValueService = new CategoryAttributeValueService();
     private MemberLevelService memberLevelService = new MemberLevelService();
@@ -277,6 +276,10 @@ public class ProductService {
 
         List<ProductLockStock> productLockStockList = productLockStockService.listByProductSkuIdList(productSkuIdList);
 
+        if(productLockStockList == null) {
+            productLockStockList = new ArrayList<ProductLockStock>();
+        }
+
         List<Map<String, Object>> productAllSkuList = new ArrayList<Map<String, Object>>();
         for (ProductSku productSku : productSkuList) {
             for (int i = 0; i < productSku.getProduct_attribute_value().size(); i++) {
@@ -364,7 +367,7 @@ public class ProductService {
         map.put(Product.COLUMN_PRODUCT_ALL_SKU_LIST, productAllSkuList);
         map.put(Product.COLUMN_PRODUCT_CONTENT, product.getProduct_content());
         map.put(Product.COLUMN_PRODUCT_PRICE, ps.getProduct_price());
-        map.put(Product.COLUMN_PRODUCT_IS_APPLY, checkIsApply(product.getBrand_id(), request_user_id));
+        map.put(Product.COLUMN_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
 
         List<Map<String, Object>> memberPriceList = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < ps.getMember_level_price().size(); i++) {
@@ -401,28 +404,12 @@ public class ProductService {
             map.put(Product.COLUMN_PRODUCT_NAME, product.getProduct_name());
             map.put(Product.COLUMN_PRODUCT_PRICE, product.getProduct_price());
             map.put(Product.COLUMN_PRODUCT_IMAGE, product.getProduct_image().get(0));
-            map.put(Product.COLUMN_PRODUCT_IS_APPLY, checkIsApply(product.getBrand_id(), request_user_id));
+            map.put(Product.COLUMN_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
 
             list.add(map);
         }
 
         return list;
-    }
-
-    public Boolean checkIsApply(String brand_id, String request_user_id) {
-        Boolean result = false;
-
-        List<BrandApply> brandApplyList = brandApplyService.listByUser_idFromCache(request_user_id);
-
-        for (BrandApply brandApply : brandApplyList) {
-            if (brandApply.getBrand_id().equals(brand_id)) {
-                result = true;
-
-                break;
-            }
-        }
-
-        return result;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.hongluomeng.model;
 
+import com.alibaba.fastjson.JSONArray;
 import com.hongluomeng.common.Utility;
 
 public class Topic extends Base<Topic> {
@@ -8,11 +9,9 @@ public class Topic extends Base<Topic> {
 
 	public static final String TABLE_TOPIC = "table_topic";
 	public static final String COLUMN_TOPIC_ID = "topic_id";
-	public static final String COLUMN_TOPIC_NAME = "topic_name";
-	public static final String COLUMN_TOPIC_URL = "topic_url";
+    public static final String COLUMN_USER_ID = "user_id";
+	public static final String COLUMN_TOPIC_TEXT = "topic_text";
 	public static final String COLUMN_TOPIC_IMAGE = "topic_image";
-	public static final String COLUMN_TOPIC_CONTENT = "topic_content";
-	public static final String COLUMN_TOPIC_SORT = "topic_sort";
 
 	public String getTopic_id() {
 		return getStr(COLUMN_TOPIC_ID);
@@ -23,67 +22,47 @@ public class Topic extends Base<Topic> {
 	}
 
 	public void checkTopic_id() {
-		Utility.checkStringLength(getTopic_id(), 32, "活动编号");
+		Utility.checkStringLength(getTopic_id(), 32, "话题编号");
 	}
 
-	public String getTopic_name() {
-		return getStr(COLUMN_TOPIC_NAME);
+    public String getUser_id() {
+        return getStr(COLUMN_USER_ID);
+    }
+
+    public void setUser_id(String user_id) {
+        set(COLUMN_USER_ID, user_id);
+    }
+
+    public void checkUser_id() {
+        Utility.checkStringLength(getUser_id(), 32, "用户编号");
+    }
+
+	public String getTopic_text() {
+		return getStr(COLUMN_TOPIC_TEXT);
 	}
 
-	public void setTopic_name(String topic_name) {
-		set(COLUMN_TOPIC_NAME, topic_name);
+	public void setTopic_text(String topic_text) {
+		set(COLUMN_TOPIC_TEXT, topic_text);
 	}
 
-	public void checkTopic_name() {
-		Utility.checkStringLength(getTopic_name(), 3, 20, "活动名称");
+	public void checkTopic_text() {
+		Utility.checkStringLength(getTopic_text(), 1, 255, "话题文字");
 	}
 
-	public String getTopic_url() {
-		return getStr(COLUMN_TOPIC_URL);
-	}
-
-	public void setTopic_url(String topic_url) {
-		set(COLUMN_TOPIC_URL, topic_url);
-	}
-
-	public void checkTopic_url() {
-		Utility.checkStringLength(getTopic_url(), 0, 100, "活动URL");
-	}
-
-	public String getTopic_image() {
-		return getStr(COLUMN_TOPIC_IMAGE);
+	public JSONArray getTopic_image() {
+		return JSONArray.parseArray(getStr(COLUMN_TOPIC_IMAGE));
 	}
 
 	public void setTopic_image(String brand_image) {
 		set(COLUMN_TOPIC_IMAGE, brand_image);
 	}
 
-	public void checkTopic_logo() {
-		Utility.checkStringLength(getTopic_image(), 0, 100, "品牌图片");
+	public void checkTopic_image() {
+		Utility.checkStringLength(getTopic_image().toJSONString(), 0, 1000, "话题图片");
 	}
 
-	public String getTopic_content() {
-		return getStr(COLUMN_TOPIC_CONTENT);
-	}
-
-	public void setTopic_content(String topic_content) {
-		set(COLUMN_TOPIC_CONTENT, topic_content);
-	}
-
-	public void checkTopic_content() {
-		Utility.checkStringLength(getTopic_content(), 0, 0, "活动内容");
-	}
-
-	public Integer getTopic_sort() {
-		return Utility.getIntegerValue(get(COLUMN_TOPIC_SORT));
-	}
-
-	public void setTopic_sort(Integer topic_sort) {
-		set(COLUMN_TOPIC_SORT, topic_sort);
-	}
-
-	public void checkTopic_sort() {
-		Utility.checkIntegerLength(getTopic_sort(), 1, 3, "活动排序");
-	}
+	public Member getMember() {
+        return new Member().put(this);
+    }
 
 }

@@ -1,7 +1,6 @@
 package com.hongluomeng.service;
 
 import com.hongluomeng.common.Private;
-import com.hongluomeng.model.Attribute;
 import com.hongluomeng.model.Authorization;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,13 +15,11 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.AuthorizationDao;
 
-public class AuthorizationService {
+public class AuthorizationService extends BaseService {
 
 	private AuthorizationDao authorizationDao = new AuthorizationDao();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Authorization authorizationMap = jsonObject.toJavaObject(Authorization.class);
-
 		Integer count = authorizationDao.count();
 
 		List<Authorization> authorizationList = authorizationDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
@@ -68,7 +65,7 @@ public class AuthorizationService {
 		authorizationParameter.setAuthorization_expire_time(exp);
 		authorizationDao.save(authorizationParameter);
 
-		String token = Jwts.builder().setIssuedAt(now).setExpiration(exp).claim(Const.COLUMN_AUTHORIZATION_ID, authorizationParameter.getAuthorization_id()).claim(Const.COLUMN_USER_ID, user_id).signWith(SignatureAlgorithm.HS512, key).compact();
+		String token = Jwts.builder().setIssuedAt(now).setExpiration(exp).claim(Const.COLUMN_AUTHORIZATION_ID, authorizationParameter.getAuthorization_id()).claim(Const.KEY_USER_ID, user_id).signWith(SignatureAlgorithm.HS512, key).compact();
 
 		authorizationParameter.setAuthorization_token(token);
 		authorizationDao.updateToken(authorizationParameter);

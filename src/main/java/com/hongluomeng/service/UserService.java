@@ -14,7 +14,7 @@ import com.hongluomeng.model.Operation;
 import com.hongluomeng.model.User;
 import com.hongluomeng.type.CatetoryEnum;
 
-public class UserService {
+public class UserService extends BaseService {
 
 	private UserDao userDao = new UserDao();
 	private CategoryService categoryService = new CategoryService();
@@ -118,7 +118,7 @@ public class UserService {
 	private boolean getMenuOperationChildrenList(String menu_id, List<Operation> operationList) {
 		for (Operation operation : operationList) {
 			if (operation.getMenu_id().equals(menu_id)) {
-				if (operation.getOperation_key().indexOf("_list") > -1 && !operation.getOperation_key().equals("upload_list")) {
+				if (operation.getOperation_key().contains("_list") && !operation.getOperation_key().equals("upload_list")) {
 					return true;
 				}
 			}

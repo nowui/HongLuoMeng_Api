@@ -1,7 +1,5 @@
 package com.hongluomeng.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -216,16 +214,7 @@ public class ProductController extends BaseController {
 
 	@ActionKey(Url.URL_PRODUCT_CATEGORY_LIST_GET)
 	public void getCategoryList() {
-		List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
-
-		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		for(Category category : categoryList) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(Category.COLUMN_CATEGORY_ID, category.getCategory_id());
-			map.put(Category.COLUMN_CATEGORY_NAME, category.getCategory_name());
-
-			resultList.add(map);
-		}
+		List<Map<String, Object>> resultList = categoryService.list(CatetoryEnum.PRODUCT.getKey());
 
 		renderJson(Utility.setSuccessResponse(resultList));
 	}

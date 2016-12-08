@@ -17,7 +17,7 @@ import com.hongluomeng.type.SmsEnum;
 import com.hongluomeng.type.UserEnum;
 import com.jfinal.upload.UploadFile;
 
-public class MemberService {
+public class MemberService extends BaseService {
 
 	private MemberDao memberDao = new MemberDao();
 	private UserService userService = new UserService();
@@ -27,8 +27,6 @@ public class MemberService {
 	private MemberLevelService memberLevelService = new MemberLevelService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Member memberMap = jsonObject.toJavaObject(Member.class);
-
 		Integer count = memberDao.count();
 
 		List<Member> memberList = memberDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));

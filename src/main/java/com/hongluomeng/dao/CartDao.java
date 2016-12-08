@@ -12,7 +12,7 @@ import com.hongluomeng.model.Cart;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.model.ProductSku;
 
-public class CartDao {
+public class CartDao extends BaseDao {
 
 	private Integer count(Cart cart) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

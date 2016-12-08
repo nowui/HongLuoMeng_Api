@@ -1,7 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.MyDynamicSQL;
@@ -11,7 +9,7 @@ import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.model.Product;
 import com.hongluomeng.type.BrandApplyReviewEnum;
 
-public class ProductDao {
+public class ProductDao extends BaseDao {
 
 	private Integer count(Product product) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -41,6 +39,8 @@ public class ProductDao {
 		myDynamicSQL.isNullOrEmpty("AND " + Product.COLUMN_PRODUCT_IS_HOT + " = ? ", product.getProduct_is_hot());
 		myDynamicSQL.append("ORDER BY " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
+
+        System.out.println(myDynamicSQL.sql.toString());
 
 		List<Product> productList = new Product().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 
@@ -99,7 +99,7 @@ public class ProductDao {
 
 		List<Product> productList = new Product().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 
-		if(productList == null) {
+		if(productList.size() == 0) {
 			return null;
 		} else {
 			return productList.get(0);

@@ -11,13 +11,11 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.MemberLevelDao;
 import com.hongluomeng.model.MemberLevel;
 
-public class MemberLevelService {
+public class MemberLevelService extends BaseService {
 
 	private MemberLevelDao memberLevelDao = new MemberLevelDao();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Member_level memberLevelMap = jsonObject.toJavaObject(Member_level.class);
-
 		Integer count = memberLevelDao.count();
 
 		List<MemberLevel> memberLevelList = memberLevelDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));

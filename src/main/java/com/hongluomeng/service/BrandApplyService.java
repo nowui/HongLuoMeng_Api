@@ -7,7 +7,7 @@ import com.hongluomeng.dao.BrandApplyDao;
 import com.hongluomeng.model.BrandApply;
 import com.hongluomeng.type.BrandApplyReviewEnum;
 
-public class BrandApplyService {
+public class BrandApplyService extends BaseService {
 
 	private BrandApplyDao brandApplyDao = new BrandApplyDao();
 	private BrandApplyCache brandApplyCache = new BrandApplyCache();
@@ -16,23 +16,19 @@ public class BrandApplyService {
 		return brandApplyDao.countByCategory_idAndUser_id(category_id, user_id);
 	}
 
-//	public Integer countByBrand_idAndUser_id(String brand_id, String user_id) {
-//		return brandApplyDao.countByBrand_idAndUser_id(brand_id, user_id);
-//	}
-
-//	public List<BrandApply> list(Integer m, Integer n) {
-//		return brandApplyDao.listByCategory_idAndUser_id("", "", m, n);
-//	}
-
-	public List<BrandApply> listByCategory_idAndUser_id(String category_id, String user_id, Integer m, Integer n) {
-		return brandApplyDao.listByCategory_idAndUser_id(category_id, user_id, m, n);
+	public List<BrandApply> list(Integer m, Integer n) {
+		return brandApplyDao.listByCategory_idAndUser_idAndBrand_apply_review_status("", "", "", m, n);
 	}
 
-	public List<BrandApply> listByUser_idFromCache(String user_id) {
+	public List<BrandApply> listByCategory_idAndUser_id(String category_id, String user_id, Integer m, Integer n) {
+		return brandApplyDao.listByCategory_idAndUser_idAndBrand_apply_review_status(category_id, user_id, BrandApplyReviewEnum.PASS.getKey(), m, n);
+	}
+
+	public List<BrandApply> listByUser_id(String user_id) {
 		List<BrandApply> brandApplyList = brandApplyCache.getBrandListByUser_id(user_id);
 
 		if (brandApplyList == null) {
-			brandApplyList = brandApplyDao.listByCategory_idAndUser_id("", user_id, 0, 0);
+			brandApplyList = brandApplyDao.listByCategory_idAndUser_idAndBrand_apply_review_status("", user_id, "", 0, 0);
 
 			brandApplyCache.setBrandApplyListByUser_id(brandApplyList, user_id);
 		}

@@ -3,6 +3,7 @@ package com.hongluomeng.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.alibaba.fastjson.JSONArray;
 
@@ -82,11 +83,15 @@ public class Product extends Base<Product> {
 	}
 
 	public void checkProduct_name() {
-		Utility.checkStringLength(getProduct_name(), 3, 255, "商品名称");
+		Utility.checkStringLength(getProduct_name(), 2, 255, "商品名称");
 	}
 
 	public JSONArray getProduct_image() {
-		return JSONArray.parseArray(getStr(COLUMN_PRODUCT_IMAGE));
+        if(Utility.isNull(getStr(COLUMN_PRODUCT_IMAGE))) {
+            return JSONArray.parseArray(Const.ARRAY_EMPTY);
+        } else {
+            return JSONArray.parseArray(getStr(COLUMN_PRODUCT_IMAGE));
+        }
 	}
 
 	public void setProduct_image(String product_image) {

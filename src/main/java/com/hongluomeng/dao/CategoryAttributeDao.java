@@ -7,7 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.hongluomeng.model.CategoryAttribute;
 import com.hongluomeng.model.Attribute;
 
-public class CategoryAttributeDao {
+public class CategoryAttributeDao extends BaseDao {
 
 	private List<CategoryAttribute> list(CategoryAttribute categoryAttribute) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

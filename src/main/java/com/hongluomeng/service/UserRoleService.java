@@ -6,7 +6,7 @@ import com.hongluomeng.cache.OperationCache;
 import com.hongluomeng.dao.UserRoleDao;
 import com.hongluomeng.model.UserRole;
 
-public class UserRoleService {
+public class UserRoleService extends BaseService {
 
 	private UserRoleDao userRoleDao = new UserRoleDao();
 	private OperationCache operationCache = new OperationCache();

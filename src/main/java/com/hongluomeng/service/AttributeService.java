@@ -11,15 +11,13 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.AttributeDao;
 import com.hongluomeng.model.Attribute;
 
-public class AttributeService {
+public class AttributeService extends BaseService {
 
 	private AttributeDao attributeDao = new AttributeDao();
 	private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
 	private CategoryAttributeValueService categoryAttributeValueService = new CategoryAttributeValueService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		//Attribute attributeMap = jsonObject.toJavaObject(Attribute.class);
-
 		Integer count = attributeDao.count();
 
 		List<Attribute> attributeList = attributeDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));

@@ -1,7 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.hongluomeng.common.MyDynamicSQL;
@@ -13,7 +11,7 @@ import com.hongluomeng.model.RoleOperation;
 import com.hongluomeng.model.User;
 import com.hongluomeng.model.UserRole;
 
-public class OperationDao {
+public class OperationDao extends BaseDao {
 
     private Integer count(Operation operation) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

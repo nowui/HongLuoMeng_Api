@@ -10,7 +10,7 @@ import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.LogDao;
 import com.hongluomeng.model.Log;
 
-public class LogService {
+public class LogService extends BaseService {
 
 	private LogDao logDao = new LogDao();
 

@@ -58,7 +58,7 @@ public class Activity extends Base<Activity> {
 		set(COLUMN_ACTIVITY_IMAGE, brand_image);
 	}
 
-	public void checkActivity_logo() {
+	public void checkActivity_image() {
 		Utility.checkStringLength(getActivity_image(), 0, 100, "品牌图片");
 	}
 

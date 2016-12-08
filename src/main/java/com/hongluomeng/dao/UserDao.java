@@ -1,6 +1,5 @@
 package com.hongluomeng.dao;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,11 +7,10 @@ import com.hongluomeng.common.MyDynamicSQL;
 import com.hongluomeng.common.Private;
 import com.jfinal.kit.HashKit;
 import com.jfinal.plugin.activerecord.Db;
-import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.model.User;
 
-public class UserDao {
+public class UserDao extends BaseDao {
 
 	private Integer count(User user) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

@@ -5,7 +5,7 @@ import java.util.List;
 import com.hongluomeng.dao.ProductLockStockDao;
 import com.hongluomeng.model.ProductLockStock;
 
-public class ProductLockStockService {
+public class ProductLockStockService extends BaseService {
 
 	private ProductLockStockDao productLockStockDao = new ProductLockStockDao();
 
