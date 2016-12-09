@@ -285,18 +285,9 @@ public class MemberService extends BaseService {
 		resultMap.put(Member.COLUMN_MEMBER_LEVEL_NAME, member.getMember_level_name());
 		resultMap.put(Member.COLUMN_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
 		resultMap.put(Member.COLUMN_MEMBER_STATUS, member.getMember_status());
-
-		if (Utility.isNullOrEmpty(member.getMember_avatar())) {
-			resultMap.put(Member.COLUMN_MEMBER_AVATAR, "");
-			resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, "");
-			resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, "");
-		} else {
-			//JSONObject avatarObject = JSONObject.parseObject(member.getMember_avatar());
-
-			resultMap.put(Member.COLUMN_MEMBER_AVATAR, member.getMember_avatar().getString(Const.UPLOAD_NORMAL));
-			resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, member.getMember_avatar().getString(Const.UPLOAD_SMALL));
-			resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, member.getMember_avatar().getString(Const.UPLOAD_LARGE));
-		}
+        resultMap.put(Member.COLUMN_MEMBER_AVATAR, member.getMember_avatar_normal());
+        resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, member.getMember_avatar_small());
+        resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, member.getMember_avatar_large());
 
 		return resultMap;
 	}

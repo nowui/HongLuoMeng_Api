@@ -13,7 +13,7 @@ public class TopicLike extends Base<TopicLike> {
 	public static final String COLUMN_TOPIC_ID = "topic_id";
     public static final String COLUMN_USER_ID = "user_id";
 
-	private List<String> orderIdList;
+    private List<String> topicIdList;
 
 	public String gettTopic_like_id() {
 		return getStr(COLUMN_TOPIC_LIKE_ID);
@@ -49,5 +49,17 @@ public class TopicLike extends Base<TopicLike> {
 
     public void checkUser_id() {
         Utility.checkStringLength(getUser_id(), 32, "用户编号");
+    }
+
+    public List<String> getTopicIdList() {
+        return topicIdList;
+    }
+
+    public void setTopicIdList(List<String> topicIdList) {
+        this.topicIdList = topicIdList;
+    }
+
+    public Member getMember() {
+        return new Member().put(this);
     }
 }

@@ -49,7 +49,7 @@ public class CartDao extends BaseDao {
 				String product_sku_id = cart.getProductSkuIdList().get(i);
 
 				if(i == 0) {
-					myDynamicSQL.append("AND(");
+					myDynamicSQL.append("AND (");
 				} else {
 					myDynamicSQL.append("OR ");
 				}

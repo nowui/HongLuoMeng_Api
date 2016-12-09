@@ -38,7 +38,7 @@ public class OrderProductDao extends BaseDao {
 				String order_id = orderProduct.getOrderIdList().get(i);
 
 				if(i == 0) {
-					myDynamicSQL.append("AND(");
+					myDynamicSQL.append("AND (");
 				} else {
 					myDynamicSQL.append("OR ");
 				}

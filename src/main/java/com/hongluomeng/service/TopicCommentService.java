@@ -10,10 +10,12 @@ public class TopicCommentService extends BaseService {
 	private TopicCommentDao topicCommentDao = new TopicCommentDao();
 
 	public List<TopicComment> listByTopic_id(String topic_id) {
-		List<TopicComment> topicCommentList = topicCommentDao.listByTopic_id(topic_id);
-
-		return topicCommentList;
+        return topicCommentDao.listByTopic_id(topic_id);
 	}
+
+    public List<TopicComment> listByTopicIdList(List<String> topicIdList) {
+        return topicCommentDao.listByTopicIdList(topicIdList);
+    }
 
     public void save(TopicComment topicComment, String request_user_id) {
         topicCommentDao.save(topicComment, request_user_id);

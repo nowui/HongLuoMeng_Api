@@ -45,7 +45,7 @@ public class Const {
 
     public static final String ORDER_NO_HEADER = "E";
 
-    public static final String ARRAY_EMPTY = "[\"\"]";
+    public static final String ARRAY_EMPTY = "[]";
 
     public static final String UPLOAD_FILE = "upload";
     public static final String UPLOAD_NORMAL = "normal";

@@ -87,7 +87,7 @@ public class Product extends Base<Product> {
 	}
 
 	public JSONArray getProduct_image() {
-        if(Utility.isNull(getStr(COLUMN_PRODUCT_IMAGE))) {
+        if(Utility.isNullOrEmpty(getStr(COLUMN_PRODUCT_IMAGE))) {
             return JSONArray.parseArray(Const.ARRAY_EMPTY);
         } else {
             return JSONArray.parseArray(getStr(COLUMN_PRODUCT_IMAGE));

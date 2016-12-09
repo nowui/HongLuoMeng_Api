@@ -57,6 +57,9 @@ public class ProductService extends BaseService {
         Product product;
 
         List<Category> categoryList = categoryService.listByCategory_key(CatetoryEnum.PRODUCT.getKey());
+        for(Category category : categoryList) {
+            category.keep(Category.COLUMN_CATEGORY_ID, Category.COLUMN_CATEGORY_NAME);
+        }
 
         List<Brand> brandList = brandService.listAll();
 
@@ -82,6 +85,10 @@ public class ProductService extends BaseService {
             product.setCategoryAttributeValueList(categoryAttributeValueList);
 
             productSkuList = productSkuService.listByProduct_id(productMap.getProduct_id());
+        }
+
+        for(ProductSku productSku : productSkuList) {
+            productSku.keep(ProductSku.COLUMN_PRODUCT_PRICE, ProductSku.COLUMN_PRODUCT_STOCK, ProductSku.COLUMN_PRODUCT_ATTRIBUTE_VALUE, ProductSku.COLUMN_MEMBER_LEVEL_PRICE);
         }
 
         product.setCategoryList(categoryList);

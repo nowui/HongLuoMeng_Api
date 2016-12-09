@@ -29,7 +29,11 @@ public class TopicDao extends BaseDao {
 
 	private List<Topic> list(Topic topic, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT " + Topic.TABLE_TOPIC + ".*, " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + " FROM " + Topic.TABLE_TOPIC + " ");
+        myDynamicSQL.append("SELECT " + Topic.TABLE_TOPIC + ".*, ");
+        myDynamicSQL.append(Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_ID + ", ");
+        myDynamicSQL.append(Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + ", ");
+        myDynamicSQL.append(Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_AVATAR + " ");
+        myDynamicSQL.append("FROM " + Topic.TABLE_TOPIC + " ");
         myDynamicSQL.append("LEFT JOIN " + Member.TABLE_MEMBER + " ON " + Member.TABLE_MEMBER + "." + Member.COLUMN_USER_ID + " = " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_USER_ID + " ");
 		myDynamicSQL.append("WHERE " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_STATUS + " = 1 ");
 		myDynamicSQL.append("ORDER BY " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_CREATE_TIME + " DESC ");

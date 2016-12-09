@@ -103,6 +103,8 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_product_lock_stock", "product_lock_stock_id", ProductLockStock.class);
         activeRecordPlugin.addMapping("table_activity", "activity_id", Activity.class);
         activeRecordPlugin.addMapping("table_topic", "topic_id", Topic.class);
+        activeRecordPlugin.addMapping("table_topic_comment", "topic_comment_id", TopicComment.class);
+        activeRecordPlugin.addMapping("table_topic_like", "topic_like_id", TopicLike.class);
         plugins.add(activeRecordPlugin);
     }
 

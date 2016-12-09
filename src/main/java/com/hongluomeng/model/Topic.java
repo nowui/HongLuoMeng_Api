@@ -1,7 +1,10 @@
 package com.hongluomeng.model;
 
 import com.alibaba.fastjson.JSONArray;
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
+
+import java.util.List;
 
 public class Topic extends Base<Topic> {
 
@@ -11,7 +14,12 @@ public class Topic extends Base<Topic> {
 	public static final String COLUMN_TOPIC_ID = "topic_id";
     public static final String COLUMN_USER_ID = "user_id";
 	public static final String COLUMN_TOPIC_TEXT = "topic_text";
-	public static final String COLUMN_TOPIC_IMAGE = "topic_image";
+    public static final String COLUMN_TOPIC_IMAGE = "topic_image";
+    public static final String COLUMN_TOPIC_LIKE_LIST = "topic_like_list";
+    public static final String COLUMN_TOPIC_COMMENT_LIST = "topic_comment_list";
+
+    private List<TopicLike> topicLikeList;
+    private List<TopicComment> topicCommentList;
 
 	public String getTopic_id() {
 		return getStr(COLUMN_TOPIC_ID);
@@ -50,7 +58,11 @@ public class Topic extends Base<Topic> {
 	}
 
 	public JSONArray getTopic_image() {
-		return JSONArray.parseArray(getStr(COLUMN_TOPIC_IMAGE));
+        if(Utility.isNullOrEmpty(getStr(COLUMN_TOPIC_IMAGE))) {
+            return JSONArray.parseArray(Const.ARRAY_EMPTY);
+        } else {
+            return JSONArray.parseArray(getStr(COLUMN_TOPIC_IMAGE));
+        }
 	}
 
 	public void setTopic_image(String brand_image) {
@@ -63,6 +75,22 @@ public class Topic extends Base<Topic> {
 
 	public Member getMember() {
         return new Member().put(this);
+    }
+
+    public List<TopicLike> getTopicLikeList() {
+        return topicLikeList;
+    }
+
+    public void setTopicLikeList(List<TopicLike> topicLikeList) {
+        this.topicLikeList = topicLikeList;
+    }
+
+    public List<TopicComment> getTopicCommentList() {
+        return topicCommentList;
+    }
+
+    public void setTopicCommentList(List<TopicComment> topicCommentList) {
+        this.topicCommentList = topicCommentList;
     }
 
 }

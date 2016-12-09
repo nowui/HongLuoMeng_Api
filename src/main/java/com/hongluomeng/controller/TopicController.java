@@ -84,6 +84,10 @@ public class TopicController extends BaseController {
     public void saveLike() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
+        TopicLike topicLikeValidator = jsonObject.toJavaObject(TopicLike.class);
+
+        topicLikeValidator.checkTopic_id();
+
         topicService.saveLike(jsonObject);
 
         renderJson(Utility.setSuccessResponse());
@@ -105,6 +109,12 @@ public class TopicController extends BaseController {
     @ActionKey(Url.URL_TOPIC_COMMENT_SAVE)
     public void saveComment() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        TopicComment topicCommentValidator = jsonObject.toJavaObject(TopicComment.class);
+
+        topicCommentValidator.checkTopic_id();
+        topicCommentValidator.checkTopic_comment_reply_to_member_id();
+        topicCommentValidator.checkTopic_comment_text();
 
         topicService.saveComment(jsonObject);
 

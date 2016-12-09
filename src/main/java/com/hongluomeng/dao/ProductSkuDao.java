@@ -38,11 +38,11 @@ public class ProductSkuDao extends BaseDao {
 		myDynamicSQL.append("SELECT * FROM " + ProductSku.TABLE_PRODUCT_SKU + " ");
 		myDynamicSQL.append("WHERE " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_STATUS + " = 1 ");
 		myDynamicSQL.isNullOrEmpty("AND " + ProductSku.COLUMN_PRODUCT_ID + " = ? ", productSku.getProduct_id());
-		if (! Utility.isNullOrEmpty(productSku.getProductSkuIdList())) {
-			for(String product_sku_id : productSku.getProductSkuIdList()) {
-				myDynamicSQL.append("AND " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", product_sku_id);
-			}
-		}
+//		if (! Utility.isNullOrEmpty(productSku.getProductSkuIdList())) {
+//			for(String product_sku_id : productSku.getProductSkuIdList()) {
+//				myDynamicSQL.append("AND " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_PRODUCT_SKU_ID + " = ? ", product_sku_id);
+//			}
+//		}
 		myDynamicSQL.append("ORDER BY " + ProductSku.TABLE_PRODUCT_SKU + "." + ProductSku.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
@@ -82,7 +82,7 @@ public class ProductSkuDao extends BaseDao {
 				String product_sku_id = productSkuIdList.get(i);
 
 				if(i == 0) {
-					myDynamicSQL.append("AND(");
+					myDynamicSQL.append("AND (");
 				} else {
 					myDynamicSQL.append("OR ");
 				}

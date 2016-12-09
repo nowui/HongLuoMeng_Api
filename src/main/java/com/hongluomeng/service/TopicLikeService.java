@@ -10,10 +10,12 @@ public class TopicLikeService extends BaseService {
 	private TopicLikeDao topicLikeDao = new TopicLikeDao();
 
 	public List<TopicLike> listByTopic_id(String topic_id) {
-		List<TopicLike> topicLikeList = topicLikeDao.listByTopic_id(topic_id);
-
-		return topicLikeList;
+        return topicLikeDao.listByTopic_id(topic_id);
 	}
+
+    public List<TopicLike> listByTopicIdList(List<String> topicIdList) {
+        return topicLikeDao.listByTopicIdList(topicIdList);
+    }
 
     public void save(TopicLike topicLike, String request_user_id) {
         topicLikeDao.save(topicLike, request_user_id);

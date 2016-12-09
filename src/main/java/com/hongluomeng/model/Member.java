@@ -2,6 +2,7 @@ package com.hongluomeng.model;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 
 public class Member extends Base<Member> {
@@ -82,13 +83,33 @@ public class Member extends Base<Member> {
 		Utility.checkStringLength(getMember_name(), 3, 20, "会员名称");
 	}
 
-//	public String getMember_avatar() {
-//		return getStr(COLUMN_MEMBER_AVATAR);
-//	}
-
 	public JSONObject getMember_avatar() {
 		return JSONObject.parseObject(getStr(COLUMN_MEMBER_AVATAR));
 	}
+
+    public String getMember_avatar_normal() {
+        if(Utility.isNull(getMember_avatar())) {
+            return "";
+        } else {
+            return getMember_avatar().getString(Const.UPLOAD_NORMAL);
+        }
+    }
+
+    public String getMember_avatar_small() {
+        if(Utility.isNull(getMember_avatar())) {
+            return "";
+        } else {
+            return getMember_avatar().getString(Const.UPLOAD_SMALL);
+        }
+    }
+
+    public String getMember_avatar_large() {
+        if(Utility.isNull(getMember_avatar())) {
+            return "";
+        } else {
+            return getMember_avatar().getString(Const.UPLOAD_LARGE);
+        }
+    }
 
 	public void setMember_avatar(String member_avatar) {
 		set(COLUMN_MEMBER_AVATAR, member_avatar);
