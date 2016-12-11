@@ -170,6 +170,32 @@ public class TopicService extends BaseService {
         topicLikeService.delete(topicLikeMap.gettTopic_like_id(), request_user_id);
     }
 
+    public Map<String, Object> getCommentList(JSONObject jsonObject) {
+        Topic topicMap = jsonObject.toJavaObject(Topic.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        Integer count = topicCommentService.count();
+
+        List<TopicComment> topicCommentList = topicCommentService.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        for (TopicComment topicComment : topicCommentList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(TopicComment.COLUMN_TOPIC_COMMENT_ID, topicComment.gettTopic_comment_id());
+            map.put(Member.COLUMN_MEMBER_NAME, topicComment.getMember().getMember_name());
+            map.put(TopicComment.COLUMN_TOPIC_COMMENT_TEXT, topicComment.getTopic_comment_text());
+            map.put(TopicComment.COLUMN_SYSTEM_CREATE_TIME, topicComment.getSystem_create_time());
+
+            list.add(map);
+        }
+
+        Map<String, Object> resultMap = Utility.setResultMap(count, list);
+
+        return resultMap;
+    }
+
     public void saveComment(JSONObject jsonObject) {
         TopicComment topicCommentMap = jsonObject.toJavaObject(TopicComment.class);
 

@@ -36,7 +36,8 @@ public class MemberService extends BaseService {
 		for (Member member : memberList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(Member.COLUMN_MEMBER_ID, member.getMember_id());
-			map.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
+            map.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
+            map.put(Member.COLUMN_MEMBER_REAL_NAME, member.getMember_real_name());
 			map.put(Member.COLUMN_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());
 			map.put(Member.COLUMN_MEMBER_STATUS, member.getMember_status());
 

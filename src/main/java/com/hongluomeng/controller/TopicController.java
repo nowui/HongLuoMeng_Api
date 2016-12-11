@@ -106,6 +106,17 @@ public class TopicController extends BaseController {
         renderJson(Utility.setSuccessResponse());
     }
 
+    @ActionKey(Url.URL_TOPIC_COMMENT_LIST)
+    public void getCommentList() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Utility.checkPageAndLimit(jsonObject);
+
+        Map<String, Object> resultMap = topicService.getCommentList(jsonObject);
+
+        renderJson(Utility.setSuccessResponse(resultMap));
+    }
+
     @ActionKey(Url.URL_TOPIC_COMMENT_SAVE)
     public void saveComment() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);

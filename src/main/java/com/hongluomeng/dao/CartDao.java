@@ -18,7 +18,7 @@ public class CartDao extends BaseDao {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
 		myDynamicSQL.append("SELECT COUNT(*) FROM " + Cart.TABLE_CART + " ");
-		myDynamicSQL.append("" + Cart.TABLE_CART + "." + Cart.COLUMN_SYSTEM_STATUS + " = 1 ");
+		myDynamicSQL.append("WHERE " + Cart.TABLE_CART + "." + Cart.COLUMN_SYSTEM_STATUS + " = 1 ");
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();

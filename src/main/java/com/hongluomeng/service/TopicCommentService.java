@@ -9,9 +9,17 @@ public class TopicCommentService extends BaseService {
 
 	private TopicCommentDao topicCommentDao = new TopicCommentDao();
 
-	public List<TopicComment> listByTopic_id(String topic_id) {
+    public Integer count() {
+        return topicCommentDao.count();
+    }
+
+    public List<TopicComment> list(Integer m, Integer n) {
+        return topicCommentDao.list(m, n);
+    }
+
+    public List<TopicComment> listByTopic_id(String topic_id) {
         return topicCommentDao.listByTopic_id(topic_id);
-	}
+    }
 
     public List<TopicComment> listByTopicIdList(List<String> topicIdList) {
         return topicCommentDao.listByTopicIdList(topicIdList);

@@ -177,6 +177,7 @@ public class Url {
     public static final String URL_TOPIC_LIST_GET = "/topic/list/get";
     public static final String URL_TOPIC_LIEK_SAVE = "/topic/like/save";
     public static final String URL_TOPIC_LIEK_DELETE = "/topic/like/delete";
+    public static final String URL_TOPIC_COMMENT_LIST = "/topic/comment/list";
     public static final String URL_TOPIC_COMMENT_SAVE = "/topic/comment/save";
     public static final String URL_TOPIC_COMMENT_DELETE = "/topic/comment/delete";
 

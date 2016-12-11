@@ -12,6 +12,22 @@ import com.hongluomeng.model.TopicComment;
 
 public class TopicCommentDao extends BaseDao {
 
+    private Integer count(TopicComment topicComment) {
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+
+        myDynamicSQL.append("SELECT COUNT(*) FROM " + TopicComment.TABLE_TOPIC_COMMENT + " ");
+        myDynamicSQL.append("WHERE " + TopicComment.TABLE_TOPIC_COMMENT + "." + TopicComment.COLUMN_SYSTEM_STATUS + " = 1 ");
+
+        Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
+        return count.intValue();
+    }
+
+    public Integer count() {
+        TopicComment topicComment = new TopicComment();
+
+        return count(topicComment);
+    }
+
 	private List<TopicComment> list(TopicComment topicComment, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
@@ -46,6 +62,11 @@ public class TopicCommentDao extends BaseDao {
 
 		return new TopicComment().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
+
+    public List<TopicComment> list(Integer m, Integer n) {
+        TopicComment topicComment = new TopicComment();
+        return list(topicComment, 0, 0);
+    }
 
     public List<TopicComment> listByTopic_id(String topic_id) {
         TopicComment topicComment = new TopicComment();
