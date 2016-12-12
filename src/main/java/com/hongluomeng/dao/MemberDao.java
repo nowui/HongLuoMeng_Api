@@ -141,7 +141,7 @@ public class MemberDao extends BaseDao {
 	public Member updateMember_avatarByUser_id(String member_avatar, String user_id, Boolean isOverwrite) {
 		Member member = findByUser_id(user_id);
 
-		if (Utility.isNullOrEmpty(member.getMember_avatar()) || isOverwrite) {
+		if (Utility.isNullOrEmpty(member.get(Member.COLUMN_MEMBER_AVATAR)) || isOverwrite) {
 			member.setMember_avatar(member_avatar);
 
 			member.initForUpdate(user_id);

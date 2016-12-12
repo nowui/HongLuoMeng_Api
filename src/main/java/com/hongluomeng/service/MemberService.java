@@ -196,7 +196,7 @@ public class MemberService extends BaseService {
 
 		String user_id = userService.saveWechat(userMap.getWechat_uid(), userMap.getWechat_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
 
-		Member memberMap;
+		Member memberMap = jsonObject.toJavaObject(Member.class);
 
 		if (Utility.isNullOrEmpty(user_id)) {
 			User user = userService.findByWechat_uid(userMap.getWechat_uid());
@@ -206,7 +206,6 @@ public class MemberService extends BaseService {
 			//更新会员头像并且返回会员信息
 			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user_id, false);
 		} else {
-			memberMap = jsonObject.toJavaObject(Member.class);
 			memberMap.setUser_id(user_id);
 
 			memberMap.setMember_avatar(packageAvatar(jsonObject));

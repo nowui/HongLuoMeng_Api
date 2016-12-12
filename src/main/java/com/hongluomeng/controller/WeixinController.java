@@ -33,7 +33,7 @@ public class WeixinController extends MsgController {
             String sms_code = smsService.saveForWeixin();
 
             OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-            outMsg.setContent(sms_code);
+            outMsg.setContent("验证码: " + sms_code);
 
             render(outMsg);
         }

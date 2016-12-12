@@ -11,6 +11,7 @@ import com.hongluomeng.common.Const;
 import com.hongluomeng.common.Utility;
 import com.hongluomeng.dao.ProductDao;
 import com.hongluomeng.model.*;
+import com.hongluomeng.type.BrandApplyReviewEnum;
 import com.hongluomeng.type.CatetoryEnum;
 
 public class ProductService extends BaseService {
@@ -18,6 +19,7 @@ public class ProductService extends BaseService {
     private ProductDao productDao = new ProductDao();
     private CategoryService categoryService = new CategoryService();
     private BrandService brandService = new BrandService();
+    private BrandApplyService brandApplyService = new BrandApplyService();
     private CategoryAttributeService categoryAttributeService = new CategoryAttributeService();
     private CategoryAttributeValueService categoryAttributeValueService = new CategoryAttributeValueService();
     private MemberLevelService memberLevelService = new MemberLevelService();
@@ -375,6 +377,21 @@ public class ProductService extends BaseService {
         map.put(Product.COLUMN_PRODUCT_CONTENT, product.getProduct_content());
         map.put(Product.COLUMN_PRODUCT_PRICE, ps.getProduct_price());
         map.put(Product.COLUMN_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
+
+        Brand brand = brandService.findByBrand_id(product.getBrand_id());
+        map.put(Brand.COLUMN_BRAND_ID, brand.getBrand_id());
+        map.put(Brand.COLUMN_BRAND_NAME, brand.getBrand_name());
+        map.put(Brand.COLUMN_BRAND_LOGO, brand.getBrand_logo());
+        map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, BrandApplyReviewEnum.NONE.getKey());
+
+        List<BrandApply> brandApplyList = brandApplyService.listByUser_id(request_user_id);
+        for(BrandApply brandApply : brandApplyList) {
+            if(brandApply.getBrand_id().equals(brand.getBrand_id())) {
+                map.put(BrandApply.COLUMN_BRAND_APPLY_REVIEW_STATUS, brandApply.getBrand_apply_review_status());
+
+                break;
+            }
+        }
 
         List<Map<String, Object>> memberPriceList = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < ps.getMember_level_price().size(); i++) {

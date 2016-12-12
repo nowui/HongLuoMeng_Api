@@ -48,11 +48,9 @@ public class BrandService extends BaseService {
 	public List<Map<String, Object>> getList(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);
 
-		String category_id = "";
-
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<Brand> brandList = brandDao.listByCategory_id(category_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Brand> brandList = brandDao.listByCategory_id(brandMap.getCategory_id(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<BrandApply> brandApplyList = brandApplyService.listByUser_id(request_user_id);
 
@@ -125,6 +123,10 @@ public class BrandService extends BaseService {
 
 		return brand;
 	}
+
+    public Brand findByBrand_id(String brand_id) {
+        return brandDao.findByBrand_id(brand_id);
+    }
 
 	public Map<String, Object> get(JSONObject jsonObject) {
 		Brand brandMap = jsonObject.toJavaObject(Brand.class);

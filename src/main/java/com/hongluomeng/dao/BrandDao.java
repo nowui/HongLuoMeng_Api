@@ -33,7 +33,7 @@ public class BrandDao extends BaseDao {
 		myDynamicSQL.append("SELECT " + Brand.TABLE_BRAND + ".*, " + Category.TABLE_CATEGORY + "." + Category.COLUMN_CATEGORY_NAME + " FROM " + Brand.TABLE_BRAND + " ");
 		myDynamicSQL.append("LEFT JOIN " + Category.TABLE_CATEGORY + " ON " + Category.TABLE_CATEGORY + "." + Category.COLUMN_CATEGORY_ID + " = " + Brand.TABLE_BRAND + "." + Brand.COLUMN_CATEGORY_ID + " ");
 		myDynamicSQL.append("WHERE " + Brand.TABLE_BRAND + "." + Brand.COLUMN_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Brand.COLUMN_CATEGORY_ID + " = ? ", brand.getCategory_id());
+		myDynamicSQL.isNullOrEmpty("AND " + Brand.TABLE_BRAND + "." + Brand.COLUMN_CATEGORY_ID + " = ? ", brand.getCategory_id());
 		myDynamicSQL.append("ORDER BY " + Brand.TABLE_BRAND + "." + Brand.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 

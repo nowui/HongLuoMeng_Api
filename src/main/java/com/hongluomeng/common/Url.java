@@ -181,4 +181,12 @@ public class Url {
     public static final String URL_TOPIC_COMMENT_SAVE = "/topic/comment/save";
     public static final String URL_TOPIC_COMMENT_DELETE = "/topic/comment/delete";
 
+    public static final String URL_PAGE_LIST = "/page/list";
+    public static final String URL_PAGE_FIND = "/page/find";
+    public static final String URL_PAGE_SAVE = "/page/save";
+    public static final String URL_PAGE_UPDATE = "/page/update";
+    public static final String URL_PAGE_DELETE = "/page/delete";
+    public static final String URL_PAGE_LIST_GET = "/page/list/get";
+    public static final String URL_PAGE_GET = "/page/get";
+
 }
