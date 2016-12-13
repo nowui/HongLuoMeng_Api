@@ -83,7 +83,7 @@ public class MemberService extends BaseService {
 
 			Member member = memberDao.findByUser_id(user_id);
 
-			Map<String, Object> resultMap = packageResultMap(token, member);
+			Map<String, Object> resultMap = packageResultMap(token, member, user);
 
 			return resultMap;
 		}
@@ -104,22 +104,22 @@ public class MemberService extends BaseService {
 			throw new RuntimeException("验证码已经过期");
 		}
 
-		String user_id = userService.saveByPhone(userMap.getUser_phone(), userMap.getUser_password(), UserEnum.MEMBER.getKey(), request_user_id);
+		User user = userService.saveByPhone(userMap.getUser_phone(), userMap.getUser_password(), UserEnum.MEMBER.getKey(), request_user_id);
 
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 		memberMap.setMember_name(userMap.getUser_phone());
 		memberMap.setMember_avatar("");
-		memberMap.setUser_id(user_id);
+		memberMap.setUser_id(user.getUser_id());
 
 		memberDao.save(memberMap, request_user_id);
 
-		userService.updateObject_idByUser_id(memberMap.getMember_id(), user_id);
+		userService.updateObject_idByUser_id(memberMap.getMember_id(), user.getUser_id());
 
 		smsService.updateSms_statusBySms_phone(sms_type, userMap.getUser_phone(), sms.getSms_code());
 
-		String token = authorizationService.saveByUser_id(user_id);
+		String token = authorizationService.saveByUser_id(user.getUser_id());
 
-		Map<String, Object> resultMap = packageResultMap(token, memberMap);
+		Map<String, Object> resultMap = packageResultMap(token, memberMap, user);
 
 		return resultMap;
 	}
@@ -157,34 +157,32 @@ public class MemberService extends BaseService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		String user_id = userService.saveWeibo(userMap.getWeibo_uid(), userMap.getWeibo_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
+		User user = userService.saveWeibo(userMap.getWeibo_uid(), userMap.getWeibo_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
 
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		if (Utility.isNullOrEmpty(user_id)) {
-			User user = userService.findByWeibo_uid(userMap.getWeibo_uid());
-
-			user_id = user.getUser_id();
+		if (user == null) {
+			user = userService.findByWeibo_uid(userMap.getWeibo_uid());
 
 			String member_level_id = checkMemberLevel(memberMap.getMember_weibo_fans());
 
-			memberDao.updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(member_level_id, memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), user_id);
+			memberDao.updateMember_Levle_idAndMember_weibo_fansAndMember_weibo_friend(member_level_id, memberMap.getMember_weibo_fans(), memberMap.getMember_weibo_friend(), user.getUser_id());
 
 			//更新会员头像并且返回会员信息
-			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user_id, false);
+			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user.getUser_id(), false);
 		} else {
-			memberMap.setUser_id(user_id);
+			memberMap.setUser_id(user.getUser_id());
 
 			memberMap.setMember_avatar(packageAvatar(jsonObject));
 
 			memberDao.save(memberMap, request_user_id);
 
-			userService.updateObject_idByUser_id(memberMap.getMember_id(), user_id);
+			userService.updateObject_idByUser_id(memberMap.getMember_id(), user.getUser_id());
 		}
 
-		String token = authorizationService.saveByUser_id(user_id);
+		String token = authorizationService.saveByUser_id(user.getUser_id());
 
-		Map<String, Object> resultMap = packageResultMap(token, memberMap);
+		Map<String, Object> resultMap = packageResultMap(token, memberMap, user);
 
 		return resultMap;
 	}
@@ -194,30 +192,28 @@ public class MemberService extends BaseService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		String user_id = userService.saveWechat(userMap.getWechat_uid(), userMap.getWechat_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
+        User user = userService.saveWechat(userMap.getWechat_uid(), userMap.getWechat_access_token(), UserEnum.MEMBER.getKey(), request_user_id);
 
 		Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		if (Utility.isNullOrEmpty(user_id)) {
-			User user = userService.findByWechat_uid(userMap.getWechat_uid());
-
-			user_id = user.getUser_id();
+        if (user == null) {
+			user = userService.findByWechat_uid(userMap.getWechat_uid());
 
 			//更新会员头像并且返回会员信息
-			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user_id, false);
+			memberMap = memberDao.updateMember_avatarByUser_id(packageAvatar(jsonObject), user.getUser_id(), false);
 		} else {
-			memberMap.setUser_id(user_id);
+			memberMap.setUser_id(user.getUser_id());
 
 			memberMap.setMember_avatar(packageAvatar(jsonObject));
 
 			memberDao.save(memberMap, request_user_id);
 
-			userService.updateObject_idByUser_id(memberMap.getMember_id(), user_id);
+			userService.updateObject_idByUser_id(memberMap.getMember_id(), user.getUser_id());
 		}
 
-		String token = authorizationService.saveByUser_id(user_id);
+		String token = authorizationService.saveByUser_id(user.getUser_id());
 
-		Map<String, Object> resultMap = packageResultMap(token, memberMap);
+		Map<String, Object> resultMap = packageResultMap(token, memberMap, user);
 
 		return resultMap;
 	}
@@ -276,7 +272,7 @@ public class MemberService extends BaseService {
 		return avatarObject.toJSONString();
 	}
 
-	private Map<String, Object> packageResultMap(String token, Member member) {
+	private Map<String, Object> packageResultMap(String token, Member member, User user) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
 		resultMap.put(Const.KEY_TOKEN, token);
@@ -288,6 +284,7 @@ public class MemberService extends BaseService {
         resultMap.put(Member.COLUMN_MEMBER_AVATAR, member.getMember_avatar_normal());
         resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, member.getMember_avatar_small());
         resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, member.getMember_avatar_large());
+        resultMap.put(User.KEY_IS_HAVE_WEIBO, Utility.isNullOrEmpty(user.getWeibo_uid()));
 
 		return resultMap;
 	}

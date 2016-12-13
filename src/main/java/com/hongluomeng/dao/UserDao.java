@@ -204,7 +204,7 @@ public class UserDao extends BaseDao {
 		return user.getUser_id();
 	}
 
-	public String saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
+	public User saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
 		User user = initUser(request_user_id);
 
 		user.setUser_phone(user_phone);
@@ -213,7 +213,7 @@ public class UserDao extends BaseDao {
 
 		user.save();
 
-		return user.getUser_id();
+		return user;
 	}
 
 	public String saveByEmail(String user_email, String user_password, String user_type, String request_user_id) {
@@ -228,7 +228,7 @@ public class UserDao extends BaseDao {
 		return user.getUser_id();
 	}
 
-	public String saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
+	public User saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
 		User user = initUser(request_user_id);
 
 		user.setWeibo_uid(weibo_uid);
@@ -237,10 +237,10 @@ public class UserDao extends BaseDao {
 
 		user.save();
 
-		return user.getUser_id();
+		return user;
 	}
 
-	public String saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
+	public User saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
 		User user = initUser(request_user_id);
 
 		user.setWechat_uid(wechat_uid);
@@ -249,7 +249,7 @@ public class UserDao extends BaseDao {
 
 		user.save();
 
-		return user.getUser_id();
+		return user;
 	}
 
 	public String updateWeibo(String weibo_uid, String weibo_access_token, String request_user_id) {

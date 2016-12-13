@@ -137,7 +137,7 @@ public class UserService extends BaseService {
 		}
 	}
 
-	public String saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
+	public User saveByPhone(String user_phone, String user_password, String user_type, String request_user_id) {
 		Integer count = userDao.countByUser_phoneNotEqualUser_id("", user_phone);
 
 		if (count == 0) {
@@ -158,23 +158,23 @@ public class UserService extends BaseService {
 		}
 	}
 
-	public String saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
+	public User saveWeibo(String weibo_uid, String weibo_access_token, String user_type, String request_user_id) {
 		Integer count = userDao.countByWeibo_uidNotEqualUser_id("", weibo_uid);
 
 		if (count == 0) {
 			return userDao.saveWeibo(weibo_uid, weibo_access_token, user_type, request_user_id);
 		} else {
-			return "";
+			return null;
 		}
 	}
 
-	public String saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
+	public User saveWechat(String wechat_uid, String wechat_access_token, String user_type, String request_user_id) {
 		Integer count = userDao.countByWechat_uidNotEqualUser_id("", wechat_uid);
 
 		if (count == 0) {
 			return userDao.saveWechat(wechat_uid, wechat_access_token, user_type, request_user_id);
 		} else {
-			return "";
+			return null;
 		}
 	}
 

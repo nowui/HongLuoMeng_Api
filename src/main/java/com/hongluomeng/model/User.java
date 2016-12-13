@@ -17,7 +17,8 @@ public class User extends Base<User> {
 	public static final String COLUMN_WECHAT_UID = "wechat_uid";
 	public static final String COLUMN_WECHAT_ACCESS_TOKEN = "wechat_access_token";
 	public static final String COLUMN_OBJECT_ID = "object_id";
-	public static final String COLUMN_USER_TYPE = "user_type";
+    public static final String COLUMN_USER_TYPE = "user_type";
+    public static final String KEY_IS_HAVE_WEIBO = "is_have_weibo";
 
 	public String getUser_id() {
 		return getStr(COLUMN_USER_ID);
