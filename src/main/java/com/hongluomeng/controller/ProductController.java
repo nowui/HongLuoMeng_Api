@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
+import com.hongluomeng.model.ProductCollect;
 import com.hongluomeng.service.CategoryAttributeService;
 import com.hongluomeng.service.CategoryService;
 import com.hongluomeng.type.CatetoryEnum;
@@ -283,5 +284,53 @@ public class ProductController extends BaseController {
 
 		renderJson(Utility.setSuccessResponse(resultMap));
 	}
+
+    @ActionKey(Url.URL_PRODUCT_COLLECT_LIST)
+    public void listCollect() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Utility.checkPageAndLimit(jsonObject);
+
+        Map<String, Object> resultMap = productService.listCollect(jsonObject);
+
+        renderJson(Utility.setSuccessResponse(resultMap));
+    }
+
+    @ActionKey(Url.URL_PRODUCT_COLLECT_LIST_GET)
+    public void getCollectList() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Utility.checkPageAndLimit(jsonObject);
+
+        List<Map<String, Object>> resultList = productService.getCollectList(jsonObject);
+
+        renderJson(Utility.setSuccessResponse(resultList));
+    }
+
+    @ActionKey(Url.URL_PRODUCT_COLLECT_SAVE)
+    public void saveCollect() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        ProductCollect productCollectValidator = jsonObject.toJavaObject(ProductCollect.class);
+
+        productCollectValidator.checkProduct_id();
+
+        productService.saveCollect(jsonObject);
+
+        renderJson(Utility.setSuccessResponse());
+    }
+
+    @ActionKey(Url.URL_PRODUCT_COLLECT_DELETE)
+    public void deleteCollect() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        ProductCollect productCollectValidator = jsonObject.toJavaObject(ProductCollect.class);
+
+        productCollectValidator.checkProduct_collect_id();
+
+        productService.deleteCollect(jsonObject);
+
+        renderJson(Utility.setSuccessResponse());
+    }
 
 }

@@ -25,6 +25,7 @@ public class ProductService extends BaseService {
     private MemberLevelService memberLevelService = new MemberLevelService();
     private ProductSkuService productSkuService = new ProductSkuService();
     private ProductLockStockService productLockStockService = new ProductLockStockService();
+    private ProductCollectService productCollectService = new ProductCollectService();
 
     public Map<String, Object> list(JSONObject jsonObject) {
         Product productMap = jsonObject.toJavaObject(Product.class);
@@ -434,6 +435,68 @@ public class ProductService extends BaseService {
         }
 
         return list;
+    }
+
+    public Map<String, Object> listCollect(JSONObject jsonObject) {
+        Product productMap = jsonObject.toJavaObject(Product.class);
+
+        Integer count = productCollectService.count();
+
+        List<ProductCollect> productCollectList = productCollectService.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        for (ProductCollect productCollect : productCollectList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.gettProduct_collect_id());
+            map.put(ProductCollect.COLUMN_PRODUCT_ID, productCollect.getProduct_id());
+            map.put(Product.COLUMN_PRODUCT_NAME, productCollect.getProduct().getProduct_name());
+            map.put(Member.COLUMN_MEMBER_NAME, productCollect.getMember().getMember_name());
+            map.put(ProductCollect.COLUMN_SYSTEM_CREATE_TIME, productCollect.getSystem_create_time());
+
+            list.add(map);
+        }
+
+        return Utility.setResultMap(count, list);
+    }
+
+    public List<Map<String, Object>> getCollectList(JSONObject jsonObject) {
+        Product productMap = jsonObject.toJavaObject(Product.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        List<ProductCollect> productCollectList = productCollectService.listByUser_id(request_user_id, Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        for (ProductCollect productCollect : productCollectList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.gettProduct_collect_id());
+            map.put(ProductCollect.COLUMN_PRODUCT_ID, productCollect.getProduct_id());
+            map.put(Product.COLUMN_PRODUCT_NAME, productCollect.getProduct().getProduct_name());
+            map.put(Product.COLUMN_PRODUCT_PRICE, productCollect.getProduct().getProduct_price());
+            map.put(Product.COLUMN_PRODUCT_IMAGE, productCollect.getProduct().getProduct_image().get(0));
+
+            list.add(map);
+        }
+
+        return list;
+    }
+
+    public void saveCollect(JSONObject jsonObject) {
+        ProductCollect productCollect = jsonObject.toJavaObject(ProductCollect.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        productCollectService.save(productCollect, request_user_id);
+    }
+
+    public void deleteCollect(JSONObject jsonObject) {
+        ProductCollect productCollect = jsonObject.toJavaObject(ProductCollect.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        productCollectService.delete(productCollect.gettProduct_collect_id(), request_user_id);
     }
 
 }

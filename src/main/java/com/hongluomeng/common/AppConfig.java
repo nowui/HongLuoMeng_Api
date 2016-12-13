@@ -107,6 +107,7 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_topic", "topic_id", Topic.class);
         activeRecordPlugin.addMapping("table_topic_comment", "topic_comment_id", TopicComment.class);
         activeRecordPlugin.addMapping("table_topic_like", "topic_like_id", TopicLike.class);
+        activeRecordPlugin.addMapping("table_product_collect", "product_collect_id", ProductCollect.class);
         plugins.add(activeRecordPlugin);
     }
 

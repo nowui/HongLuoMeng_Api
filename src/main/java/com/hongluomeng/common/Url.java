@@ -105,6 +105,10 @@ public class Url {
 	public static final String URL_PRODUCT_BRAND_LIST_GET = "/product/brand/list/get";
 	public static final String URL_PRODUCT_MARKET_LIST_GET = "/product/market/list/get";
 	public static final String URL_PRODUCT_GET = "/product/get";
+    public static final String URL_PRODUCT_COLLECT_LIST = "/product/collect/list";
+    public static final String URL_PRODUCT_COLLECT_LIST_GET = "/product/collect/list/get";
+    public static final String URL_PRODUCT_COLLECT_SAVE = "/product/collect/save";
+    public static final String URL_PRODUCT_COLLECT_DELETE = "/product/collect/delete";
 
 	public static final String URL_ROLE_LIST = "/role/list";
 	public static final String URL_ROLE_FIND = "/role/find";
