@@ -40,8 +40,6 @@ public class ProductDao extends BaseDao {
 		myDynamicSQL.append("ORDER BY " + Product.KEY_TABLE_PRODUCT + "." + Product.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
-        System.out.println(myDynamicSQL.sql.toString());
-
 		List<Product> productList = new Product().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 
 		return productList;

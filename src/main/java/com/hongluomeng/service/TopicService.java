@@ -15,12 +15,14 @@ public class TopicService extends BaseService {
 
 	private TopicDao topicDao = new TopicDao();
 	private TopicLikeService topicLikeService = new TopicLikeService();
-	private TopicCommentService topicCommentService = new TopicCommentService();
+    private TopicCommentService topicCommentService = new TopicCommentService();
+    private PushService pushService = new PushService();
+    private MemberService memberService = new MemberService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
 		Integer count = topicDao.count();
 
-		List<Topic> topicList = topicDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		List<Topic> topicList = topicDao.list(Utility.getStarNumber(jsonObject), "", Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -43,7 +45,15 @@ public class TopicService extends BaseService {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<Topic> topicList = topicDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+        String system_create_time = "";
+
+        if (! Utility.isNullOrEmpty(topicMap.getTopic_id())) {
+            Topic topic = topicDao.findByTopic_id(topicMap.getTopic_id());
+
+            system_create_time = topic.getSystem_create_time();
+        }
+
+		List<Topic> topicList = topicDao.list(Utility.getStarNumber(jsonObject), system_create_time, Utility.getEndNumber(jsonObject));
 
         List<String> topicIdList = new ArrayList<String>();
 
@@ -52,10 +62,8 @@ public class TopicService extends BaseService {
         }
 
         List<TopicLike> topicLikeList = topicLikeService.listByTopicIdList(topicIdList);
-        Iterator<TopicLike> topicLikeIterator = topicLikeList.iterator();
 
         List<TopicComment> topicCommentList = topicCommentService.listByTopicIdList(topicIdList);
-        Iterator<TopicComment> topicCommentIterator = topicCommentList.iterator();
 
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 
@@ -67,12 +75,12 @@ public class TopicService extends BaseService {
             resultMap.put(Member.COLUMN_MEMBER_AVATAR, topic.getMember().getMember_avatar_small());
             resultMap.put(Topic.COLUMN_TOPIC_TEXT, topic.getTopic_text());
             resultMap.put(Topic.COLUMN_TOPIC_IMAGE, topic.getTopic_image());
+            resultMap.put(Topic.KEY_TOPIC_LARGE_IMAGE, topic.getTopic_large_image());
             resultMap.put(Topic.COLUMN_SYSTEM_CREATE_TIME, topic.getSystem_create_time());
+            resultMap.put(Topic.KEY_TOPIC_IS_HAVE_LIKE, topicLikeService.check(topic.getTopic_id(), request_user_id));
 
             List<Map<String, Object>> topicLikeResultList = new ArrayList<Map<String, Object>>();
-            while (topicLikeIterator.hasNext()) {
-                TopicLike topicLike = topicLikeIterator.next();
-
+            for (TopicLike topicLike : topicLikeList) {
                 if(topicLike.getTopic_id().equals(topic.getTopic_id())) {
                     Map<String, Object> topicLikResultMap = new HashMap<String, Object>();
                     topicLikResultMap.put(TopicLike.COLUMN_TOPIC_LIKE_ID, topicLike.gettTopic_like_id());
@@ -81,16 +89,12 @@ public class TopicService extends BaseService {
                     topicLikResultMap.put(Member.COLUMN_MEMBER_AVATAR, topicLike.getMember().getMember_avatar_small());
 
                     topicLikeResultList.add(topicLikResultMap);
-
-                    topicLikeIterator.remove();
                 }
             }
             resultMap.put(Topic.COLUMN_TOPIC_LIKE_LIST, topicLikeResultList);
 
             List<Map<String, Object>> topicCommentResultList = new ArrayList<Map<String, Object>>();
-            while (topicCommentIterator.hasNext()) {
-                TopicComment topicComment = topicCommentIterator.next();
-
+            for (TopicComment topicComment : topicCommentList) {
                 if(topicComment.getTopic_id().equals(topic.getTopic_id())) {
                     Map<String, Object> topicCommentResultMap = new HashMap<String, Object>();
                     topicCommentResultMap.put(Member.COLUMN_MEMBER_ID, topicComment.getMember().getMember_id());
@@ -102,8 +106,6 @@ public class TopicService extends BaseService {
                     topicCommentResultMap.put(TopicComment.COLUMN_TOPIC_COMMENT_TEXT, topicComment.getTopic_comment_text());
 
                     topicCommentResultList.add(topicCommentResultMap);
-
-                    topicCommentIterator.remove();
                 }
             }
             resultMap.put(Topic.COLUMN_TOPIC_COMMENT_LIST, topicCommentResultList);
@@ -116,6 +118,8 @@ public class TopicService extends BaseService {
 
 	public Topic find(JSONObject jsonObject) {
 		Topic topicMap = jsonObject.toJavaObject(Topic.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
 		Topic topic = topicDao.findByTopic_id(topicMap.getTopic_id());
 
@@ -130,9 +134,69 @@ public class TopicService extends BaseService {
             topicComment.keep(TopicComment.COLUMN_TOPIC_COMMENT_ID, Member.COLUMN_MEMBER_NAME, TopicComment.COLUMN_TOPIC_COMMENT_TEXT, TopicComment.COLUMN_SYSTEM_CREATE_TIME);
         }
         topic.setTopicCommentList(topicCommentList);
+        topic.set(Topic.KEY_TOPIC_IS_HAVE_LIKE, topicLikeService.check(topic.getTopic_id(), request_user_id));
 
 		return topic;
 	}
+
+    public Map<String, Object> get(JSONObject jsonObject) {
+        Topic topicMap = jsonObject.toJavaObject(Topic.class);
+
+        String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
+
+        Topic topic = topicDao.findByTopic_id(topicMap.getTopic_id());
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(Topic.COLUMN_TOPIC_ID, topic.getTopic_id());
+        map.put(Member.COLUMN_MEMBER_ID, topic.getMember().getMember_id());
+        map.put(Member.COLUMN_MEMBER_NAME, topic.getMember().getMember_name());
+        map.put(Member.COLUMN_MEMBER_AVATAR, topic.getMember().getMember_avatar_small());
+        map.put(Topic.COLUMN_TOPIC_TEXT, topic.getTopic_text());
+        map.put(Topic.COLUMN_TOPIC_IMAGE, topic.getTopic_image());
+        map.put(Topic.KEY_TOPIC_LARGE_IMAGE, topic.getTopic_large_image());
+        map.put(Topic.COLUMN_SYSTEM_CREATE_TIME, topic.getSystem_create_time());
+        map.put(Topic.KEY_TOPIC_IS_HAVE_LIKE, topicLikeService.check(topic.getTopic_id(), request_user_id));
+
+        List<String> topicIdList = new ArrayList<String>();
+        topicIdList.add(topic.getTopic_id());
+
+        List<TopicLike> topicLikeList = topicLikeService.listByTopicIdList(topicIdList);
+
+        List<TopicComment> topicCommentList = topicCommentService.listByTopicIdList(topicIdList);
+
+        List<Map<String, Object>> topicLikeResultList = new ArrayList<Map<String, Object>>();
+        for (TopicLike topicLike : topicLikeList) {
+            if(topicLike.getTopic_id().equals(topic.getTopic_id())) {
+                Map<String, Object> topicLikMap = new HashMap<String, Object>();
+                topicLikMap.put(TopicLike.COLUMN_TOPIC_LIKE_ID, topicLike.gettTopic_like_id());
+                topicLikMap.put(Member.COLUMN_MEMBER_ID, topicLike.getMember().getMember_id());
+                topicLikMap.put(Member.COLUMN_MEMBER_NAME, topicLike.getMember().getMember_name());
+                topicLikMap.put(Member.COLUMN_MEMBER_AVATAR, topicLike.getMember().getMember_avatar_small());
+
+                topicLikeResultList.add(topicLikMap);
+            }
+        }
+        map.put(Topic.COLUMN_TOPIC_LIKE_LIST, topicLikeResultList);
+
+        List<Map<String, Object>> topicCommentResultList = new ArrayList<Map<String, Object>>();
+        for (TopicComment topicComment : topicCommentList) {
+            if(topicComment.getTopic_id().equals(topic.getTopic_id())) {
+                Map<String, Object> topicCommentMap = new HashMap<String, Object>();
+                topicCommentMap.put(Member.COLUMN_MEMBER_ID, topicComment.getMember().getMember_id());
+                topicCommentMap.put(Member.COLUMN_MEMBER_NAME, topicComment.getMember().getMember_name());
+                topicCommentMap.put(Member.COLUMN_MEMBER_AVATAR, topicComment.getMember().getMember_avatar_small());
+                topicCommentMap.put(TopicComment.COLUMN_TOPIC_COMMENT_REPLY_TO_MEMBER_ID, topicComment.getTopic_comment_reply_to_member_id());
+                topicCommentMap.put(TopicComment.COLUMN_TOPIC_COMMENT_REPLY_TO_MEMBER_NAME, topicComment.getTopic_comment_reply_to_member_name());
+                topicCommentMap.put(TopicComment.COLUMN_TOPIC_COMMENT_REPLY_TO_MEMBER_AVATAR, topicComment.getTopic_comment_reply_to_member_avatar());
+                topicCommentMap.put(TopicComment.COLUMN_TOPIC_COMMENT_TEXT, topicComment.getTopic_comment_text());
+
+                topicCommentResultList.add(topicCommentMap);
+            }
+        }
+        map.put(Topic.COLUMN_TOPIC_COMMENT_LIST, topicCommentResultList);
+
+        return map;
+    }
 
 	public void save(JSONObject jsonObject) {
 		Topic topicMap = jsonObject.toJavaObject(Topic.class);
@@ -167,7 +231,7 @@ public class TopicService extends BaseService {
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-        topicLikeService.delete(topicLikeMap.gettTopic_like_id(), request_user_id);
+        topicLikeService.delete(topicLikeMap.getTopic_id(), request_user_id);
     }
 
     public Map<String, Object> getCommentList(JSONObject jsonObject) {
@@ -202,6 +266,14 @@ public class TopicService extends BaseService {
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
         topicCommentService.save(topicCommentMap, request_user_id);
+
+        Topic topic = topicDao.findByTopic_id(topicCommentMap.getTopic_id());
+
+        if (! topic.getUser_id().equals(request_user_id)) {
+            Member member = memberService.findByUser_id(request_user_id);
+
+            pushService.send(member.getMember_name() + "评论了你的红圈", topicCommentMap.getTopic_id(), topic.getUser_id());
+        }
     }
 
     public void deleteComment(JSONObject jsonObject) {

@@ -17,6 +17,9 @@ public class Topic extends Base<Topic> {
     public static final String COLUMN_TOPIC_IMAGE = "topic_image";
     public static final String COLUMN_TOPIC_LIKE_LIST = "topic_like_list";
     public static final String COLUMN_TOPIC_COMMENT_LIST = "topic_comment_list";
+    public static final String KEY_TOPIC_IS_HAVE_LIKE = "topic_is_have_like";
+
+    public static final String KEY_TOPIC_LARGE_IMAGE = "topic_large_image";
 
     private List<TopicLike> topicLikeList;
     private List<TopicComment> topicCommentList;
@@ -54,16 +57,30 @@ public class Topic extends Base<Topic> {
 	}
 
 	public void checkTopic_text() {
-		Utility.checkStringLength(getTopic_text(), 1, 255, "话题文字");
+		Utility.checkStringLength(getTopic_text(), 0, 255, "话题文字");
 	}
 
-	public JSONArray getTopic_image() {
+    public JSONArray getTopic_image() {
         if(Utility.isNullOrEmpty(getStr(COLUMN_TOPIC_IMAGE))) {
             return JSONArray.parseArray(Const.ARRAY_EMPTY);
         } else {
             return JSONArray.parseArray(getStr(COLUMN_TOPIC_IMAGE));
         }
-	}
+    }
+
+    public JSONArray getTopic_large_image() {
+        if(Utility.isNullOrEmpty(getStr(COLUMN_TOPIC_IMAGE))) {
+            return JSONArray.parseArray(Const.ARRAY_EMPTY);
+        } else {
+            JSONArray array = new JSONArray();
+
+            for (int i = 0; i < getTopic_image().size(); i++) {
+                array.add(Utility.packageImagePath(getTopic_image().get(i).toString(), Const.UPLOAD_LARGE));
+            }
+
+            return array;
+        }
+    }
 
 	public void setTopic_image(String brand_image) {
 		set(COLUMN_TOPIC_IMAGE, brand_image);

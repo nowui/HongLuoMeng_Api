@@ -41,6 +41,19 @@ public class TopicController extends BaseController {
 		renderJson(Utility.setSuccessResponse(topic));
 	}
 
+    @ActionKey(Url.URL_TOPIC_GET)
+    public void get() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Topic topicValidator = jsonObject.toJavaObject(Topic.class);
+
+        topicValidator.checkTopic_id();
+
+        Map<String, Object> resultMap = topicService.get(jsonObject);
+
+        renderJson(Utility.setSuccessResponse(resultMap));
+    }
+
 	@ActionKey(Url.URL_TOPIC_SAVE)
 	public void save() {
 		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -99,7 +112,7 @@ public class TopicController extends BaseController {
 
         TopicLike topicLikeValidator = jsonObject.toJavaObject(TopicLike.class);
 
-        topicLikeValidator.checkTopic_like_id();
+        topicLikeValidator.checkTopic_id();
 
         topicService.deleteLike(jsonObject);
 

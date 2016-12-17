@@ -377,7 +377,16 @@ public class ProductService extends BaseService {
         map.put(Product.COLUMN_PRODUCT_ALL_SKU_LIST, productAllSkuList);
         map.put(Product.COLUMN_PRODUCT_CONTENT, product.getProduct_content());
         map.put(Product.COLUMN_PRODUCT_PRICE, ps.getProduct_price());
-        map.put(Product.COLUMN_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
+        map.put(Product.KEY_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
+
+        ProductCollect productCollect = productCollectService.findByProduct_idAndUser_id(product.getProduct_id(), request_user_id);
+        if (productCollect == null) {
+            map.put(Product.KEY_PRODUCT_IS_COLLECT, false);
+            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, "");
+        } else {
+            map.put(Product.KEY_PRODUCT_IS_COLLECT, false);
+            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.getProduct_collect_id());
+        }
 
         Brand brand = brandService.findByBrand_id(product.getBrand_id());
         map.put(Brand.COLUMN_BRAND_ID, brand.getBrand_id());
@@ -429,7 +438,7 @@ public class ProductService extends BaseService {
             map.put(Product.COLUMN_PRODUCT_NAME, product.getProduct_name());
             map.put(Product.COLUMN_PRODUCT_PRICE, product.getProduct_price());
             map.put(Product.COLUMN_PRODUCT_IMAGE, product.getProduct_image().get(0));
-            map.put(Product.COLUMN_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
+            map.put(Product.KEY_PRODUCT_IS_APPLY, brandService.checkIsApply(product.getBrand_id(), request_user_id));
 
             list.add(map);
         }
@@ -448,7 +457,7 @@ public class ProductService extends BaseService {
 
         for (ProductCollect productCollect : productCollectList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.gettProduct_collect_id());
+            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.getProduct_collect_id());
             map.put(ProductCollect.COLUMN_PRODUCT_ID, productCollect.getProduct_id());
             map.put(Product.COLUMN_PRODUCT_NAME, productCollect.getProduct().getProduct_name());
             map.put(Member.COLUMN_MEMBER_NAME, productCollect.getMember().getMember_name());
@@ -471,7 +480,7 @@ public class ProductService extends BaseService {
 
         for (ProductCollect productCollect : productCollectList) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.gettProduct_collect_id());
+            map.put(ProductCollect.COLUMN_PRODUCT_COLLECT_ID, productCollect.getProduct_collect_id());
             map.put(ProductCollect.COLUMN_PRODUCT_ID, productCollect.getProduct_id());
             map.put(Product.COLUMN_PRODUCT_NAME, productCollect.getProduct().getProduct_name());
             map.put(Product.COLUMN_PRODUCT_PRICE, productCollect.getProduct().getProduct_price());
@@ -496,7 +505,7 @@ public class ProductService extends BaseService {
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-        productCollectService.delete(productCollect.gettProduct_collect_id(), request_user_id);
+        productCollectService.delete(productCollect.getProduct_collect_id(), request_user_id);
     }
 
 }

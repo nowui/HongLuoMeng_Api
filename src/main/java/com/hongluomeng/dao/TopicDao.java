@@ -27,7 +27,7 @@ public class TopicDao extends BaseDao {
 		return count(topic);
 	}
 
-	private List<Topic> list(Topic topic, Integer m, Integer n) {
+	private List<Topic> list(Topic topic, String system_create_time, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
         myDynamicSQL.append("SELECT " + Topic.TABLE_TOPIC + ".*, ");
         myDynamicSQL.append(Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_ID + ", ");
@@ -36,18 +36,21 @@ public class TopicDao extends BaseDao {
         myDynamicSQL.append("FROM " + Topic.TABLE_TOPIC + " ");
         myDynamicSQL.append("LEFT JOIN " + Member.TABLE_MEMBER + " ON " + Member.TABLE_MEMBER + "." + Member.COLUMN_USER_ID + " = " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_USER_ID + " ");
 		myDynamicSQL.append("WHERE " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND unix_timestamp(" + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_CREATE_TIME + ") < unix_timestamp('?')", system_create_time);
 		myDynamicSQL.append("ORDER BY " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
+
+        System.out.println(myDynamicSQL.sql.toString());
 
 		List<Topic> activityList = new Topic().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 
 		return activityList;
 	}
 
-	public List<Topic> list(Integer m, Integer n) {
+	public List<Topic> list(Integer m, String system_create_time, Integer n) {
 		Topic topic = new Topic();
 
-		return list(topic, m, n);
+		return list(topic, system_create_time, m, n);
 	}
 
 	private Topic find(Topic topic) {

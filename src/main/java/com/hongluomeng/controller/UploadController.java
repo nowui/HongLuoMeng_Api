@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hongluomeng.common.Url;
 import com.jfinal.core.ActionKey;
+import com.jfinal.kit.FileKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
 import com.hongluomeng.common.Const;
@@ -74,23 +75,41 @@ public class UploadController extends BaseController {
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024 * 2);
+		List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024 * 5);
 
-		JSONArray jsonArray = new JSONArray();
+        Boolean isOver = false;
+        Boolean isImage = true;
+        List<String> resultList = new ArrayList<String>();
 
-		for (UploadFile uploadFile : uploadFileList) {
-			String path = uploadService.uploadImage(uploadFile, request_user_id);
+        for (UploadFile uploadFile : uploadFileList) {
+            if (uploadFile.getFile().length() > 1024 * 1024 * 2) {
+                isOver = true;
+            }
+        }
 
-			if (!Utility.isNullOrEmpty(path)) {
-				jsonArray.add(path);
-			}
-		}
+        if(isOver) {
+            for (UploadFile uploadFile : uploadFileList) {
+                FileKit.delete(uploadFile.getFile());
+            }
 
-		if (jsonArray.size() == 0) {
-			throw new RuntimeException("上传出错了");
-		} else {
-			renderJson(Utility.setResponse(CodeEnum.CODE_200, "", jsonArray));
-		}
+            throw new RuntimeException("文件超过2M");
+        } else {
+            for (UploadFile uploadFile : uploadFileList) {
+                String path = uploadService.uploadImage(uploadFile, request_user_id);
+
+                if (Utility.isNullOrEmpty(path)) {
+                    isImage = false;
+                }
+
+                resultList.add(path);
+            }
+        }
+
+        if(! isImage) {
+            throw new RuntimeException("图片格式不对");
+        }
+
+        renderJson(Utility.setResponse(CodeEnum.CODE_200, "", resultList));
 	}
 
 	public class CompratorByLastModified implements Comparator<File> {

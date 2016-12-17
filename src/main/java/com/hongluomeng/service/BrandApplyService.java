@@ -25,7 +25,7 @@ public class BrandApplyService extends BaseService {
 	}
 
 	public List<BrandApply> listByUser_id(String user_id) {
-		List<BrandApply> brandApplyList = brandApplyCache.getBrandListByUser_id(user_id);
+		List<BrandApply> brandApplyList = brandApplyCache.getBrandApplyListByUser_id(user_id);
 
 		if (brandApplyList == null) {
 			brandApplyList = brandApplyDao.listByCategory_idAndUser_idAndBrand_apply_review_status("", user_id, "", 0, 0);

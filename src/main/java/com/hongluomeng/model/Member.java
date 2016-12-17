@@ -80,7 +80,7 @@ public class Member extends Base<Member> {
 	}
 
 	public void checkMember_name() {
-		Utility.checkStringLength(getMember_name(), 3, 20, "会员名称");
+		Utility.checkStringLength(getMember_name(), 1, 20, "会员名称");
 	}
 
 	public JSONObject getMember_avatar() {
@@ -136,7 +136,7 @@ public class Member extends Base<Member> {
 	}
 
 	public void checkMember_real_name() {
-		Utility.checkStringLength(getMember_real_name(), 3, 300, "真实姓名");
+		Utility.checkStringLength(getMember_real_name(), 1, 300, "真实姓名");
 	}
 
 	public String getMember_identity_card() {

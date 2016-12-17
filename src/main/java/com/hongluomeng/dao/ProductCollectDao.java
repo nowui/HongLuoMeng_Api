@@ -18,6 +18,8 @@ public class ProductCollectDao extends BaseDao {
 
         myDynamicSQL.append("SELECT COUNT(*) FROM " + ProductCollect.TABLE_PRODUCT_COLLECT + " ");
         myDynamicSQL.append("WHERE " + ProductCollect.TABLE_PRODUCT_COLLECT + "." + ProductCollect.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + ProductCollect.TABLE_PRODUCT_COLLECT + "." + ProductCollect.COLUMN_PRODUCT_ID + " = ? ", productCollect.getProduct_id());
+        myDynamicSQL.isNullOrEmpty("AND " + ProductCollect.TABLE_PRODUCT_COLLECT + "." + ProductCollect.COLUMN_USER_ID + " = ? ", productCollect.getUser_id());
 
         Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         return count.intValue();
@@ -25,6 +27,14 @@ public class ProductCollectDao extends BaseDao {
 
     public Integer count() {
         ProductCollect productCollect = new ProductCollect();
+
+        return count(productCollect);
+    }
+
+    public Integer countByProduct_idAndUser_id(String product_id, String user_id) {
+        ProductCollect productCollect = new ProductCollect();
+        productCollect.setProduct_id(product_id);
+        productCollect.setUser_id(user_id);
 
         return count(productCollect);
     }
@@ -63,6 +73,29 @@ public class ProductCollectDao extends BaseDao {
 
         return list(productCollect, m, n);
 	}
+
+    private ProductCollect find(ProductCollect productCollect) {
+        MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
+
+        myDynamicSQL.append("SELECT * FROM " + ProductCollect.TABLE_PRODUCT_COLLECT + " ");
+        myDynamicSQL.append("WHERE " + ProductCollect.COLUMN_PRODUCT_ID + " = ? ", productCollect.getProduct_id());
+        myDynamicSQL.append("AND " + ProductCollect.COLUMN_USER_ID + " = ? ", productCollect.getUser_id());
+
+        List<ProductCollect> productCollectList = productCollect.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
+        if(productCollectList.size() == 0) {
+            return null;
+        } else {
+            return productCollectList.get(0);
+        }
+    }
+
+    public ProductCollect findByProduct_idAndUser_id(String product_id, String user_id) {
+        ProductCollect productCollect = new ProductCollect();
+        productCollect.setProduct_id(product_id);
+        productCollect.setUser_id(user_id);
+
+        return find(productCollect);
+    }
 
 	public void save(ProductCollect productCollect, String request_user_id) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();

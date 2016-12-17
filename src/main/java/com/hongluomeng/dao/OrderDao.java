@@ -78,8 +78,6 @@ public class OrderDao extends BaseDao {
         myDynamicSQL.append("WHERE " + Order.TABLE_ORDER + "." + Order.COLUMN_SYSTEM_STATUS + " = 1 ");
         myDynamicSQL.isNullOrEmpty("AND " + Order.COLUMN_ORDER_ID + " = ? ", order.getOrder_id());
 
-        System.out.println(myDynamicSQL.sql.toString());
-
         List<Order> orderList = new Order().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
         if (orderList.size() == 0) {
             return null;

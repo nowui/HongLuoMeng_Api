@@ -11,7 +11,7 @@ public class ProductCollect extends Base<ProductCollect> {
 	public static final String COLUMN_PRODUCT_ID = "product_id";
     public static final String COLUMN_USER_ID = "user_id";
 
-	public String gettProduct_collect_id() {
+	public String getProduct_collect_id() {
 		return getStr(COLUMN_PRODUCT_COLLECT_ID);
 	}
 
@@ -20,7 +20,7 @@ public class ProductCollect extends Base<ProductCollect> {
 	}
 
 	public void checkProduct_collect_id() {
-		Utility.checkStringLength(gettProduct_collect_id(), 32, "商品收藏编号");
+		Utility.checkStringLength(getProduct_collect_id(), 32, "商品收藏编号");
 	}
 
 	public String getProduct_id() {

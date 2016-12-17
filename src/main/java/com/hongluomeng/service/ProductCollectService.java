@@ -13,6 +13,9 @@ public class ProductCollectService extends BaseService {
         return productCollectDao.count();
     }
 
+    public ProductCollect findByProduct_idAndUser_id(String product_id, String user_id) {
+        return productCollectDao.findByProduct_idAndUser_id(product_id, user_id);
+    }
 
     public List<ProductCollect> list(Integer m, Integer n) {
         return productCollectDao.list(m, n);

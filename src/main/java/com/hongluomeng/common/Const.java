@@ -35,6 +35,7 @@ public class Const {
     public static final String CACHE_OPERATION = "cache_operation";
     public static final String CACHE_BRAND = "cache_brand";
     public static final String CACHE_BRAND_APPLY = "cache_brand_apply";
+    public static final String CACHE_TOPIC_LIKE = "cache_topic_like";
 
     public static final int BATCH_SIZE = 100;
 

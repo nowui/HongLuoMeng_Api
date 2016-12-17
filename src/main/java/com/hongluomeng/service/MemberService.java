@@ -285,6 +285,7 @@ public class MemberService extends BaseService {
         resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, member.getMember_avatar_small());
         resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, member.getMember_avatar_large());
         resultMap.put(User.KEY_IS_HAVE_WEIBO, Utility.isNullOrEmpty(user.getWeibo_uid()));
+        resultMap.put(User.COLUMN_USER_ID, user.getUser_id());
 
 		return resultMap;
 	}

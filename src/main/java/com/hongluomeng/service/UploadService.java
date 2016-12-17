@@ -43,6 +43,7 @@ public class UploadService extends BaseService {
 				}
 			} catch (IOException e) {
 				isImage = false;
+                e.printStackTrace();
 			} finally {
 				image = null;
 			}
@@ -67,7 +68,9 @@ public class UploadService extends BaseService {
 		} else {
 			FileKit.delete(uploadFile.getFile());
 
-			throw new RuntimeException("图片格式不对");
+            return "";
+
+			//throw new RuntimeException("图片格式不对");
 		}
 	}
 
