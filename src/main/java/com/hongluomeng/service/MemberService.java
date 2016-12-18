@@ -276,7 +276,8 @@ public class MemberService extends BaseService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
 		resultMap.put(Const.KEY_TOKEN, token);
-		resultMap.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
+        resultMap.put(Member.COLUMN_MEMBER_NUMBER, member.getMember_number());
+        resultMap.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
 		resultMap.put(Member.COLUMN_MEMBER_LEVEL_ID, member.getMember_level_id());
 		resultMap.put(Member.COLUMN_MEMBER_LEVEL_NAME, member.getMember_level_name());
 		resultMap.put(Member.COLUMN_MEMBER_WEIBO_FANS, member.getMember_weibo_fans());

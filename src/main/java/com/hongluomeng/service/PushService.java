@@ -35,8 +35,6 @@ public class PushService extends BaseService {
 
         try {
             PushResult result = jpushClient.sendPush(payload);
-
-            System.out.println(result);
         } catch (APIConnectionException e) {
             System.out.println(e.toString());
         } catch (APIRequestException e) {

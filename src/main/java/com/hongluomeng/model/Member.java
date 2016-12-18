@@ -15,6 +15,7 @@ public class Member extends Base<Member> {
 	public static final String COLUMN_MEMBER_LEVEL_ID = "member_level_id";
 	public static final String COLUMN_MEMBER_LEVEL_NAME = "member_level_name";
 	public static final String COLUMN_MEMBER_LEVEL_VALUE = "member_level_value";
+    public static final String COLUMN_MEMBER_NUMBER = "member_number";
 	public static final String COLUMN_MEMBER_NAME = "member_name";
 	public static final String COLUMN_MEMBER_AVATAR = "member_avatar";
 	public static final String COLUMN_MEMBER_AVATAR_SMALL = "member_avatar_small";
@@ -71,13 +72,21 @@ public class Member extends Base<Member> {
 		return Utility.getIntegerValue(get(COLUMN_MEMBER_LEVEL_VALUE));
 	}
 
-	public String getMember_name() {
-		return getStr(COLUMN_MEMBER_NAME);
-	}
+    public String getMember_number() {
+        return getStr(COLUMN_MEMBER_NUMBER);
+    }
 
-	public void setMember_name(String member_name) {
-		set(COLUMN_MEMBER_NAME, member_name);
-	}
+    public void setMember_number(String member_number) {
+        set(COLUMN_MEMBER_NUMBER, member_number);
+    }
+
+    public String getMember_name() {
+        return getStr(COLUMN_MEMBER_NAME);
+    }
+
+    public void setMember_name(String member_name) {
+        set(COLUMN_MEMBER_NAME, member_name);
+    }
 
 	public void checkMember_name() {
 		Utility.checkStringLength(getMember_name(), 1, 20, "会员名称");

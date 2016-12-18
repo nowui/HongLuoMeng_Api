@@ -3,6 +3,7 @@ package com.hongluomeng.dao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.hongluomeng.common.MyDynamicSQL;
 import com.jfinal.plugin.activerecord.Db;
@@ -17,16 +18,24 @@ public class MemberDao extends BaseDao {
 
 		myDynamicSQL.append("SELECT COUNT(*) FROM " + Member.TABLE_MEMBER + " ");
 		myDynamicSQL.append("WHERE " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NUMBER + " = ? ", member.getMember_number());
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
-	public Integer count() {
-		Member member = new Member();
+    public Integer count() {
+        Member member = new Member();
 
-		return count(member);
-	}
+        return count(member);
+    }
+
+    public Integer countByMember_number(String member_number) {
+        Member member = new Member();
+        member.setMember_number(member_number);
+
+        return count(member);
+    }
 
 	private List<Member> list(Member member, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
@@ -83,8 +92,37 @@ public class MemberDao extends BaseDao {
 		return find(member);
 	}
 
+	private String getNumber() {
+        String member_number = "";
+        Random random = new Random();
+
+        for (int i = 0; i < 9; i++) {
+            member_number += String.valueOf(random.nextInt(10));
+        }
+
+        return member_number;
+    }
+
 	public void save(Member member, String request_user_id) {
+        String member_number = getNumber();
+
+        Boolean isExit = true;
+
+        while (isExit) {
+            if (member_number.startsWith("0")) {
+                member_number = getNumber();
+            } else {
+                Integer count = countByMember_number(member_number);
+                if (count == 0) {
+                    isExit = false;
+                } else {
+                    member_number = getNumber();
+                }
+            }
+        }
+
 		member.setMember_id(Utility.getUUID());
+        member.setMember_number(member_number);
 		member.setMember_level_id("");
 		member.setMember_real_name("");
 		member.setMember_identity_card("");
