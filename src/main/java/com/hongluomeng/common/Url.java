@@ -193,5 +193,6 @@ public class Url {
     public static final String URL_PAGE_DELETE = "/page/delete";
     public static final String URL_PAGE_LIST_GET = "/page/list/get";
     public static final String URL_PAGE_GET = "/page/get";
+    public static final String URL_PAGE_RANKING = "/page/ranking";
 
 }

@@ -66,18 +66,26 @@ public class PageService extends BaseService {
 		return page;
 	}
 
-	public Map<String, Object> get(JSONObject jsonObject) {
-		Page pageMap = jsonObject.toJavaObject(Page.class);
+    public Map<String, Object> get(JSONObject jsonObject) {
+        Page pageMap = jsonObject.toJavaObject(Page.class);
 
-		Page page = pageDao.findByPage_id(pageMap.getPage_id());
+        Page page = pageDao.findByPage_id(pageMap.getPage_id());
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(Page.COLUMN_PAGE_ID, page.getPage_id());
-		map.put(Page.COLUMN_PAGE_NAME, page.getPage_name());
-		map.put(Page.COLUMN_PAGE_CONTENT, page.getPage_content());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(Page.COLUMN_PAGE_ID, page.getPage_id());
+        map.put(Page.COLUMN_PAGE_NAME, page.getPage_name());
+        map.put(Page.COLUMN_PAGE_CONTENT, page.getPage_content());
 
-		return map;
-	}
+        return map;
+    }
+
+    public Page ranking(JSONObject jsonObject) {
+        Page pageMap = jsonObject.toJavaObject(Page.class);
+
+        Page page = pageDao.findByPage_key("ranking");
+
+        return page;
+    }
 
 	public void save(JSONObject jsonObject) {
 		Page pageMap = jsonObject.toJavaObject(Page.class);

@@ -103,17 +103,30 @@ public class PageController extends BaseController {
 		renderJson(Utility.setSuccessResponse(resultList));
 	}
 
-	@ActionKey(Url.URL_PAGE_GET)
-	public void get() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+    @ActionKey(Url.URL_PAGE_GET)
+    public void get() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Page pageValidator = jsonObject.toJavaObject(Page.class);
+        Page pageValidator = jsonObject.toJavaObject(Page.class);
 
-		pageValidator.checkPage_id();
+        pageValidator.checkPage_id();
 
-		Map<String, Object> resultMap = pageService.get(jsonObject);
+        Map<String, Object> resultMap = pageService.get(jsonObject);
 
-		renderJson(Utility.setSuccessResponse(resultMap));
-	}
+        renderJson(Utility.setSuccessResponse(resultMap));
+    }
+
+    @ActionKey(Url.URL_PAGE_RANKING)
+    public void ranking() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Page page = pageService.ranking(jsonObject);
+
+        if (page == null) {
+            renderHtml("");
+        } else {
+            renderHtml(page.getPage_content());
+        }
+    }
 
 }

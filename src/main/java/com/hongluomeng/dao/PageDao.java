@@ -47,7 +47,8 @@ public class PageDao extends BaseDao {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 		myDynamicSQL.append("SELECT * FROM " + Page.TABLE_PAGE + " ");
 		myDynamicSQL.append("WHERE " + Page.TABLE_PAGE + "." + Page.COLUMN_SYSTEM_STATUS + " = 1 ");
-		myDynamicSQL.isNullOrEmpty("AND " + Page.COLUMN_PAGE_ID + " = ? ", page.getPage_id());
+        myDynamicSQL.isNullOrEmpty("AND " + Page.COLUMN_PAGE_ID + " = ? ", page.getPage_id());
+        myDynamicSQL.isNullOrEmpty("AND " + Page.COLUMN_PAGE_KEY + " = ? ", page.getPage_key());
 
 		List<Record> recordList = Db.find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		if (recordList.size() == 0) {
@@ -58,14 +59,21 @@ public class PageDao extends BaseDao {
 		}
 	}
 
-	public Page findByPage_id(String page_id) {
-		Page page = new Page();
-		page.setPage_id(page_id);
+    public Page findByPage_id(String page_id) {
+        Page page = new Page();
+        page.setPage_id(page_id);
 
-		page.checkPage_id();
+        page.checkPage_id();
 
-		return find(page);
-	}
+        return find(page);
+    }
+
+    public Page findByPage_key(String page_key) {
+        Page page = new Page();
+        page.setPage_key(page_key);
+
+        return find(page);
+    }
 
 	public void save(Page page, String request_user_id) {
 		page.setPage_id(Utility.getUUID());

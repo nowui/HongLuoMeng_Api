@@ -54,6 +54,7 @@ public class GlobalActionInterceptor implements Interceptor {
         uncheckTokenSet.add(Url.URL_MEMBER_WECHAT_OAUTH);
         uncheckTokenSet.add(Url.URL_ORDER_NOTIFY);
         uncheckTokenSet.add(Url.URL_WEIXIN_NOTIFY);
+        uncheckTokenSet.add(Url.URL_PAGE_RANKING);
 
         //不检查request的url列表
         Set<String> uncheckRequestSet = new HashSet<String>();
@@ -70,6 +71,7 @@ public class GlobalActionInterceptor implements Interceptor {
         Set<String> uncheckRequestHeaderSet = new HashSet<String>();
         uncheckRequestHeaderSet.add(Url.URL_ORDER_NOTIFY);
         uncheckRequestHeaderSet.add(Url.URL_WEIXIN_NOTIFY);
+        uncheckRequestHeaderSet.add(Url.URL_PAGE_RANKING);
 
         Connection connection = null;
 
