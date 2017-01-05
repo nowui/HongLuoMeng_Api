@@ -33,7 +33,7 @@ public class BrandApplyDao extends BaseDao {
 
 	private List<BrandApply> list(BrandApply brandApply, String category_id, Integer m, Integer n) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
-		myDynamicSQL.append("SELECT " + BrandApply.TABLE_BRAND_APPLY + ".*, " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_NAME + ", " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + " FROM " + BrandApply.TABLE_BRAND_APPLY + " ");
+		myDynamicSQL.append("SELECT " + BrandApply.TABLE_BRAND_APPLY + ".*, " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_NAME + ", " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_LOGO + ", " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + " FROM " + BrandApply.TABLE_BRAND_APPLY + " ");
 		myDynamicSQL.append("LEFT JOIN " + Brand.TABLE_BRAND + " ON " + Brand.TABLE_BRAND + "." + Brand.COLUMN_BRAND_ID + " = " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_BRAND_ID + " ");
 		myDynamicSQL.append("LEFT JOIN " + Member.TABLE_MEMBER + " ON " + Member.TABLE_MEMBER + "." + Member.COLUMN_USER_ID + " = " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_USER_ID + " ");
 		myDynamicSQL.append("WHERE " + BrandApply.TABLE_BRAND_APPLY + "." + BrandApply.COLUMN_SYSTEM_STATUS + " = 1 ");

@@ -55,6 +55,8 @@ public class GlobalActionInterceptor implements Interceptor {
         uncheckTokenSet.add(Url.URL_ORDER_NOTIFY);
         uncheckTokenSet.add(Url.URL_WEIXIN_NOTIFY);
         uncheckTokenSet.add(Url.URL_PAGE_RANKING);
+        uncheckTokenSet.add(Url.URL_TOPIC_SHARE);
+        uncheckTokenSet.add(Url.URL_PRODUCT_SHARE);
 
         //不检查request的url列表
         Set<String> uncheckRequestSet = new HashSet<String>();
@@ -72,6 +74,8 @@ public class GlobalActionInterceptor implements Interceptor {
         uncheckRequestHeaderSet.add(Url.URL_ORDER_NOTIFY);
         uncheckRequestHeaderSet.add(Url.URL_WEIXIN_NOTIFY);
         uncheckRequestHeaderSet.add(Url.URL_PAGE_RANKING);
+        uncheckRequestHeaderSet.add(Url.URL_TOPIC_SHARE);
+        uncheckRequestHeaderSet.add(Url.URL_PRODUCT_SHARE);
 
         Connection connection = null;
 
@@ -299,7 +303,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
             ThreadContext.put(Log.COLUMN_LOG_RUN_TIME, (new Date().getTime() - start.getTime()) + "");
 
-            if (url.contains("/log/") || Const.IS_TEST) {
+            if (url.contains("/log/") || Const.IS_TEST || url.equals(Url.URL_TOPIC_SHARE) || url.equals(Url.URL_PRODUCT_SHARE)) {
 
             } else {
                 logger.error("");

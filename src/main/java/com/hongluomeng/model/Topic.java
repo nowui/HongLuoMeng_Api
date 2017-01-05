@@ -18,8 +18,8 @@ public class Topic extends Base<Topic> {
     public static final String COLUMN_TOPIC_LIKE_LIST = "topic_like_list";
     public static final String COLUMN_TOPIC_COMMENT_LIST = "topic_comment_list";
     public static final String KEY_TOPIC_IS_HAVE_LIKE = "topic_is_have_like";
-
     public static final String KEY_TOPIC_LARGE_IMAGE = "topic_large_image";
+    public static final String KEY_TOPIC_URL = "topic_url";
 
     private List<TopicLike> topicLikeList;
     private List<TopicComment> topicCommentList;

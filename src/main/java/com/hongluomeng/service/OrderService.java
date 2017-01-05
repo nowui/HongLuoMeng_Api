@@ -1,7 +1,9 @@
 package com.hongluomeng.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +21,11 @@ import com.hongluomeng.dao.OrderDao;
 import com.hongluomeng.model.*;
 import com.hongluomeng.type.OrderEnum;
 import com.hongluomeng.type.PayTypeEnum;
+import com.jfinal.kit.HashKit;
+import com.jfinal.kit.HttpKit;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import static java.net.URLEncoder.encode;
 
@@ -33,6 +40,7 @@ public class OrderService extends BaseService {
     private ProductLockStockService productLockStockService = new ProductLockStockService();
     private BrandService brandService = new BrandService();
     private BrandApplyService brandApplyService = new BrandApplyService();
+    private String company = "Shanghai Star Channel IT Co.,LTD";
 
     public Map<String, Object> list(JSONObject jsonObject) {
         Integer count = orderDao.count();
@@ -79,7 +87,7 @@ public class OrderService extends BaseService {
 
         Order order = save(orderMap, request_user_id, false);
 
-        String sign = sign(order, orderMap.getOrder_pay_type());
+        Object sign = sign(order, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
@@ -95,7 +103,7 @@ public class OrderService extends BaseService {
 
         Order order = save(orderMap, request_user_id, true);
 
-        String sign = sign(order, orderMap.getOrder_pay_type());
+        Object sign = sign(order, orderMap.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
@@ -434,7 +442,7 @@ public class OrderService extends BaseService {
             throw new RuntimeException("该订单已经支付过");
         }
 
-        String sign = sign(order, order.getOrder_pay_type());
+        Object sign = sign(order, order.getOrder_pay_type());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put(Order.COLUMN_ORDER_ID, order.getOrder_id());
@@ -449,14 +457,14 @@ public class OrderService extends BaseService {
         orderDao.payed(orderMap.getOrder_id());
     }
 
-    private String sign(Order order, String order_pay_type) {
+    private Object sign(Order order, String order_pay_type) {
         if (order.getOrder_pay_price().compareTo(BigDecimal.ZERO) == 0) {
             throw new RuntimeException("价格不能为零");
         }
 
         if (order_pay_type.equals(PayTypeEnum.ALI_PAY.getKey())) {
             try {
-                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_pay_price() + "\",\"subject\":\"Shanghai Star Channel IT Co.,LTD\",\"body\":\"Shanghai Star Channel IT Co.,LTD\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
+                String content = "{\"timeout_express\":\"" + Const.ORDER_TIMEOUT_EXPRESS + "m\",\"seller_id\":\"\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"" + order.getOrder_pay_price() + "\",\"subject\":\"" + company + "\",\"body\":\"" + company + "\",\"out_trade_no\":\"" + order.getOrder_no() + "\"}";
                 String data = "app_id=" + Private.ALIPAY_APP_ID + "&biz_content=" + content + "&charset=" + Private.ALIPAY_INPUT_CHARSET + "&format=json&method=alipay.trade.app.pay&notify_url=" + Private.ALIPAY_NOTIFY_URL + "&sign_type=" + Private.ALIPAY_SIGN_TYPE + "&timestamp=" + Utility.getDateTimeString(new Date()) + "&version=1.0";
                 String sign = AlipaySignature.rsaSign(data, Private.ALIPAY_PRIVATE_KEY, Private.ALIPAY_INPUT_CHARSET, Private.ALIPAY_SIGN_TYPE);
 
@@ -470,7 +478,7 @@ public class OrderService extends BaseService {
                 throw new RuntimeException("生成签名错误");
             }
         } else {
-            return "";
+            return unifiedorder(order);
         }
     }
 
@@ -503,6 +511,91 @@ public class OrderService extends BaseService {
         }
 
 
+    }
+
+    public Map<String, Object> unifiedorder(Order order) {
+        StringBuffer bf = new StringBuffer();
+
+        bf.append("<xml>");
+
+        bf.append("<appid><![CDATA[");
+        bf.append(Private.WEIXIN_PAY_APP_ID);
+        bf.append("]]></appid>");
+
+        bf.append("<attach><![CDATA[");
+        bf.append(company);
+        bf.append("]]></attach>");
+
+        bf.append("<body><![CDATA[");
+        bf.append(company);
+        bf.append("]]></body>");
+
+        bf.append("<mch_id><![CDATA[");
+        bf.append(Private.WEIXIN_PAY_MCH_ID);
+        bf.append("]]></mch_id>");
+
+        String nonce_str = Utility.getRandomStringByLength(32);
+
+        bf.append("<nonce_str><![CDATA[");
+        bf.append(nonce_str);
+        bf.append("]]></nonce_str>");
+
+        String notify_url = "http://api.hongluomeng.nowui.com/weixin/notify";
+
+        bf.append("<notify_url><![CDATA[");
+        bf.append(notify_url);
+        bf.append("]]></notify_url>");
+
+        String out_trade_no = order.getOrder_no();
+
+        bf.append("<out_trade_no><![CDATA[");
+        bf.append(out_trade_no);
+        bf.append("]]></out_trade_no>");
+
+        String spbill_create_ip = "0.0.0.0";
+
+        bf.append("<spbill_create_ip><![CDATA[");
+        bf.append(spbill_create_ip);
+        bf.append("]]></spbill_create_ip>");
+
+        DecimalFormat format = new DecimalFormat("0");
+
+        String total_fee = format.format(order.getOrder_pay_price().multiply(BigDecimal.valueOf(100)));
+
+        bf.append("<total_fee><![CDATA[");
+        bf.append(total_fee);
+        bf.append("]]></total_fee>");
+
+        bf.append("<trade_type><![CDATA[");
+        bf.append("APP");
+        bf.append("]]></trade_type>");
+
+        String stringA = "appid=" + Private.WEIXIN_PAY_APP_ID + "&attach=" + company + "&body=" + company + "&mch_id=" + Private.WEIXIN_PAY_MCH_ID + "&nonce_str=" + nonce_str + "&notify_url=" + notify_url + "&out_trade_no=" + out_trade_no + "&spbill_create_ip=" + spbill_create_ip + "&total_fee=" + total_fee + "&trade_type=APP";
+        String stringSignTemp = stringA + "&key=" + Private.WEIXIN_PAY_KEY;
+        String sign = HashKit.md5(stringSignTemp).toUpperCase();
+
+        bf.append("<sign><![CDATA[");
+        bf.append(sign);
+        bf.append("]]></sign>");
+
+        bf.append("</xml>");
+
+        System.out.println("------------");
+        String result = HttpKit.post("https://api.mch.weixin.qq.com/pay/unifiedorder", bf.toString());
+        System.out.println(result);
+        System.out.println("------------");
+
+        try {
+            Map<String, Object> map = Utility.getMapFromXML(result);
+
+            return map;
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException("生成签名错误");
+        } catch (IOException e) {
+            throw new RuntimeException("生成签名错误");
+        } catch (SAXException e) {
+            throw new RuntimeException("生成签名错误");
+        }
     }
 
 }

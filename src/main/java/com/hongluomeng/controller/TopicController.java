@@ -69,29 +69,64 @@ public class TopicController extends BaseController {
 		renderJson(Utility.setSuccessResponse());
 	}
 
-	@ActionKey(Url.URL_TOPIC_DELETE)
-	public void delete() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+    @ActionKey(Url.URL_TOPIC_ADMIN_DELETE)
+    public void deleteByAdmin() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Topic topicValidator = jsonObject.toJavaObject(Topic.class);
+        Topic topicValidator = jsonObject.toJavaObject(Topic.class);
 
-		topicValidator.checkTopic_id();
+        topicValidator.checkTopic_id();
 
-		topicService.delete(jsonObject);
+        topicService.delete(jsonObject, true);
 
-		renderJson(Utility.setSuccessResponse());
-	}
+        renderJson(Utility.setSuccessResponse());
+    }
 
-	@ActionKey(Url.URL_TOPIC_LIST_GET)
-	public void getList() {
-		JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+    @ActionKey(Url.URL_TOPIC_DELETE)
+    public void delete() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
 
-		Utility.checkPageAndLimit(jsonObject);
+        Topic topicValidator = jsonObject.toJavaObject(Topic.class);
 
-		List<Map<String, Object>> resultList = topicService.getList(jsonObject);
+        topicValidator.checkTopic_id();
 
-		renderJson(Utility.setSuccessResponse(resultList));
-	}
+        topicService.delete(jsonObject, false);
+
+        renderJson(Utility.setSuccessResponse());
+    }
+
+    @ActionKey(Url.URL_TOPIC_LIST_GET)
+    public void getList() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Utility.checkPageAndLimit(jsonObject);
+
+        List<Map<String, Object>> resultList = topicService.getList(jsonObject, false);
+
+        renderJson(Utility.setSuccessResponse(resultList));
+    }
+
+    @ActionKey(Url.URL_TOPIC_TOP_LIST_GET)
+    public void getTopList() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Utility.checkPageAndLimit(jsonObject);
+
+        List<Map<String, Object>> resultList = topicService.getList(jsonObject, false);
+
+        renderJson(Utility.setSuccessResponse(resultList));
+    }
+
+    @ActionKey(Url.URL_TOPIC_MY_LIST_GET)
+    public void getMyList() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        Utility.checkPageAndLimit(jsonObject);
+
+        List<Map<String, Object>> resultList = topicService.getList(jsonObject, true);
+
+        renderJson(Utility.setSuccessResponse(resultList));
+    }
 
     @ActionKey(Url.URL_TOPIC_LIEK_SAVE)
     public void saveLike() {
@@ -145,6 +180,19 @@ public class TopicController extends BaseController {
         renderJson(Utility.setSuccessResponse());
     }
 
+    @ActionKey(Url.URL_TOPIC_COMMENT_ADMIN_DELETE)
+    public void deleteCommentForAdmin() {
+        JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
+
+        TopicComment topicCommentValidator = jsonObject.toJavaObject(TopicComment.class);
+
+        topicCommentValidator.checkTopic_comment_id();
+
+        topicService.deleteComment(jsonObject, true);
+
+        renderJson(Utility.setSuccessResponse());
+    }
+
     @ActionKey(Url.URL_TOPIC_COMMENT_DELETE)
     public void deleteComment() {
         JSONObject jsonObject = getAttr(Const.KEY_REQUEST);
@@ -153,9 +201,14 @@ public class TopicController extends BaseController {
 
         topicCommentValidator.checkTopic_comment_id();
 
-        topicService.deleteComment(jsonObject);
+        topicService.deleteComment(jsonObject, false);
 
         renderJson(Utility.setSuccessResponse());
+    }
+
+    @ActionKey(Url.URL_TOPIC_SHARE)
+    public void share() {
+        render("/topic/index.html");
     }
 
 }

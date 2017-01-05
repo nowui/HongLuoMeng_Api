@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>红萝梦 - 全球美妆网红KOL代理</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0" />
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/fetch.js"></script>
+    <style>
+    * {
+        font-family: Arial,sans-serif;
+        font-size: 14px;
+        margin: 0px;
+        padding: 0px;
+        line-height: 25px;
+    }
+
+    #app {
+        min-width: 320px;
+        max-width: 430px;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+    </div>
+</body>
+
+</html>
+<script>
+var app = new Vue({
+    el: '#app',
+    data: {
+        message: '这是一个分享页面!'
+    }
+})
+
+/*fetch('', {
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'token': '',
+        'platform': 'WEB',
+        'version': '1.0.0',
+    },
+    method: 'POST',
+    body: JSON.stringify({
+
+    })
+}).then(function(response) {
+    if (response.status !== 200) {
+
+        return;
+    }
+    response.json().then(function(data) {
+        console.log(data);
+    })
+}).catch(function(err) {
+    console.log('Fetch Error :-S', err);
+});*/
+</script>

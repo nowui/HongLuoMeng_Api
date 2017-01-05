@@ -149,7 +149,7 @@ public class TopicLikeDao extends BaseDao {
 //        Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 //    }
 
-	public void deleteByTopic_id(String topic_id, String request_user_id) {
+	public void deleteByTopic_id(String topic_id, String request_user_id, boolean isAdmin) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
 		myDynamicSQL.append("UPDATE " + TopicLike.TABLE_TOPIC_LIKE + " ");
@@ -157,7 +157,7 @@ public class TopicLikeDao extends BaseDao {
 		myDynamicSQL.append(TopicLike.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
 		myDynamicSQL.append(TopicLike.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		myDynamicSQL.append("WHERE " + TopicLike.COLUMN_TOPIC_ID + " = ? ", topic_id);
-        myDynamicSQL.append("AND " + TopicLike.COLUMN_USER_ID + " = ? ", request_user_id);
+        myDynamicSQL.isNullOrEmpty("AND " + TopicLike.COLUMN_USER_ID + " = ? ", isAdmin ? "" : request_user_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

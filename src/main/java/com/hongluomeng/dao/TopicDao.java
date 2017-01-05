@@ -36,6 +36,7 @@ public class TopicDao extends BaseDao {
         myDynamicSQL.append("FROM " + Topic.TABLE_TOPIC + " ");
         myDynamicSQL.append("LEFT JOIN " + Member.TABLE_MEMBER + " ON " + Member.TABLE_MEMBER + "." + Member.COLUMN_USER_ID + " = " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_USER_ID + " ");
 		myDynamicSQL.append("WHERE " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmpty("AND " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_USER_ID + " = ? ", topic.getUser_id());
         myDynamicSQL.isNullOrEmpty("AND unix_timestamp(" + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_CREATE_TIME + ") < unix_timestamp(?) ", system_create_time);
 		myDynamicSQL.append("ORDER BY " + Topic.TABLE_TOPIC + "." + Topic.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
@@ -45,8 +46,12 @@ public class TopicDao extends BaseDao {
 		return activityList;
 	}
 
-	public List<Topic> list(Integer m, String system_create_time, Integer n) {
+	public List<Topic> list(boolean isMy, String user_id, Integer m, String system_create_time, Integer n) {
 		Topic topic = new Topic();
+
+        if (isMy) {
+            topic.setUser_id(user_id);
+        }
 
 		return list(topic, system_create_time, m, n);
 	}
@@ -84,7 +89,7 @@ public class TopicDao extends BaseDao {
 		topic.save();
 	}
 
-	public void delete(String topic_id, String request_user_id) {
+	public void delete(String topic_id, String request_user_id, boolean isAdmin) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
         myDynamicSQL.append("UPDATE " + Topic.TABLE_TOPIC + " ");
@@ -92,7 +97,7 @@ public class TopicDao extends BaseDao {
         myDynamicSQL.append(Topic.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
         myDynamicSQL.append(Topic.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
         myDynamicSQL.append("WHERE " + Topic.COLUMN_TOPIC_ID + " = ? ", topic_id);
-        myDynamicSQL.append("AND " + Topic.COLUMN_SYSTEM_CREATE_USER_ID + " = ? ", request_user_id);
+        myDynamicSQL.isNullOrEmpty("AND " + Topic.COLUMN_SYSTEM_CREATE_USER_ID + " = ? ", isAdmin ? "" : request_user_id);
 
         Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

@@ -426,6 +426,8 @@ public class ProductService extends BaseService {
             }
         }
 
+        map.put(Product.KEY_PRODUCT_URL, "http://api.hongluomeng.nowui.com/product/share?id=" + product.getProduct_id());
+
         return map;
     }
 

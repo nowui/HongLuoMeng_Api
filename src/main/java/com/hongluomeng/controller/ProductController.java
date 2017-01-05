@@ -333,4 +333,9 @@ public class ProductController extends BaseController {
         renderJson(Utility.setSuccessResponse());
     }
 
+    @ActionKey(Url.URL_PRODUCT_SHARE)
+    public void share() {
+        render("/product/index.html");
+    }
+
 }

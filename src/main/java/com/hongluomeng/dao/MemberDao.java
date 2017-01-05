@@ -19,13 +19,15 @@ public class MemberDao extends BaseDao {
 		myDynamicSQL.append("SELECT COUNT(*) FROM " + Member.TABLE_MEMBER + " ");
 		myDynamicSQL.append("WHERE " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_STATUS + " = 1 ");
         myDynamicSQL.isNullOrEmpty("AND " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NUMBER + " = ? ", member.getMember_number());
+        myDynamicSQL.isNullOrEmptyForLike("AND " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + " LIKE ? ", member.getMember_name());
 
 		Number count = Db.queryFirst(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 		return count.intValue();
 	}
 
-    public Integer count() {
+    public Integer count(String member_name) {
         Member member = new Member();
+        member.setMember_name(member_name);
 
         return count(member);
     }
@@ -42,14 +44,16 @@ public class MemberDao extends BaseDao {
 
 		myDynamicSQL.append("SELECT * FROM " + Member.TABLE_MEMBER + " ");
 		myDynamicSQL.append("WHERE " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_STATUS + " = 1 ");
+        myDynamicSQL.isNullOrEmptyForLike("AND " + Member.TABLE_MEMBER + "." + Member.COLUMN_MEMBER_NAME + " LIKE ? ", member.getMember_name());
 		myDynamicSQL.append("ORDER BY " + Member.TABLE_MEMBER + "." + Member.COLUMN_SYSTEM_CREATE_TIME + " DESC ");
 		myDynamicSQL.appendPagination(m, n);
 
 		return new Member().find(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}
 
-	public List<Member> list(Integer m, Integer n) {
+	public List<Member> list(String member_name, Integer m, Integer n) {
 		Member member = new Member();
+        member.setMember_name(member_name);
 
 		return list(member, m, n);
 	}
@@ -96,7 +100,7 @@ public class MemberDao extends BaseDao {
         String member_number = "";
         Random random = new Random();
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 5; i++) {
             member_number += String.valueOf(random.nextInt(10));
         }
 

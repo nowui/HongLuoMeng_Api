@@ -1,6 +1,6 @@
 package com.hongluomeng.common;
 
-import java.io.File;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +16,26 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.hongluomeng.type.CodeEnum;
 import com.jfinal.kit.PathKit;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class Utility {
 
@@ -390,5 +408,55 @@ public class Utility {
 			throw new RuntimeException(message + "不能为空");
 		}
 	}
+
+    /**
+     * 获取一定长度的随机字符串
+     * @param length 指定字符串长度
+     * @return 一定长度的字符串
+     */
+    public static String getRandomStringByLength(int length) {
+        String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
+
+    public static Map<String,Object> getMapFromXML(String xmlString) throws ParserConfigurationException, IOException, SAXException {
+
+        //这里用Dom的方式解析回包的最主要目的是防止API新增回包字段
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputStream is =  getStringStream(xmlString);
+        Document document = builder.parse(is);
+
+        //获取到document里面的全部结点
+        NodeList allNodes = document.getFirstChild().getChildNodes();
+        Node node;
+        Map<String, Object> map = new HashMap<String, Object>();
+        int i=0;
+        while (i < allNodes.getLength()) {
+            node = allNodes.item(i);
+            if(node instanceof Element){
+                map.put(node.getNodeName(),node.getTextContent());
+            }
+            i++;
+        }
+        return map;
+
+    }
+
+
+
+    public static InputStream getStringStream(String sInputString) {
+        ByteArrayInputStream tInputStringStream = null;
+        if (sInputString != null && !sInputString.trim().equals("")) {
+            tInputStringStream = new ByteArrayInputStream(sInputString.getBytes());
+        }
+        return tInputStringStream;
+    }
 
 }

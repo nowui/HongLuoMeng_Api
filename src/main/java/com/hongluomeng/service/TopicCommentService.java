@@ -29,12 +29,12 @@ public class TopicCommentService extends BaseService {
         topicCommentDao.save(topicComment, request_user_id);
     }
 
-    public void delete(String topic_comment_id, String request_user_id) {
-        topicCommentDao.delete(topic_comment_id, request_user_id);
+    public void delete(String topic_comment_id, String request_user_id, boolean isAdmin) {
+        topicCommentDao.delete(topic_comment_id, request_user_id, isAdmin);
     }
 
-    public void deleteByTopic_id(String topic_id, String request_user_id) {
-        topicCommentDao.deleteByTopic_id(topic_id, request_user_id);
+    public void deleteByTopic_id(String topic_id, String request_user_id, boolean isAdmin) {
+        topicCommentDao.deleteByTopic_id(topic_id, request_user_id, isAdmin);
     }
 
 }

@@ -109,6 +109,7 @@ public class Url {
     public static final String URL_PRODUCT_COLLECT_LIST_GET = "/product/collect/list/get";
     public static final String URL_PRODUCT_COLLECT_SAVE = "/product/collect/save";
     public static final String URL_PRODUCT_COLLECT_DELETE = "/product/collect/delete";
+    public static final String URL_PRODUCT_SHARE = "/product/share";
 
 	public static final String URL_ROLE_LIST = "/role/list";
 	public static final String URL_ROLE_FIND = "/role/find";
@@ -177,14 +178,19 @@ public class Url {
     public static final String URL_TOPIC_LIST = "/topic/list";
     public static final String URL_TOPIC_FIND = "/topic/find";
     public static final String URL_TOPIC_SAVE = "/topic/save";
+    public static final String URL_TOPIC_ADMIN_DELETE = "/topic/admin/delete";
     public static final String URL_TOPIC_DELETE = "/topic/delete";
     public static final String URL_TOPIC_LIST_GET = "/topic/list/get";
+    public static final String URL_TOPIC_TOP_LIST_GET = "/topic/top/list/get";
+    public static final String URL_TOPIC_MY_LIST_GET = "/topic/my/list/get";
     public static final String URL_TOPIC_GET = "/topic/get";
     public static final String URL_TOPIC_LIEK_SAVE = "/topic/like/save";
     public static final String URL_TOPIC_LIEK_DELETE = "/topic/like/delete";
     public static final String URL_TOPIC_COMMENT_LIST = "/topic/comment/list";
     public static final String URL_TOPIC_COMMENT_SAVE = "/topic/comment/save";
     public static final String URL_TOPIC_COMMENT_DELETE = "/topic/comment/delete";
+    public static final String URL_TOPIC_COMMENT_ADMIN_DELETE = "/topic/comment/admin/delete";
+    public static final String URL_TOPIC_SHARE = "/topic/share";
 
     public static final String URL_PAGE_LIST = "/page/list";
     public static final String URL_PAGE_FIND = "/page/find";

@@ -95,7 +95,7 @@ public class TopicCommentDao extends BaseDao {
 		topicComment.save();
 	}
 
-    public void delete(String topic_comment_id, String request_user_id) {
+    public void delete(String topic_comment_id, String request_user_id, boolean isAdmin) {
         MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
         myDynamicSQL.append("UPDATE " + TopicComment.TABLE_TOPIC_COMMENT + " ");
@@ -103,12 +103,12 @@ public class TopicCommentDao extends BaseDao {
         myDynamicSQL.append(TopicComment.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
         myDynamicSQL.append(TopicComment.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
         myDynamicSQL.append("WHERE " + TopicComment.COLUMN_TOPIC_COMMENT_ID + " = ? ", topic_comment_id);
-        myDynamicSQL.append("AND " + TopicComment.COLUMN_SYSTEM_CREATE_USER_ID + " = ? ", request_user_id);
+        myDynamicSQL.isNullOrEmpty("AND " + TopicComment.COLUMN_USER_ID + " = ? ", isAdmin ? "" : request_user_id);
 
         Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
     }
 
-	public void deleteByTopic_id(String topic_id, String request_user_id) {
+	public void deleteByTopic_id(String topic_id, String request_user_id, boolean isAdmin) {
 		MyDynamicSQL myDynamicSQL = new MyDynamicSQL();
 
 		myDynamicSQL.append("UPDATE " + TopicComment.TABLE_TOPIC_COMMENT + " ");
@@ -116,6 +116,7 @@ public class TopicCommentDao extends BaseDao {
 		myDynamicSQL.append(TopicComment.COLUMN_SYSTEM_UPDATE_USER_ID + " = ?, ", request_user_id);
 		myDynamicSQL.append(TopicComment.COLUMN_SYSTEM_UPDATE_TIME + " = ? ", new Date());
 		myDynamicSQL.append("WHERE " + TopicComment.COLUMN_TOPIC_ID + " = ? ", topic_id);
+        myDynamicSQL.isNullOrEmpty("AND " + TopicComment.COLUMN_USER_ID + " = ? ", isAdmin ? "" : request_user_id);
 
 		Db.update(myDynamicSQL.sql.toString(), myDynamicSQL.parameterList.toArray());
 	}

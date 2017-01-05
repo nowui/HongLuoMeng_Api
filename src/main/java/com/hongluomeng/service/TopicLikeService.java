@@ -50,13 +50,13 @@ public class TopicLikeService extends BaseService {
     }
 
     public void delete(String topic_id, String request_user_id) {
-        topicLikeDao.deleteByTopic_id(topic_id, request_user_id);
+        topicLikeDao.deleteByTopic_id(topic_id, request_user_id, false);
 
         topicLikeCache.removeTopicLikeListByUser_id(request_user_id);
     }
 
-    public void deleteByTopic_id(String topic_id, String request_user_id) {
-        topicLikeDao.deleteByTopic_id(topic_id, request_user_id);
+    public void deleteByTopic_id(String topic_id, String request_user_id, boolean isAdmin) {
+        topicLikeDao.deleteByTopic_id(topic_id, request_user_id, isAdmin);
     }
 
 }

@@ -32,6 +32,7 @@ public class Product extends Base<Product> {
 	public static final String COLUMN_PRODUCT_ALL_SKU_LIST = "productAllSkuList";
     public static final String KEY_PRODUCT_IS_APPLY = "product_is_apply";
     public static final String KEY_PRODUCT_IS_COLLECT = "product_is_collect";
+    public static final String KEY_PRODUCT_URL = "product_url";
 
 	private List<Category> categoryList;
 	private List<Brand> brandList;

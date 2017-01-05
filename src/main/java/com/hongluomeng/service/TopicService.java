@@ -22,7 +22,7 @@ public class TopicService extends BaseService {
 	public Map<String, Object> list(JSONObject jsonObject) {
 		Integer count = topicDao.count();
 
-		List<Topic> topicList = topicDao.list(Utility.getStarNumber(jsonObject), "", Utility.getEndNumber(jsonObject));
+		List<Topic> topicList = topicDao.list(false, "", Utility.getStarNumber(jsonObject), "", Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -40,7 +40,7 @@ public class TopicService extends BaseService {
 		return resultMap;
 	}
 
-	public List<Map<String, Object>> getList(JSONObject jsonObject) {
+	public List<Map<String, Object>> getList(JSONObject jsonObject, boolean isMy) {
 		Topic topicMap = jsonObject.toJavaObject(Topic.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
@@ -53,7 +53,7 @@ public class TopicService extends BaseService {
             system_create_time = topic.getSystem_create_time();
         }
 
-		List<Topic> topicList = topicDao.list(Utility.getStarNumber(jsonObject), system_create_time, Utility.getEndNumber(jsonObject));
+		List<Topic> topicList = topicDao.list(isMy, request_user_id, Utility.getStarNumber(jsonObject), system_create_time, Utility.getEndNumber(jsonObject));
 
         List<String> topicIdList = new ArrayList<String>();
 
@@ -109,6 +109,8 @@ public class TopicService extends BaseService {
                 }
             }
             resultMap.put(Topic.COLUMN_TOPIC_COMMENT_LIST, topicCommentResultList);
+
+            resultMap.put(Topic.KEY_TOPIC_URL,"http://api.hongluomeng.nowui.com/topic/share?id=" + topic.getTopic_id());
 
             resultList.add(resultMap);
 		}
@@ -206,16 +208,16 @@ public class TopicService extends BaseService {
 		topicDao.save(topicMap, request_user_id);
 	}
 
-	public void delete(JSONObject jsonObject) {
+	public void delete(JSONObject jsonObject, boolean isAdmin) {
 		Topic topicMap = jsonObject.toJavaObject(Topic.class);
 
 		String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-		topicDao.delete(topicMap.getTopic_id(), request_user_id);
+		topicDao.delete(topicMap.getTopic_id(), request_user_id, isAdmin);
 
-        topicLikeService.deleteByTopic_id(topicMap.getTopic_id(), request_user_id);
+        topicLikeService.deleteByTopic_id(topicMap.getTopic_id(), request_user_id, isAdmin);
 
-        topicCommentService.deleteByTopic_id(topicMap.getTopic_id(), request_user_id);
+        topicCommentService.deleteByTopic_id(topicMap.getTopic_id(), request_user_id, isAdmin);
 	}
 
     public void saveLike(JSONObject jsonObject) {
@@ -276,12 +278,12 @@ public class TopicService extends BaseService {
         }
     }
 
-    public void deleteComment(JSONObject jsonObject) {
+    public void deleteComment(JSONObject jsonObject, boolean isAdmin) {
         TopicComment topicCommentMap = jsonObject.toJavaObject(TopicComment.class);
 
         String request_user_id = jsonObject.getString(Const.KEY_REQUEST_USER_ID);
 
-        topicCommentService.delete(topicCommentMap.gettTopic_comment_id(), request_user_id);
+        topicCommentService.delete(topicCommentMap.gettTopic_comment_id(), request_user_id, isAdmin);
     }
 
 }

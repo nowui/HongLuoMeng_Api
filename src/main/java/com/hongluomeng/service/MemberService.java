@@ -27,9 +27,11 @@ public class MemberService extends BaseService {
 	private MemberLevelService memberLevelService = new MemberLevelService();
 
 	public Map<String, Object> list(JSONObject jsonObject) {
-		Integer count = memberDao.count();
+        Member memberMap = jsonObject.toJavaObject(Member.class);
 
-		List<Member> memberList = memberDao.list(Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
+		Integer count = memberDao.count(memberMap.getMember_name());
+
+		List<Member> memberList = memberDao.list(memberMap.getMember_name(), Utility.getStarNumber(jsonObject), Utility.getEndNumber(jsonObject));
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -276,6 +278,7 @@ public class MemberService extends BaseService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
 		resultMap.put(Const.KEY_TOKEN, token);
+        resultMap.put(Member.COLUMN_MEMBER_ID, member.getMember_id());
         resultMap.put(Member.COLUMN_MEMBER_NUMBER, member.getMember_number());
         resultMap.put(Member.COLUMN_MEMBER_NAME, member.getMember_name());
 		resultMap.put(Member.COLUMN_MEMBER_LEVEL_ID, member.getMember_level_id());
@@ -285,7 +288,7 @@ public class MemberService extends BaseService {
         resultMap.put(Member.COLUMN_MEMBER_AVATAR, member.getMember_avatar_normal());
         resultMap.put(Member.COLUMN_MEMBER_AVATAR_SMALL, member.getMember_avatar_small());
         resultMap.put(Member.COLUMN_MEMBER_AVATAR_LARGE, member.getMember_avatar_large());
-        resultMap.put(User.KEY_IS_HAVE_WEIBO, Utility.isNullOrEmpty(user.getWeibo_uid()));
+        resultMap.put(User.KEY_IS_HAVE_WEIBO, ! Utility.isNullOrEmpty(user.getWeibo_uid()));
         resultMap.put(User.COLUMN_USER_ID, user.getUser_id());
 
 		return resultMap;
