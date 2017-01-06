@@ -23,6 +23,7 @@ import com.hongluomeng.type.OrderEnum;
 import com.hongluomeng.type.PayTypeEnum;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.HttpKit;
+import com.sun.jmx.snmp.Timestamp;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -580,13 +581,12 @@ public class OrderService extends BaseService {
 
         bf.append("</xml>");
 
-        System.out.println("------------");
         String result = HttpKit.post("https://api.mch.weixin.qq.com/pay/unifiedorder", bf.toString());
-        System.out.println(result);
-        System.out.println("------------");
 
         try {
             Map<String, Object> map = Utility.getMapFromXML(result);
+
+            map.put("timestamp", String.valueOf(System.currentTimeMillis()).substring(0, 10));
 
             return map;
         } catch (ParserConfigurationException e) {

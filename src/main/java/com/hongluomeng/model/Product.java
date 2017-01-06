@@ -213,7 +213,13 @@ public class Product extends Base<Product> {
 	}
 
 	public JSONArray getProduct_sku_value() {
-		return JSONArray.parseArray(getStr(COLUMN_PRODUCT_SKU_VALUE));
+        String product_sku_value = getStr(COLUMN_PRODUCT_SKU_VALUE);
+
+        if(Utility.isNullOrEmpty(product_sku_value)) {
+            product_sku_value = "[]";
+        }
+
+		return JSONArray.parseArray(product_sku_value);
 	}
 
 	public void setProduct_sku_value(String product_sku_value) {

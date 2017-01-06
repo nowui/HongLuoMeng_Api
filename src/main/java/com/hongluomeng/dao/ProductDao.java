@@ -118,6 +118,8 @@ public class ProductDao extends BaseDao {
 
 		product.initForSave(request_user_id);
 
+        product.setProduct_sku_value("[]");
+
 		product.save();
 
 		return product.getProduct_id();
