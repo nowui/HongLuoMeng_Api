@@ -201,4 +201,12 @@ public class Url {
     public static final String URL_PAGE_GET = "/page/get";
     public static final String URL_PAGE_RANKING = "/page/ranking";
 
+    public static final String URL_RANKING_LIST = "/ranking/list";
+    public static final String URL_RANKING_FIND = "/ranking/find";
+    public static final String URL_RANKING_SAVE = "/ranking/save";
+    public static final String URL_RANKING_UPDATE = "/ranking/update";
+    public static final String URL_RANKING_DELETE = "/ranking/delete";
+    public static final String URL_RANKING_LIST_GET = "/ranking/list/get";
+    public static final String URL_RANKING_GET = "/ranking/get";
+
 }

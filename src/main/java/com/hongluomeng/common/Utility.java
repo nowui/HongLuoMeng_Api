@@ -27,15 +27,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.hongluomeng.type.CodeEnum;
 import com.jfinal.kit.PathKit;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 public class Utility {
 
@@ -354,7 +348,7 @@ public class Utility {
 
 	public static void checkIntegerLength(Integer integer, int start, int end, String message) {
 		if (isNullOrEmpty(integer)) {
-			throw new RuntimeException(message);
+			throw new RuntimeException(message + "不能为空");
 		}
 
 		checkStringLength(integer.toString(), start, end, message);

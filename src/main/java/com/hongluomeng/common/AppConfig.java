@@ -47,6 +47,7 @@ public class AppConfig extends JFinalConfig {
         routes.add("/page", PageController.class);
         routes.add("/topic", TopicController.class);
         routes.add("/weixin/notify", WeixinController.class);
+        routes.add("/ranking", RankingController.class);
     }
 
     public void configPlugin(Plugins plugins) {
@@ -108,6 +109,7 @@ public class AppConfig extends JFinalConfig {
         activeRecordPlugin.addMapping("table_topic_comment", "topic_comment_id", TopicComment.class);
         activeRecordPlugin.addMapping("table_topic_like", "topic_like_id", TopicLike.class);
         activeRecordPlugin.addMapping("table_product_collect", "product_collect_id", ProductCollect.class);
+        activeRecordPlugin.addMapping("table_ranking", "ranking_id", Ranking.class);
         plugins.add(activeRecordPlugin);
     }
 
